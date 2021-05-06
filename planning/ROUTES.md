@@ -1,0 +1,294 @@
+# Routes
+
+## Frontend (React)
+
+### Index
+```
+Route: "/"
+Description:
+- landing page
+- has a brief description of what the site is
+- Get Started button
+	- redirects to login (if not logged in)
+	- redirects to a page w/ two panels: Join a course | Create a course
+```
+
+### Courses
+```
+Route: "/join"
+Description:
+- displays a form to join an existing course via access code
+```
+```
+Route: "/create"
+Description:
+- displays a form to create a new course
+```
+```
+Route: "/courses/:id"
+Description:
+- the main course page (dashboard/index)
+- displays various panels
+- for students & instructors:
+	- displays the course home page
+	- welcome back, new posts since last login, etc.
+	- analytics (top contributions, trending discussions?)
+- for instructors:
+	- displays student & instructor access codes
+	- displays getting started tips (form create a new category)
+```
+
+### Posts
+```
+Route: "/courses/:id/posts/:postid"
+Description:
+- displays one specific post on the Main component
+- displays all of a post's comments
+```
+
+### Users
+```
+Route: "/register"
+Description:
+- displays a form to register a new user account
+- form fields: for first_name, last_name, email, password
+```
+```
+Route: "/login"
+Description:
+- displays a form to login to an existing user account
+- form fields: email, password
+- stretch: remember the username
+```
+
+## Backend (Server API)
+
+### User Courses
+```
+Route: "/join"
+Method: POST
+Purpose: Enrols a user in a course
+Description:
+- check 1: user must be logged in (check cookie)
+	- 401: unauthorized
+- check 2: access code must exist && course is active (check database via query)
+	- display an error
+- check 3: user must not already be enrolled
+	- if the user is enrolled, return a json payload that instructs the client to redirect
+- if successful: insert user into user_courses, return a json payload that instructs the client to redirect
+- req.body: access_code
+```
+```
+Route: "/create"
+Method: POST
+Purpose: Creates a new course
+Description:
+- check 1: user must be logged in (check cookie)
+	- 401: unauthorized
+- check 2: check that form is complete
+- if successful:
+	- insert course into courses
+		- generate a student_access_code
+		- generate an instructor_access_code
+		- ensure that the access codes are unique before inserting
+		- access codes should be 12 chars with a mix of numbers, lower/uppercase letters
+		- access codes must be case sensitive
+	- insert user into user_courses with permissions_id = 1 (instructor)
+	- return a json payload that instructs the client to redirect to the course page > dashboard/admin panel
+- req.body: name, description (optional)
+```
+### Users
+```
+Route: "/register"
+Description:
+- displays a form to register a new user account
+- form fields: for first_name, last_name, email, password
+```
+```
+Route: "/login"
+Description:
+- displays a form to login to an existing user account
+- form fields: email, password
+- stretch: remember the username
+```
+```
+Route: "/courses"
+Method: GET
+Purpose: Fetches an array of courses for App component
+Description:
+- get a list of course ids that the user is a member of (user_courses table) => via cookie
+	- helper function name: getCoursesByUserID(userID)
+	[
+		{
+			id: 123,
+			name: "Web Dev - Mar 1",
+			created_at,
+			active
+		}
+	]
+```
+### Courses
+```
+Route: "/courses/:id" => App
+Method: GET
+Purpose: Fetches specific course data for App component
+Description:
+- check 1: user must be logged in (check cookie)
+- check 2: user must be enrolled (query on user_courses)
+	- if unauthorized, return 401
+- get specific course data that is fetched at all times
+	- all of a course's posts
+	- all of a course's posts' comments & their replies
+	- helper function name: getCourseDataByID(courseID)
+	{
+		id: 3012021,
+		analytics: {
+			user_count,
+			average_response_time,
+			total_posts,
+			total_contributions (count all comments),
+			num_unanswered_questions,
+			num_answered_questions
+		},
+		secrets: { // this object is only provided if the req is made by an instructor
+			student_access_code,
+			instructor_access_code
+		},
+		categories: [
+			{
+				id,
+				name
+			}
+		],
+		posts: [
+			{
+				id
+				title
+				body
+				bookmarked: boolean // based on current user_id from cookie
+				created_at
+				last_modified
+				selected_answer
+				author_name: users.name or "anonymous" (if posts.anonymous = true)
+				category_id
+				category_name: obtained from categories table
+				pinned
+				views
+				comments: [
+					{
+						id
+						anonymous
+						author_name: given if the req was made by an instructor OR anonymous = false
+						author_avatar_url: given if the req was made by an instructor OR anonymous = false
+						body
+						score: count comment_likes for this comment_id
+						created_at
+						last_modified
+						endorsed: boolean (true if there is an entry in the comment_endorsements table for this comment_id)
+						replies: [
+							{
+								id
+								anonymous
+								author_name: given if the req was made by an instructor OR anonymous = false
+								author_avatar_url: given if the req was made by an instructor OR anonymous = false
+								body
+								score
+								created_at
+								last_modified
+							}
+						]
+					}
+				]
+			}
+		]
+  }
+- check 3: if the user is an instructor, append extra data that is visible to instructors only
+	- secrets: { access codes }
+```
+### Bookmarks
+```
+Route: "/bookmarks"
+Method: POST
+Purpose: Add a post to a user's bookmarks
+Description:
+  - helper function name: addBookmark(user_id, post_id)
+Database:
+  from cookies: user_id
+  req.body: post_id
+  auto: id, last_visited
+```
+```
+Route: "/bookmarks"
+Method: DELETE
+Purpose: Remove a post from a user's bookmarks
+Description:
+  - helper function name: deleteBookmark(user_id, post_id)
+Database:
+  from cookies: user_id
+  req.body: post_id
+```
+### Comments
+```
+Route: "/comments"
+Method: POST
+Purpose: Add a comment to a post
+Description:
+  - helper function name: addComment(formData)
+  - formData = { user_id, post_id, body, parent_id, anonymous, ... }
+Database:
+  from cookies: user_id
+  from req.body: post_id, body, parent_id, anonymous
+  server-side:
+  auto: id, created_at, last_modified, active
+```
+```
+Route: "/comments/:id"
+Method: PATCH
+Purpose: Edit a comment of a post
+Description:
+  - helper function name: updateComment(data)
+  - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
+  - last_modified should be set to "now" on the server-side during update
+```
+```
+Route: "/comments/:id"
+Method: DELETE
+Purpose: Delete a comment from a post
+Description:
+  - check 1: check that the user owns the comment OR is an instructor
+  - helper function name: deleteComment(commentID)
+```
+
+### Posts
+```
+Route: "/posts"
+Method: POST
+Purpose: Add a post
+Description:
+  - helper function name: addPost(formData)
+  - formData = { user_id, post_id, title, body, anonymous, ... }
+Database:
+  from cookies: user_id
+  from req.body: post_id, body, parent_id, anonymous
+  server-side:
+  auto: id, created_at, last_modified, active
+```
+```
+Route: "/posts/:id"
+Method: PATCH
+Purpose: Edit a post
+Description:
+  - helper function name: updatePost(data)
+  - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
+  - last_modified should be set to "now" on the server-side during update
+      OR
+  - selected_answer = id (if selecting an comment as selected_answer)
+```
+```
+Route: "/posts/:id"
+Method: DELETE
+Purpose: Delete a post
+Description:
+  - check 1: check that the user owns the post OR is an instructor
+  - helper function name: deletePost(postID)
+```
