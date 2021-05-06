@@ -1,8 +1,8 @@
 # Routes
 
-## Frontend (React)
+## **Frontend (React)**
 
-### Index
+## Index
 ```
 Route: "/"
 Description:
@@ -13,7 +13,7 @@ Description:
 	- redirects to a page w/ two panels: Join a course | Create a course
 ```
 
-### Courses
+## Courses
 ```
 Route: "/join"
 Description:
@@ -38,7 +38,7 @@ Description:
 	- displays getting started tips (form create a new category)
 ```
 
-### Posts
+## Posts
 ```
 Route: "/courses/:id/posts/:postid"
 Description:
@@ -46,7 +46,7 @@ Description:
 - displays all of a post's comments
 ```
 
-### Users
+## Users
 ```
 Route: "/register"
 Description:
@@ -61,9 +61,9 @@ Description:
 - stretch: remember the username
 ```
 
-## Backend (Server API)
+## **Backend (Server API)**
 
-### User Courses
+## User Courses
 ```
 Route: "/join"
 Method: POST
@@ -97,20 +97,32 @@ Description:
 	- return a json payload that instructs the client to redirect to the course page > dashboard/admin panel
 - req.body: name, description (optional)
 ```
-### Users
+## Users
 ```
 Route: "/register"
+Method: POST
+Purpose: Creates a new user account
 Description:
-- displays a form to register a new user account
-- form fields: for first_name, last_name, email, password
+- check 1: user must not already be logged in (check cookie)
+- check 2: check that the form is complete and valid (password = password confirmation)
+- check 3: check that the email is not taken
+- if successful:
+	- insert new user into users table
+	- redirect to user dashboard
 ```
 ```
 Route: "/login"
+Method: POST
+Purpose: Logs in to an existing user account
 Description:
-- displays a form to login to an existing user account
-- form fields: email, password
-- stretch: remember the username
+- check 1: user must not already be logged in (check cookie)
+- check 2: check that the form is complete
+- if successful:
+	- authenticate by attempting to fetch user data
+	- if no user data is received due to incorrect password, show an error
+	- if user data is received, redirect to user dashboard
 ```
+## Courses
 ```
 Route: "/courses"
 Method: GET
@@ -127,7 +139,6 @@ Description:
 		}
 	]
 ```
-### Courses
 ```
 Route: "/courses/:id" => App
 Method: GET
@@ -205,7 +216,7 @@ Description:
 - check 3: if the user is an instructor, append extra data that is visible to instructors only
 	- secrets: { access codes }
 ```
-### Bookmarks
+## Bookmarks
 ```
 Route: "/bookmarks"
 Method: POST
@@ -227,7 +238,7 @@ Database:
   from cookies: user_id
   req.body: post_id
 ```
-### Comments
+## Comments
 ```
 Route: "/comments"
 Method: POST
@@ -259,7 +270,7 @@ Description:
   - helper function name: deleteComment(commentID)
 ```
 
-### Posts
+## Posts
 ```
 Route: "/posts"
 Method: POST
