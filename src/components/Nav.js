@@ -2,9 +2,21 @@ import "./Nav.scss";
 
 const Nav = () => {
   return (
-    <section className="Nav">
-      Campfire
-    </section>
+    <div className="Nav">
+
+      <section className="left">
+        <span className="title">Campfire</span>
+      </section>
+
+      <section className="middle">
+        View Title
+      </section>
+
+      <section className="right">
+        Anonymous
+      </section>
+
+    </div>
   );
 };
 

@@ -1,0 +1,8 @@
+@import "../styles/global.scss";
+
+main.App {
+  border: 1px solid $white;
+  background-color: $navy-1;
+  height: 96vh;
+  border-radius: 0.2rem;
+}

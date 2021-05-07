@@ -1,21 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&family=Roboto+Mono:wght@100;400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900");
+@import "typography";
+@import "variables";
 
-@import "~bootstrap/scss/bootstrap";
+// @import "~bootstrap/scss/bootstrap";
 
-$orange: #ff7c48;
-$red: #ff0d40;
-$yellow: #ffd800;
-$green: #00ff60;
-$blue: #2f7dff;
-$navy-1: #090a18;
-$navy-2: #0f1122;
-$navy-3: #13152b;
-$navy-4: #1a1c33;
-$navy-5: #20223d;
-$grey: #36393f;
-$black: #040404;
-$white: #f5f5f5;
+// body {
+//   margin: 0;
+//   background-color: $navy-1;
+//   color: $white;
+//   font-family: $font-main, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
 
-$font-title: "Merienda", cursive;
-$font-code: "Roboto Mono", monospace;
-$font-main: "Roboto", sans-serif;
+// code {
+//   font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas,
+//     "Courier New", monospace;
+// }
