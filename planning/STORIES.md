@@ -30,8 +30,10 @@
 - I would like to **have the option to view anonymous identities** for moderation purposes.
 - I would like to **add assignments that students can use as tags** so that users can tag their questions properly and I can update the tags easily.
 - I would like to **track student participation** so that I can obtain metrics for students and see if there are recurring topics or issues for specific students or assignments.
+- I would like to **track instructor participation** so that I can obtain metrics to keep track of how much work is being done by each particular instructor or groups of instructors.
+- I would like to **view the identity of an anonymous poster** so that I can protect the website and users from malicious or abusive posts/activity from anonymous posters.
 
 ### As an **ADMIN**...
 - I would like to **be able to view a directory of all courses and their access codes** for development purposes.
-- I would like to **track mentor participation** so that I can obtain metrics to keep track of how much work is being done by each particular mentor or groups of mentors..
-- I would like to **view the identity of an anonymous poster** so that I can protect the website and users from malicious or abusive posts/activity from anonymous posters.
+- I would like to **have top-level permissions for all courses** for development purposes.
+- I would like to **be able to manage the database through a front-end UI (admin panel)** for development purposes.
