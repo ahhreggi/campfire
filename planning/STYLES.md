@@ -20,4 +20,4 @@
 | ![#f5f5f5](https://via.placeholder.com/10/f5f5f5?text=+) `#f5f5f5` | Lighter/White                              | text, highlights                          |
 
 ## Palette Test Preview
-<img src="./files/palette.png" width=300>
+<img src="./files/styles/palette.png" width=300>
