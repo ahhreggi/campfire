@@ -1,0 +1,28 @@
+{
+  "index": {
+    "join" : {},
+    "create": {}
+  },
+  "users": {
+    "register": {},
+    "login"
+  },
+  "courses": {
+    "user": {},
+    "show": {}
+  },
+  "bookmarks": {
+    "add": {},
+    "delete": {}
+  },
+  "posts": {
+    "add": {},
+    "edit": {},
+    "delete": {}
+  },
+  "comments": {
+    "add": {},
+    "edit": {},
+    "delete": {}
+  }
+}
