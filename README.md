@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+<div align="center">
+<h1>⚠️ WORK IN PROGRESS ⚠️</h1>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<!-- TITLE -->
+<div align="center">
+<img src="public/images/campfire.png" width="100" />
+<h1>Campfire</h1>
+<p>A full-stack, Q&A discussion board for online courses
+</p>
 
-In the project directory, you can run:
+<p>Built with <a href="https://reactjs.org/">ReactJS</a>, <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>, <a href="https://tailwindcss.com/">Tailwind CSS</a>, <a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.heroku.com/">Heroku</a> & <a href="https://www.netlify.com/">Netlify</a></p>
 
-### `yarn start`
+<b><a href="" target="_blank">
+   » View Live Demo «
+</a></b>
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- INTRODUCTION -->
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 📚 Introduction
 
-### `yarn test`
+<b>[Campfire](https://ahhreggi-scheduler.netlify.app/)</b> is a full-stack, single-page React application that allows users to enrol and participate in course Q&A discussion boards.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+With many classes now taking place remotely, Campfire allows users to easily discuss course-related questions with fellow students and instructors in an organized manner.
 
-### `yarn build`
+### 🤝 **Collaborators**:
+- Maria Regina Sirilan ([**@ahhreggi**](https://github.com/ahhreggi))
+- Mitchell Pizzacalla ([**@mpizzaca**](https://github.com/mpizzaca))
+- Martin Halas ([**@mar10outof10**](https://github.com/mar10outof10))
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This app was created as part of our final project for Lighthouse Labs' Web Development bootcamp. The goal was to create a full-stack application from start to finish in just two weeks.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ⚛️ Tech Usages
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- <b>Frontend</b>: <a href="https://reactjs.org/">ReactJS</a>, <a href="https://tailwindcss.com/">Tailwind CSS</a>, <a href="https://sass-lang.com/">Sass</a>
+- <b>Backend</b>: <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>
+- <b>Tools & Testing</b>: <a href="https://storybook.js.org/">Storybook<a/>, <a href="https://jestjs.io/">Jest</a>, <a href="https://www.cypress.io/">Cypress</a>
+- <b>Deployment</b>: <a href="https://www.heroku.com/">Heroku</a> (database API), <a href="https://circleci.com/">CircleCI</a> (continuous integration), <a href="https://www.netlify.com/">Netlify</a> (production client)
 
-### `yarn eject`
+<!-- FEATURES -->
+## ⭐ Features
+- **Users**:
+  - can login or register an account
+  - can join or create courses
+  - can create posts and comments (optionally as Anonymous)
+  - can upvote comments
+  - can post replies to comments
+  - can edit or delete posts, comments, and replies
+  - can bookmark posts
+  - can view personal and course analytics
+  - can filter posts by title or category
+  - can select a best answer to have their post marked as answered
+- **Instructors**:
+  - can edit course information and user enrolment
+  - can edit or delete any post, comment, or reply
+  - can endorse comments
+  - can archive or delete a course (course creator only)
+  - can view anonymous identities if necessary  (course creator only)
+- **Stretch**:
+  - Users can toggle email notifications for course activity
+  - Users can view similar posts to a question
+  - Users can view the number of users online
+  - Users can view updates in real-time via websockets
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🛠 Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The project is live
+<b><a href="" target="_blank">here</a></b>, but if you would prefer a local installation:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Clone or download this repository
+   ```
+   git clone https://github.com/ahhreggi/campfire
+   ```
+2. Set up and run the campfire API server
+   - See [README](https://github.com/ahhreggi/campfire-api)
 
-## Learn More
+5. Navigate to the project directory and install dependencies
+   ```
+   cd campfire
+   npm install
+   ```
+6. Run the webpack development server
+   ```
+   npm start
+   ```
+7. Visit <a href="http://localhost:8000/">http://localhost:8000/</a> on your browser
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ✔️ Tools & Testing (Storybook, Jest, Cypress)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Run the Storybook visual testbed
+   ```
+   npm run storybook
+   ```
+2. Run the Jest test framework
+   ```
+   npm test
+   ```
+3. Run the Cypress test runner
+   ```
+   npm run cypress
+   ```
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📷 Screenshots
+<img src="public/images/screenshots/home.png" alt="Home" />
+<img src="public/images/screenshots/login.png" alt="Login" />
+<img src="public/images/screenshots/dashboard.png" alt="Dashboard" />
+<img src="public/images/screenshots/post.png" alt="post" />

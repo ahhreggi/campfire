@@ -1,0 +1,224 @@
+{
+  "index": {
+    "join" : {
+      "access_code": "a1B2c3D4"
+    },
+    "create": {
+      "name": "WEB - MAR01",
+      "description": "LHL Web Dev Mar 01 Cohort"
+    }
+  },
+  "users": {
+    "register": {
+      "first_name": "FirstName",
+      "last_name": "LastName",
+      "email": "hello@campfire.ca",
+      "password": "password",
+      "password_confirmation": "password"
+    },
+    "login": {
+      "email": "hello@campfire.ca",
+      "password": "password"
+    }
+  },
+  "bookmarks": {
+    "add": {
+      "post_id": "1"
+    },
+    "delete": {
+      "post_id": "1"
+    }
+  },
+  "posts": {
+    "add": {
+      "data": {
+        "course_id": 1,
+        "title": "New post title (general)",
+        "body": "New post body",
+        "anonymous": false,
+        "tags": [1]
+      }
+    },
+    "edit": {
+      "data": {
+        "post_id": 3,
+        "title": "Updated post title (project)",
+        "body": "Updated post body",
+        "anonymous": "false",
+        "tags": [3],
+        "action": "mod"
+      }
+    }
+  },
+  "comments": {
+    "add": {
+      "data": {
+        "post_id": 3,
+        "body": "this is a comment",
+        "parent_id": null,
+        "anonymous": false
+      }
+    },
+    "edit": {
+      "data": {
+        "post_id": 3,
+        "body": "this is an updated comment",
+        "parent_id": null,
+        "anonymous": true
+      }
+    }
+  },
+  "courses": {
+    "user": [1],
+    "show": {
+      "id": 1,
+      "name": "WEB - MAR01",
+      "description": "LHL Web Dev Mar 01 Cohort",
+      "archived": false,
+      "analytics": {
+        "user_count": 30,
+        "average_response_time": "5 minutes",
+        "total_posts": 12,
+        "total_contributions": 27,
+        "num_unresolved_questions": 2,
+        "num_resolved_questions": 10
+      },
+      "secrets": {
+        "student_access_code": "a1B2c3D4",
+        "instructor_access_code": "a1B2c3D4-e5F6g7H8"
+      },
+      "tags": [
+        {
+          "id": 1,
+          "name": "general"
+        },
+        {
+          "id": 2,
+          "name": "other"
+        },
+        {
+          "id": 3,
+          "name": "project"
+        },
+        {
+          "id": 4,
+          "name": "core"
+        },
+        {
+          "id": 5,
+          "name": "stretch"
+        },
+        {
+          "id": 5,
+          "name": "prep"
+        },
+        {
+          "id": 6,
+          "name": "react"
+        },
+        {
+          "id": 7,
+          "name": "ruby"
+        },
+        {
+          "id": 8,
+          "name": "html"
+        }
+      ],
+      "posts": [
+        {
+          "id": 1,
+          "title": "How do I italicize text in HTML?",
+          "body": "I'm trying to italicize text but can't figure out how. Any ideas?",
+          "bookmarked": true,
+          "created_at": "1620365282",
+          "last_modified": "1620365282",
+          "best_answer": 1,
+          "author_name": "FirstName LastName",
+          "tags": [
+            {
+              "id": 1,
+              "name": "general"
+            },
+            {
+              "id": 8,
+              "name": "html"
+            }
+          ],
+          "pinned": false,
+          "views": 9,
+          "comments": [
+            {
+              "id": 1,
+              "anonymous": false,
+              "author_name": "Willy Wonka",
+              "author_avatar_url": "avatar.png",
+              "body": "Try <i>text</i>.",
+              "score": 7,
+              "created_at": "1620365282",
+              "last_modified": "1620365282",
+              "endorsed": true,
+              "replies": [
+                {
+                  "id": 2,
+                  "anonymous": false,
+                  "author_name": "Jane Doe",
+                  "author_avatar_url": "avatar.png",
+                  "body": "good answer!",
+                  "created_at": "1620365282",
+                  "last_modified": "1620365282"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "anonymous": false,
+              "author_name": "Milly Monka",
+              "author_avatar_url": "avatar.png",
+              "body": "Use <b>text</b>.",
+              "score": 1,
+              "created_at": "1620365282",
+              "last_modified": "1620365282",
+              "endorsed": false,
+              "replies": [
+                {
+                  "id": 4,
+                  "anonymous": true,
+                  "author_name": "John Doe",
+                  "author_avatar_url": "anonymous.png",
+                  "body": "this doesn't work!",
+                  "created_at": "1620365282",
+                  "last_modified": "1620365282"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Where can I find the prep work?",
+          "body": "I checked everywhere but can't find the link.",
+          "bookmarked": false,
+          "created_at": "1620365282",
+          "last_modified": "1620365282",
+          "best_answer": null,
+          "author_name": "Milly Monka",
+          "tags": [
+            {
+              "id": 1,
+              "name": "general"
+            },
+            {
+              "id": 5,
+              "name": "prep"
+            }
+          ],
+          "pinned": false,
+          "views": 1,
+          "comments": [
+          ]
+        }
+      ]
+    }
+  }
+}
