@@ -24,12 +24,10 @@ const data = require("../data/temp/data.json")
 ### Posts
 - `data.posts.add` - req.body for the "/posts" POST route
 - `data.posts.edit` - req.body for the "/posts" PATCH route
-- `data.posts.delete` - req.body for the "/posts" DELETE route
 
 ### Comments
 - `data.comments.add` - req.body for the "/comments" POST route
 - `data.comments.edit` - req.body for the "/comments" PATCH route
-- `data.comments.delete` - req.body for the "/comments" DELETE route
 
 ## Server to client responses
 

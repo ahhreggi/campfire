@@ -161,8 +161,8 @@ Description:
 			average_response_time,
 			total_posts,
 			total_contributions (count all comments),
-			num_unanswered_questions,
-			num_answered_questions
+			num_unresolved_questions,
+			num_resolved_questions
 		},
 		secrets: { // this object is only provided if the req is made by an instructor
 			student_access_code,
@@ -206,7 +206,6 @@ Description:
 								author_name: given if the req was made by an instructor OR anonymous = false
 								author_avatar_url: given if the req was made by an instructor OR anonymous = false
 								body
-								score
 								created_at
 								last_modified
 							}
@@ -232,14 +231,13 @@ Database:
   auto: id, last_visited
 ```
 ```
-Route: "/bookmarks"
+Route: "/bookmarks/:postID"
 Method: DELETE
 Purpose: Remove a post from a user's bookmarks
 Description:
   - helper function name: deleteBookmark(user_id, post_id)
 Database:
   from cookies: user_id
-  req.body: post_id
 ```
 
 ## Posts
@@ -248,11 +246,11 @@ Route: "/posts"
 Method: POST
 Purpose: Add a post
 Description:
-  - helper function name: addPost(formData)
-  - formData = { user_id, post_id, title, body, anonymous, ... }
+  - helper function name: addPost(data)
+  - data = { user_id, course_id, title, body, anonymous, category_id }
 Database:
   from cookies: user_id
-  from req.body: post_id, body, parent_id, anonymous
+  from req.body: course_id, title, body, anonymous, category_id
   server-side:
   auto: id, created_at, last_modified, active
 ```
@@ -262,10 +260,10 @@ Method: PATCH
 Purpose: Edit a post
 Description:
   - helper function name: updatePost(data)
-  - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
-  - last_modified should be set to "now" on the server-side during update
-      OR
-  - selected_answer = id (if selecting an comment as selected_answer)
+  - data = { post_id, title, body, anonymous, category_id, action: ["mod", "ans", "pin"], pinned*: boolean, last_modified*: string, selected_answer*: int }
+  - last_modified - update this to "now" only if type = "mod"
+  - selected_answer = update this to the given id only if type = "ans"
+	- pinned - update this to !pinned if action: "pin" and the user making the req is an instructor
 ```
 ```
 Route: "/posts/:postID"

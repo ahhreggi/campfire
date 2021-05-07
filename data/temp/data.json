@@ -22,18 +22,51 @@
     }
   },
   "bookmarks": {
-    "add": {},
-    "delete": {}
+    "add": {
+      "post_id": "1"
+    },
+    "delete": {
+      "post_id": "1"
+    }
   },
   "posts": {
-    "add": {},
-    "edit": {},
-    "delete": {}
+    "add": {
+      "data": {
+        "course_id": 1,
+        "title": "New post title (general)",
+        "body": "New post body",
+        "anonymous": false,
+        "category_id": 1
+      }
+    },
+    "edit": {
+      "data": {
+        "post_id": 3,
+        "title": "Updated post title (project)",
+        "body": "Updated post body",
+        "anonymous": "false",
+        "category_id": 3,
+        "action": "mod"
+      }
+    }
   },
   "comments": {
-    "add": {},
-    "edit": {},
-    "delete": {}
+    "add": {
+      "data": {
+        "post_id": 3,
+        "body": "this is a comment",
+        "parent_id": null,
+        "anonymous": false
+      }
+    },
+    "edit": {
+      "data": {
+        "post_id": 3,
+        "body": "this is an updated comment",
+        "parent_id": null,
+        "anonymous": true
+      }
+    }
   },
   "courses": {
     "user": [1],
