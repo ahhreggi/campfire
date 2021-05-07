@@ -1,3 +1,5 @@
+import "./Post.scss";
+
 const Post = () => {
   return (
     <div>

@@ -1,3 +1,5 @@
+import "./PostList.scss";
+
 const PostList = () => {
   return (
     <div>

@@ -1,3 +1,5 @@
+import "./Analytics.scss";
+
 const Analytics = () => {
   return (
     <div>

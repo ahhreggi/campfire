@@ -1,9 +1,9 @@
-import './styles/index.css';
+import "./App.scss";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      hello world
+      Campfire
     </div>
   );
 }
