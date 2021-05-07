@@ -108,7 +108,7 @@ Description:
 - check 3: check that the email is not taken
 - if successful:
 	- insert new user into users table
-	- redirect to user dashboard
+	- redirect to user dashboard (/courses)
 ```
 ```
 Route: "/login"
@@ -120,7 +120,7 @@ Description:
 - if successful:
 	- authenticate by attempting to fetch user data
 	- if no user data is received due to incorrect password, show an error
-	- if user data is received, redirect to user dashboard
+	- if user data is received, redirect to user dashboard (/courses)
 ```
 ## Courses
 ```
@@ -140,7 +140,7 @@ Description:
 	]
 ```
 ```
-Route: "/courses/:id" => App
+Route: "/courses/:courseID" => App
 Method: GET
 Purpose: Fetches specific course data for App component
 Description:
@@ -238,37 +238,6 @@ Database:
   from cookies: user_id
   req.body: post_id
 ```
-## Comments
-```
-Route: "/comments"
-Method: POST
-Purpose: Add a comment to a post
-Description:
-  - helper function name: addComment(formData)
-  - formData = { user_id, post_id, body, parent_id, anonymous, ... }
-Database:
-  from cookies: user_id
-  from req.body: post_id, body, parent_id, anonymous
-  server-side:
-  auto: id, created_at, last_modified, active
-```
-```
-Route: "/comments/:id"
-Method: PATCH
-Purpose: Edit a comment of a post
-Description:
-  - helper function name: updateComment(data)
-  - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
-  - last_modified should be set to "now" on the server-side during update
-```
-```
-Route: "/comments/:id"
-Method: DELETE
-Purpose: Delete a comment from a post
-Description:
-  - check 1: check that the user owns the comment OR is an instructor
-  - helper function name: deleteComment(commentID)
-```
 
 ## Posts
 ```
@@ -285,7 +254,7 @@ Database:
   auto: id, created_at, last_modified, active
 ```
 ```
-Route: "/posts/:id"
+Route: "/posts/:postID"
 Method: PATCH
 Purpose: Edit a post
 Description:
@@ -296,10 +265,42 @@ Description:
   - selected_answer = id (if selecting an comment as selected_answer)
 ```
 ```
-Route: "/posts/:id"
+Route: "/posts/:postID"
 Method: DELETE
 Purpose: Delete a post
 Description:
   - check 1: check that the user owns the post OR is an instructor
   - helper function name: deletePost(postID)
+```
+
+## Comments
+```
+Route: "/comments"
+Method: POST
+Purpose: Add a comment to a post
+Description:
+  - helper function name: addComment(formData)
+  - formData = { user_id, post_id, body, parent_id, anonymous, ... }
+Database:
+  from cookies: user_id
+  from req.body: post_id, body, parent_id, anonymous
+  server-side:
+  auto: id, created_at, last_modified, active
+```
+```
+Route: "/comments/:commentID"
+Method: PATCH
+Purpose: Edit a comment of a post
+Description:
+  - helper function name: updateComment(data)
+  - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
+  - last_modified should be set to "now" on the server-side during update
+```
+```
+Route: "/comments/:commentID"
+Method: DELETE
+Purpose: Delete a comment from a post
+Description:
+  - check 1: check that the user owns the comment OR is an instructor
+  - helper function name: deleteComment(commentID)
 ```
