@@ -1,10 +1,15 @@
 import "./App.scss";
+import Nav from "./Nav";
+import PostList from "./PostList";
+import Main from "./Main";
 
 const App = () => {
   return (
-    <div className="App">
-      Campfire
-    </div>
+    <>
+      <Nav />
+      <PostList />
+      <Main />
+    </>
   );
 };
 
