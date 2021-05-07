@@ -153,6 +153,9 @@ Description:
 	- helper function name: getCourseDataByID(courseID)
 	{
 		id: 3012021,
+		name,
+		description,
+		archived,
 		analytics: {
 			user_count,
 			average_response_time,
