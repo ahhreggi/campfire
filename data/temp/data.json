@@ -36,7 +36,7 @@
         "title": "New post title (general)",
         "body": "New post body",
         "anonymous": false,
-        "category_id": 1
+        "tags": [1]
       }
     },
     "edit": {
@@ -45,7 +45,7 @@
         "title": "Updated post title (project)",
         "body": "Updated post body",
         "anonymous": "false",
-        "category_id": 3,
+        "tags": [3],
         "action": "mod"
       }
     }
@@ -87,7 +87,7 @@
         "student_access_code": "a1B2c3D4",
         "instructor_access_code": "a1B2c3D4-e5F6g7H8"
       },
-      "categories": [
+      "tags": [
         {
           "id": 1,
           "name": "general"
@@ -135,8 +135,16 @@
           "last_modified": "1620365282",
           "selected_answer": 1,
           "author_name": "FirstName LastName",
-          "category_id": 8,
-          "category_name": "html",
+          "tags": [
+            {
+              "id": 1,
+              "name": "general"
+            },
+            {
+              "id": 8,
+              "name": "html"
+            }
+          ],
           "pinned": false,
           "views": 9,
           "comments": [
@@ -195,8 +203,16 @@
           "last_modified": "1620365282",
           "selected_answer": null,
           "author_name": "Milly Monka",
-          "category_id": 5,
-          "category_name": "prep",
+          "tags": [
+            {
+              "id": 1,
+              "name": "general"
+            },
+            {
+              "id": 5,
+              "name": "prep"
+            }
+          ],
           "pinned": false,
           "views": 1,
           "comments": [

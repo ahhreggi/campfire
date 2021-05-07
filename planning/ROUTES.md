@@ -35,7 +35,7 @@ Description:
 	- analytics (top contributions, trending discussions?)
 - for instructors:
 	- displays student & instructor access codes
-	- displays getting started tips (form create a new category)
+	- displays getting started tips (form create a new tag)
 ```
 
 ## Posts
@@ -168,7 +168,7 @@ Description:
 			student_access_code,
 			instructor_access_code
 		},
-		categories: [
+		tags: [
 			{
 				id,
 				name
@@ -184,8 +184,12 @@ Description:
 				last_modified
 				selected_answer
 				author_name: users.name or "anonymous" (if posts.anonymous = true)
-				category_id
-				category_name: obtained from categories table
+				tags: [
+					{
+						id,
+						name
+					}
+				]
 				pinned
 				views
 				comments: [
@@ -247,10 +251,10 @@ Method: POST
 Purpose: Add a post
 Description:
   - helper function name: addPost(data)
-  - data = { user_id, course_id, title, body, anonymous, category_id }
+  - data = { user_id, course_id, title, body, anonymous, tags }
 Database:
   from cookies: user_id
-  from req.body: course_id, title, body, anonymous, category_id
+  from req.body: course_id, title, body, anonymous, tags (array of tag IDs)
   server-side:
   auto: id, created_at, last_modified, active
 ```
@@ -260,7 +264,7 @@ Method: PATCH
 Purpose: Edit a post
 Description:
   - helper function name: updatePost(data)
-  - data = { post_id, title, body, anonymous, category_id, action: ["mod", "ans", "pin"], pinned*: boolean, last_modified*: string, selected_answer*: int }
+  - data = { post_id, title, body, anonymous, tags, action: ["mod", "ans", "pin"], pinned*: boolean, last_modified*: string, selected_answer*: int }
   - last_modified - update this to "now" only if type = "mod"
   - selected_answer = update this to the given id only if type = "ans"
 	- pinned - update this to !pinned if action: "pin" and the user making the req is an instructor
