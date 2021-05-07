@@ -1,4 +1,5 @@
 import "./Nav.scss";
+import logo from "../campfire.png";
 
 const Nav = () => {
   return (
@@ -6,13 +7,14 @@ const Nav = () => {
 
       <section className="left">
         <span className="title">Campfire</span>
+        <img src={logo} alt="Campfire" />
       </section>
 
       <section className="middle">
-        View Title
+        <span className="view-title">View Title</span>
       </section>
 
-      <section className="right">
+      <section className="right d-flex justify-content-end">
         Anonymous
       </section>
 

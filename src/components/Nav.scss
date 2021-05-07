@@ -12,10 +12,14 @@ div.Nav {
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 2rem;
+    padding-left: 1.5rem;
     &.left {
       width: 20rem;
       background-color: $navy-1;
+      img {
+        width: 1.5rem;
+        margin: 1rem;
+      }
       .title {
         font-family: $font-title;
         font-weight: bold;
@@ -25,6 +29,10 @@ div.Nav {
     &.middle {
       flex-grow: 1;
       background-color: $navy-2;
+      font-size: 1.3rem;
+      .view-title {
+        font-weight: 700;
+      }
     }
     &.right {
       width: 20rem;
