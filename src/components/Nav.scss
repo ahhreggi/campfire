@@ -12,14 +12,14 @@ div.Nav {
     height: 100%;
     display: flex;
     align-items: center;
-    padding-left: 1.5rem;
+    padding: 0 1.5rem;
     &.left {
-      width: 20rem;
-      background-color: $navy-1;
       img {
         width: 1.5rem;
         margin: 1rem;
       }
+      width: 20rem;
+      background-color: $navy-1;
       .title {
         font-family: $font-title;
         font-weight: bold;
@@ -35,8 +35,17 @@ div.Nav {
       }
     }
     &.right {
-      width: 20rem;
+      // border: 1px solid white;
+      width: 25rem;
       background-color: $navy-2;
+      display: flex;
+      justify-content: space-between;
+      img {
+        width: 2rem;
+        margin: 1rem;
+        border: 1px solid $white;
+        border-radius: 100%;
+      }
     }
   }
 

@@ -14,10 +14,13 @@ const Nav = () => {
         <span className="view-title">View Title</span>
       </section>
 
-      <section className="right d-flex justify-content-end">
-        Anonymous
+      <section className="right">
+        <span className="course-name">LHL: Web - Mar 1</span>
+        <div>
+          <img src={logo} alt="Avatar" />
+          <span className="user-name">Anonymous</span>
+        </div>
       </section>
-
     </div>
   );
 };
