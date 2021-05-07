@@ -182,7 +182,7 @@ Description:
 				bookmarked: boolean // based on current user_id from cookie
 				created_at
 				last_modified
-				selected_answer
+				best_answer
 				author_name: users.name or "anonymous" (if posts.anonymous = true)
 				tags: [
 					{
@@ -264,9 +264,9 @@ Method: PATCH
 Purpose: Edit a post
 Description:
   - helper function name: updatePost(data)
-  - data = { post_id, title, body, anonymous, tags, action: ["mod", "ans", "pin"], pinned*: boolean, last_modified*: string, selected_answer*: int }
+  - data = { post_id, title, body, anonymous, tags, action: ["mod", "ans", "pin"], pinned*: boolean, last_modified*: string, best_answer*: int }
   - last_modified - update this to "now" only if type = "mod"
-  - selected_answer = update this to the given id only if type = "ans"
+  - best_answer = update this to the given id only if type = "ans"
 	- pinned - update this to !pinned if action: "pin" and the user making the req is an instructor
 ```
 ```

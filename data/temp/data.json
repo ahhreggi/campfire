@@ -133,7 +133,7 @@
           "bookmarked": true,
           "created_at": "1620365282",
           "last_modified": "1620365282",
-          "selected_answer": 1,
+          "best_answer": 1,
           "author_name": "FirstName LastName",
           "tags": [
             {
@@ -201,7 +201,7 @@
           "bookmarked": false,
           "created_at": "1620365282",
           "last_modified": "1620365282",
-          "selected_answer": null,
+          "best_answer": null,
           "author_name": "Milly Monka",
           "tags": [
             {
