@@ -2,9 +2,9 @@ import "./Nav.scss";
 
 const Nav = () => {
   return (
-    <div className="container">
+    <section className="Nav">
       Campfire
-    </div>
+    </section>
   );
 };
 
