@@ -5,7 +5,7 @@ import Main from "./Main";
 
 const App = () => {
   return (
-    <main className="App m-3">
+    <main className="App">
       <Nav />
       <PostList />
       <Main />
