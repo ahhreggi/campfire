@@ -5,6 +5,16 @@ This directory contains mock JSON data that would typically be sent through HTTP
 ```
 // Sample import
 const data = require("../data/temp/data.json")
+
+// Sample usage (user registration)
+req.body = data.users.register; // temp data
+const data = req.body;
+addUser(data) // db helper function
+
+// Sample usage (user course enrolment)
+req.body = data.index.join; // temp data
+const accessCode = req.body.access_code;
+addUserCourse(userID, accessCode) // userID is from server cookies
 ```
 
 ## Client to server requests
