@@ -1,5 +1,5 @@
 @import "global";
-@import "test"; // toggle this to preview test palette
+@import "test";
 @import "components/App";
 @import "components/Nav";
 @import "components/PostList";
@@ -35,7 +35,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: $font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -43,6 +43,6 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
