@@ -6,6 +6,6 @@ const App = () => {
       Campfire
     </div>
   );
-}
+};
 
 export default App;

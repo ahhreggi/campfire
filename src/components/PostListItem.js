@@ -5,7 +5,7 @@ const PostListItem = () => {
     <div>
 
     </div>
-  )
-}
+  );
+};
 
-export default PostListItem
+export default PostListItem;
