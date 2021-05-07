@@ -1,9 +1,8 @@
 @import "../styles/global.scss";
 
-div.Nav {
-  // border: 1px solid $green;
+.Nav {
   border-radius: 0.2rem;
-  height: 4rem;
+  // height: 4rem;
   display: flex;
   align-items: center;
   box-shadow: 0px 5px 5px $navy-0;
@@ -18,7 +17,7 @@ div.Nav {
         width: 1.5rem;
         margin: 1rem;
       }
-      width: 20rem;
+      min-width: 20rem;
       background-color: $navy-1;
       .title {
         font-family: $font-title;
@@ -27,6 +26,8 @@ div.Nav {
       }
     }
     &.middle {
+      overflow: hidden;
+      height: 4rem;
       flex-grow: 1;
       background-color: $navy-2;
       font-size: 1.3rem;

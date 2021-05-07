@@ -2,8 +2,8 @@ import "./PostListItem.scss";
 
 const PostListItem = () => {
   return (
-    <div>
-
+    <div className="PostListItem">
+      PostListItem
     </div>
   );
 };

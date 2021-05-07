@@ -7,8 +7,10 @@ const App = () => {
   return (
     <main className="App">
       <Nav />
-      <PostList />
-      <Main />
+      <section>
+        <PostList />
+        <Main />
+      </section>
     </main>
   );
 };
