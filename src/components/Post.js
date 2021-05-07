@@ -5,7 +5,7 @@ const Post = () => {
     <div>
 
     </div>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;

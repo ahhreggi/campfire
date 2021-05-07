@@ -5,7 +5,7 @@ const Button = () => {
     <div>
 
     </div>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
