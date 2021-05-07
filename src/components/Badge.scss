@@ -1,0 +1,9 @@
+@import "../styles/global.scss";
+
+.Badge {
+  height: 15px;
+  width: 15px;
+  background-color: $green;
+  border-radius: 100%;
+  margin: 0 3px;
+}

@@ -3,4 +3,14 @@
 .PostListItem {
   border: 1px solid red;
   height: 50px;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badges {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
 }
