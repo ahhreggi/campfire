@@ -8,13 +8,13 @@ const PostListItem = () => {
       <header>
         <div>
           <span className="bookmark">
-            <Bookmark />
+            <Bookmark bookmarked={true} />
           </span>
           <span className="title">PostListItem.title</span>
         </div>
         <div className="badges">
-          <Badge />
-          <Badge />
+          {true && <Badge type="instructor" />}
+          {true && <Badge type="student" />}
         </div>
       </header>
       <div className="summary text-truncate">

@@ -3,8 +3,13 @@
 .Badge {
   height: 15px;
   width: 15px;
-  background-color: $green;
   border-radius: 100%;
   margin-right: 10px;
   margin-bottom: 3px;
+  &.badge-instructor {
+    background-color: $yellow;
+  }
+  &.badge-student {
+    background-color: $green;
+  }
 }
