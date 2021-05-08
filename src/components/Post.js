@@ -24,6 +24,14 @@ const Post = (props) => {
     views: PropTypes.number
   };
 
+  const editPost = () => {
+    console.log("clicked EDIT post button");
+  };
+
+  const deletePost = () => {
+    console.log("clicked DELETE post button");
+  };
+
   const tags = props.tags.map(tag => {
     return (
       <Button
@@ -72,8 +80,8 @@ const Post = (props) => {
       <div>
         views: {props.views}
       </div>
-      {props.editable && <Button type="edit" text="EDIT" />}
-      {props.editable && <Button type="delete" text="DELETE" />}
+      {props.editable && <Button type="edit" onClick={editPost} text="EDIT" />}
+      {props.editable && <Button type="delete" onClick={deletePost} text="DELETE" />}
       <CommentList comments={props.comments} />
     </div>
   );
