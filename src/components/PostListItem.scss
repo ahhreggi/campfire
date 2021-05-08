@@ -9,16 +9,22 @@
     background-color: $navy-4;
     height: 2rem;
     .bookmark {
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-left: 0.5rem;
+      margin-right: 5px;
     }
     .title {
       font-weight: 700;
     }
+    .badges {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
   }
-  .badges {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  div.summary {
+    padding: 0.5rem;
+    overflow: hidden;
+    // height: 5rem;
+    color: $navy-6;
   }
 }

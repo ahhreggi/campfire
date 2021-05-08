@@ -17,7 +17,7 @@ const PostListItem = () => {
           <Badge />
         </div>
       </header>
-      <div>
+      <div className="summary text-truncate">
         {"PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body "}
       </div>
       <footer>
