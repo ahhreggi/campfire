@@ -1,5 +1,5 @@
 import "./Nav.scss";
-import logo from "../campfire.png";
+import logo from "../images/campfire.png";
 
 const Nav = () => {
   return (

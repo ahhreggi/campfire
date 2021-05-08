@@ -19,12 +19,33 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      margin-right: 0.5rem;
     }
   }
   div.summary {
-    padding: 0.5rem;
+    padding: 0.4rem 0.5rem 0.2rem 0.5rem;
     overflow: hidden;
     // height: 5rem;
     color: $navy-6;
+  }
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    .categories {
+      margin-left: 0.3rem;
+    }
+    .counters {
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
+      color: $white;
+      .views {
+        margin-right: 1rem;
+      }
+      .comments {
+
+      }
+    }
   }
 }
