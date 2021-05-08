@@ -806,12 +806,51 @@ const App = (props) => {
       ]
     }
   ];
+
+  const tags = [
+    {
+      "id": 1,
+      "name": "general"
+    },
+    {
+      "id": 2,
+      "name": "other"
+    },
+    {
+      "id": 3,
+      "name": "project"
+    },
+    {
+      "id": 4,
+      "name": "core"
+    },
+    {
+      "id": 5,
+      "name": "stretch"
+    },
+    {
+      "id": 5,
+      "name": "prep"
+    },
+    {
+      "id": 6,
+      "name": "react"
+    },
+    {
+      "id": 7,
+      "name": "ruby"
+    },
+    {
+      "id": 8,
+      "name": "html"
+    }
+  ];
   return (
     <main className="App">
       <Nav />
       <section>
         <div className="left">
-          <PostList posts={posts} />
+          <PostList tags={tags} posts={posts} />
         </div>
         <div className="right">
           <Main />

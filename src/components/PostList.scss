@@ -3,9 +3,12 @@
 .PostList {
   height: 100%;
   min-width: 100%;
+  background-color: $navy-2;
   overflow-x: hidden;
   overflow-y: scroll;
-  // border: 1px solid $white;
+  .tags {
+
+  }
   .label {
     font-weight: 700;
     font-size: 0.8rem;

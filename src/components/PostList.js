@@ -1,4 +1,5 @@
 import "./PostList.scss";
+import Button from "./Button";
 import PostListItem from "./PostListItem";
 import pin from "../images/pin.png";
 import PropTypes from "prop-types";
@@ -19,6 +20,10 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
+  const tags = props.tags.map(tag => {
+    return <Button type="tag" key={tag.id} text={tag.name} />;
+  });
+
   // Categorize posts as pinned or unpinned
   const pinned = [];
   const unpinned = [];
@@ -36,25 +41,6 @@ const PostList = (props) => {
     pinned: sortByBookmarked(pinned),
     unpinned: sortByBookmarked(unpinned)
   };
-
-  // TODO: Sort posts by PINNED > BOOKMARKED > REST
-  // const postTypes = {
-  //   pinned: [],
-  //   bookmarked: [],
-  //   default: []
-  // };
-  // for (const post of props.posts) {
-  //   if (post.pinned) {
-  //     postTypes.pinned.push(post);
-  //   } else if (post.bookmarked) {
-  //     postTypes.bookmarked.push(post);
-  //   } else {
-  //     postTypes.default.push(post);
-  //   }
-  // }
-  // const sortedPosts = postTypes.pinned
-  //   .concat(postTypes.bookmarked)
-  //   .concat(postTypes.default);
 
   const generatePostListItems = (posts) => {
     return posts.map(post => {
@@ -89,9 +75,11 @@ const PostList = (props) => {
 
   // TODO: Add toggler for these
 
-
   return (
     <div className="PostList">
+      <div className="tags">
+        {tags}
+      </div>
       <div className="pinned">
         <div className="label">
           PINNED
@@ -114,7 +102,8 @@ const PostList = (props) => {
 };
 
 PostList.propTypes = {
-  posts: PropTypes.array
+  posts: PropTypes.array,
+  tags: PropTypes.array
 };
 
 export default PostList;

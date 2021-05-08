@@ -1,12 +1,14 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 1px solid $navy-4;
+  border: 1px solid $navy-3;
   transition: 0.1s;
+  background-color: $navy-2;
+  margin: 0.25rem;
   &:hover {
-    border: 1px solid $navy-7;
+    border: 1px solid $navy-5;
     cursor: pointer;
-    background-color: $navy-2;
+    background-color: $navy-3;
     div.summary {
       color: $navy-7;
     }
