@@ -1,0 +1,18 @@
+@import "../styles/global.scss";
+
+.Badge {
+  height: 15px;
+  width: 15px;
+  border-radius: 100%;
+  margin-left: 10px;
+  margin-bottom: 3px;
+  &.badge-instructor {
+    background-color: $yellow;
+  }
+  &.badge-student {
+    background-color: $green;
+  }
+  &.badge-unresolved {
+    background-color: $red;
+  }
+}

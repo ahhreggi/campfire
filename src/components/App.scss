@@ -1,1 +1,7 @@
-@import "../styles/variables.scss";
+@import "../styles/global.scss";
+
+.App {
+  background-color: $navy-1;
+  margin: 1rem;
+  overflow: hidden;
+}

@@ -1,1 +1,17 @@
-@import "../styles/variables.scss";;
+@import "../styles/global.scss";
+
+button {
+  &.btn-tag {
+    background-color: transparent;
+    border: 1px solid $orange;
+    border-radius: 3px;
+    color: $orange;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0 0.2rem;
+    &:hover:not(.disabled) {
+      background-color: $orange;
+      color: $white;
+    }
+  }
+}
