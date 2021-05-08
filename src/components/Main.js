@@ -2,24 +2,27 @@ import "./Main.scss";
 import Post from "./Post";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
+import PropTypes from "prop-types";
 
 
 const Main = (props) => {
 
-  // Only one main component would be active at a given time
-  const active = "post";
+  // Only one main component can active at a given time
 
   return (
     <div className="Main">
-      This is main.
-      {active === "post" &&
+      {props.active === "post" &&
       <Post
         tags={[]}
       />}
-      {active === "dashboard" && <Dashboard />}
-      {active === "analytics" && <Analytics />}
+      {props.active === "dashboard" && <Dashboard />}
+      {props.active === "analytics" && <Analytics />}
     </div>
   );
+};
+
+Main.propTypes = {
+  active: PropTypes.string
 };
 
 export default Main;
