@@ -1,0 +1,19 @@
+@import "styles/global.scss";
+// @import "styles/test.scss"; // enable to use test palette
+
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  margin: 0;
+  background-color: $navy-0;
+  color: $white;
+  font-family: $font-main, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @include custom-scrollbar;
+}
+
+code {
+  font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
+}
