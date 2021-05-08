@@ -360,13 +360,11 @@ const dummyCourseData = {
 
 const App = (props) => {
 
-
-  const [user, setUser] = useState(dummyUser);
-  const [posts, setPosts] = useState(dummyPosts);
-  const [tags, setTags] = useState(dummyTags);
-  const [active, setActive] = useState("post");
-  const [viewTitle, setViewTitle] = useState("Dashboard");
-  const [courseData, setCourseData] = useState(dummyCourseData);
+  const [state, setState] = useState({
+    user: dummyUser,
+    active: "post",
+    courseData: dummyCourseData
+  });
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
 
@@ -375,25 +373,21 @@ const App = (props) => {
   // TODO: Create a function that changes active to post, dashboard, or analytics
   // Whenever this happens, viewTitle should be changed
 
-  const toggleView = (view) => {
-    setActive(view);
-  };
-
   return (
     <main className="App">
       <Nav
-        active={active}
-        viewTitle={viewTitle}
+        active={state.active}
+        viewTitle={"Temporary View Title!!!"}
         courseName="LHL Web Mar 1"
-        userAvatar={user.avatar_url}
-        userName={`${user.first_name} ${user.last_name}`}
+        userAvatar={state.user.avatar_url}
+        userName={`${state.user.first_name} ${state.user.last_name}`}
       />
       <section>
         <div className="left">
-          <PostList tags={courseData.tags} posts={courseData.posts} />
+          <PostList tags={state.courseData.tags} posts={state.courseData.posts} />
         </div>
         <div className="right">
-          <Main active={active} data={courseData} />
+          <Main active={state.active} courseData={state.courseData} />
         </div>
       </section>
     </main>
