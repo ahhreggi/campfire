@@ -29,7 +29,7 @@ const PostListItem = (props) => {
       <Button
         key={index}
         text={tag.name}
-        styles="tag-disabled"
+        styles="tag disabled"
         disabled={true}
       />
     );

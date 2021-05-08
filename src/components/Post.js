@@ -25,7 +25,13 @@ const Post = (props) => {
   };
 
   const tags = props.tags.map(tag => {
-    return <Button type="tag-link" key={tag.id} text={tag.name} />;
+    return (
+      <Button
+        key={tag.id}
+        text={tag.name}
+        styles="tag"
+      />
+    );
   });
 
   return (
