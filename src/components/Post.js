@@ -42,7 +42,7 @@ const Post = (props) => {
       {/* displayed if the current user owns the post: */}
       <Button type="edit" text="EDIT" />
       <Button type="delete" text="DELETE" />
-      <CommentList comments={[]} />
+      <CommentList comments={props.comments} />
     </div>
   );
 };
