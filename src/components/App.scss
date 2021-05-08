@@ -4,4 +4,7 @@
   background-color: $navy-1;
   margin: 1rem;
   overflow: hidden;
+  section {
+    display: flex;
+  }
 }
