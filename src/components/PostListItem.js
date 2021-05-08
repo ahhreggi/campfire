@@ -2,28 +2,13 @@ import "./PostListItem.scss";
 import Bookmark from "./Bookmark";
 import Badge from "./Badge";
 import Button from "./Button";
+import pin from "../images/pin.png";
 import eye from "../images/eye.png";
 import comment from "../images/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
-  const numViews = 45;
-  const numComments = 13;
-  const propTags = [
-    {
-      id: 1,
-      name: "HTML"
-    },
-    {
-      id: 2,
-      name: "CSS"
-    },
-    {
-      id: 3,
-      name: "React"
-    },
-  ];
-  const tags = propTags.map(tag => {
+  const tags = props.tags.map(tag => {
     return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
   });
   return (
@@ -31,17 +16,21 @@ const PostListItem = (props) => {
       <header>
         <div>
           <span className="bookmark">
-            <Bookmark bookmarked={true || props.bookmarked} />
+            <Bookmark bookmarked={props.bookmarked} />
           </span>
-          <span className="title">PostListItem.title</span>
+          <span className="title">
+            {props.title}
+            {props.pinned && <img src={pin} alt="pin" />}
+          </span>
         </div>
         <div className="badges">
-          {true && <Badge type="instructor" />}
-          {true && <Badge type="student" />}
+          {props.showStudentBadge && <Badge type="student" />}
+          {props.showInstructorBadge && <Badge type="instructor" />}
+          {props.bestAnswer === null && <Badge type="unresolved" />}
         </div>
       </header>
       <div className="summary text-truncate">
-        {"PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body "}
+        {props.body}
       </div>
       <footer>
         <div className="tags">
@@ -50,11 +39,11 @@ const PostListItem = (props) => {
         <div className="counters">
           <span className="views">
             <img src={eye} alt="views" />
-            {numViews}
+            {props.views}
           </span>
           <span className="comments">
             <img src={comment} alt="comments" />
-            {numComments}
+            {props.comments}
           </span>
         </div>
       </footer>
@@ -63,7 +52,16 @@ const PostListItem = (props) => {
 };
 
 PostListItem.propTypes = {
-  bookmarked: PropTypes.bool
+  title: PropTypes.string,
+  body: PropTypes.string,
+  bestAnswer: PropTypes.number,
+  pinned: PropTypes.bool,
+  bookmarked: PropTypes.bool,
+  tags: PropTypes.array,
+  views: PropTypes.number,
+  comments: PropTypes.number,
+  showStudentBadge: PropTypes.bool,
+  showInstructorBadge: PropTypes.bool
 };
 
 export default PostListItem;

@@ -12,4 +12,7 @@
   &.badge-student {
     background-color: $green;
   }
+  &.badge-unresolved {
+    background-color: $red;
+  }
 }

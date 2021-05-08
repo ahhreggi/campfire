@@ -1,10 +1,10 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 2px solid $navy-4;
+  border: 1px solid $navy-4;
   transition: 0.1s;
   &:hover {
-    border: 2px solid $navy-7;
+    border: 1px solid $navy-7;
     cursor: pointer;
     background-color: $navy-2;
     div.summary {
@@ -27,6 +27,9 @@
     }
     .title {
       font-weight: 700;
+      img {
+        margin-left: 0.5rem;
+      }
     }
     .badges {
       display: flex;
