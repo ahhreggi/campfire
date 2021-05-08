@@ -7,6 +7,21 @@ import comment from "../images/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
+
+  PostListItem.propTypes = {
+    key: PropTypes.number,
+    title: PropTypes.string,
+    body: PropTypes.string,
+    bestAnswer: PropTypes.number,
+    pinned: PropTypes.bool,
+    bookmarked: PropTypes.bool,
+    tags: PropTypes.array,
+    views: PropTypes.number,
+    comments: PropTypes.number,
+    showStudentBadge: PropTypes.bool,
+    showInstructorBadge: PropTypes.bool
+  };
+
   const tags = props.tags.map(tag => {
     return <Button disabled={true} type="tag-disabled" key={tag.id} text={tag.name} />;
   });
@@ -66,19 +81,6 @@ const PostListItem = (props) => {
       </footer>
     </div>
   );
-};
-
-PostListItem.propTypes = {
-  title: PropTypes.string,
-  body: PropTypes.string,
-  bestAnswer: PropTypes.number,
-  pinned: PropTypes.bool,
-  bookmarked: PropTypes.bool,
-  tags: PropTypes.array,
-  views: PropTypes.number,
-  comments: PropTypes.number,
-  showStudentBadge: PropTypes.bool,
-  showInstructorBadge: PropTypes.bool
 };
 
 export default PostListItem;

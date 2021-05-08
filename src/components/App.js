@@ -183,20 +183,31 @@ const App = (props) => {
 
   const [posts, setPosts] = useState(dummyPosts);
   const [tags, setTags] = useState(dummyTags);
+  const [active, setActive] = useState("post");
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
 
   // TODO: Create functions that add/edit/remove items from the data (addPost, updatePost, deletePost, etc.)
 
+  // TODO: Create a function that changes active to post, dashboard, or analytics
+
+
+
   return (
     <main className="App">
-      <Nav />
+      <Nav
+        active={active}
+        viewTitle="View Title!!!"
+        courseName="LHL Web Mar 1"
+        userAvatar=""
+        userName="Anonymous"
+      />
       <section>
         <div className="left">
           <PostList tags={tags} posts={posts} />
         </div>
         <div className="right">
-          <Main active="post" />
+          <Main active={active} />
         </div>
       </section>
     </main>
