@@ -11,7 +11,7 @@ const Nav = () => {
       </section>
 
       <section className="middle d-none d-sm-flex">
-        <span className="view-title col-12 text-truncate">View Title View Title View Title View Title View Title View Title </span>
+        <span className="view-title col-12 text-truncate">View Title</span>
       </section>
 
       <section className="right d-none d-xl-flex">

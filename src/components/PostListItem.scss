@@ -1,7 +1,20 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 2px solid $navy-3;
+  border: 2px solid $navy-4;
+  transition: 0.1s;
+  &:hover {
+    border: 2px solid $navy-7;
+    cursor: pointer;
+    background-color: $navy-2;
+    div.summary {
+      color: $navy-7;
+    }
+    .tags,
+    .counters {
+      opacity: 1;
+    }
+  }
   header {
     display: flex;
     justify-content: space-between;
@@ -33,13 +46,15 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
-    .categories {
+    .tags {
       margin-left: 0.3rem;
+      opacity: 0.8;
     }
     .counters {
       margin-right: 0.5rem;
       font-size: 0.8rem;
       color: $white;
+      opacity: 0.8;
       .views {
         margin-right: 1rem;
       }

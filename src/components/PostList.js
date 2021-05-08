@@ -1,7 +1,7 @@
 import "./PostList.scss";
 import PostListItem from "./PostListItem";
 
-const PostList = () => {
+const PostList = (props) => {
   return (
     <div className="PostList">
       <PostListItem />

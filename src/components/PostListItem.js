@@ -7,6 +7,25 @@ import comment from "../images/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
+  const numViews = 45;
+  const numComments = 13;
+  const propTags = [
+    {
+      id: 1,
+      name: "HTML"
+    },
+    {
+      id: 2,
+      name: "CSS"
+    },
+    {
+      id: 3,
+      name: "React"
+    },
+  ];
+  const tags = propTags.map(tag => {
+    return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
+  });
   return (
     <div className="PostListItem">
       <header>
@@ -25,19 +44,17 @@ const PostListItem = (props) => {
         {"PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body PostListItem.body "}
       </div>
       <footer>
-        <div className="categories">
-          <Button disabled={true} type="category" text="HTML" />
-          <Button disabled={true} type="category" text="CSS" />
-          <Button disabled={true} type="category" text="React" />
+        <div className="tags">
+          {tags}
         </div>
         <div className="counters">
           <span className="views">
             <img src={eye} alt="views" />
-            3
+            {numViews}
           </span>
           <span className="comments">
-            <img src={comment} alt="replies" />
-            123
+            <img src={comment} alt="comments" />
+            {numComments}
           </span>
         </div>
       </footer>
