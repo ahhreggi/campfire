@@ -179,8 +179,17 @@ const dummyTags = [
   }
 ];
 
+const dummyUser = {
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
+  "first_name": "Reggi",
+  "last_name": "Sirilan",
+  "email": "rs@rs.ca",
+  "avatar_url": ""
+};
+
 const App = (props) => {
 
+  const [user, setUser] = useState(dummyUser);
   const [posts, setPosts] = useState(dummyPosts);
   const [tags, setTags] = useState(dummyTags);
   const [active, setActive] = useState("post");
