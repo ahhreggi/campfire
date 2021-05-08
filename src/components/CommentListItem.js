@@ -18,9 +18,16 @@ const CommentListItem = (props) => {
   // If anonymous is true, display anonymous
   // Only instructors can view first/last name
 
+  const displayName = props.anonymous ? "Anonymous" : props.author;
+
   return (
     <div className="CommentListItem">
-      {props.author}
+      <div>
+        Author: {displayName}
+      </div>
+      <div>
+        Author (visible only to instructors): {props.author}
+      </div>
       <ReplyList />
     </div>
   );
