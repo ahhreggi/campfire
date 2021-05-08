@@ -1,11 +1,20 @@
 @import "../styles/global.scss";
 
 .App {
+  padding: 0 0 1rem 1rem;
   background-color: $navy-1;
+  border-radius: 5px;
   margin: 1rem;
   overflow: hidden;
   height: 96vh;
   section {
     display: flex;
+    height: 83vh;
+    .left {
+      width: 20rem;
+    }
+    .right {
+      width: 100%;
+    }
   }
 }
