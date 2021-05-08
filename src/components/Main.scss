@@ -3,4 +3,7 @@
 .Main {
   border: 1px solid rgb(255, 0, 234);
   width: 100%;
+  padding: 1rem;
+  overflow: scroll;
+  @include custom-scrollbar;
 }
