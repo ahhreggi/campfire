@@ -9,7 +9,6 @@ const CommentList = (props) => {
   };
 
   const comments = props.comments.map(comment => {
-    console.log(comment);
     return (
       <CommentListItem
         key={comment.id}

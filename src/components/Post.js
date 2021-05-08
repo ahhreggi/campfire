@@ -36,12 +36,44 @@ const Post = (props) => {
 
   return (
     <div className="Post">
-      {props.title}
-      {props.body}
-      {tags}
-      {/* displayed if the current user owns the post: */}
-      <Button type="edit" text="EDIT" />
-      <Button type="delete" text="DELETE" />
+      {props.bestAnswer && <div>this question is RESOLVED</div>}
+      {!props.bestAnswer && <div>this question is UNRESOLVED</div>}
+      <div>
+        id: {props.id}
+      </div>
+      <div>
+        anonymous: {props.anonymous ? "true" : "false"}
+      </div>
+      <div>
+        resolved? (best answer): {props.bestAnswer ? "id: " + props.bestAnswer : "none selected"}
+      </div>
+      <div>
+        bookmarked: {props.bookmarked ? "true" : "false"}
+      </div>
+      <div>
+        created at: {props.createdAt}
+      </div>
+      <div>
+        last modified: {props.lastModified}
+      </div>
+      <div>
+        editable: {props.editable ? "true" : "false"}
+      </div>
+      <div>
+        title: {props.title}
+      </div>
+      <div>
+        body: {props.body}
+      </div>
+      <div>
+        tags:
+        {tags}
+      </div>
+      <div>
+        views: {props.views}
+      </div>
+      {props.editable && <Button type="edit" text="EDIT" />}
+      {props.editable && <Button type="delete" text="DELETE" />}
       <CommentList comments={props.comments} />
     </div>
   );

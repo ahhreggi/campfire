@@ -11,7 +11,7 @@ const CommentListItem = (props) => {
     body: PropTypes.string,
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
-    editable: PropTypes.string,
+    editable: PropTypes.bool,
     endorsed: PropTypes.bool
   };
 
