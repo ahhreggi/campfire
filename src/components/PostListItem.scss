@@ -17,25 +17,27 @@
   }
   header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: $navy-4;
     height: 2rem;
+    overflow: hidden;
+    .header-left {
+      white-space: nowrap;
+    }
+    .header-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-right: 0.5rem;
+    }
     .bookmark {
       margin-left: 0.5rem;
       margin-right: 5px;
     }
     .title {
       font-weight: 700;
-      img {
-        margin-left: 0.5rem;
-      }
-    }
-    .badges {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-right: 0.5rem;
     }
   }
   div.summary {

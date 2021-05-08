@@ -2,7 +2,6 @@ import "./PostListItem.scss";
 import Bookmark from "./Bookmark";
 import Badge from "./Badge";
 import Button from "./Button";
-import pin from "../images/pin.png";
 import eye from "../images/eye.png";
 import comment from "../images/comment.png";
 import PropTypes from "prop-types";
@@ -11,19 +10,22 @@ const PostListItem = (props) => {
   const tags = props.tags.map(tag => {
     return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
   });
+
+  const truncateText = (text, length) => {
+    return text.slice(0, length) + "...";
+  };
   return (
     <div className="PostListItem">
       <header>
-        <div>
+        <div className="header-left">
           <span className="bookmark">
             <Bookmark bookmarked={props.bookmarked} />
           </span>
-          <span className="title">
+          <span className="title text-truncate">
             {props.title}
-            {props.pinned && <img src={pin} alt="pin" />}
           </span>
         </div>
-        <div className="badges">
+        <div className="header-right">
           {props.showStudentBadge && <Badge type="student" />}
           {props.showInstructorBadge && <Badge type="instructor" />}
           {props.bestAnswer === null && <Badge type="unresolved" />}

@@ -16,3 +16,17 @@
 //   font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas,
 //     "Courier New", monospace;
 // }
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0.25em;
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0px $navy-1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $navy-3;
+  }
+}
