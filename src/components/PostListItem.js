@@ -11,9 +11,6 @@ const PostListItem = (props) => {
     return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
   });
 
-  const truncateText = (text, length) => {
-    return text.slice(0, length) + "...";
-  };
   return (
     <div className="PostListItem">
       <header>

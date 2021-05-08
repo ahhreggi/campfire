@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 
 
-const Main = () => {
+const Main = (props) => {
 
   // Only one of these would be true/active at a given time
   const active = "post";
@@ -12,7 +12,10 @@ const Main = () => {
   return (
     <div>
       This is main.
-      {active === "post" && <Post />}
+      {active === "post" &&
+      <Post
+        tags={[]}
+      />}
       {active === "dashboard" && <Dashboard />}
       {active === "analytics" && <Analytics />}
     </div>
