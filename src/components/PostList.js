@@ -4,6 +4,8 @@ import PostListItem from "./PostListItem";
 import pin from "../images/pin.png";
 import PropTypes from "prop-types";
 
+// Receiving: props.posts, props.tags
+
 const PostList = (props) => {
 
   // Move all bookmarked posts to the front of the array
