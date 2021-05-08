@@ -20,15 +20,28 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
+  const selected = [1, 5];
+
   const tags = props.tags.map(tag => {
-    return <Button type="tag" key={tag.id} text={tag.name} />;
+    return <Button type={`tag-link ${selected.includes(tag.id) ? "selected" : ""}`} key={tag.id} text={tag.name} />;
+  });
+
+  // If no tags are selected, use all posts, otherwise filter
+  const filteredPosts = !selected.length ? props.posts : props.posts.filter(post => {
+    for (const tag of post.tags) {
+      if (selected.includes(tag.id)) {
+        console.log(selected, tag.id);
+        return true;
+      }
+    }
+    return false;
   });
 
   // Categorize posts as pinned or unpinned
   const pinned = [];
   const unpinned = [];
 
-  for (const post of props.posts) {
+  for (const post of filteredPosts) {
     if (post.pinned) {
       pinned.push(post);
     } else {
@@ -77,24 +90,30 @@ const PostList = (props) => {
 
   return (
     <div className="PostList">
+      <div className="label">
+        FILTERS
+      </div>
       <div className="tags">
         {tags}
+        <Button type="tag-clear" text="clear" />
       </div>
-      <div className="pinned">
-        <div className="label">
-          PINNED
-          <img src={pin} alt="pin" />
+      <div className="posts">
+        <div className="pinned">
+          <div className="label">
+            PINNED
+            <img src={pin} alt="pin" />
+          </div>
+          <div className="list">
+            {pinnedPosts}
+          </div>
         </div>
-        <div className="list">
-          {pinnedPosts}
-        </div>
-      </div>
-      <div className="unpinned">
-        <div className="label">
-          POSTS
-        </div>
-        <div className="list">
-          {unpinnedPosts}
+        <div className="unpinned">
+          <div className="label">
+            POSTS
+          </div>
+          <div className="list">
+            {unpinnedPosts}
+          </div>
         </div>
       </div>
     </div>

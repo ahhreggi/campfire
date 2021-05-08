@@ -1,7 +1,7 @@
 @import "../styles/global.scss";
 
 button {
-  &.btn-tag {
+  &.tag-disabled {
     background-color: transparent;
     border: 1px solid $orange;
     border-radius: 3px;
@@ -9,9 +9,46 @@ button {
     font-size: 0.8rem;
     font-weight: 500;
     margin: 0.2rem;
-    &:hover:not(.disabled) {
-      background-color: $orange;
-      color: $white;
+  }
+  &.tag-link {
+    background-color: transparent;
+    border: 1px solid $white;
+    border-radius: 3px;
+    color: $white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0.2rem;
+    opacity: 0.7;
+    &:hover {
+      // border-color: $orange;
+      // color: $orange;
+      opacity: 0.9;
+    }
+    &.clear {
+      border-color: $red;
+      color: $red;
+    }
+    &.selected {
+      border-color: $orange;
+      color: $orange;
+      opacity: 1;
+    }
+  }
+  &.tag-clear {
+    background-color: transparent;
+    border: 1px solid $red;
+    border-radius: 3px;
+    color: $red;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0.2rem;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+    &.clear {
+      border-color: $red;
+      color: $red;
     }
   }
 }

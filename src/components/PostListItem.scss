@@ -40,6 +40,7 @@
     }
     .title {
       font-weight: 700;
+      font-size: 0.8rem;
     }
   }
   div.summary {
@@ -47,6 +48,7 @@
     overflow: hidden;
     // height: 5rem;
     color: $navy-6;
+    font-size: 0.8rem;
   }
   footer {
     display: flex;

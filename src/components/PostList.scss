@@ -2,12 +2,11 @@
 
 .PostList {
   height: 100%;
-  min-width: 100%;
   background-color: $navy-2;
   overflow-x: hidden;
   overflow-y: scroll;
   .tags {
-
+    padding: 0.2rem;
   }
   .label {
     font-weight: 700;

@@ -11,9 +11,11 @@
     display: flex;
     height: 83vh;
     .left {
+      border: 1px solid white;
       width: 20rem;
     }
     .right {
+      border: 1px solid red;
       width: 100%;
     }
   }

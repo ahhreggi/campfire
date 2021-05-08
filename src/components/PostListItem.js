@@ -8,8 +8,25 @@ import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
   const tags = props.tags.map(tag => {
-    return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
+    return <Button disabled={true} type="tag-disabled" key={tag.id} text={tag.name} />;
   });
+
+  const truncateText = (text, length) => {
+    if (text.length > length) {
+      const words = text.split(" ");
+      let result = "";
+      for (const word of words) {
+        if (result.length < length) {
+          result += " " + word;
+        } else {
+          break;
+        }
+      }
+      return result + "...";
+    } else {
+      return text;
+    }
+  };
 
   return (
     <div className="PostListItem">
@@ -19,7 +36,7 @@ const PostListItem = (props) => {
             <Bookmark bookmarked={props.bookmarked} />
           </span>
           <span className="title text-truncate">
-            {props.title}
+            {truncateText(props.title, 33)}
           </span>
         </div>
         <div className="header-right">
