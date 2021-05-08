@@ -24,11 +24,15 @@ const Post = (props) => {
     views: PropTypes.number
   };
 
+  const tags = props.tags.map(tag => {
+    return <Button type="tag-link" key={tag.id} text={tag.name} />;
+  });
+
   return (
     <div className="Post">
       {props.title}
       {props.body}
-      {/* {tags} */}
+      {tags}
       {/* displayed if the current user owns the post: */}
       <Button type="edit" text="EDIT" />
       <Button type="delete" text="DELETE" />

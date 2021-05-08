@@ -37,7 +37,7 @@ const PostList = (props) => {
     return (
       <Button
         key={tag.id}
-        type={`tag-link ${selectedTags.includes(tag.id) ? "selected" : ""}`}
+        styles={`tag filter ${selectedTags.includes(tag.id) ? "selected" : ""}`}
         text={tag.name}
       />
     );

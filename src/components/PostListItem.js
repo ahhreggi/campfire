@@ -25,7 +25,14 @@ const PostListItem = (props) => {
 
   const tags = props.tags.map((tag, index) => {
     // return <div>{tag.name}</div>;
-    return <Button disabled={true} type="tag-disabled" key={index} text={tag.name} />;
+    return (
+      <Button
+        key={index}
+        text={tag.name}
+        styles="tag-disabled"
+        disabled={true}
+      />
+    );
   });
 
   const truncateText = (text, length) => {
