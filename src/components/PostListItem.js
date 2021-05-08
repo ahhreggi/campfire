@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 const PostListItem = (props) => {
 
   PostListItem.propTypes = {
-    key: PropTypes.number,
+    id: PropTypes.number,
     title: PropTypes.string,
     body: PropTypes.string,
     bestAnswer: PropTypes.number,
@@ -19,7 +19,8 @@ const PostListItem = (props) => {
     views: PropTypes.number,
     comments: PropTypes.number,
     showStudentBadge: PropTypes.bool,
-    showInstructorBadge: PropTypes.bool
+    showInstructorBadge: PropTypes.bool,
+    onClick: PropTypes.func
   };
 
   const tags = props.tags.map(tag => {
@@ -44,8 +45,12 @@ const PostListItem = (props) => {
     }
   };
 
+  const viewPost = (event) => {
+    props.onClick(props.id);
+  };
+
   return (
-    <div className="PostListItem">
+    <div className="PostListItem" onClick={viewPost}>
       <header>
         <div className="header-left">
           <span className="bookmark">

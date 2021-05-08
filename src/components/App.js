@@ -92,7 +92,7 @@ const dummyCourseData = {
           "replies": []
         },
         {
-          "id": 5,
+          "id": 80,
           "post_id": 2,
           "anonymous": false,
           "author_first_name": "Carson",
@@ -208,7 +208,8 @@ const App = (props) => {
   const [state, setState] = useState({
     user: dummyUser,
     active: "post",
-    courseData: dummyCourseData
+    courseData: dummyCourseData,
+    post: null
   });
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
@@ -233,7 +234,11 @@ const App = (props) => {
       />
       <section>
         <div className="left">
-          <PostList tags={state.courseData.tags} posts={state.courseData.posts} />
+          <PostList
+            tags={state.courseData.tags}
+            posts={state.courseData.posts}
+            onClick={(data) => console.log(data)}
+          />
         </div>
         <div className="right">
           <Main active={state.active} courseData={state.courseData} />

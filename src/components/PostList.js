@@ -12,6 +12,7 @@ const PostList = (props) => {
   PostList.propTypes = {
     posts: PropTypes.array,
     tags: PropTypes.array,
+    onClick: PropTypes.func
   };
 
   const [selectedTags, setSelectedTags] = useState([]);
@@ -77,6 +78,7 @@ const PostList = (props) => {
       return (
         <PostListItem
           key={post.id}
+          id={post.id}
           title={post.title}
           body={post.body}
           pinned={post.pinned}
@@ -87,6 +89,7 @@ const PostList = (props) => {
           comments={numComments}
           showStudentBadge={showStudentBadge}
           showInstructorBadge={showInstructorBadge}
+          onClick={props.onClick}
         />
       );
     });
