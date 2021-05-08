@@ -74,8 +74,6 @@ Description:
 
 ## User Courses
 
----
-
 ### Route: "/join"
 
 - Method: POST
@@ -114,8 +112,6 @@ Description:
 ---
 
 ## Users
-
----
 
 ### Route: "/register"
 
@@ -310,8 +306,6 @@ Description:
 
 ## Bookmarks
 
----
-
 ### Route: "/bookmarks"
 
 - Method: POST
@@ -329,8 +323,6 @@ Description:
 ---
 
 ## Posts
-
----
 
 ### Route: "/posts"
 
@@ -378,8 +370,6 @@ Description:
 
 ## Comments
 
----
-
 ### Route: "/comments"
 
 - Method: POST
@@ -405,5 +395,3 @@ Description:
 - Purpose: Delete a comment from a post
 - check 1: check that the user owns the comment OR is an instructor
 - helper function name: `deleteComment(commentID)`
-
----
