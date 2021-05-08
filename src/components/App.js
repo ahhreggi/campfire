@@ -5,179 +5,6 @@ import PostList from "./PostList";
 import Main from "./Main";
 
 // Temporary data
-const dummyPosts = [
-  {
-    "id": 1,
-    "title": "How do I italicize text in HTML?",
-    "body": "I'm trying to italicize text but can't figure out how. Any ideas? I'm trying to italicize text but can't figure out how. Any ideas?",
-    "bookmarked": true,
-    "created_at": "1620365282",
-    "last_modified": "1620365282",
-    "best_answer": null,
-    "author_name": "FirstName LastName",
-    "tags": [
-      {
-        "id": 5,
-        "name": "stretch"
-      }
-    ],
-    "pinned": false,
-    "views": 9,
-    "comments": [
-      {
-        "id": 1,
-        "anonymous": false,
-        "author_name": "Willy Wonka",
-        "author_avatar_url": "avatar.png",
-        "author_permissions": 0,
-        "body": "Try <i>text</i>.",
-        "score": 7,
-        "created_at": "1620365282",
-        "last_modified": "1620365282",
-        "endorsed": true,
-        "replies": [
-          {
-            "id": 2,
-            "anonymous": false,
-            "author_name": "Jane Doe",
-            "author_avatar_url": "avatar.png",
-            "body": "good answer!",
-            "created_at": "1620365282",
-            "last_modified": "1620365282"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "anonymous": false,
-        "author_name": "Milly Monka",
-        "author_avatar_url": "avatar.png",
-        "author_permissions": 1,
-        "body": "Use <b>text</b>.",
-        "score": 1,
-        "created_at": "1620365282",
-        "last_modified": "1620365282",
-        "endorsed": false,
-        "replies": [
-          {
-            "id": 4,
-            "anonymous": true,
-            "author_name": "John Doe",
-            "author_avatar_url": "anonymous.png",
-            "body": "this doesn't work!",
-            "created_at": "1620365282",
-            "last_modified": "1620365282"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 1,
-    "title": "How do I italicize text in Angular?",
-    "body": "I'm trying to italicize text but can't figure out how. Any ideas? I'm trying to italicize text but can't figure out how. Any ideas?",
-    "bookmarked": true,
-    "created_at": "1620365282",
-    "last_modified": "1620365282",
-    "best_answer": null,
-    "author_name": "FirstName LastName",
-    "tags": [
-      {
-        "id": 1,
-        "name": "general"
-      },
-      {
-        "id": 8,
-        "name": "html"
-      }
-    ],
-    "pinned": true,
-    "views": 9,
-    "comments": [
-      {
-        "id": 1,
-        "anonymous": false,
-        "author_name": "Willy Wonka",
-        "author_avatar_url": "avatar.png",
-        "author_permissions": 0,
-        "body": "Try <i>text</i>.",
-        "score": 7,
-        "created_at": "1620365282",
-        "last_modified": "1620365282",
-        "endorsed": true,
-        "replies": [
-          {
-            "id": 2,
-            "anonymous": false,
-            "author_name": "Jane Doe",
-            "author_avatar_url": "avatar.png",
-            "body": "good answer!",
-            "created_at": "1620365282",
-            "last_modified": "1620365282"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "anonymous": false,
-        "author_name": "Milly Monka",
-        "author_avatar_url": "avatar.png",
-        "author_permissions": 1,
-        "body": "Use <b>text</b>.",
-        "score": 1,
-        "created_at": "1620365282",
-        "last_modified": "1620365282",
-        "endorsed": false,
-        "replies": [
-          {
-            "id": 4,
-            "anonymous": true,
-            "author_name": "John Doe",
-            "author_avatar_url": "anonymous.png",
-            "body": "this doesn't work!",
-            "created_at": "1620365282",
-            "last_modified": "1620365282"
-          }
-        ]
-      }
-    ]
-  }
-];
-
-const dummyTags = [
-  {
-    "id": 1,
-    "name": "general"
-  },
-  {
-    "id": 2,
-    "name": "other"
-  },
-  {
-    "id": 3,
-    "name": "project"
-  },
-  {
-    "id": 4,
-    "name": "core"
-  },
-  {
-    "id": 5,
-    "name": "stretch"
-  },
-  {
-    "id": 6,
-    "name": "react"
-  },
-  {
-    "id": 7,
-    "name": "ruby"
-  },
-  {
-    "id": 8,
-    "name": "html"
-  }
-];
 
 const dummyUser = {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
@@ -259,6 +86,23 @@ const dummyCourseData = {
           "last_modified": "2021-05-08T20:00:11.574Z",
           "endorsed": false,
           "role": "instructor",
+          "user_id": 3,
+          "editable": false,
+          "replies": []
+        },
+        {
+          "id": 5,
+          "post_id": 2,
+          "anonymous": false,
+          "author_first_name": "Carson",
+          "author_last_name": "Cool",
+          "author_avatar_id": null,
+          "body": "You create a class with the Class keyword followed by {}",
+          "score": "0",
+          "created_at": "2021-05-08T20:00:11.574Z",
+          "last_modified": "2021-05-08T20:00:11.574Z",
+          "endorsed": false,
+          "role": "student",
           "user_id": 3,
           "editable": false,
           "replies": []

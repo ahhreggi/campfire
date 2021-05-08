@@ -71,9 +71,9 @@ const PostList = (props) => {
         .map(comment => 1 + comment.replies.length)
         .reduce((a, b) => a + b, 0);
       // Check if a student has commented on the post
-      const showStudentBadge = post.comments.filter(comment => comment.author_permissions === 0).length > 0;
+      const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
       // Check if an instructor has commented on the post
-      const showInstructorBadge = post.comments.filter(comment => comment.author_permissions === 1).length > 0;
+      const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
       return (
         <PostListItem
           key={post.id}

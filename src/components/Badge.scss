@@ -4,7 +4,7 @@
   height: 15px;
   width: 15px;
   border-radius: 100%;
-  margin-bottom: 3px;
+  margin-bottom: 0.1rem;
   &.badge-instructor {
     background-color: $yellow;
   }
@@ -13,5 +13,8 @@
   }
   &.badge-unresolved {
     background-color: $red;
+  }
+  &:not(:first-child) {
+    margin-left: 0.5rem;
   }
 }
