@@ -1,5 +1,6 @@
 import "./Post.scss";
 import Button from "./Button";
+import CommentList from "./CommentList";
 import PropTypes from "prop-types";
 
 const Post = (props) => {
@@ -13,6 +14,7 @@ const Post = (props) => {
       {/* displayed if the current user owns the post: */}
       <Button type="edit" key="1" text="EDIT" />
       <Button type="delete" key="1" text="DELETE" />
+      <CommentList comments={[]} />
     </div>
   );
 };
