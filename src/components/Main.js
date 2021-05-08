@@ -6,11 +6,11 @@ import Analytics from "./Analytics";
 
 const Main = (props) => {
 
-  // Only one of these would be true/active at a given time
+  // Only one main component would be active at a given time
   const active = "post";
 
   return (
-    <div>
+    <div className="Main">
       This is main.
       {active === "post" &&
       <Post

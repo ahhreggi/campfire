@@ -1,6 +1,8 @@
+import "./ReplyListItem.scss";
+
 const ReplyListItem = () => {
   return (
-    <div>
+    <div className="ReplyListItem">
       This is ReplyListItem.
     </div>
   );

@@ -1,8 +1,9 @@
+import "./CommentListItem.scss";
 import ReplyList from "./ReplyList";
 
 const CommentListItem = () => {
   return (
-    <div>
+    <div className="CommentListItem">
       This is CommentListItem.
       <ReplyList />
     </div>

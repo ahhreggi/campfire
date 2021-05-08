@@ -8,7 +8,7 @@ const Post = (props) => {
     return <Button type="tag" key={tag.id} text={tag.name} />;
   });
   return (
-    <div>
+    <div className="Post">
       This is Post.
       {tags}
       {/* displayed if the current user owns the post: */}
