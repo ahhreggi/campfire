@@ -3,6 +3,7 @@ import "./App.scss";
 import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
+import Button from "./Button";
 
 // Temporary data
 
@@ -217,6 +218,10 @@ const App = (props) => {
   // TODO: Create a function that changes active to post, dashboard, or analytics
   // Whenever this happens, viewTitle should be changed
 
+  const selectActive = (selection) => {
+    setState({ ...state, active: selection });
+  };
+
   return (
     <main className="App">
       <Nav
@@ -234,6 +239,12 @@ const App = (props) => {
           <Main active={state.active} courseData={state.courseData} />
         </div>
       </section>
+      <div className="test-controls">
+        test controls:
+        <Button text="Dashboard" onClick={() => selectActive("dashboard")} />
+        <Button text="Analytics" onClick={() => selectActive("analytics")} />
+        <Button text="Specific Post" onClick={() => selectActive("post")} />
+      </div>
     </main>
   );
 };
