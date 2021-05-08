@@ -184,7 +184,7 @@ const dummyUser = {
   "first_name": "Reggi",
   "last_name": "Sirilan",
   "email": "rs@rs.ca",
-  "avatar_url": ""
+  "avatar_url": "/images/avatars/2.png"
 };
 
 const App = (props) => {
@@ -208,8 +208,8 @@ const App = (props) => {
         active={active}
         viewTitle="View Title!!!"
         courseName="LHL Web Mar 1"
-        userAvatar=""
-        userName="Anonymous"
+        userAvatar={user.avatar_url}
+        userName={`${user.first_name} ${user.last_name}`}
       />
       <section>
         <div className="left">
