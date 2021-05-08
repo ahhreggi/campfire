@@ -1,4 +1,5 @@
 import "./PostList.scss";
+import Button from "./Button";
 import PostListItem from "./PostListItem";
 import pin from "../images/pin.png";
 import PropTypes from "prop-types";
@@ -19,11 +20,28 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
+  const selected = [1, 5];
+
+  const tags = props.tags.map(tag => {
+    return <Button type={`tag-link ${selected.includes(tag.id) ? "selected" : ""}`} key={tag.id} text={tag.name} />;
+  });
+
+  // If no tags are selected, use all posts, otherwise filter
+  const filteredPosts = !selected.length ? props.posts : props.posts.filter(post => {
+    for (const tag of post.tags) {
+      if (selected.includes(tag.id)) {
+        console.log(selected, tag.id);
+        return true;
+      }
+    }
+    return false;
+  });
+
   // Categorize posts as pinned or unpinned
   const pinned = [];
   const unpinned = [];
 
-  for (const post of props.posts) {
+  for (const post of filteredPosts) {
     if (post.pinned) {
       pinned.push(post);
     } else {
@@ -36,25 +54,6 @@ const PostList = (props) => {
     pinned: sortByBookmarked(pinned),
     unpinned: sortByBookmarked(unpinned)
   };
-
-  // TODO: Sort posts by PINNED > BOOKMARKED > REST
-  // const postTypes = {
-  //   pinned: [],
-  //   bookmarked: [],
-  //   default: []
-  // };
-  // for (const post of props.posts) {
-  //   if (post.pinned) {
-  //     postTypes.pinned.push(post);
-  //   } else if (post.bookmarked) {
-  //     postTypes.bookmarked.push(post);
-  //   } else {
-  //     postTypes.default.push(post);
-  //   }
-  // }
-  // const sortedPosts = postTypes.pinned
-  //   .concat(postTypes.bookmarked)
-  //   .concat(postTypes.default);
 
   const generatePostListItems = (posts) => {
     return posts.map(post => {
@@ -89,24 +88,32 @@ const PostList = (props) => {
 
   // TODO: Add toggler for these
 
-
   return (
     <div className="PostList">
-      <div className="pinned">
-        <div className="label">
-          PINNED
-          <img src={pin} alt="pin" />
-        </div>
-        <div className="list">
-          {pinnedPosts}
-        </div>
+      <div className="label">
+        FILTERS
       </div>
-      <div className="unpinned">
-        <div className="label">
-          POSTS
+      <div className="tags">
+        {tags}
+        <Button type="tag-clear" text="clear" />
+      </div>
+      <div className="posts">
+        <div className="pinned">
+          <div className="label">
+            PINNED
+            <img src={pin} alt="pin" />
+          </div>
+          <div className="list">
+            {pinnedPosts}
+          </div>
         </div>
-        <div className="list">
-          {unpinnedPosts}
+        <div className="unpinned">
+          <div className="label">
+            POSTS
+          </div>
+          <div className="list">
+            {unpinnedPosts}
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +121,8 @@ const PostList = (props) => {
 };
 
 PostList.propTypes = {
-  posts: PropTypes.array
+  posts: PropTypes.array,
+  tags: PropTypes.array
 };
 
 export default PostList;

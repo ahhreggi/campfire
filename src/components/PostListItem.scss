@@ -1,12 +1,14 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 1px solid $navy-4;
+  border: 1px solid $navy-3;
   transition: 0.1s;
+  background-color: $navy-2;
+  margin: 0.25rem;
   &:hover {
-    border: 1px solid $navy-7;
+    border: 1px solid $navy-5;
     cursor: pointer;
-    background-color: $navy-2;
+    background-color: $navy-3;
     div.summary {
       color: $navy-7;
     }
@@ -28,16 +30,18 @@
     }
     .header-right {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       margin-right: 0.5rem;
+      // border: 1px solid white;
+      width: 4rem;
     }
     .bookmark {
       margin-left: 0.5rem;
-      margin-right: 5px;
     }
     .title {
       font-weight: 700;
+      font-size: 0.8rem;
     }
   }
   div.summary {
@@ -45,6 +49,7 @@
     overflow: hidden;
     // height: 5rem;
     color: $navy-6;
+    font-size: 0.8rem;
   }
   footer {
     display: flex;

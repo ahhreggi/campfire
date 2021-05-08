@@ -10,11 +10,11 @@ const Nav = () => {
         <img src={logo} alt="Campfire" />
       </section>
 
-      <section className="middle d-none d-sm-flex">
-        <span className="view-title col-12 text-truncate">View Title</span>
+      <section className="middle">
+        <span className="view-title text-truncate">View Title</span>
       </section>
 
-      <section className="right d-none d-xl-flex">
+      <section className="right">
         <span className="course-name">LHL: Web - Mar 1</span>
         <div>
           <img src={logo} alt="Avatar" />
