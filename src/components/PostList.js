@@ -1,12 +1,22 @@
+import { useState } from "react";
 import "./PostList.scss";
 import Button from "./Button";
 import PostListItem from "./PostListItem";
-import pin from "../images/pin.png";
+import pin from "../images/icons/pin.png";
 import PropTypes from "prop-types";
 
-// Receiving: props.posts, props.tags
+// Receiving: props.posts, props.tags, props.selectedTags
 
 const PostList = (props) => {
+
+  PostList.propTypes = {
+    posts: PropTypes.array,
+    tags: PropTypes.array,
+  };
+
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  // TODO: Create functions to add/delete/clear all ids from selectedTags
 
   // Move all bookmarked posts to the front of the array
   const sortByBookmarked = (posts) => {
@@ -22,17 +32,14 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
-  const selected = [1, 5];
-
   const tags = props.tags.map(tag => {
-    return <Button type={`tag-link ${selected.includes(tag.id) ? "selected" : ""}`} key={tag.id} text={tag.name} />;
+    return <Button type={`tag-link ${selectedTags.includes(tag.id) ? "selected" : ""}`} key={tag.id} text={tag.name} />;
   });
 
   // If no tags are selected, use all posts, otherwise filter
-  const filteredPosts = !selected.length ? props.posts : props.posts.filter(post => {
+  const filteredPosts = !selectedTags.length ? props.posts : props.posts.filter(post => {
     for (const tag of post.tags) {
-      if (selected.includes(tag.id)) {
-        console.log(selected, tag.id);
+      if (selectedTags.includes(tag.id)) {
         return true;
       }
     }
@@ -97,7 +104,7 @@ const PostList = (props) => {
       </div>
       <div className="tags">
         {tags}
-        <Button type="tag-clear" text="clear" />
+        {selectedTags.length > 0 && <Button type="tag-clear" text="clear" />}
       </div>
       <div className="posts">
         <div className="pinned">
@@ -120,11 +127,6 @@ const PostList = (props) => {
       </div>
     </div>
   );
-};
-
-PostList.propTypes = {
-  posts: PropTypes.array,
-  tags: PropTypes.array
 };
 
 export default PostList;

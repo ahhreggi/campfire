@@ -2,8 +2,8 @@ import "./PostListItem.scss";
 import Bookmark from "./Bookmark";
 import Badge from "./Badge";
 import Button from "./Button";
-import eye from "../images/eye.png";
-import comment from "../images/comment.png";
+import eye from "../images/icons/eye.png";
+import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {

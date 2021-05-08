@@ -4,6 +4,11 @@ import CommentList from "./CommentList";
 import PropTypes from "prop-types";
 
 const Post = (props) => {
+
+  Post.propTypes = {
+    tags: PropTypes.array
+  };
+
   const tags = props.tags.map(tag => {
     return <Button type="tag" key={tag.id} text={tag.name} />;
   });
@@ -17,10 +22,6 @@ const Post = (props) => {
       <CommentList comments={[]} />
     </div>
   );
-};
-
-Post.propTypes = {
-  tags: PropTypes.array
 };
 
 export default Post;
