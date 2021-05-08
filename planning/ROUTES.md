@@ -3,6 +3,7 @@
 ## **Frontend (React)**
 
 ## Index
+
 ```
 Route: "/"
 Description:
@@ -14,16 +15,19 @@ Description:
 ```
 
 ## Courses
+
 ```
 Route: "/join"
 Description:
 - displays a form to join an existing course via access code
 ```
+
 ```
 Route: "/create"
 Description:
 - displays a form to create a new course
 ```
+
 ```
 Route: "/courses/:id"
 Description:
@@ -39,6 +43,7 @@ Description:
 ```
 
 ## Posts
+
 ```
 Route: "/courses/:id/posts/:postid"
 Description:
@@ -47,12 +52,14 @@ Description:
 ```
 
 ## Users
+
 ```
 Route: "/register"
 Description:
 - displays a form to register a new user account
 - form fields: for first_name, last_name, email, password
 ```
+
 ```
 Route: "/login"
 Description:
@@ -64,6 +71,7 @@ Description:
 ## **Backend (Server API)**
 
 ## User Courses
+
 ```
 Route: "/join"
 Method: POST
@@ -78,6 +86,7 @@ Description:
 - if successful: insert user into user_courses, return a json payload that instructs the client to redirect
 - req.body: access_code
 ```
+
 ```
 Route: "/create"
 Method: POST
@@ -97,7 +106,9 @@ Description:
 	- return a json payload that instructs the client to redirect to the course page > dashboard/admin panel
 - req.body: name, description (optional)
 ```
+
 ## Users
+
 ```
 Route: "/register"
 Method: POST
@@ -110,6 +121,7 @@ Description:
 	- insert new user into users table
 	- redirect to user dashboard (/courses)
 ```
+
 ```
 Route: "/login"
 Method: POST
@@ -122,7 +134,9 @@ Description:
 	- if no user data is received due to incorrect password, show an error
 	- if user data is received, redirect to user dashboard (/courses)
 ```
+
 ## Courses
+
 ```
 Route: "/courses"
 Method: GET
@@ -139,6 +153,7 @@ Description:
 		}
 	]
 ```
+
 ```
 Route: "/courses/:courseID" => App
 Method: GET
@@ -158,7 +173,7 @@ Description:
 		archived,
 		analytics: {
 			user_count,
-			average_response_time,
+			average_response_time, // TODO
 			total_posts,
 			total_contributions (count all comments),
 			num_unresolved_questions,
@@ -183,7 +198,12 @@ Description:
 				created_at
 				last_modified
 				best_answer
-				author_name: users.name or "anonymous" (if posts.anonymous = true)
+				author_first_name: users.first_name or undefined (if posts.anonymous = true)
+        author_last_name: users.last_name or undefined (if posts.anonymous = true)
+        author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
+        role: // student/instructor/owner
+        user_id:
+        editable: // boolean: if current user has permission to edit/delete this
 				tags: [
 					{
 						id,
@@ -196,22 +216,30 @@ Description:
 					{
 						id
 						anonymous
-						author_name: given if the req was made by an instructor OR anonymous = false
-						author_avatar_url: given if the req was made by an instructor OR anonymous = false
+						author_first_name: users.first_name or undefined (if posts.anonymous = true)
+            author_last_name: users.last_name or undefined (if posts.anonymous = true)
+						author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
 						body
 						score: count comment_likes for this comment_id
 						created_at
 						last_modified
 						endorsed: boolean (true if there is an entry in the comment_endorsements table for this comment_id)
+            role: // student/instructor/owner
+            user_id:
+            editable: // boolean: if current user has permission to edit/delete this
 						replies: [
 							{
 								id
 								anonymous
-								author_name: given if the req was made by an instructor OR anonymous = false
-								author_avatar_url: given if the req was made by an instructor OR anonymous = false
+                author_first_name: users.first_name or undefined (if posts.anonymous = true)
+                author_last_name: users.last_name or undefined (if posts.anonymous = true)
+								author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
 								body
 								created_at
 								last_modified
+                role: // student/instructor/owner
+                user_id:
+                editable: // boolean: if current user has permission to edit/delete this
 							}
 						]
 					}
@@ -222,7 +250,9 @@ Description:
 - check 3: if the user is an instructor, append extra data that is visible to instructors only
 	- secrets: { access codes }
 ```
+
 ## Bookmarks
+
 ```
 Route: "/bookmarks"
 Method: POST
@@ -234,6 +264,7 @@ Database:
   req.body: post_id
   auto: id, last_visited
 ```
+
 ```
 Route: "/bookmarks/:postID"
 Method: DELETE
@@ -245,6 +276,7 @@ Database:
 ```
 
 ## Posts
+
 ```
 Route: "/posts"
 Method: POST
@@ -258,6 +290,7 @@ Database:
   server-side:
   auto: id, created_at, last_modified, active
 ```
+
 ```
 Route: "/posts/:postID"
 Method: PATCH
@@ -269,6 +302,7 @@ Description:
   - best_answer = update this to the given id only if type = "ans"
 	- pinned - update this to !pinned if action: "pin" and the user making the req is an instructor
 ```
+
 ```
 Route: "/posts/:postID"
 Method: DELETE
@@ -279,6 +313,7 @@ Description:
 ```
 
 ## Comments
+
 ```
 Route: "/comments"
 Method: POST
@@ -292,6 +327,7 @@ Database:
   server-side:
   auto: id, created_at, last_modified, active
 ```
+
 ```
 Route: "/comments/:commentID"
 Method: PATCH
@@ -301,6 +337,7 @@ Description:
   - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
   - last_modified should be set to "now" on the server-side during update
 ```
+
 ```
 Route: "/comments/:commentID"
 Method: DELETE
