@@ -1,16 +1,24 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 1px solid red;
-  height: 50px;
+  border: 2px solid $navy-3;
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: $navy-4;
+    height: 2rem;
+    .bookmark {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: 700;
+    }
   }
   .badges {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
   }
 }

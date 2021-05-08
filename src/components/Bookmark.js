@@ -4,7 +4,10 @@ import starEmpty from "../star-empty.png";
 
 const Bookmark = () => {
   return (
-    <img src={star} alt="Bookmark" />
+    <>
+      {true && <img src={star} alt="Bookmark" />}
+      {false && <img src={starEmpty} alt="Bookmark" />}
+    </>
   );
 };
 
