@@ -7,13 +7,43 @@ import comment from "../images/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
+
+  PostListItem.propTypes = {
+    key: PropTypes.number,
+    title: PropTypes.string,
+    body: PropTypes.string,
+    bestAnswer: PropTypes.number,
+    pinned: PropTypes.bool,
+    bookmarked: PropTypes.bool,
+    tags: PropTypes.array,
+    views: PropTypes.number,
+    comments: PropTypes.number,
+    showStudentBadge: PropTypes.bool,
+    showInstructorBadge: PropTypes.bool
+  };
+
   const tags = props.tags.map(tag => {
-    return <Button disabled={true} type="tag" key={tag.id} text={tag.name} />;
+    return <Button disabled={true} type="tag-disabled" key={tag.id} text={tag.name} />;
   });
 
   const truncateText = (text, length) => {
-    return text.slice(0, length) + "...";
+    if (text.length > length) {
+      let result = "";
+      const words = text.split(" ");
+      for (const word of words) {
+        if (result.length + word.length <= length) {
+          result += " " + word;
+        } else {
+          break;
+        }
+      }
+      result = result.trim();
+      return result + (result !== text ? "..." : "");
+    } else {
+      return text;
+    }
   };
+
   return (
     <div className="PostListItem">
       <header>
@@ -22,7 +52,7 @@ const PostListItem = (props) => {
             <Bookmark bookmarked={props.bookmarked} />
           </span>
           <span className="title text-truncate">
-            {props.title}
+            {truncateText(props.title, 32)}
           </span>
         </div>
         <div className="header-right">
@@ -51,19 +81,6 @@ const PostListItem = (props) => {
       </footer>
     </div>
   );
-};
-
-PostListItem.propTypes = {
-  title: PropTypes.string,
-  body: PropTypes.string,
-  bestAnswer: PropTypes.number,
-  pinned: PropTypes.bool,
-  bookmarked: PropTypes.bool,
-  tags: PropTypes.array,
-  views: PropTypes.number,
-  comments: PropTypes.number,
-  showStudentBadge: PropTypes.bool,
-  showInstructorBadge: PropTypes.bool
 };
 
 export default PostListItem;

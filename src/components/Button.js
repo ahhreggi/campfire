@@ -3,18 +3,22 @@ import "./Button.scss";
 import PropTypes from "prop-types";
 
 const Button = ({type, text, disabled}) => {
+
+  Button.propTypes = {
+    type: PropTypes.string,
+    id: PropTypes.number,
+    text: PropTypes.string,
+    disabled: PropTypes.bool,
+    color: PropTypes.string
+  };
+
   return (
-    <button disabled={disabled} className={`btn-${type} disabled`}>
+    <button
+      disabled={disabled}
+      className={`${type} ${disabled ? "disabled" : ""}`}>
       {text}
     </button>
   );
-};
-
-Button.propTypes = {
-  type: PropTypes.string,
-  id: PropTypes.number,
-  text: PropTypes.string,
-  disabled: PropTypes.bool
 };
 
 export default Button;
