@@ -3,10 +3,7 @@
 ## **Frontend (React)**
 
 ## Index
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/"
 Description:
@@ -18,28 +15,19 @@ Description:
 ```
 
 ## Courses
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/join"
 Description:
 - displays a form to join an existing course via access code
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/create"
 Description:
 - displays a form to create a new course
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/courses/:id"
 Description:
@@ -55,10 +43,7 @@ Description:
 ```
 
 ## Posts
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/courses/:id/posts/:postid"
 Description:
@@ -67,20 +52,14 @@ Description:
 ```
 
 ## Users
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/register"
 Description:
 - displays a form to register a new user account
 - form fields: for first_name, last_name, email, password
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/login"
 Description:
@@ -92,10 +71,7 @@ Description:
 ## **Backend (Server API)**
 
 ## User Courses
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/join"
 Method: POST
@@ -110,10 +86,7 @@ Description:
 - if successful: insert user into user_courses, return a json payload that instructs the client to redirect
 - req.body: access_code
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/create"
 Method: POST
@@ -133,13 +106,9 @@ Description:
 	- return a json payload that instructs the client to redirect to the course page > dashboard/admin panel
 - req.body: name, description (optional)
 ```
-<<<<<<< HEAD
 
 ## Users
 
-=======
-## Users
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/register"
 Method: POST
@@ -152,10 +121,7 @@ Description:
 	- insert new user into users table
 	- redirect to user dashboard (/courses)
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/login"
 Method: POST
@@ -168,13 +134,9 @@ Description:
 	- if no user data is received due to incorrect password, show an error
 	- if user data is received, redirect to user dashboard (/courses)
 ```
-<<<<<<< HEAD
 
 ## Courses
 
-=======
-## Courses
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/courses"
 Method: GET
@@ -191,10 +153,7 @@ Description:
 		}
 	]
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/courses/:courseID" => App
 Method: GET
@@ -214,11 +173,7 @@ Description:
 		archived,
 		analytics: {
 			user_count,
-<<<<<<< HEAD
 			average_response_time, // TODO
-=======
-			average_response_time,
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 			total_posts,
 			total_contributions (count all comments),
 			num_unresolved_questions,
@@ -243,16 +198,12 @@ Description:
 				created_at
 				last_modified
 				best_answer
-<<<<<<< HEAD
 				author_first_name: users.first_name or undefined (if posts.anonymous = true)
         author_last_name: users.last_name or undefined (if posts.anonymous = true)
         author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
         role: // student/instructor/owner
         user_id:
         editable: // boolean: if current user has permission to edit/delete this
-=======
-				author_name: users.name or "anonymous" (if posts.anonymous = true)
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 				tags: [
 					{
 						id,
@@ -265,30 +216,21 @@ Description:
 					{
 						id
 						anonymous
-<<<<<<< HEAD
 						author_first_name: users.first_name or undefined (if posts.anonymous = true)
             author_last_name: users.last_name or undefined (if posts.anonymous = true)
 						author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
-=======
-						author_name: given if the req was made by an instructor OR anonymous = false
-						author_avatar_url: given if the req was made by an instructor OR anonymous = false
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 						body
 						score: count comment_likes for this comment_id
 						created_at
 						last_modified
 						endorsed: boolean (true if there is an entry in the comment_endorsements table for this comment_id)
-<<<<<<< HEAD
             role: // student/instructor/owner
             user_id:
             editable: // boolean: if current user has permission to edit/delete this
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 						replies: [
 							{
 								id
 								anonymous
-<<<<<<< HEAD
                 author_first_name: users.first_name or undefined (if posts.anonymous = true)
                 author_last_name: users.last_name or undefined (if posts.anonymous = true)
 								author_avatar_url: users.avatar_url or undefined (if posts.anonymous = true)
@@ -298,13 +240,6 @@ Description:
                 role: // student/instructor/owner
                 user_id:
                 editable: // boolean: if current user has permission to edit/delete this
-=======
-								author_name: given if the req was made by an instructor OR anonymous = false
-								author_avatar_url: given if the req was made by an instructor OR anonymous = false
-								body
-								created_at
-								last_modified
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 							}
 						]
 					}
@@ -315,13 +250,9 @@ Description:
 - check 3: if the user is an instructor, append extra data that is visible to instructors only
 	- secrets: { access codes }
 ```
-<<<<<<< HEAD
 
 ## Bookmarks
 
-=======
-## Bookmarks
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/bookmarks"
 Method: POST
@@ -333,10 +264,7 @@ Database:
   req.body: post_id
   auto: id, last_visited
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/bookmarks/:postID"
 Method: DELETE
@@ -348,10 +276,7 @@ Database:
 ```
 
 ## Posts
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/posts"
 Method: POST
@@ -365,10 +290,7 @@ Database:
   server-side:
   auto: id, created_at, last_modified, active
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/posts/:postID"
 Method: PATCH
@@ -380,10 +302,7 @@ Description:
   - best_answer = update this to the given id only if type = "ans"
 	- pinned - update this to !pinned if action: "pin" and the user making the req is an instructor
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/posts/:postID"
 Method: DELETE
@@ -394,10 +313,7 @@ Description:
 ```
 
 ## Comments
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/comments"
 Method: POST
@@ -411,10 +327,7 @@ Database:
   server-side:
   auto: id, created_at, last_modified, active
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/comments/:commentID"
 Method: PATCH
@@ -424,10 +337,7 @@ Description:
   - data = { user_id, post_id, body, parent_id, anonymous, last_modified ... }
   - last_modified should be set to "now" on the server-side during update
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
 ```
 Route: "/comments/:commentID"
 Method: DELETE
@@ -435,8 +345,4 @@ Purpose: Delete a comment from a post
 Description:
   - check 1: check that the user owns the comment OR is an instructor
   - helper function name: deleteComment(commentID)
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> b5a6378f65ed0ee0c2ee0b79f0deeb40548765f6
