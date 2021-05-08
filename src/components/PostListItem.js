@@ -13,16 +13,17 @@ const PostListItem = (props) => {
 
   const truncateText = (text, length) => {
     if (text.length > length) {
-      const words = text.split(" ");
       let result = "";
+      const words = text.split(" ");
       for (const word of words) {
-        if (result.length < length) {
+        if (result.length + word.length <= length) {
           result += " " + word;
         } else {
           break;
         }
       }
-      return result + "...";
+      result = result.trim();
+      return result + (result !== text ? "..." : "");
     } else {
       return text;
     }
@@ -36,7 +37,7 @@ const PostListItem = (props) => {
             <Bookmark bookmarked={props.bookmarked} />
           </span>
           <span className="title text-truncate">
-            {truncateText(props.title, 33)}
+            {truncateText(props.title, 32)}
           </span>
         </div>
         <div className="header-right">

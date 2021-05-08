@@ -9,7 +9,7 @@ const App = (props) => {
   const posts = [
     {
       "id": 1,
-      "title": "How do I italicize",
+      "title": "How do I italicize text in HTML?",
       "body": "I'm trying to italicize text but can't figure out how. Any ideas? I'm trying to italicize text but can't figure out how. Any ideas?",
       "bookmarked": true,
       "created_at": "1620365282",
@@ -75,7 +75,7 @@ const App = (props) => {
     },
     {
       "id": 1,
-      "title": "How do I italicize text in HTML? 123 abc ??? 123",
+      "title": "How do I italicize text in Angular?",
       "body": "I'm trying to italicize text but can't figure out how. Any ideas? I'm trying to italicize text but can't figure out how. Any ideas?",
       "bookmarked": true,
       "created_at": "1620365282",
