@@ -1,4 +1,5 @@
 import "./CommentListItem.scss";
+import Button from "./Button";
 import ReplyList from "./ReplyList";
 import PropTypes from "prop-types";
 
@@ -13,6 +14,14 @@ const CommentListItem = (props) => {
     lastModified: PropTypes.string,
     editable: PropTypes.bool,
     endorsed: PropTypes.bool
+  };
+
+  const editComment = () => {
+    console.log("clicked EDIT comment button");
+  };
+
+  const deleteComment = () => {
+    console.log("clicked DELETE comment button");
   };
 
   // If anonymous is true, display anonymous
@@ -38,6 +47,8 @@ const CommentListItem = (props) => {
       <div>
         editable: {props.editable ? "true" : "false"}
       </div>
+      {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
+      {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
       <ReplyList />
     </div>
   );
