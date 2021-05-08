@@ -207,7 +207,7 @@ const App = (props) => {
 
   const [state, setState] = useState({
     user: dummyUser,
-    active: "dashboard",
+    active: "Dashboard",
     courseData: dummyCourseData,
     post: null
   });
@@ -220,14 +220,21 @@ const App = (props) => {
   // Whenever this happens, viewTitle should be changed
 
   const selectActive = (selection, postID = null) => {
-    setState({ ...state, active: selection, post: postID });
+    setState({
+      ...state,
+      active: selection,
+      post: postID === null ? null : state.courseData.posts.filter(post => post.id === postID)[0]
+    });
   };
+
+  // Get data for the focused post
+  // const postData = state.courseData.posts.filter(post => state.post === post.id)[0];
 
   return (
     <main className="App">
       <Nav
         active={state.active}
-        viewTitle={"Temporary View Title!!!"}
+        viewTitle={state.active} // temporary
         courseName="LHL Web Mar 1"
         userAvatar={state.user.avatar_url}
         userName={`${state.user.first_name} ${state.user.last_name}`}
@@ -237,7 +244,7 @@ const App = (props) => {
           <PostList
             tags={state.courseData.tags}
             posts={state.courseData.posts}
-            onClick={(postID) => selectActive("post", postID)}
+            onClick={(postID) => selectActive("Post", postID)}
           />
         </div>
         <div className="right">
@@ -250,8 +257,8 @@ const App = (props) => {
       </section>
       <div className="test-controls">
         test controls:
-        <Button text="Dashboard" onClick={() => selectActive("dashboard")} />
-        <Button text="Analytics" onClick={() => selectActive("analytics")} />
+        <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
+        <Button text="Analytics" onClick={() => selectActive("Analytics")} />
       </div>
     </main>
   );

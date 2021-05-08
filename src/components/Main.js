@@ -14,21 +14,35 @@ import PropTypes from "prop-types";
 const Main = (props) => {
 
   Main.propTypes = {
-    active: PropTypes.string,
-    courseData: PropTypes.object,
-    post: PropTypes.number
+    active: PropTypes.string.isRequired,
+    courseData: PropTypes.object.isRequired,
+    post: PropTypes.object
   };
 
   // Only one main component can active at a given time
 
-  // Get data for the given postID
-  const postData = props.courseData.posts.filter(post => post.id === props.post)[0];
-
   return (
     <div className="Main">
-      {props.active === "post" && <Post {...postData} />}
-      {props.active === "dashboard" && <Dashboard />}
-      {props.active === "analytics" && <Analytics />}
+      {props.active === "Post" &&
+        <Post
+          id={props.post.id}
+          anonymous={props.post.anonymous}
+          author={props.post.anonymous ? "Anonymous" : `${props.post.first_name} ${props.post.last_name}`}
+          bestAnswer={props.post.best_answer}
+          body={props.post.body}
+          bookmarked={props.post.bookmarked}
+          comments={props.post.comments}
+          createdAt={props.post.created_at}
+          lastModified={props.post.last_modified}
+          editable={props.post.editable}
+          tags={props.post.tags}
+          title={props.post.title}
+          userID={props.post.user_id}
+          views={props.post.views}
+        />
+      }
+      {props.active === "Dashboard" && <Dashboard />}
+      {props.active === "Analytics" && <Analytics />}
     </div>
   );
 };
