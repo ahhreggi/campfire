@@ -121,7 +121,7 @@ const dummyCourseData = {
       "author_first_name": "Edward",
       "author_last_name": "Ecksworth",
       "author_avatar_id": null,
-      "pinned": false,
+      "pinned": true,
       "views": 5,
       "anonymous": false,
       "role": "student",
@@ -223,6 +223,10 @@ const App = (props) => {
     setState({ ...state, active: selection });
   };
 
+  const showPost = (postID) => {
+    setState({ ...state, active: "post", id: postID });
+  };
+
   return (
     <main className="App">
       <Nav
@@ -237,7 +241,7 @@ const App = (props) => {
           <PostList
             tags={state.courseData.tags}
             posts={state.courseData.posts}
-            onClick={(data) => console.log(data)}
+            onClick={(postID) => showPost(postID)}
           />
         </div>
         <div className="right">

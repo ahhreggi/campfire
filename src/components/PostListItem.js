@@ -23,8 +23,9 @@ const PostListItem = (props) => {
     onClick: PropTypes.func
   };
 
-  const tags = props.tags.map(tag => {
-    return <Button disabled={true} type="tag-disabled" key={tag.id} text={tag.name} />;
+  const tags = props.tags.map((tag, index) => {
+    // return <div>{tag.name}</div>;
+    return <Button disabled={true} type="tag-disabled" key={index} text={tag.name} />;
   });
 
   const truncateText = (text, length) => {
@@ -45,12 +46,12 @@ const PostListItem = (props) => {
     }
   };
 
-  const viewPost = (event) => {
+  const handleClick = () => {
     props.onClick(props.id);
   };
 
   return (
-    <div className="PostListItem" onClick={viewPost}>
+    <div className="PostListItem" onClick={handleClick}>
       <header>
         <div className="header-left">
           <span className="bookmark">

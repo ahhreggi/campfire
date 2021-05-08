@@ -34,7 +34,13 @@ const PostList = (props) => {
   };
 
   const tags = props.tags.map(tag => {
-    return <Button type={`tag-link ${selectedTags.includes(tag.id) ? "selected" : ""}`} key={tag.id} text={tag.name} />;
+    return (
+      <Button
+        key={tag.id}
+        type={`tag-link ${selectedTags.includes(tag.id) ? "selected" : ""}`}
+        text={tag.name}
+      />
+    );
   });
 
   // If no tags are selected, use all posts, otherwise filter
@@ -75,6 +81,7 @@ const PostList = (props) => {
       const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
       // Check if an instructor has commented on the post
       const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
+      console.log(post.id);
       return (
         <PostListItem
           key={post.id}

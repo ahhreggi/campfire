@@ -17,8 +17,8 @@ const Post = (props) => {
       This is Post.
       {tags}
       {/* displayed if the current user owns the post: */}
-      <Button type="edit" key="1" text="EDIT" />
-      <Button type="delete" key="1" text="DELETE" />
+      <Button type="edit" text="EDIT" />
+      <Button type="delete" text="DELETE" />
       <CommentList comments={[]} />
     </div>
   );
