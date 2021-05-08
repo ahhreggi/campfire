@@ -81,7 +81,6 @@ const PostList = (props) => {
       const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
       // Check if an instructor has commented on the post
       const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
-      console.log(post.id);
       return (
         <PostListItem
           key={post.id}

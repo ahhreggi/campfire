@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const Post = (props) => {
 
   Post.propTypes = {
+    id: PropTypes.number,
     tags: PropTypes.array
   };
 

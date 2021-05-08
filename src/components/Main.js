@@ -15,17 +15,18 @@ const Main = (props) => {
 
   Main.propTypes = {
     active: PropTypes.string,
-    course: PropTypes.object
+    courseData: PropTypes.object,
+    post: PropTypes.number
   };
 
   // Only one main component can active at a given time
 
+  // Get data for the given postID
+  const postData = props.courseData.posts.filter(post => post.id === props.post)[0];
+
   return (
     <div className="Main">
-      {props.active === "post" &&
-      <Post
-        tags={[]}
-      />}
+      {props.active === "post" && <Post {...postData} />}
       {props.active === "dashboard" && <Dashboard />}
       {props.active === "analytics" && <Analytics />}
     </div>

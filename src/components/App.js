@@ -207,7 +207,7 @@ const App = (props) => {
 
   const [state, setState] = useState({
     user: dummyUser,
-    active: "post",
+    active: "dashboard",
     courseData: dummyCourseData,
     post: null
   });
@@ -219,12 +219,8 @@ const App = (props) => {
   // TODO: Create a function that changes active to post, dashboard, or analytics
   // Whenever this happens, viewTitle should be changed
 
-  const selectActive = (selection) => {
-    setState({ ...state, active: selection });
-  };
-
-  const showPost = (postID) => {
-    setState({ ...state, active: "post", id: postID });
+  const selectActive = (selection, postID = null) => {
+    setState({ ...state, active: selection, post: postID });
   };
 
   return (
@@ -241,18 +237,21 @@ const App = (props) => {
           <PostList
             tags={state.courseData.tags}
             posts={state.courseData.posts}
-            onClick={(postID) => showPost(postID)}
+            onClick={(postID) => selectActive("post", postID)}
           />
         </div>
         <div className="right">
-          <Main active={state.active} courseData={state.courseData} />
+          <Main
+            active={state.active}
+            courseData={state.courseData}
+            post={state.post}
+          />
         </div>
       </section>
       <div className="test-controls">
         test controls:
         <Button text="Dashboard" onClick={() => selectActive("dashboard")} />
         <Button text="Analytics" onClick={() => selectActive("analytics")} />
-        <Button text="Specific Post" onClick={() => selectActive("post")} />
       </div>
     </main>
   );
