@@ -17,8 +17,8 @@ const CommentList = (props) => {
         anonymous={comment.anonymous}
         author={`${comment.author_first_name} ${comment.author_last_name}`}
         body={comment.body}
-        createdAt={comment.createdAt}
-        lastModified={comment.lastModified}
+        createdAt={comment.created_at}
+        lastModified={comment.last_modified}
         editable={comment.editable}
         endorsed={comment.endorsed}
       />
