@@ -134,12 +134,11 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <div className="status">
+      <header className="status">
 
-        {/* RESOLVED or UNRESOLVED */}
+        {/* Resolution Status */}
         <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
-          {props.bestAnswer && "RESOLVED"}
-          {!props.bestAnswer && "UNRESOLVED"}
+          {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
         </div>
 
         {/* View & Comment Counters */}
@@ -154,17 +153,17 @@ const Post = (props) => {
           </span>
         </div>
 
-      </div>
+      </header>
 
       {/* Bookmark Toggler & Title */}
-      <header>
+      <div className="header">
         <span className="bookmark">
           <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
         </span>
         <div>
           {props.title}
         </div>
-      </header>
+      </div>
 
       {/* Author & Timestamps */}
       <div className="subheader">
