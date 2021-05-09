@@ -2,6 +2,14 @@
 
 .Post {
 
+  .display.preview-mode {
+    opacity: 0.5;
+  }
+
+  .preview {
+
+  }
+
   .status {
     display: flex;
     justify-content: space-between;

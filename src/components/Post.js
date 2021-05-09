@@ -52,7 +52,7 @@ const Post = (props) => {
   useEffect(() => {
     setState({
       ...state,
-      previewTitle: props.body,
+      previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
       previewAuthor: getDisplayName()
@@ -104,8 +104,8 @@ const Post = (props) => {
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Return the author name to display
-  // e.g. User is a student:     "First Last" or "Anonymous"
-  //      User is an instructor: "First Last (Anonymous to students)"
+  // e.g. User is a student: "First Last" or "Anonymous"
+  //      User is the author or an instructor: "First Last (Anonymous to students)"
   const getDisplayName = () => {
     // Set the displayed author name
     let displayName = props.anonymous ? "Anonymous" : props.author;
@@ -154,63 +154,87 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <header className="status">
+      <div className={`display ${state.showForm && "preview-mode"}`}>
 
-        {/* Resolution Status */}
-        <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
-          {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
-        </div>
+        <header className="status">
 
-        {/* View & Comment Counters */}
-        <div className="counters">
-          <span className="views icon-med">
-            <img src={eye} alt="views" />
-            {props.views}
+          {/* Resolution Status */}
+          <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
+            {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
+          </div>
+
+          {/* View & Comment Counters */}
+          <div className="counters">
+            <span className="views icon-med">
+              <img src={eye} alt="views" />
+              {props.views}
+            </span>
+            <span className="comments icon-med">
+              <img src={comment} alt="comments" />
+              {numComments}
+            </span>
+          </div>
+
+        </header>
+
+        {/* Bookmark Toggler & Title */}
+        <div className="header">
+          <span className="bookmark">
+            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
           </span>
-          <span className="comments icon-med">
-            <img src={comment} alt="comments" />
-            {numComments}
-          </span>
+          <div>
+            {props.title}
+          </div>
         </div>
 
-      </header>
-
-      {/* Bookmark Toggler & Title */}
-      <div className="header">
-        <span className="bookmark">
-          <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
-        </span>
-        <div>
-          {props.title}
+        {/* Author & Timestamps */}
+        <div className="subheader">
+          <div>
+            Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
+          </div>
+          {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
         </div>
-      </div>
 
-      {/* Author & Timestamps */}
-      <div className="subheader">
-        <div>
-          Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
+        {/* Tag Buttons */}
+        <div className="tags">
+          {tags}
         </div>
-        {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
-      </div>
 
-      {/* Tag Buttons */}
-      <div className="tags">
-        {tags}
-      </div>
+        <hr />
 
-      <hr />
+        {/* Post Body */}
+        <div className="body">
+          {props.body}
+        </div>
 
-      {/* Post Body */}
-      <div className="body">
-        {props.body}
       </div>
 
       {/* Edit Preview */}
       {state.showForm &&
-        <div className="body">
+        <div className="preview">
+
           <hr />
           <div className="label">Preview</div>
-          {state.previewBody}
+
+          {/* PREVIEW: Post Title */}
+          <div className="header">
+            <div>
+              {state.previewTitle}
+            </div>
+          </div>
+
+          {/* PREVIEW: Author */}
+          <div className="subheader">
+            <div>
+              Posting as <span className="author">{state.previewAuthor}</span>
+            </div>
+          </div>
+
+          {/* PREVIEW: Post Body */}
+          <div className="body">
+            {state.previewBody}
+          </div>
+
         </div>
       }
 
