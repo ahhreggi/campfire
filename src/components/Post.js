@@ -39,10 +39,17 @@ const Post = (props) => {
     previewAnonymous: props.anonymous
   });
 
-  // Reset state when switching posts
+  // Reset form state when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false, previewBody: props.body });
+    setState({ ...state, showForm: false });
   }, [props.id]);
+
+  // Reset preview states when toggling the post edit form
+  useEffect(() => {
+    setState({ ...state, previewTitle: props.body, previewBody: props.body, previewAnonymous: props.anonymous });
+  }, [state.showForm]);
+
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview dynamically as the user types
   const updatePreview = (event, element) => {
@@ -55,9 +62,9 @@ const Post = (props) => {
     }
   };
 
-  // Toggle the post edit form
+  // Toggle and reset the post edit form
   const toggleForm = () => {
-    setState({ ...state, showForm: !state.showForm, previewBody: props.body });
+    setState({ ...state, showForm: !state.showForm });
   };
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
@@ -105,7 +112,7 @@ const Post = (props) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
   };
 
-  // VARIABLES TO RENDER ////////////////////////////////////////////
+  // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
   const authorName = getDisplayName();
