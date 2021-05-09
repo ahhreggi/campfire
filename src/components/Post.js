@@ -4,6 +4,8 @@ import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
+import edit from "../images/icons/edit.png";
+import trash from "../images/icons/trash.png";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
