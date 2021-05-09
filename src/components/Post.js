@@ -106,11 +106,11 @@ const Post = (props) => {
           {!props.bestAnswer && "UNRESOLVED"}
         </div>
         <div className="counters">
-          <span className="views icon-small">
+          <span className="views icon-med">
             <img src={eye} alt="views" />
             {props.views}
           </span>
-          <span className="comments icon-small">
+          <span className="comments icon-med">
             <img src={comment} alt="comments" />
             {numComments}
           </span>
