@@ -60,7 +60,7 @@ const Post = (props) => {
     setState({ ...state, showForm: !state.showForm, previewBody: props.body });
   };
 
-  // SERVER-AFFECTING FUNCTIONS /////////////////////////////////////
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Save the post changes
   // TODO: Save only if it's different

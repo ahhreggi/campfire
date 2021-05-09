@@ -290,13 +290,13 @@ const App = () => {
     post: null // post data for the current post ID or null if viewing dashboard/analytics
   });
 
-  // TODO: Use useEffect to fetch data from the server (replace dummy data)
-
   // Fetch data from the server on load
   useEffect(() => {
     // Fetch course data
     fetchCourseData();
   }, []);
+
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Fetch course data from the server
   // TODO: Replace with an actual API request
@@ -346,10 +346,15 @@ const App = () => {
 
   };
 
+  // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
+
+  // Request to edit a post by ID with the given data
+  // Source: Post
   const onEditPost = (postID, data) => {
-    // Update the given postID with the new data
-    const prevPost = getPostByID(state.courseData.posts, postID);
-    const newPost = { ...prevPost, ...data };
+    // Get the current post by ID
+    const currentPost = getPostByID(state.courseData.posts, postID);
+    // Update the post with the new data
+    const newPost = { ...currentPost, ...data };
     // Update courseData.posts with the updated post
     const newPosts = state.courseData.posts.map(post => {
       if (post.id === postID) {
@@ -360,26 +365,26 @@ const App = () => {
     });
     // Update courseData with the updated posts
     const newCourseData = { ...state.courseData, posts: newPosts };
-
-    // Update state with the updated courseData and current post
-    // setState({ ...state, courseData: updatedCourseData, post: updatedPost });
-
-    // FAKE: Update course data on the server
-    console.log("sending new data to dummy server...");
+    // Request to update course data in the server
     updateCourseData(newCourseData);
-    // if successful, this will update courseData in the state
   };
 
+  // Request to edit a comment by ID with the given data
+  // Source: CommentListItem
   const onEditComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
 
-  // Get post for current state.postID
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return post data for the given post ID
   const getPostByID = (posts, postID) => {
     if (postID) {
       return posts.filter(post => post.id === postID)[0];
     }
   };
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="App">
