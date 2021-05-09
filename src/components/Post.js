@@ -10,7 +10,9 @@ import PropTypes from "prop-types";
 const Post = (props) => {
 
   const [state, setState] = useState({
-    showForm: true
+    showForm: true,
+    title: props.title,
+    body: props.body
   });
 
   Post.propTypes = {
@@ -50,8 +52,23 @@ const Post = (props) => {
     );
   });
 
+  const modifiedMsg = props.createdAt !== props.lastModified ? `(last modified: ${props.lastModified})` : "";
+
   return (
     <div className="Post">
+      <div className={`status ${props.bestAnswer ? "resolved" : "unresolved"}`}>
+        {props.bestAnswer && "RESOLVED"}
+        {!props.bestAnswer && "UNRESOLVED"}
+      </div>
+      <div className="title">
+        {props.title}
+      </div>
+      <div className="subtitle">
+        Submitted by <span className="author">{props.author}</span> on {props.createdAt} {modifiedMsg}
+      </div>
+      <div className="body">
+        {props.body}
+      </div>
       {props.bestAnswer && <div>this question is RESOLVED</div>}
       {!props.bestAnswer && <div>this question is UNRESOLVED</div>}
       <div>
@@ -76,12 +93,6 @@ const Post = (props) => {
         editable: {props.editable ? "true" : "false"}
       </div>
       <div>
-        title: {props.title}
-      </div>
-      <div>
-        body: {props.body}
-      </div>
-      <div>
         tags:
         {tags}
       </div>
@@ -103,7 +114,10 @@ const Post = (props) => {
         />
       }
       {state.showForm && <PostForm onCancel={toggleForm} />}
-      <CommentList comments={props.comments} onEditComment={props.onEditComment} />
+      <CommentList
+        comments={props.comments}
+        onEditComment={props.onEditComment}
+      />
     </div>
   );
 };

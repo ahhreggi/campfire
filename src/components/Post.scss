@@ -1,6 +1,29 @@
 @import "../styles/global.scss";
 
 .Post {
-  border: 1px solid rgb(153, 0, 255);
-  padding: 1rem;
+  // border: 1px solid rgb(153, 0, 255);
+  .status {
+    font-weight: 700;
+    font-size: 0.9rem;
+    &.resolved {
+      color: $green
+    }
+    &.unresolved {
+      color: $red
+    }
+  }
+  .title {
+    font-weight: 700;
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 0.8rem;
+    margin: 0.5rem 0;
+    .author {
+      font-weight: 700;
+    }
+  }
+  .body {
+    margin: 1rem 0;
+  }
 }

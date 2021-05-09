@@ -1,10 +1,9 @@
 @import "../styles/global.scss";
 
 .Main {
-  // border: 1px solid rgb(255, 0, 234);
   height: 100%;
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem;
   overflow-x: hidden;
   overflow-y: scroll;
   @include custom-scrollbar;
