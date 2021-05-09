@@ -18,16 +18,11 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     preview: props.body,
-    title: props.title,
-    body: props.body,
-    lastModified: props.lastModified,
-    anonymous: props.anonymous,
-    tags: props.tags
   });
 
   // Reset state when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false, preview: props.body, body: props.body });
+    setState({ ...state, showForm: false, preview: props.body });
   }, [props.id]);
 
   Post.propTypes = {
@@ -49,29 +44,34 @@ const Post = (props) => {
     onEditComment: PropTypes.func
   };
 
+  // Update the preview dynamically as the user types
   const updatePreview = (event) => {
     setState({ ...state, preview: event.target.value });
   };
 
+  // Toggle the post edit form
   const toggleForm = () => {
-    console.log(`${state.showForm ? "hiding post form" : "showing post form"}`);
-    setState({ ...state, showForm: !state.showForm, preview: state.body });
+    setState({ ...state, showForm: !state.showForm, preview: props.body });
   };
 
+  // Save the post changes
+  // TODO: Save only if it's different
   const savePost = () => {
-    console.log("clicked SAVE post button");
-    // Take the state.preview and updatePost with its contents
+    // TODO: May need to add more data to this (title, anonymous, lastModified?)
+    // state.preview => { title, body, anonymous } ? things that can be edited via edit form
     const data = {
       body: state.preview
     };
     props.onEditPost(props.id, data);
-    setState({ ...state, showForm: false, preview: state.body, ...data });
+    setState({ ...state, showForm: false, preview: props.body });
   };
 
+  // Delete the post
   const deletePost = () => {
     console.log("clicked DELETE post button");
   };
 
+  // Create the tag button components
   const tags = props.tags.map(tag => {
     return (
       <Button
@@ -82,18 +82,22 @@ const Post = (props) => {
     );
   });
 
+  // Set the displayed author name
   let authorName = props.anonymous ? "Anonymous" : props.author;
   // If a post is anonymous, props.author will only be available if the current user is an instructor/admin
   if (props.anonymous && props.author) {
     authorName = props.author + " (Anonymous to students)";
   }
 
+  // Get the number of comments for the post
   const numComments = props.comments
     .map(comment => 1 + comment.replies.length)
     .reduce((a, b) => a + b, 0);
 
+  // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
+  // Convert timestamp into a readable format
   const formatTimestamp = (timestamp) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
   };
