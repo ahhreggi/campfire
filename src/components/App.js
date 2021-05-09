@@ -5,6 +5,8 @@ import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
 import Post from "./Post";
+import Dashboard from "./Dashboard";
+import Analytics from "./Analytics";
 
 // Temporary data
 
@@ -282,70 +284,109 @@ let dummyCourseData = {
 const App = () => {
 
   const [state, setState] = useState({
-    user: dummyUser,
-    active: "Dashboard",
-    courseData: null,
+    user: dummyUser, // current user
+    active: "Dashboard", // current view, default landing: dashboard
+    courseData: null, // all course data
+    postID: null, // a post ID or null if viewing dashboard or analytics,
     post: null
   });
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
 
   useEffect(() => {
-    getCourseData();
+    // Get all course data
+    getAppData();
   }, []);
 
-  const getCourseData = () => {
+  // Mock server course data updater
+  // Whenever courseData changes, remember to update state.post too
+  const updateCourseData = (updatedCourseData) => {
+    console.log("sending course data to dummy server");
+    // Send data to server
+    dummyCourseData = updatedCourseData;
+    // Wait for a response and update state with the response
     setTimeout(() => {
-      const courseData = dummyCourseData;
-      console.log("retrieved coursedata");
-      setState({ ...state, courseData });
+      const res = dummyCourseData;
+      setState({ ...state, courseData: dummyCourseData, post: getPostByID(res.posts, state.postID) });
     }, 1000);
   };
 
-  // temp "update server"
-  const setCourseData = (updatedData) => {
-    dummyCourseData = updatedData;
-    console.log("updated server data");
-    getCourseData();
+  // Mock server course data fetcher, sets all state for app
+  const getAppData = () => {
+    console.log("fetching course data from dummy server");
+    setTimeout(() => {
+      console.log("retrieved course data from dummy server. updating state...");
+      const res = dummyCourseData;
+      if (res) {
+        setState({ ...state, courseData: res });
+        console.log("state updated!");
+        if (state.postID) {
+          // Setting current post
+          console.log("state.postID is currently", state.postID);
+          console.log("setting state.post...");
+          // Get data for the current post
+          setState({ ...state, post: getPostByID(res.posts, state.postID) });
+          console.log("state updated!");
+        }
+      }
+    }, 1000);
   };
 
-  // TODO: Create functions that add/edit/remove items from the data (addPost, updatePost, deletePost, etc.)
-
   const selectActive = (selection, postID = null) => {
+    const selectedPost = getPostByID(state.courseData.posts, postID);
     setState({
       ...state,
       active: selection,
-      post: postID === null ? null : state.courseData.posts.filter(post => post.id === postID)[0]
+      postID: postID,
+      post: selectedPost
+      // post: postID === null ? null : state.courseData.posts.filter(post => post.id === postID)[0]
     });
+
   };
 
   const onEditPost = (postID, data) => {
-    const updatedPosts = state.courseData.posts.map(post => {
+    // Update the given postID with the new data
+    const prevPost = getPostByID(state.courseData.posts, postID);
+    const newPost = { ...prevPost, ...data };
+    // Update courseData.posts with the updated post
+    const newPosts = state.courseData.posts.map(post => {
       if (post.id === postID) {
-        return { ...post, ...data };
+        return newPost;
       } else {
         return post;
       }
     });
-    const updatedCourseData = { ...state.courseData, posts: updatedPosts };
-    setState({ ...state, courseData: updatedCourseData });
+    // Update courseData with the updated posts
+    const newCourseData = { ...state.courseData, posts: newPosts };
 
-    // temp "update server data"
-    setCourseData(updatedCourseData);
+    // Update state with the updated courseData and current post
+    // setState({ ...state, courseData: updatedCourseData, post: updatedPost });
+
+    // FAKE: Update course data on the server
+    console.log("sending new data to dummy server...");
+    updateCourseData(newCourseData);
+    // if successful, this will update courseData in the state
   };
 
   const onEditComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
 
+  // Get post for current state.postID
+  const getPostByID = (posts, postID) => {
+    if (postID) {
+      return posts.filter(post => post.id === postID)[0];
+    }
+  };
+
   return (
-    <main className="App">
+    <div className="App">
       {!state.courseData && <div>Loading...</div>}
       {state.courseData &&
         <>
           <Nav
             active={state.active}
-            viewTitle={`${state.courseData.name} > ${state.post ? "Post @" + state.post.id : state.active }`} // temporary
+            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`} // temporary
             courseName="LHL Web Mar 1"
             userAvatar={state.user.avatar_url}
             userName={`${state.user.first_name} ${state.user.last_name}`}
@@ -359,13 +400,38 @@ const App = () => {
               />
             </div>
             <div className="right">
-              <Main
+              <main>
+                {state.active === "Post" &&
+                  <Post
+                    id={state.postID}
+                    anonymous={state.post.anonymous}
+                    author={state.post.author_first_name && `${state.post.author_first_name} ${state.post.author_last_name}`}
+                    bestAnswer={state.post.best_answer}
+                    body={state.post.body}
+                    bookmarked={state.post.bookmarked}
+                    comments={state.post.comments}
+                    createdAt={state.post.created_at}
+                    lastModified={state.post.last_modified}
+                    editable={state.post.editable}
+                    tags={state.post.tags}
+                    title={state.post.title}
+                    userID={state.post.user_id}
+                    views={state.post.views}
+                    onEditPost={onEditPost}
+                    onEditComment={onEditComment}
+                  />
+                }
+                {state.active === "Dashboard" && <Dashboard />}
+                {state.active === "Analytics" && <Analytics />}
+              </main>
+          );
+              {/* <Main
                 active={state.active}
                 courseData={state.courseData}
                 post={state.post}
                 onEditPost={onEditPost}
                 onEditComment={onEditComment}
-              />
+              /> */}
             </div>
           </section>
           <div className="test-controls">
@@ -375,7 +441,7 @@ const App = () => {
           </div>
         </>
       }
-    </main>
+    </div>
   );
 };
 
