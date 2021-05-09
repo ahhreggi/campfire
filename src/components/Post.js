@@ -62,6 +62,8 @@ const Post = (props) => {
     setState({ ...state, showForm: !state.showForm, previewBody: props.body });
   };
 
+  // SERVER-AFFECTING FUNCTIONS /////////////////////////////////////
+
   // Save the post changes
   // TODO: Save only if it's different
   const savePost = () => {
@@ -79,9 +81,11 @@ const Post = (props) => {
     console.log("clicked DELETE post button");
   };
 
-  // Get the author name to display (full name or Anonymous)
-  // If a post is anonymous, props.author will only be available if the current user is an instructor/admin
-  // e.g. First Last (Anonymous to students)
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return the author name to display
+  // e.g. User is a student:     "First Last" or "Anonymous"
+  //      User is an instructor: "First Last (Anonymous to students)"
   const getDisplayName = () => {
     // Set the displayed author name
     let displayName = props.anonymous ? "Anonymous" : props.author;
@@ -91,7 +95,7 @@ const Post = (props) => {
     return displayName;
   };
 
-  // Return the total number of comments and replies
+  // Return the total number of comments and child comments
   const getNumComments = (comments) => {
     return comments
       .map(comment => 1 + comment.replies.length)
@@ -103,7 +107,7 @@ const Post = (props) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
   };
 
-  // VARIABLES TO RENDER //////////////////////////////////////////
+  // VARIABLES TO RENDER ////////////////////////////////////////////
 
   // Get the author name to display
   const authorName = getDisplayName();
@@ -125,7 +129,7 @@ const Post = (props) => {
     );
   });
 
-  /////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Post">
@@ -181,7 +185,6 @@ const Post = (props) => {
       <div className="body">
         {props.body}
       </div>
-
 
       {/* Edit Preview */}
       {state.showForm &&
@@ -245,6 +248,7 @@ const Post = (props) => {
           onEditComment={props.onEditComment}
         />
       </div>
+
     </div>
   );
 };
