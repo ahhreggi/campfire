@@ -1,5 +1,4 @@
 import "./Nav.scss";
-import logo from "../images/campfire.png";
 import PropTypes from "prop-types";
 
 const Nav = (props) => {
@@ -17,7 +16,7 @@ const Nav = (props) => {
 
       <section className="left">
         <span className="title">Campfire</span>
-        <img src={logo} alt="Campfire" />
+        <img src="./images/campfire.png" alt="Campfire" />
       </section>
 
       <section className="middle">
@@ -27,7 +26,8 @@ const Nav = (props) => {
       <section className="right">
         <span className="course-name">{props.courseName}</span>
         <div>
-          <img src={props.userAvatar || logo} alt="Avatar" />
+          {/* "./images/avatars/2.png" */}
+          <img src={props.userAvatar} alt="Avatar" />
           <span className="user-name">{props.userName}</span>
         </div>
       </section>

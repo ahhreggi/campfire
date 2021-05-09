@@ -24,30 +24,35 @@
     align-items: center;
     background-color: $navy-4;
     height: 2rem;
-    overflow: hidden;
+    // overflow: hidden;
     .header-left {
-      white-space: nowrap;
+      display: flex;
+      align-items: center;
+
+      .bookmark {
+        margin-left: 0.5rem;
+        width: 15px;
+        margin-right: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
+
+      .title {
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+
     }
     .header-right {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       margin-right: 0.5rem;
-      // border: 1px solid white;
       width: 4rem;
-    }
-    .bookmark {
-      margin-left: 0.5rem;
-    }
-    .title {
-      font-weight: 700;
-      font-size: 0.8rem;
     }
   }
   div.summary {
     padding: 0.4rem 0.5rem 0.2rem 0.5rem;
     overflow: hidden;
-    // height: 5rem;
     color: $navy-6;
     font-size: 0.8rem;
   }
@@ -55,12 +60,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
     .tags {
       margin-left: 0.3rem;
       opacity: 0.8;
     }
     .counters {
+      margin-top: 0.5rem;
       margin-right: 0.5rem;
       font-size: 0.8rem;
       color: $white;

@@ -2,14 +2,14 @@ import "./PostListItem.scss";
 import Bookmark from "./Bookmark";
 import Badge from "./Badge";
 import Button from "./Button";
-import eye from "../images/eye.png";
-import comment from "../images/comment.png";
+import eye from "../images/icons/eye.png";
+import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 
 const PostListItem = (props) => {
 
   PostListItem.propTypes = {
-    key: PropTypes.number,
+    id: PropTypes.number,
     title: PropTypes.string,
     body: PropTypes.string,
     bestAnswer: PropTypes.number,
@@ -19,11 +19,20 @@ const PostListItem = (props) => {
     views: PropTypes.number,
     comments: PropTypes.number,
     showStudentBadge: PropTypes.bool,
-    showInstructorBadge: PropTypes.bool
+    showInstructorBadge: PropTypes.bool,
+    onClick: PropTypes.func
   };
 
-  const tags = props.tags.map(tag => {
-    return <Button disabled={true} type="tag-disabled" key={tag.id} text={tag.name} />;
+  const tags = props.tags.map((tag, index) => {
+    // return <div>{tag.name}</div>;
+    return (
+      <Button
+        key={index}
+        text={tag.name}
+        styles="tag disabled"
+        disabled={true}
+      />
+    );
   });
 
   const truncateText = (text, length) => {
@@ -44,12 +53,16 @@ const PostListItem = (props) => {
     }
   };
 
+  const handleClick = () => {
+    props.onClick(props.id);
+  };
+
   return (
-    <div className="PostListItem">
+    <div className="PostListItem" onClick={handleClick}>
       <header>
         <div className="header-left">
           <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} />
+            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
           </span>
           <span className="title text-truncate">
             {truncateText(props.title, 32)}
@@ -69,11 +82,11 @@ const PostListItem = (props) => {
           {tags}
         </div>
         <div className="counters">
-          <span className="views">
+          <span className="views icon-small">
             <img src={eye} alt="views" />
             {props.views}
           </span>
-          <span className="comments">
+          <span className="comments icon-small">
             <img src={comment} alt="comments" />
             {props.comments}
           </span>
