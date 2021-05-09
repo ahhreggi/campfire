@@ -17,7 +17,7 @@ const PostForm = (props) => {
         className="textarea"
         style={{ height: "100%" }}
         value={props.text}
-        onChange={(e) => props.onChange(e)}
+        onChange={(event) => props.onChange(event)}
       />
     </div>
   );
