@@ -13,7 +13,8 @@ const CommentListItem = (props) => {
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
     editable: PropTypes.bool,
-    endorsed: PropTypes.bool
+    endorsed: PropTypes.bool,
+    replies: PropTypes.array
   };
 
   const editComment = () => {
@@ -47,9 +48,12 @@ const CommentListItem = (props) => {
       <div>
         editable: {props.editable ? "true" : "false"}
       </div>
+      <div>
+        number of replies: {props.replies.length}
+      </div>
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      <ReplyList />
+      <ReplyList replies={props.replies} />
     </div>
   );
 };

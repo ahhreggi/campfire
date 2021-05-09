@@ -66,7 +66,7 @@ const dummyCourseData = {
       "anonymous": false,
       "role": "student",
       "user_id": 6,
-      "editable": false,
+      "editable": true,
       "tags": [
         {
           "id": 4,
@@ -148,7 +148,7 @@ const dummyCourseData = {
           "endorsed": true,
           "role": "student",
           "user_id": 6,
-          "editable": false,
+          "editable": true,
           "replies": [
             {
               "id": 4,

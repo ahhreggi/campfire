@@ -9,6 +9,7 @@ const CommentList = (props) => {
   };
 
   const comments = props.comments.map(comment => {
+    console.log(comment);
     return (
       <CommentListItem
         key={comment.id}
@@ -20,6 +21,7 @@ const CommentList = (props) => {
         lastModified={comment.last_modified}
         editable={comment.editable}
         endorsed={comment.endorsed}
+        replies={comment.replies}
       />
     );
   });
