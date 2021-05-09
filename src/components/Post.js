@@ -36,12 +36,16 @@ const Post = (props) => {
     showForm: false,
     previewTitle: props.title,
     previewBody: props.body,
-    previewAnonymous: props.anonymous
+    previewAnonymous: props.anonymous,
+    previewAuthor: props.author
   });
 
-  // Reset form state when switching posts
+  // Reset form states when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false });
+    setState({
+      ...state,
+      showForm: false
+    });
   }, [props.id]);
 
   // Reset preview states when toggling the post edit form
@@ -50,7 +54,8 @@ const Post = (props) => {
       ...state,
       previewTitle: props.body,
       previewBody: props.body,
-      previewAnonymous: props.anonymous
+      previewAnonymous: props.anonymous,
+      previewAuthor: getDisplayName()
     });
   }, [state.showForm]);
 

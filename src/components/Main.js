@@ -39,7 +39,7 @@ const Main = (props) => {
         <Post
           id={post.id}
           anonymous={post.anonymous}
-          author={post.author_first_name && `${post.author_first_name} ${post.author_last_name}`}
+          author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
           bestAnswer={post.best_answer}
           body={post.body}
           bookmarked={post.bookmarked}
