@@ -1,6 +1,20 @@
 @import "../styles/global.scss";
 
 .PostForm {
-  border: 1px solid red;
-  height: 5rem;
+  textarea {
+    width: 100%;
+    min-height: 10rem;
+    overflow-x: hidden;
+    background-color: $navy-3;
+    color: $white;
+    font-family: $font-code;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-color: $navy-5;
+    @include custom-scrollbar;
+    outline: none;
+    &:focus {
+      border-color: $navy-7;
+    }
+  }
 }

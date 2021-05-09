@@ -4,12 +4,15 @@ import PropTypes from "prop-types";
 
 const PostForm = (props) => {
   PostForm.propTypes = {
-    onSave: PropTypes.func,
-    onCancel: PropTypes.func
+    text: PropTypes.string,
+    onChange: PropTypes.func
   };
   return (
     <div className="PostForm">
-      This is PostForm.
+      <textarea
+        value={props.text}
+        onChange={(e) => props.onChange(e)}
+      />
     </div>
   );
 };

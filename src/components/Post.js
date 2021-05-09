@@ -17,8 +17,7 @@ const Post = (props) => {
 
   const [state, setState] = useState({
     showForm: false,
-    title: props.title,
-    body: props.body
+    preview: props.body
   });
 
   useEffect(() => {
@@ -47,9 +46,17 @@ const Post = (props) => {
   Post.defaultProps = {
   };
 
+  const updatePreview = (event) => {
+    setState({ ...state, preview: event.target.value });
+  };
+
   const toggleForm = () => {
     console.log(`${state.showForm ? "hiding post form" : "showing post form"}`);
     setState({ ...state, showForm: !state.showForm });
+  };
+
+  const savePost = () => {
+    console.log("clicked SAVE post button");
   };
 
   const deletePost = () => {
@@ -117,15 +124,22 @@ const Post = (props) => {
       </div>
       <hr />
       <div className="body">
-        {props.body}
+        {!state.showForm && props.body}
+        {state.showForm && state.preview}
       </div>
       <hr />
+      {state.showForm &&
+        <PostForm
+          text={state.preview}
+          onChange={updatePreview}
+        />
+      }
       {props.editable &&
         <div className="controls icon-large">
           {!state.showForm &&
             <>
               <img
-                className={state.showForm && "active"}
+                className={state.showForm ? "active" : ""}
                 src={edit}
                 alt="edit"
                 onClick={toggleForm}
@@ -141,19 +155,18 @@ const Post = (props) => {
             <>
               <Button
                 text="Save"
-                styles="post-control"
-                onClick={() => console.log("save post")}
+                styles="form green"
+                onClick={savePost}
               />
               <Button
                 text="Cancel"
-                styles="post-control"
+                styles="form red"
                 onClick={toggleForm}
               />
             </>
           }
         </div>
       }
-      {state.showForm && <PostForm onCancel={toggleForm} />}
       <CommentList
         comments={props.comments}
         onEditComment={props.onEditComment}
