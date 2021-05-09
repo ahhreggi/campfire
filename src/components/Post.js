@@ -31,8 +31,9 @@ const Post = (props) => {
     onEditComment: PropTypes.func
   };
 
-  const editPost = () => {
-    console.log("clicked EDIT post button");
+  const toggleForm = () => {
+    console.log(`${state.showForm ? "hiding post form" : "showing post form"}`);
+    setState({ ...state, showForm: !state.showForm });
   };
 
   const deletePost = () => {
@@ -87,9 +88,21 @@ const Post = (props) => {
       <div>
         views: {props.views}
       </div>
-      {props.editable && <Button type="edit" onClick={editPost} text="EDIT" />}
-      {props.editable && <Button type="delete" onClick={deletePost} text="DELETE" />}
-      {state.showForm && <PostForm />}
+      {props.editable && !state.showForm &&
+        <Button
+          text="EDIT"
+          styles="post-control"
+          onClick={toggleForm}
+        />
+      }
+      {props.editable &&
+        <Button
+          styles="post-control"
+          onClick={deletePost}
+          text="DELETE"
+        />
+      }
+      {state.showForm && <PostForm onCancel={toggleForm} />}
       <CommentList comments={props.comments} onEditComment={props.onEditComment} />
     </div>
   );
