@@ -11,6 +11,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
+
+  button {
+    user-select: none;
+  }
+
+  hr {
+    color: $navy-5;
+    opacity: 1;
+  }
+
+  .icon-small {
+    img {
+      width: 15px;
+      margin-right: 5px;
+    }
+  }
+
+  .icon-large {
+    img {
+      width: 25px;
+    }
+  }
+
 }
 
 code {

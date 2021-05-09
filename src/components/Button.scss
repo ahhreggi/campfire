@@ -1,17 +1,54 @@
 @import "../styles/global.scss";
 
 button {
-  &.btn-tag {
-    background-color: transparent;
-    border: 1px solid $orange;
-    border-radius: 3px;
+  background-color: transparent;
+  border: 1px solid;
+  color: $white;
+  &.form {
+    font-weight: 500;
+    border-width: 2px;
+    border-radius: 5px;
+    width: 4.5rem;
+    margin: 1rem 0 0.5rem 1rem;
+    opacity: 0.7;
+    &.green {
+      color: $green;
+    }
+    &.red {
+      color: $red;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &.tag {
+    border-radius: 5px;
+    border-color: $orange;
     color: $orange;
     font-size: 0.8rem;
     font-weight: 500;
-    margin: 0 0.2rem;
+    margin: 0.2rem 0.4rem 0.2rem 0;
+    opacity: 0.7;
     &:hover:not(.disabled) {
-      background-color: $orange;
+      // border-color: $orange;
+      // color: $orange;
+      opacity: 0.9;
+    }
+    &.disabled {
+      opacity: 0.9;
+    }
+    &.filter {
+      border-color: $white;
       color: $white;
+    }
+    &.clear {
+      border-color: $red;
+      color: $red;
+    }
+    &.selected {
+      border-color: $orange;
+      color: $orange;
+      opacity: 1;
     }
   }
 }

@@ -1,7 +1,23 @@
 @import "../styles/global.scss";
 
 .App {
+  padding: 0 0 1rem 1rem;
   background-color: $navy-1;
+  border-radius: 5px;
   margin: 1rem;
   overflow: hidden;
+  height: 96vh;
+  section {
+    display: flex;
+    height: 83vh;
+    .left {
+      // border: 1px solid white;
+      width: 20rem;
+    }
+    .right {
+      // border: 1px solid red;
+      width: 100%;
+      overflow-wrap: break-word;
+    }
+  }
 }
