@@ -9,6 +9,7 @@ import trash from "../images/icons/trash.png";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 // Receiving: props.post => contains all data for a specific post
 
@@ -69,6 +70,10 @@ const Post = (props) => {
 
   const isModified = props.createdAt !== props.lastModified;
 
+  const formatTimestamp = (timestamp) => {
+    return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  };
+
   return (
     <div className="Post">
       <div className="status">
@@ -95,9 +100,9 @@ const Post = (props) => {
       </header>
       <div className="subheader">
         <div>
-          Submitted by <span className="author">{authorName}</span> on {props.createdAt}
+          Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
         </div>
-        {isModified && <div className="modified">Last modified: {props.lastModified}</div>}
+        {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
       </div>
       <div className="tags">
         {tags}
