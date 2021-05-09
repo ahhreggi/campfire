@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Post.scss";
+import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
@@ -66,18 +67,18 @@ const Post = (props) => {
         {props.bestAnswer && "RESOLVED"}
         {!props.bestAnswer && "UNRESOLVED"}
       </div>
-      <div className="title">
+      <div className="header">
+        <span className="bookmark">
+          <Bookmark bookmarked={props.bookmarked} />
+        </span>
         {props.title}
       </div>
-      <div className="subtitle">
+      <div className="subheader">
         Submitted by <span className="author">{authorName}</span> on {props.createdAt} {modifiedMsg}
       </div>
-      <hr></hr>
+      <hr />
       <div className="body">
         {props.body}
-      </div>
-      <div>
-        resolved? (best answer): {props.bestAnswer ? "id: " + props.bestAnswer : "none selected"}
       </div>
       <div>
         bookmarked: {props.bookmarked ? "true" : "false"}

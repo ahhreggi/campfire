@@ -54,7 +54,7 @@ const dummyCourseData = {
       "id": 2,
       "title": "How do I create a class?",
       "body": "How do I write a new class in javascript, and declare methods, variables, etc?",
-      "bookmarked": false,
+      "bookmarked": true,
       "created_at": "2021-05-08T20:00:11.570Z",
       "last_modified": "2021-05-08T20:00:12.570Z",
       "best_answer": null,
