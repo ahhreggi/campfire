@@ -8,6 +8,7 @@ const CommentListItem = (props) => {
 
   const [commentText, setCommentText] = useState("");
   const [state, setState] = useState({
+    showForm: false,
     anonymous: props.anonymous,
     commentText: props.body,
     endorsements: props.endorsements
@@ -21,9 +22,15 @@ const CommentListItem = (props) => {
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
     editable: PropTypes.bool,
+    endorsable: PropTypes.bool,
     endorsements: PropTypes.array,
     replies: PropTypes.array,
     onEdit: PropTypes.func
+  };
+
+  const toggleForm = () => {
+    console.log("toggled comment form");
+    setState({ ...state, showForm: !state.showForm });
   };
 
   const editComment = () => {
@@ -74,7 +81,10 @@ const CommentListItem = (props) => {
         created: {props.createdAt} (last modified: {props.lastModified})
       </div>
       <div>
-        endorsements: {props.endorsements}
+        endorsable: {props.endorsable ? "true" : "false"}
+      </div>
+      <div>
+        endorsements: {props.endorsements.length}
       </div>
       <div>
         editable: {props.editable ? "true" : "false"}
@@ -85,11 +95,12 @@ const CommentListItem = (props) => {
       <form className="comment-form" onSubmit={onSave}>
         <label>
           write something:
-          <input type="text" value={commentText} onChange={(event) => setCommentText(event.target.value)} />
-          <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" />
         </label>
         <input type="submit" value="Save Changes" />
       </form>
+      {state.showForm && <input type="text" value={commentText} onChange={(event) => setCommentText(event.target.value)} />}
+      {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
+      {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
       {props.replies && <CommentList comments={props.replies} />}

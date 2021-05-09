@@ -20,6 +20,7 @@ const CommentList = (props) => {
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
         editable={comment.editable}
+        endorsable={comment.endorsable}
         endorsements={comment.endorsements}
         replies={comment.replies}
         onEdit={props.onEditComment}
