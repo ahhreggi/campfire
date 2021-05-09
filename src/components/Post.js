@@ -134,7 +134,6 @@ const Post = (props) => {
         {tags}
       </div>
       <hr />
-      {/* {state.showForm && <div className="label">Preview</div>} */}
       <div className="body">
         {props.body}
         {state.showForm &&
