@@ -54,6 +54,12 @@ const Post = (props) => {
 
   const modifiedMsg = props.createdAt !== props.lastModified ? `(last modified: ${props.lastModified})` : "";
 
+  let authorName = props.anonymous ? "Anonymous" : props.author;
+  // If a post is anonymous, props.author will only be available if the current user is an instructor/admin
+  if (props.anonymous && props.author) {
+    authorName = props.author + " (Anonymous to students)";
+  }
+
   return (
     <div className="Post">
       <div className={`status ${props.bestAnswer ? "resolved" : "unresolved"}`}>
@@ -64,18 +70,11 @@ const Post = (props) => {
         {props.title}
       </div>
       <div className="subtitle">
-        Submitted by <span className="author">{props.author}</span> on {props.createdAt} {modifiedMsg}
+        Submitted by <span className="author">{authorName}</span> on {props.createdAt} {modifiedMsg}
       </div>
+      <hr></hr>
       <div className="body">
         {props.body}
-      </div>
-      {props.bestAnswer && <div>this question is RESOLVED</div>}
-      {!props.bestAnswer && <div>this question is UNRESOLVED</div>}
-      <div>
-        id: {props.id}
-      </div>
-      <div>
-        anonymous: {props.anonymous ? "true" : "false"}
       </div>
       <div>
         resolved? (best answer): {props.bestAnswer ? "id: " + props.bestAnswer : "none selected"}
