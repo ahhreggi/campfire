@@ -248,6 +248,8 @@ const dummyCourseData = {
           "id": 1,
           "post_id": 1,
           "anonymous": true,
+          "author_first_name": "Milly",
+          "author_last_name": "Monka",
           "author_avatar_id": 1,
           "body": "I had the same question!",
           "score": "0",

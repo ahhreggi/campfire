@@ -72,7 +72,10 @@ const CommentListItem = (props) => {
         Author: {props.anonymous ? "Anonymous" : props.author}
       </div>
       <div>
-        Author (visible only to instructors): {props.author}
+        Anonymous: {props.anonymous ? "true" : "false"}
+      </div>
+      <div>
+        Author (visible only to instructors when anonymous): {props.author}
       </div>
       <div>
         {props.body}
@@ -103,7 +106,8 @@ const CommentListItem = (props) => {
       {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      {props.replies && <CommentList comments={props.replies} />}
+      {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
+      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>}
     </div>
   );
 };
