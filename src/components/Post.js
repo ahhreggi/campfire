@@ -119,28 +119,40 @@ const Post = (props) => {
       <div className="body">
         {props.body}
       </div>
+      <hr />
       {props.editable &&
         <div className="controls icon-large">
-          <img className={state.showForm && "active"} src={edit} alt="edit" onClick={toggleForm} />
-          <img src={trash} alt="delete" onClick={deletePost} />
-
-          {/* {props.editable && !state.showForm &&
-            <Button
-              text="EDIT"
-              styles="post-control"
-              onClick={toggleForm}
-            />
+          {!state.showForm &&
+            <>
+              <img
+                className={state.showForm && "active"}
+                src={edit}
+                alt="edit"
+                onClick={toggleForm}
+              />
+              <img
+                src={trash}
+                alt="delete"
+                onClick={deletePost}
+              />
+            </>
           }
-          {props.editable &&
-            <Button
-              styles="post-control"
-              onClick={deletePost}
-              text="DELETE"
-            />
-          } */}
+          {state.showForm &&
+            <>
+              <Button
+                text="Save"
+                styles="post-control"
+                onClick={() => console.log("save post")}
+              />
+              <Button
+                text="Cancel"
+                styles="post-control"
+                onClick={toggleForm}
+              />
+            </>
+          }
         </div>
       }
-      <hr />
       {state.showForm && <PostForm onCancel={toggleForm} />}
       <CommentList
         comments={props.comments}
