@@ -20,9 +20,9 @@ const Post = (props) => {
     preview: props.body
   });
 
+  // Reset state when switching posts
   useEffect(() => {
-    // If the form is open, close it when switching posts
-    state.showForm && toggleForm();
+    setState({ ...state, showForm: false, preview: props.body });
   }, [props.id]);
 
   Post.propTypes = {
@@ -111,7 +111,9 @@ const Post = (props) => {
         <span className="bookmark">
           <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
         </span>
-        {props.title}
+        <div>
+          {props.title}
+        </div>
       </header>
       <div className="subheader">
         <div>
@@ -127,7 +129,7 @@ const Post = (props) => {
         {!state.showForm && props.body}
         {state.showForm && state.preview}
       </div>
-      <hr />
+
       {state.showForm &&
         <PostForm
           text={state.preview}
@@ -167,10 +169,14 @@ const Post = (props) => {
           }
         </div>
       }
-      <CommentList
-        comments={props.comments}
-        onEditComment={props.onEditComment}
-      />
+      <hr />
+      <div className="comments">
+        <span>Comments</span>
+        <CommentList
+          comments={props.comments}
+          onEditComment={props.onEditComment}
+        />
+      </div>
     </div>
   );
 };

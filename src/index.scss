@@ -12,6 +12,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
 
+  button {
+    user-select: none;
+  }
+
   hr {
     color: $navy-5;
     opacity: 1;

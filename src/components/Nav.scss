@@ -38,7 +38,7 @@
     }
     &.right {
       // border: 1px solid white;
-      width: 25rem;
+      min-width: 25rem;
       background-color: $navy-2;
       display: flex;
       justify-content: space-between;
