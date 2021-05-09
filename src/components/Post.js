@@ -18,12 +18,16 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     preview: props.body,
-    body: props.body
+    title: props.title,
+    body: props.body,
+    lastModified: props.lastModified,
+    anonymous: props.anonymous,
+    tags: props.tags
   });
 
   // Reset state when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false, preview: props.body, body: props.body });
+    setState({ ...state, showForm: false, preview: props.body });
   }, [props.id]);
 
   Post.propTypes = {
@@ -61,7 +65,7 @@ const Post = (props) => {
       body: state.preview
     };
     props.onEditPost(props.id, data);
-    setState({ ...state, showForm: false, body: state.preview });
+    setState({ ...state, showForm: false, ...data });
   };
 
   const deletePost = () => {
