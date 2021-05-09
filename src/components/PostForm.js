@@ -17,7 +17,7 @@ const PostForm = (props) => {
         className="textarea"
         style={{ height: "100%" }}
         value={props.text}
-        onChange={(event) => props.onChange(event, "body")} // dynamically update preview body
+        onChange={(event) => props.onChange(event)}
       />
     </div>
   );

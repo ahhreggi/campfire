@@ -46,20 +46,30 @@ const Post = (props) => {
 
   // Reset preview states when toggling the post edit form
   useEffect(() => {
-    setState({ ...state, previewTitle: props.body, previewBody: props.body, previewAnonymous: props.anonymous });
+    setState({
+      ...state,
+      previewTitle: props.body,
+      previewBody: props.body,
+      previewAnonymous: props.anonymous
+    });
   }, [state.showForm]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Update the preview dynamically as the user types
-  const updatePreview = (event, element) => {
-    if (element === "title") {
-      setState({ ...state, previewTitle: event.target.value });
-    } else if (element === "body") {
-      setState({ ...state, previewBody: event.target.value });
-    } else if (element === "anonymous") {
-      setState({ ...state, previewAnonymous: event.target.value });
-    }
+  // Update the preview title dynamically as the user types
+  const updatePreviewTitle = (event) => {
+    setState({ ...state, previewTitle: event.target.value });
+  };
+
+  // Update the preview body dynamically as the user types
+  const updatePreviewBody = (event) => {
+    setState({ ...state, previewBody: event.target.value });
+  };
+
+  // Update the preview author dynamically as the user toggles its anonymity
+  // TODO: Manage author name in state?
+  const updatePreviewAuthor = (event) => {
+    setState({ ...state, previewAnonymous: event.target.value });
   };
 
   // Toggle and reset the post edit form
@@ -203,7 +213,7 @@ const Post = (props) => {
       {state.showForm &&
         <PostForm
           text={state.previewBody}
-          onChange={updatePreview}
+          onChange={updatePreviewBody}
         />
       }
 
