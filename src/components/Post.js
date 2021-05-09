@@ -29,11 +29,13 @@ const Post = (props) => {
     userID: PropTypes.number,
     views: PropTypes.number,
     onEditPost: PropTypes.func,
+    onDeletePost: PropTypes.func,
     onEditComment: PropTypes.func
   };
 
   const [state, setState] = useState({
     showForm: false,
+    showConfirmation: false,
     previewTitle: props.title,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
@@ -102,9 +104,14 @@ const Post = (props) => {
     toggleForm();
   };
 
+  const toggleConfirmation = () => {
+    setState({ ...state, showConfirmation: !state.showConfirmation });
+  };
+
   // Delete the post
+  // TODO: Confirm before deleting
   const deletePost = () => {
-    console.log("clicked DELETE post button");
+    props.onDeletePost(props.id);
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -160,7 +167,7 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <div className={`display ${state.showForm && "preview-mode"}`}>
+      <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
         <header className="status">
 
@@ -262,10 +269,22 @@ const Post = (props) => {
         </div>
       }
 
-      {/* Edit & Delete Buttons */}
+      {/* Delete Confirmation */}
+      {state.showConfirmation &&
+        <>
+          <hr />
+          <div className="confirmation">
+            <span>
+              Are you sure you would like to delete this post?
+            </span>
+          </div>
+        </>
+      }
+
+      {/* Edit Control Buttons */}
       {props.editable &&
         <div className="controls icon-large">
-          {!state.showForm &&
+          {!state.showForm && !state.showConfirmation &&
             <>
               <img
                 className={state.showForm ? "active" : ""}
@@ -276,7 +295,7 @@ const Post = (props) => {
               <img
                 src={trash}
                 alt="delete"
-                onClick={deletePost}
+                onClick={toggleConfirmation}
               />
             </>
           }
@@ -293,6 +312,22 @@ const Post = (props) => {
                 onClick={toggleForm}
               />
             </>
+          }
+          {state.showConfirmation &&
+            <div className="confirmation">
+              <>
+                <Button
+                  text="Confirm"
+                  styles="form green"
+                  onClick={deletePost}
+                />
+                <Button
+                  text="Cancel"
+                  styles="form red"
+                  onClick={toggleConfirmation}
+                />
+              </>
+            </div>
           }
         </div>
       }
