@@ -62,7 +62,7 @@ const PostListItem = (props) => {
       <header>
         <div className="header-left">
           <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} />
+            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
           </span>
           <span className="title text-truncate">
             {truncateText(props.title, 32)}
@@ -82,11 +82,11 @@ const PostListItem = (props) => {
           {tags}
         </div>
         <div className="counters">
-          <span className="views">
+          <span className="views icon-small">
             <img src={eye} alt="views" />
             {props.views}
           </span>
-          <span className="comments">
+          <span className="comments icon-small">
             <img src={comment} alt="comments" />
             {props.comments}
           </span>

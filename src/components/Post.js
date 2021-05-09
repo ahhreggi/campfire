@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Post.scss";
 import Bookmark from "./Bookmark";
 import Button from "./Button";
@@ -21,6 +21,11 @@ const Post = (props) => {
     body: props.body
   });
 
+  useEffect(() => {
+    // If the form is open, close it when switching posts
+    state.showForm && toggleForm();
+  }, [props.id]);
+
   Post.propTypes = {
     id: PropTypes.number,
     anonymous: PropTypes.bool,
@@ -37,6 +42,9 @@ const Post = (props) => {
     userID: PropTypes.number,
     views: PropTypes.number,
     onEditComment: PropTypes.func
+  };
+
+  Post.defaultProps = {
   };
 
   const toggleForm = () => {
@@ -82,11 +90,11 @@ const Post = (props) => {
           {!props.bestAnswer && "UNRESOLVED"}
         </div>
         <div className="counters">
-          <span className="views">
+          <span className="views icon-small">
             <img src={eye} alt="views" />
             {props.views}
           </span>
-          <span className="comments">
+          <span className="comments icon-small">
             <img src={comment} alt="comments" />
             {numComments}
           </span>
@@ -94,7 +102,7 @@ const Post = (props) => {
       </div>
       <header>
         <span className="bookmark">
-          <Bookmark bookmarked={props.bookmarked} />
+          <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
         </span>
         {props.title}
       </header>
@@ -111,21 +119,28 @@ const Post = (props) => {
       <div className="body">
         {props.body}
       </div>
-      <hr />
-      {props.editable && !state.showForm &&
-        <Button
-          text="EDIT"
-          styles="post-control"
-          onClick={toggleForm}
-        />
-      }
       {props.editable &&
-        <Button
-          styles="post-control"
-          onClick={deletePost}
-          text="DELETE"
-        />
+        <div className="controls icon-large">
+          <img className={state.showForm && "active"} src={edit} alt="edit" onClick={toggleForm} />
+          <img src={trash} alt="delete" onClick={deletePost} />
+
+          {/* {props.editable && !state.showForm &&
+            <Button
+              text="EDIT"
+              styles="post-control"
+              onClick={toggleForm}
+            />
+          }
+          {props.editable &&
+            <Button
+              styles="post-control"
+              onClick={deletePost}
+              text="DELETE"
+            />
+          } */}
+        </div>
       }
+      <hr />
       {state.showForm && <PostForm onCancel={toggleForm} />}
       <CommentList
         comments={props.comments}
