@@ -311,9 +311,6 @@ const App = () => {
 
   // TODO: Create functions that add/edit/remove items from the data (addPost, updatePost, deletePost, etc.)
 
-  // TODO: Create a function that changes active to post, dashboard, or analytics
-  // Whenever this happens, viewTitle should be changed
-
   const selectActive = (selection, postID = null) => {
     setState({
       ...state,
