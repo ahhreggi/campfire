@@ -348,7 +348,7 @@ const App = () => {
         <>
           <Nav
             active={state.active}
-            viewTitle={state.active} // temporary
+            viewTitle={`${state.courseData.name} > ${state.post ? "Post @" + state.post.id : state.active }`} // temporary
             courseName="LHL Web Mar 1"
             userAvatar={state.user.avatar_url}
             userName={`${state.user.first_name} ${state.user.last_name}`}
