@@ -386,7 +386,7 @@ const App = () => {
         <>
           <Nav
             active={state.active}
-            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`} // temporary
+            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
             userAvatar={state.user.avatar_url}
             userName={`${state.user.first_name} ${state.user.last_name}`}
@@ -400,38 +400,13 @@ const App = () => {
               />
             </div>
             <div className="right">
-              <main>
-                {state.active === "Post" &&
-                  <Post
-                    id={state.postID}
-                    anonymous={state.post.anonymous}
-                    author={state.post.author_first_name && `${state.post.author_first_name} ${state.post.author_last_name}`}
-                    bestAnswer={state.post.best_answer}
-                    body={state.post.body}
-                    bookmarked={state.post.bookmarked}
-                    comments={state.post.comments}
-                    createdAt={state.post.created_at}
-                    lastModified={state.post.last_modified}
-                    editable={state.post.editable}
-                    tags={state.post.tags}
-                    title={state.post.title}
-                    userID={state.post.user_id}
-                    views={state.post.views}
-                    onEditPost={onEditPost}
-                    onEditComment={onEditComment}
-                  />
-                }
-                {state.active === "Dashboard" && <Dashboard />}
-                {state.active === "Analytics" && <Analytics />}
-              </main>
-          );
-              {/* <Main
+              <Main
                 active={state.active}
                 courseData={state.courseData}
-                post={state.post}
-                onEditPost={onEditPost}
-                onEditComment={onEditComment}
-              /> */}
+                postID={state.postID}
+                onEditPost={onEditPost} // needs to be in App since it feeds data to PostList
+                onEditComment={onEditComment} // same ^
+              />
             </div>
           </section>
           <div className="test-controls">
