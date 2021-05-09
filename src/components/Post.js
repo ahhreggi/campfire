@@ -17,12 +17,13 @@ const Post = (props) => {
 
   const [state, setState] = useState({
     showForm: false,
-    preview: props.body
+    preview: props.body,
+    body: props.body
   });
 
   // Reset state when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false, preview: props.body });
+    setState({ ...state, showForm: false, preview: props.body, body: props.body });
   }, [props.id]);
 
   Post.propTypes = {
@@ -44,9 +45,6 @@ const Post = (props) => {
     onEditComment: PropTypes.func
   };
 
-  Post.defaultProps = {
-  };
-
   const updatePreview = (event) => {
     setState({ ...state, preview: event.target.value });
   };
@@ -59,7 +57,11 @@ const Post = (props) => {
   const savePost = () => {
     console.log("clicked SAVE post button");
     // Take the state.preview and updatePost with its contents
-    props.onEditPost(props.id, state.preview);
+    const data = {
+      body: state.preview
+    };
+    props.onEditPost(props.id, data);
+    setState({ ...state, showForm: false, body: state.preview });
   };
 
   const deletePost = () => {
@@ -129,7 +131,7 @@ const Post = (props) => {
       </div>
       <hr />
       <div className="body">
-        {!state.showForm && props.body}
+        {!state.showForm && state.body}
         {state.showForm && state.preview}
       </div>
 

@@ -4,10 +4,11 @@ import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
+import Post from "./Post";
 
 // Temporary data
 
-const dummyUser = {
+let dummyUser = {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
   "first_name": "Reggi",
   "last_name": "Sirilan",
@@ -15,7 +16,7 @@ const dummyUser = {
   "avatar_url": "/images/avatars/2.png"
 };
 
-const dummyCourseData = {
+let dummyCourseData = {
   "id": 1,
   "name": "JS for Beginners",
   "description": "Introduction to core JavaScript concepts",
@@ -278,16 +279,35 @@ const dummyCourseData = {
   ]
 };
 
-const App = (props) => {
+const App = () => {
 
   const [state, setState] = useState({
     user: dummyUser,
     active: "Dashboard",
-    courseData: dummyCourseData,
+    courseData: null,
     post: null
   });
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
+
+  useEffect(() => {
+    getCourseData();
+  }, []);
+
+  const getCourseData = () => {
+    setTimeout(() => {
+      const courseData = dummyCourseData;
+      console.log("retrieved coursedata");
+      setState({ ...state, courseData });
+    }, 1000);
+  };
+
+  // temp "update server"
+  const setCourseData = (updatedData) => {
+    dummyCourseData = updatedData;
+    console.log("updated server data");
+    getCourseData();
+  };
 
   // TODO: Create functions that add/edit/remove items from the data (addPost, updatePost, deletePost, etc.)
 
@@ -303,7 +323,18 @@ const App = (props) => {
   };
 
   const onEditPost = (postID, data) => {
-    console.log("onEditPost executed with data:", data);
+    const updatedPosts = state.courseData.posts.map(post => {
+      if (post.id === postID) {
+        return { ...post, ...data };
+      } else {
+        return post;
+      }
+    });
+    const updatedCourseData = { ...state.courseData, posts: updatedPosts };
+    setState({ ...state, courseData: updatedCourseData });
+
+    // temp "update server data"
+    setCourseData(updatedCourseData);
   };
 
   const onEditComment = (commentID, data) => {
@@ -312,36 +343,41 @@ const App = (props) => {
 
   return (
     <main className="App">
-      <Nav
-        active={state.active}
-        viewTitle={state.active} // temporary
-        courseName="LHL Web Mar 1"
-        userAvatar={state.user.avatar_url}
-        userName={`${state.user.first_name} ${state.user.last_name}`}
-      />
-      <section>
-        <div className="left">
-          <PostList
-            tags={state.courseData.tags}
-            posts={state.courseData.posts}
-            onClick={(postID) => selectActive("Post", postID)}
-          />
-        </div>
-        <div className="right">
-          <Main
+      {!state.courseData && <div>Loading...</div>}
+      {state.courseData &&
+        <>
+          <Nav
             active={state.active}
-            courseData={state.courseData}
-            post={state.post}
-            onEditPost={onEditPost}
-            onEditComment={onEditComment}
+            viewTitle={state.active} // temporary
+            courseName="LHL Web Mar 1"
+            userAvatar={state.user.avatar_url}
+            userName={`${state.user.first_name} ${state.user.last_name}`}
           />
-        </div>
-      </section>
-      <div className="test-controls">
-        test controls:
-        <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
-        <Button text="Analytics" onClick={() => selectActive("Analytics")} />
-      </div>
+          <section>
+            <div className="left">
+              <PostList
+                tags={state.courseData.tags}
+                posts={state.courseData.posts}
+                onClick={(postID) => selectActive("Post", postID)}
+              />
+            </div>
+            <div className="right">
+              <Main
+                active={state.active}
+                courseData={state.courseData}
+                post={state.post}
+                onEditPost={onEditPost}
+                onEditComment={onEditComment}
+              />
+            </div>
+          </section>
+          <div className="test-controls">
+            test controls:
+            <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
+            <Button text="Analytics" onClick={() => selectActive("Analytics")} />
+          </div>
+        </>
+      }
     </main>
   );
 };

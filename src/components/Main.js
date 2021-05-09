@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./Main.scss";
 import Post from "./Post";
 import Dashboard from "./Dashboard";
