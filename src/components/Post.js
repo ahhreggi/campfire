@@ -40,6 +40,7 @@ const Post = (props) => {
     title: PropTypes.string,
     userID: PropTypes.number,
     views: PropTypes.number,
+    onEditPost: PropTypes.func,
     onEditComment: PropTypes.func
   };
 
@@ -57,6 +58,8 @@ const Post = (props) => {
 
   const savePost = () => {
     console.log("clicked SAVE post button");
+    // Take the state.preview and updatePost with its contents
+    props.onEditPost(props.id, state.preview);
   };
 
   const deletePost = () => {
@@ -171,7 +174,7 @@ const Post = (props) => {
       }
       <hr />
       <div className="comments">
-        <span>Comments</span>
+        <div className="label">Discussion</div>
         <CommentList
           comments={props.comments}
           onEditComment={props.onEditComment}

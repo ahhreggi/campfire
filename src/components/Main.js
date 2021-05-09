@@ -17,6 +17,7 @@ const Main = (props) => {
     active: PropTypes.string.isRequired,
     courseData: PropTypes.object.isRequired,
     post: PropTypes.object,
+    onEditPost: PropTypes.func,
     onEditComment: PropTypes.func
   };
 
@@ -40,6 +41,7 @@ const Main = (props) => {
           title={props.post.title}
           userID={props.post.user_id}
           views={props.post.views}
+          onEditPost={props.onEditPost}
           onEditComment={props.onEditComment}
         />
       }

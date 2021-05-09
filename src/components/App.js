@@ -302,6 +302,10 @@ const App = (props) => {
     });
   };
 
+  const onEditPost = (postID, data) => {
+    console.log("onEditPost executed with data:", data);
+  };
+
   const onEditComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
@@ -328,6 +332,7 @@ const App = (props) => {
             active={state.active}
             courseData={state.courseData}
             post={state.post}
+            onEditPost={onEditPost}
             onEditComment={onEditComment}
           />
         </div>
