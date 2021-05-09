@@ -101,12 +101,7 @@ const Post = (props) => {
       <div className="body">
         {props.body}
       </div>
-      <div>
-        editable: {props.editable ? "true" : "false"}
-      </div>
-      <div>
-        views: {props.views}
-      </div>
+      <hr />
       {props.editable && !state.showForm &&
         <Button
           text="EDIT"
