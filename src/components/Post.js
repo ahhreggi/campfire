@@ -129,11 +129,16 @@ const Post = (props) => {
 
   return (
     <div className="Post">
+
       <div className="status">
+
+        {/* RESOLVED or UNRESOLVED */}
         <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
           {props.bestAnswer && "RESOLVED"}
           {!props.bestAnswer && "UNRESOLVED"}
         </div>
+
+        {/* View & Comment Counters */}
         <div className="counters">
           <span className="views icon-med">
             <img src={eye} alt="views" />
@@ -144,7 +149,10 @@ const Post = (props) => {
             {numComments}
           </span>
         </div>
+
       </div>
+
+      {/* Bookmark Toggler & Title */}
       <header>
         <span className="bookmark">
           <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
@@ -153,33 +161,46 @@ const Post = (props) => {
           {props.title}
         </div>
       </header>
+
+      {/* Author & Timestamps */}
       <div className="subheader">
         <div>
           Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
         </div>
         {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
       </div>
+
+      {/* Tag Buttons */}
       <div className="tags">
         {tags}
       </div>
+
       <hr />
+
+      {/* Post Body */}
       <div className="body">
         {props.body}
-        {state.showForm &&
-          <>
-            <hr />
-            <div className="label">Preview</div>
-            {state.previewBody}
-          </>
-        }
       </div>
 
+
+      {/* Edit Preview */}
+      {state.showForm &&
+        <div className="body">
+          <hr />
+          <div className="label">Preview</div>
+          {state.previewBody}
+        </div>
+      }
+
+      {/* Post Form */}
       {state.showForm &&
         <PostForm
           text={state.previewBody}
           onChange={updatePreview}
         />
       }
+
+      {/* Edit & Delete Buttons */}
       {props.editable &&
         <div className="controls icon-large">
           {!state.showForm &&
@@ -213,7 +234,10 @@ const Post = (props) => {
           }
         </div>
       }
+
       <hr />
+
+      {/* Discussion */}
       <div className="comments">
         <div className="label">Discussion</div>
         <CommentList
