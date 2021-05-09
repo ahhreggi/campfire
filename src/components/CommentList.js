@@ -20,6 +20,7 @@ const CommentList = (props) => {
         lastModified={comment.last_modified}
         editable={comment.editable}
         endorsed={comment.endorsed}
+        replies={comment.replies}
       />
     );
   });

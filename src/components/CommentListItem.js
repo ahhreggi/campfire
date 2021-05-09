@@ -1,6 +1,6 @@
 import "./CommentListItem.scss";
 import Button from "./Button";
-import ReplyList from "./ReplyList";
+import CommentList from "./CommentList";
 import PropTypes from "prop-types";
 
 const CommentListItem = (props) => {
@@ -13,7 +13,8 @@ const CommentListItem = (props) => {
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
     editable: PropTypes.bool,
-    endorsed: PropTypes.bool
+    endorsed: PropTypes.bool,
+    replies: PropTypes.array
   };
 
   const editComment = () => {
@@ -47,9 +48,12 @@ const CommentListItem = (props) => {
       <div>
         editable: {props.editable ? "true" : "false"}
       </div>
+      <div>
+        number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
+      </div>
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      <ReplyList />
+      {props.replies && <CommentList comments={props.replies} />}
     </div>
   );
 };

@@ -1,13 +1,32 @@
 import "./ReplyList.scss";
 import ReplyListItem from "./ReplyListItem";
+import PropTypes from "prop-types";
 
-const ReplyList = () => {
+const ReplyList = (props) => {
+
+  ReplyList.propTypes = {
+    replies: PropTypes.array
+  };
+
+  const replies = props.replies.map(comment => {
+    return (
+      <ReplyListItem
+        key={comment.id}
+        id={comment.id}
+        anonymous={comment.anonymous}
+        author={`${comment.author_first_name} ${comment.author_last_name}`}
+        body={comment.body}
+        createdAt={comment.created_at}
+        lastModified={comment.last_modified}
+        editable={comment.editable}
+        endorsed={comment.endorsed}
+      />
+    );
+  });
+
   return (
     <div className="ReplyList">
-      This is ReplyList.
-      <ReplyListItem />
-      <ReplyListItem />
-      <ReplyListItem />
+      {replies}
     </div>
   );
 };
