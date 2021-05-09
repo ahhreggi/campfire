@@ -4,9 +4,6 @@ import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
-import Post from "./Post";
-import Dashboard from "./Dashboard";
-import Analytics from "./Analytics";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
 
@@ -281,6 +278,8 @@ let dummyCourseData = {
   ]
 };
 
+/////////////////////////////////////////////////////////////////////
+
 const App = () => {
 
   const [state, setState] = useState({
@@ -293,20 +292,23 @@ const App = () => {
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
 
+  // Fetch data from the server on load
   useEffect(() => {
-    // Get all course data
-    getAppData();
+    // Fetch course data
+    fetchCourseData();
   }, []);
 
-  // Mock course data fetcher
-  const getAppData = () => {
-    // Fetch course data from server
+  // Fetch course data from the server
+  // TODO: Replace with an actual API request
+  const fetchCourseData = () => {
+    // Request data from the server and await a response
     setTimeout(() => {
       const res = dummyCourseData;
-      // If a successful response is received, update state with the response data
+      // If the request is successful and a response is received
       if (res) {
+        // Update state with the response data
         setState({ ...state, courseData: res });
-        // If current view is a post, update the post data in the state using the res data
+        // If the active view is a post, update the post data in the state using the res data
         if (state.active === "Post") {
           const selectedPost = getPostByID(res.posts, state.postID);
           setState({ ...state, post: selectedPost });
@@ -315,16 +317,18 @@ const App = () => {
     }, 1000);
   };
 
-  // Mock server course data updater
-  // Whenever courseData changes, remember to update state.post too
+  // Update course data in the server
+  // TODO: Replace with an actual API request
   const updateCourseData = (updatedCourseData) => {
-    console.log("sending course data to dummy server");
-    // Send data to server
+    // Send data to server and request to insert changes
     dummyCourseData = updatedCourseData;
-    // Wait for a response and update state with the response
+    // Await a response
     setTimeout(() => {
       const res = dummyCourseData;
-      setState({ ...state, courseData: dummyCourseData, post: getPostByID(res.posts, state.postID) });
+      // If the request is successful and a response is received, update state with the res data
+      const updatedCourseData = res;
+      const updatedPost = getPostByID(res.posts, state.postID);
+      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
     }, 1000);
   };
 
