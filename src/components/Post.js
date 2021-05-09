@@ -1,11 +1,17 @@
+import { useState } from "react";
 import "./Post.scss";
 import Button from "./Button";
+import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import PropTypes from "prop-types";
 
 // Receiving: props.post => contains all data for a specific post
 
 const Post = (props) => {
+
+  const [state, setState] = useState({
+    showForm: true
+  });
 
   Post.propTypes = {
     id: PropTypes.number,
@@ -83,6 +89,7 @@ const Post = (props) => {
       </div>
       {props.editable && <Button type="edit" onClick={editPost} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deletePost} text="DELETE" />}
+      {state.showForm && <PostForm />}
       <CommentList comments={props.comments} onEditComment={props.onEditComment} />
     </div>
   );
