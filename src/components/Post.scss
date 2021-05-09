@@ -3,13 +3,33 @@
 .Post {
   // border: 1px solid rgb(153, 0, 255);
   .status {
-    font-weight: 700;
-    font-size: 0.9rem;
-    &.resolved {
-      color: $green
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.7rem;
+    .resolution {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 0.6rem;
+      &.resolved {
+        color: $green
+      }
+      &.unresolved {
+        color: $red
+      }
     }
-    &.unresolved {
-      color: $red
+    .counters {
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
+      color: $white;
+      opacity: 0.8;
+      .views {
+        margin-right: 1rem;
+      }
+      .comments {
+
+      }
     }
   }
   .header {

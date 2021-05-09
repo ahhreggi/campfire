@@ -4,6 +4,8 @@ import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
+import eye from "../images/icons/eye.png";
+import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 
 // Receiving: props.post => contains all data for a specific post
@@ -11,7 +13,7 @@ import PropTypes from "prop-types";
 const Post = (props) => {
 
   const [state, setState] = useState({
-    showForm: true,
+    showForm: false,
     title: props.title,
     body: props.body
   });
@@ -61,11 +63,27 @@ const Post = (props) => {
     authorName = props.author + " (Anonymous to students)";
   }
 
+  const numComments = props.comments
+    .map(comment => 1 + comment.replies.length)
+    .reduce((a, b) => a + b, 0);
+
   return (
     <div className="Post">
-      <div className={`status ${props.bestAnswer ? "resolved" : "unresolved"}`}>
-        {props.bestAnswer && "RESOLVED"}
-        {!props.bestAnswer && "UNRESOLVED"}
+      <div className="status">
+        <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
+          {props.bestAnswer && "RESOLVED"}
+          {!props.bestAnswer && "UNRESOLVED"}
+        </div>
+        <div className="counters">
+          <span className="views">
+            <img src={eye} alt="views" />
+            {props.views}
+          </span>
+          <span className="comments">
+            <img src={comment} alt="comments" />
+            {numComments}
+          </span>
+        </div>
       </div>
       <div className="header">
         <span className="bookmark">
@@ -76,25 +94,15 @@ const Post = (props) => {
       <div className="subheader">
         Submitted by <span className="author">{authorName}</span> on {props.createdAt} {modifiedMsg}
       </div>
+      <div className="tags">
+        {tags}
+      </div>
       <hr />
       <div className="body">
         {props.body}
       </div>
       <div>
-        bookmarked: {props.bookmarked ? "true" : "false"}
-      </div>
-      <div>
-        created at: {props.createdAt}
-      </div>
-      <div>
-        last modified: {props.lastModified}
-      </div>
-      <div>
         editable: {props.editable ? "true" : "false"}
-      </div>
-      <div>
-        tags:
-        {tags}
       </div>
       <div>
         views: {props.views}
