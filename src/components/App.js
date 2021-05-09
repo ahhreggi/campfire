@@ -332,14 +332,16 @@ const App = () => {
     }, 1000);
   };
 
+  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
   const selectActive = (selection, postID = null) => {
+    // Get the current post data
     const selectedPost = getPostByID(state.courseData.posts, postID);
+    // Update state data
     setState({
       ...state,
       active: selection,
       postID: postID,
       post: selectedPost
-      // post: postID === null ? null : state.courseData.posts.filter(post => post.id === postID)[0]
     });
 
   };
