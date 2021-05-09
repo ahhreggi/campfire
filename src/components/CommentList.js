@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 const CommentList = (props) => {
 
   CommentList.propTypes = {
-    comments: PropTypes.array
+    comments: PropTypes.array,
+    onEditComment: PropTypes.func
   };
 
   const comments = props.comments.map(comment => {
@@ -19,8 +20,9 @@ const CommentList = (props) => {
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
         editable={comment.editable}
-        endorsed={comment.endorsed}
+        endorsements={comment.endorsements}
         replies={comment.replies}
+        onEdit={props.onEditComment}
       />
     );
   });

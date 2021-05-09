@@ -85,7 +85,19 @@ const dummyCourseData = {
           "score": "0",
           "created_at": "2021-05-08T20:00:11.574Z",
           "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsed": false,
+          "endorsable": true,
+          "endorsements": [
+            {
+              id: 1,
+              "endorser_id": 1,
+              "endorser_name": "First Last"
+            },
+            {
+              id: 2,
+              "endorser_id": 5,
+              "endorser_name": "First1 Last1"
+            }
+          ],
           "role": "instructor",
           "user_id": 3,
           "editable": false,
@@ -102,7 +114,19 @@ const dummyCourseData = {
           "score": "0",
           "created_at": "2021-05-08T20:00:11.574Z",
           "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsed": false,
+          "endorsable": false,
+          "endorsements": [
+            {
+              id: 2,
+              "endorser_id": 1,
+              "endorser_name": "First Last"
+            },
+            {
+              id: 3,
+              "endorser_id": 5,
+              "endorser_name": "First1 Last1"
+            }
+          ],
           "role": "student",
           "user_id": 3,
           "editable": false,
@@ -145,7 +169,19 @@ const dummyCourseData = {
           "score": "3",
           "created_at": "2021-05-08T20:00:11.574Z",
           "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsed": true,
+          "endorsable": false,
+          "endorsements": [
+            {
+              id: 1,
+              "endorser_id": 1,
+              "endorser_name": "First Last"
+            },
+            {
+              id: 2,
+              "endorser_id": 5,
+              "endorser_name": "First1 Last1"
+            }
+          ],
           "role": "student",
           "user_id": 6,
           "editable": true,
@@ -160,6 +196,19 @@ const dummyCourseData = {
               "body": "Thanks for this!!",
               "created_at": "2021-05-08T20:00:11.574Z",
               "last_modified": "2021-05-08T20:00:11.574Z",
+              "endorsable": true,
+              "endorsements": [
+                {
+                  id: 5,
+                  "endorser_id": 1,
+                  "endorser_name": "First Last"
+                },
+                {
+                  id: 6,
+                  "endorser_id": 5,
+                  "endorser_name": "First1 Last1"
+                }
+              ],
               "role": "student",
               "user_id": 5,
               "editable": true
@@ -177,7 +226,19 @@ const dummyCourseData = {
           "score": "0",
           "created_at": "2021-05-08T20:00:11.574Z",
           "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsed": false,
+          "endorsable": true,
+          "endorsements": [
+            {
+              id: 8,
+              "endorser_id": 1,
+              "endorser_name": "First Last"
+            },
+            {
+              id: 9,
+              "endorser_id": 5,
+              "endorser_name": "First1 Last1"
+            }
+          ],
           "role": "admin",
           "user_id": 1,
           "editable": false,
@@ -192,7 +253,19 @@ const dummyCourseData = {
           "score": "0",
           "created_at": "2021-05-08T20:00:11.574Z",
           "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsed": false,
+          "endorsable": true,
+          "endorsements": [
+            {
+              id: 10,
+              "endorser_id": 1,
+              "endorser_name": "First Last"
+            },
+            {
+              id: 11,
+              "endorser_id": 5,
+              "endorser_name": "First1 Last1"
+            }
+          ],
           "role": "student",
           "user_id": 5,
           "editable": true,
@@ -227,8 +300,9 @@ const App = (props) => {
     });
   };
 
-  // Get data for the focused post
-  // const postData = state.courseData.posts.filter(post => state.post === post.id)[0];
+  const onEditComment = (commentID, data) => {
+    console.log("onEditComment executed with data:", data);
+  };
 
   return (
     <main className="App">
@@ -252,6 +326,7 @@ const App = (props) => {
             active={state.active}
             courseData={state.courseData}
             post={state.post}
+            onEditComment={onEditComment}
           />
         </div>
       </section>

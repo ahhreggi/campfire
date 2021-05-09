@@ -16,7 +16,8 @@ const Main = (props) => {
   Main.propTypes = {
     active: PropTypes.string.isRequired,
     courseData: PropTypes.object.isRequired,
-    post: PropTypes.object
+    post: PropTypes.object,
+    onEditComment: PropTypes.func
   };
 
   // Only one main component can active at a given time
@@ -39,6 +40,7 @@ const Main = (props) => {
           title={props.post.title}
           userID={props.post.user_id}
           views={props.post.views}
+          onEditComment={props.onEditComment}
         />
       }
       {props.active === "Dashboard" && <Dashboard />}

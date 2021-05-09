@@ -19,7 +19,7 @@ const ReplyList = (props) => {
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
         editable={comment.editable}
-        endorsed={comment.endorsed}
+        endorsements={comment.endorsements}
       />
     );
   });

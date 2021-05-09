@@ -21,7 +21,8 @@ const Post = (props) => {
     tags: PropTypes.array,
     title: PropTypes.string,
     userID: PropTypes.number,
-    views: PropTypes.number
+    views: PropTypes.number,
+    onEditComment: PropTypes.func
   };
 
   const editPost = () => {
@@ -82,7 +83,7 @@ const Post = (props) => {
       </div>
       {props.editable && <Button type="edit" onClick={editPost} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deletePost} text="DELETE" />}
-      <CommentList comments={props.comments} />
+      <CommentList comments={props.comments} onEditComment={props.onEditComment} />
     </div>
   );
 };
