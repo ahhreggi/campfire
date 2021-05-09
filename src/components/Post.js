@@ -27,7 +27,7 @@ const Post = (props) => {
 
   // Reset state when switching posts
   useEffect(() => {
-    setState({ ...state, showForm: false, preview: props.body });
+    setState({ ...state, showForm: false, preview: props.body, body: props.body });
   }, [props.id]);
 
   Post.propTypes = {
@@ -55,7 +55,7 @@ const Post = (props) => {
 
   const toggleForm = () => {
     console.log(`${state.showForm ? "hiding post form" : "showing post form"}`);
-    setState({ ...state, showForm: !state.showForm });
+    setState({ ...state, showForm: !state.showForm, preview: state.body });
   };
 
   const savePost = () => {
@@ -65,7 +65,7 @@ const Post = (props) => {
       body: state.preview
     };
     props.onEditPost(props.id, data);
-    setState({ ...state, showForm: false, ...data });
+    setState({ ...state, showForm: false, preview: state.body, ...data });
   };
 
   const deletePost = () => {
@@ -134,9 +134,16 @@ const Post = (props) => {
         {tags}
       </div>
       <hr />
+      {/* {state.showForm && <div className="label">Preview</div>} */}
       <div className="body">
-        {!state.showForm && state.body}
-        {state.showForm && state.preview}
+        {state.body}
+        {state.showForm &&
+          <>
+            <hr />
+            <div className="label">Preview</div>
+            {state.preview}
+          </>
+        }
       </div>
 
       {state.showForm &&
