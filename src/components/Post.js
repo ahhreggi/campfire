@@ -240,10 +240,20 @@ const Post = (props) => {
 
       {/* Post Form */}
       {state.showForm &&
-        <PostForm
-          text={state.previewBody}
-          onChange={updatePreviewBody}
-        />
+        <div className="post-form">
+          <PostForm
+            label="Post Title"
+            text={state.previewTitle}
+            onChange={updatePreviewTitle}
+            styles="form-title"
+          />
+          <PostForm
+            label="Post Body"
+            text={state.previewBody}
+            onChange={updatePreviewBody}
+            styles="form-body"
+          />
+        </div>
       }
 
       {/* Edit & Delete Buttons */}
