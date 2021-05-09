@@ -11,8 +11,6 @@ import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 import moment from "moment";
 
-// Receiving: props.post => contains all data for a specific post
-
 const Post = (props) => {
 
   Post.propTypes = {

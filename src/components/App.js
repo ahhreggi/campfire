@@ -8,7 +8,7 @@ import Post from "./Post";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 
-// Temporary data
+// TEMPORARY DUMMY DATA /////////////////////////////////////////////
 
 let dummyUser = {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
@@ -285,10 +285,10 @@ const App = () => {
 
   const [state, setState] = useState({
     user: dummyUser, // current user
-    active: "Dashboard", // current view, default landing: dashboard
-    courseData: null, // all course data
-    postID: null, // a post ID or null if viewing dashboard or analytics,
-    post: null
+    active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
+    courseData: null, // all data for the current course
+    postID: null, // a post ID or null if viewing dashboard/analytics,
+    post: null // post data for the current post ID or null if viewing dashboard/analytics
   });
 
   // TODO: Use useEffect to fetch data from the server (replace dummy data)
@@ -297,6 +297,23 @@ const App = () => {
     // Get all course data
     getAppData();
   }, []);
+
+  // Mock course data fetcher
+  const getAppData = () => {
+    // Fetch course data from server
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If a successful response is received, update state with the response data
+      if (res) {
+        setState({ ...state, courseData: res });
+        // If current view is a post, update the post data in the state using the res data
+        if (state.active === "Post") {
+          const selectedPost = getPostByID(res.posts, state.postID);
+          setState({ ...state, post: selectedPost });
+        }
+      }
+    }, 1000);
+  };
 
   // Mock server course data updater
   // Whenever courseData changes, remember to update state.post too
@@ -308,27 +325,6 @@ const App = () => {
     setTimeout(() => {
       const res = dummyCourseData;
       setState({ ...state, courseData: dummyCourseData, post: getPostByID(res.posts, state.postID) });
-    }, 1000);
-  };
-
-  // Mock server course data fetcher, sets all state for app
-  const getAppData = () => {
-    console.log("fetching course data from dummy server");
-    setTimeout(() => {
-      console.log("retrieved course data from dummy server. updating state...");
-      const res = dummyCourseData;
-      if (res) {
-        setState({ ...state, courseData: res });
-        console.log("state updated!");
-        if (state.postID) {
-          // Setting current post
-          console.log("state.postID is currently", state.postID);
-          console.log("setting state.post...");
-          // Get data for the current post
-          setState({ ...state, post: getPostByID(res.posts, state.postID) });
-          console.log("state updated!");
-        }
-      }
     }, 1000);
   };
 
