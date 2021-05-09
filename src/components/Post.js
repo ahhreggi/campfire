@@ -85,15 +85,21 @@ const Post = (props) => {
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Save the post changes
-  // TODO: Save only if it's different
   const savePost = () => {
-    // TODO: May need to add more data to this (title, anonymous, lastModified?)
-    // state.preview => { title, body, anonymous } ? things that can be edited via edit form
-    const data = {
-      body: state.previewBody
-    };
-    props.onEditPost(props.id, data);
-    setState({ ...state, showForm: false, previewTitle: props.title, previewBody: props.body, previewAnonymous: props.anonymous });
+    // If changes were made, submit them to the server
+    if (
+      state.previewTitle !== props.title ||
+      state.previewBody !== props.body ||
+      state.previewAnonymous !== props.anonymous
+    ) {
+      const data = {
+        title: state.previewTitle,
+        body: state.previewBody,
+        anonymous: state.previewAnonymous
+      };
+      props.onEditPost(props.id, data);
+    }
+    toggleForm();
   };
 
   // Delete the post
