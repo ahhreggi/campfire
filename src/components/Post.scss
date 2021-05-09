@@ -29,7 +29,7 @@
       }
     }
   }
-  .header {
+  header {
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
@@ -47,6 +47,10 @@
     .author {
       font-weight: 700;
       color: $orange;
+    }
+    .modified {
+      opacity: 0.5;
+      font-style: italic;
     }
   }
   .tags {

@@ -57,8 +57,6 @@ const Post = (props) => {
     );
   });
 
-  const modifiedMsg = props.createdAt !== props.lastModified ? `(last modified: ${props.lastModified})` : "";
-
   let authorName = props.anonymous ? "Anonymous" : props.author;
   // If a post is anonymous, props.author will only be available if the current user is an instructor/admin
   if (props.anonymous && props.author) {
@@ -68,6 +66,8 @@ const Post = (props) => {
   const numComments = props.comments
     .map(comment => 1 + comment.replies.length)
     .reduce((a, b) => a + b, 0);
+
+  const isModified = props.createdAt !== props.lastModified;
 
   return (
     <div className="Post">
@@ -87,14 +87,17 @@ const Post = (props) => {
           </span>
         </div>
       </div>
-      <div className="header">
+      <header>
         <span className="bookmark">
           <Bookmark bookmarked={props.bookmarked} />
         </span>
         {props.title}
-      </div>
+      </header>
       <div className="subheader">
-        Submitted by <span className="author">{authorName}</span> on {props.createdAt} {modifiedMsg}
+        <div>
+          Submitted by <span className="author">{authorName}</span> on {props.createdAt}
+        </div>
+        {isModified && <div className="modified">Last modified: {props.lastModified}</div>}
       </div>
       <div className="tags">
         {tags}
