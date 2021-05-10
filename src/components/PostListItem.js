@@ -62,7 +62,7 @@ const PostListItem = (props) => {
         {/* Post Title */}
         <div className="header-left">
           <span className={`title ${props.bookmarked && "bookmarked"}`}>
-            {truncateText(props.title, 38)}
+            {truncateText(props.title, 32)}
           </span>
         </div>
 

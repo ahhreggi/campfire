@@ -56,7 +56,7 @@ let dummyCourseData = {
   "posts": [
     {
       "id": 2,
-      "title": "How do I create a class?",
+      "title": "How do I create a class? 1 2 3 4 5 6 7 8 9 1 2 3 4",
       "body": "How do I write a new class in javascript, and declare methods, variables, etc?",
       "bookmarked": false,
       "created_at": "2021-05-10T15:40:05.671Z",
