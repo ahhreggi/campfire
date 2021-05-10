@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./PostList.scss";
 import Button from "./Button";
+import TagList from "./TagList";
 import PostListItem from "./PostListItem";
 import pin from "../images/icons/pin.png";
 import PropTypes from "prop-types";
@@ -18,58 +19,15 @@ const PostList = (props) => {
 
   // TODO: Create functions to add/delete/clear all ids from selectedTags
 
-  // Move all bookmarked posts to the front of the array
-  const sortByBookmarked = (posts) => {
-    const bookmarked = [];
-    const other = [];
-    for (const post of posts) {
-      if (post.bookmarked) {
-        bookmarked.push(post);
-      } else {
-        other.push(post);
-      }
-    }
-    return bookmarked.concat(other);
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const toggleFilter = (tagID) => {
+    console.log("toggle~");
   };
 
-  const tags = props.tags.map(tag => {
-    return (
-      <Button
-        key={tag.id}
-        styles={`tag filter ${selectedTags.includes(tag.id) ? "selected" : ""}`}
-        text={tag.name}
-      />
-    );
-  });
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // If no tags are selected, use all posts, otherwise filter
-  const filteredPosts = !selectedTags.length ? props.posts : props.posts.filter(post => {
-    for (const tag of post.tags) {
-      if (selectedTags.includes(tag.id)) {
-        return true;
-      }
-    }
-    return false;
-  });
-
-  // Categorize posts as pinned or unpinned
-  const pinned = [];
-  const unpinned = [];
-
-  for (const post of filteredPosts) {
-    if (post.pinned) {
-      pinned.push(post);
-    } else {
-      unpinned.push(post);
-    }
-  }
-
-  // Sort the posts by bookmark status
-  const posts = {
-    pinned: sortByBookmarked(pinned),
-    unpinned: sortByBookmarked(unpinned)
-  };
-
+  // Create PostListItem components with the given array of posts
   const generatePostListItems = (posts) => {
     return posts.map(post => {
       // Get the total number of comments + replies of a post
@@ -101,10 +59,54 @@ const PostList = (props) => {
     });
   };
 
+  // Move all bookmarked posts to the front of the given posts array
+  const sortByBookmarked = (posts) => {
+    const bookmarked = [];
+    const other = [];
+    for (const post of posts) {
+      if (post.bookmarked) {
+        bookmarked.push(post);
+      } else {
+        other.push(post);
+      }
+    }
+    return bookmarked.concat(other);
+  };
+
+  // VARIABLES //////////////////////////////////////////////////////
+
+  // If no tags are selected, use all posts, otherwise filter by selected tags
+  const filteredPosts = !selectedTags.length ? props.posts : props.posts.filter(post => {
+    for (const tag of post.tags) {
+      if (selectedTags.includes(tag.id)) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  // Categorize posts as pinned or unpinned
+  const pinned = [];
+  const unpinned = [];
+
+  for (const post of filteredPosts) {
+    if (post.pinned) {
+      pinned.push(post);
+    } else {
+      unpinned.push(post);
+    }
+  }
+
+  // Sort the posts by bookmark status
+  const posts = {
+    pinned: sortByBookmarked(pinned),
+    unpinned: sortByBookmarked(unpinned)
+  };
+
   const pinnedPosts = generatePostListItems(posts.pinned);
   const unpinnedPosts = generatePostListItems(posts.unpinned);
 
-  // TODO: Add toggler for these
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="PostList">
@@ -112,7 +114,12 @@ const PostList = (props) => {
         FILTERS
       </div>
       <div className="tags">
-        {tags}
+        <TagList
+          tags={props.tags}
+          selectedTags={[]}
+          onClick={toggleFilter}
+          styles={"tag filter"}
+        />
         {selectedTags.length > 0 && <Button type="tag-clear" text="clear" />}
       </div>
       <div className="posts">
