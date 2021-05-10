@@ -17,17 +17,23 @@ const TagList = (props) => {
     setDisabled(props.selectedTags.length >= 3);
   }, [props.selectedTags]);
 
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
   // Return true if the given tagID is in tags
   // TODO: Move to helper file (also in Post)
   const hasTag = (tags, tagID) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const handleClick = (tag) => {
     if (!disabled || hasTag(props.selectedTags, tag.id)) {
       props.onClick(tag);
     }
   };
+
+  // VARIABLES //////////////////////////////////////////////////////
 
   const tags = props.tags.map(tag => {
     return (
@@ -39,6 +45,8 @@ const TagList = (props) => {
       />
     );
   });
+
+  ///////////////////////////////////////////////////////////////////
 
   return <div className="TagList">{tags}</div>;
 

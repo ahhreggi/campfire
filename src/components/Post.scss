@@ -6,33 +6,37 @@
     opacity: 0.5;
   }
 
-  .preview {
-
-  }
-
   .status {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.7rem;
+
     .resolution {
       font-weight: 700;
       font-size: 0.9rem;
+
       &.resolved {
         color: $green
       }
+
       &.unresolved {
         color: $red
       }
+
     }
+
     .counters {
       margin-right: 0.5rem;
       font-size: 0.9rem;
       color: $white;
+
       .views {
         margin-right: 1rem;
       }
+
     }
+
   }
 
   .header {
@@ -42,26 +46,27 @@
     align-items: center;
     font-weight: 700;
     font-size: 1.5rem;
+
     .bookmark {
       margin-right: 0.3rem;
       margin-bottom: 0.2rem;
     }
+
   }
 
   .subheader {
     font-size: 0.8rem;
     margin: 0.5rem 0;
+
     .author {
       font-weight: 700;
       color: $orange;
     }
+
     .modified {
       font-style: italic;
       color: $navy-7;
     }
-  }
-
-  .tags {
 
   }
 
@@ -73,65 +78,80 @@
   .controls {
     display: flex;
     justify-content: flex-end;
+
     img {
       margin-left: 1rem;
       cursor: pointer;
       opacity: 0.5;
+
       &:hover {
         opacity: 0.7;
       }
+
       &.active {
         opacity: 1;
       }
+
     }
+
   }
 
   .confirmation {
     display: flex;
     justify-content: center;
     width: 100%;
+
     span {
       font-weight: 700;
     }
+
     button {
       margin-left: 0.5rem;
       margin-right: 1rem;
     }
+
   }
 
   .post-form {
+
     .post-form-tags {
       margin-top: 0.5rem;
+
       .label {
         font-size: 1rem;
         margin-bottom: 0.1rem;
+
         .tag-counter.limit {
           color: $orange;
         }
+
       }
+
     }
+
   }
 
   .anon-form {
     margin-top: 0.5rem;
     font-weight: 700;
+
     input.form-check-input {
       box-shadow: none;
       margin-left: 0.5rem;
       margin-right: 0.3rem;
       cursor: pointer;
+
       &:checked {
         background-color: $orange;
         border: none;
       }
+
     }
+
     .note {
       color: $orange;
       font-weight: 400;
     }
-  }
-
-  .comments {
 
   }
 

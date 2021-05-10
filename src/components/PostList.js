@@ -5,8 +5,6 @@ import PostListItem from "./PostListItem";
 import pin from "../images/icons/pin.png";
 import PropTypes from "prop-types";
 
-// Receiving: props.posts, props.tags, props.selectedTags
-
 const PostList = (props) => {
 
   PostList.propTypes = {

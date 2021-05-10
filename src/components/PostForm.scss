@@ -18,10 +18,10 @@
     padding: 0.5rem;
     border-color: $navy-5;
     border-radius: 5px;
-    @include custom-scrollbar;
     outline: none;
     resize: none;
     word-break: break-all;
+    @include custom-scrollbar;
 
     &:focus {
       border-color: $navy-7;

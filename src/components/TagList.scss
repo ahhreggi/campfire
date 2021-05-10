@@ -1,8 +1,11 @@
 @import "../styles/global.scss";
 
 .TagList {
+
   button.disabled:not(.selected) {
     opacity: 0.4;
-    cursor:initial;
+    cursor: initial;
+
   }
+
 }
