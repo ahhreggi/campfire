@@ -68,7 +68,7 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getAuthorName(props.anonymous),
+      previewAuthor: getAuthorName(props.author, props.anonymous),
       previewTags: props.tags
     });
   }, [state.showForm]);
@@ -77,7 +77,7 @@ const Post = (props) => {
   useEffect(() => {
     setState({
       ...state,
-      previewAuthor: getAuthorName(state.previewAnonymous)
+      previewAuthor: getAuthorName(props.author, state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
 
@@ -177,11 +177,12 @@ const Post = (props) => {
   // Return the author name based on the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getAuthorName = (anonymous) => {
+  // TODO: Move to helper file (also in CommentListItem)
+  const getAuthorName = (author, anonymous) => {
     // Set the displayed author name
-    let name = anonymous ? "Anonymous" : props.author;
-    if (anonymous && props.author) {
-      name = props.author + " (Anonymous to students)";
+    let name = anonymous ? "Anonymous" : author;
+    if (anonymous && author) {
+      name = author + " (Anonymous to students)";
     }
     return name;
   };
@@ -212,7 +213,7 @@ const Post = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getAuthorName(props.anonymous);
+  const authorName = getAuthorName(props.author, props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);

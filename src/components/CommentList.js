@@ -14,11 +14,16 @@ const CommentList = (props) => {
       <CommentListItem
         key={comment.id}
         id={comment.id}
+        parentID={comment.parent_id}
         anonymous={comment.anonymous}
         author={`${comment.author_first_name} ${comment.author_last_name}`}
+        authorRole={comment.role}
+        avatarID={comment.author_avatar_id}
         body={comment.body}
+        score={comment.score}
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
+        endorsed={comment.endorsed}
         editable={comment.editable}
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}

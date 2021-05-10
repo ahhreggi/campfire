@@ -5,16 +5,31 @@
   margin-top: 1rem;
   background-color: $navy-2;
   padding: 1rem;
+
   &:hover {
     background-color: $navy-3;
+
     .reply {
       background-color: $navy-5;
+
       &:hover {
         background-color: $navy-6;
       }
+
     }
+
   }
+
   &.reply {
     background-color: $navy-4;
   }
+
+  .comment-author {
+
+  }
+
+  .comment-body {
+
+  }
+
 }

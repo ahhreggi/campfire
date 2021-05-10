@@ -82,7 +82,7 @@ let dummyCourseData = {
         {
           "id": 5,
           "post_id": 2,
-          "anonymous": false,
+          "anonymous": true,
           "author_first_name": "Carson",
           "author_last_name": "Cool",
           "author_avatar_id": 4,

@@ -8,6 +8,25 @@ import PropTypes from "prop-types";
 
 const CommentListItem = (props) => {
 
+  CommentListItem.propTypes = {
+    id: PropTypes.number,
+    parentID: PropTypes.number,
+    anonymous: PropTypes.bool,
+    author: PropTypes.string,
+    authorRole: PropTypes.string,
+    avatarID: PropTypes.number,
+    body: PropTypes.string,
+    score: PropTypes.number,
+    createdAt: PropTypes.string,
+    lastModified: PropTypes.string,
+    endorsed: PropTypes.bool,
+    editable: PropTypes.bool,
+    endorsable: PropTypes.bool,
+    endorsements: PropTypes.array,
+    replies: PropTypes.array,
+    onEdit: PropTypes.func
+  };
+
   const [commentText, setCommentText] = useState("");
   const [state, setState] = useState({
     showForm: false,
@@ -16,19 +35,7 @@ const CommentListItem = (props) => {
     endorsements: props.endorsements
   });
 
-  CommentListItem.propTypes = {
-    id: PropTypes.number,
-    anonymous: PropTypes.bool,
-    author: PropTypes.string,
-    body: PropTypes.string,
-    createdAt: PropTypes.string,
-    lastModified: PropTypes.string,
-    editable: PropTypes.bool,
-    endorsable: PropTypes.bool,
-    endorsements: PropTypes.array,
-    replies: PropTypes.array,
-    onEdit: PropTypes.func
-  };
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   const toggleForm = () => {
     console.log("toggled comment form");
@@ -53,6 +60,8 @@ const CommentListItem = (props) => {
     setState({ ...state, endorsed: state.endorsed + 1 });
   };
 
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
   const onSave = (event) => {
     event.preventDefault();
     console.log("clicked SUBMIT comment button");
@@ -68,18 +77,37 @@ const CommentListItem = (props) => {
   // If anonymous is true, display anonymous
   // Only instructors can view first/last name
 
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return the author name based on the given anonymous value (bool)
+  // e.g. User is a student: "First Last" or "Anonymous"
+  //      User is the author or an instructor: "First Last (Anonymous to students)"
+  // TODO: Move to helper file (also in Post)
+  const getAuthorName = (author, anonymous) => {
+    // Set the displayed author name
+    let name = anonymous ? "Anonymous" : author;
+    if (anonymous && author) {
+      name = author + " (Anonymous to students)";
+    }
+    return name;
+  };
+
+  // VARIABLES //////////////////////////////////////////////////////
+
+  // Get the author name to display
+  const authorName = getAuthorName(props.author, props.anonymous);
+
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className={`CommentListItem ${!props.replies && "reply"}`}>
-      <div>
-        Author: {props.anonymous ? "Anonymous" : props.author}
+      <div className="comment-avatar">
+        {props.avatarID}
       </div>
-      <div>
-        Anonymous: {props.anonymous ? "true" : "false"}
+      <div className="comment-author">
+        {authorName}
       </div>
-      <div>
-        Author (visible only to instructors when anonymous): {props.author}
-      </div>
-      <div>
+      <div className="comment-body">
         {props.body}
       </div>
       <div>
