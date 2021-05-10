@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Nav from '../components/Nav';
-import '../index.scss';
 
 export default {
   title: 'Nav-bar',
