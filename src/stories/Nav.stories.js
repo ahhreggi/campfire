@@ -12,8 +12,8 @@ const Template = (args) => <Nav {...args} />;
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
   active: true,
-  viewTitle: 'Hello',
+  viewTitle: 'Post',
   courseName: 'March 1st 2021',
-  userAvatar: '../src/images/avatars/2.png',
-  userName: 'LeetHax0r'
+  userAvatar: '/images/avatars/2.png',
+  userName: 'Leigh Touse'
 };
