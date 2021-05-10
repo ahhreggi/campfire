@@ -4,7 +4,7 @@ import Nav from '../components/Nav';
 
 export default {
   title: 'Nav-bar',
-  component: Nav,
+  component: Nav
 };
 
 const Template = (args) => <Nav {...args} />;
