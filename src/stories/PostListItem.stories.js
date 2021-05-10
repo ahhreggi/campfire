@@ -12,6 +12,7 @@ export default {
 const Template = (args) => <PostListItem {...args} />;
 
 export const Primary = Template.bind ({});
+Primary.storyName = 'Default';
 
 Primary.args = {
   title: "How fix code? :(",
