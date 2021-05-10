@@ -9,8 +9,16 @@ export default {
 
 const Template = (args) => <Bookmark {...args} />;
 
-export const TestComponent = Template.bind ({});
+export const Primary = Template.bind ({});
+Primary.storyName = "Not Bookmarked"
 
-TestComponent.args = {
+Primary.args = {
+  bookmarked: false
+};
 
+export const Secondary = Template.bind ({});
+Secondary.storyName = "Bookmarked"
+
+Secondary.args = {
+  bookmarked: true
 };
