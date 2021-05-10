@@ -149,77 +149,78 @@ const CommentListItem = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
+  // Check if the comment is a parent
+  const isParent = !props.parentID;
+
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
 
-  // Create the reply list CommentListItem components
-  const replies = props.replies.map(comment => {
-    const replies = props.replies.map(comment => {
-      return (
-        <CommentListItem
-          key={comment.id}
-          id={comment.id}
-          parentID={comment.parent_id}
-          anonymous={comment.anonymous}
-          author={`${comment.author_first_name} ${comment.author_last_name}`}
-          authorRole={comment.role}
-          avatarID={comment.author_avatar_id}
-          body={comment.body}
-          score={comment.score}
-          createdAt={comment.created_at}
-          lastModified={comment.last_modified}
-          endorsed={comment.endorsed}
-          editable={comment.editable}
-          endorsable={comment.endorsable}
-          endorsements={comment.endorsements}
-          replies={comment.replies}
-          onEdit={props.onEditComment}
-        />
-      );
-    });
+  // Create the reply list CommentListItem components if it's a parent
+  const replies = isParent && props.replies.map(comment => {
+    return (
+      <CommentListItem
+        key={comment.id}
+        id={comment.id}
+        parentID={comment.parent_id}
+        anonymous={comment.anonymous}
+        author={`${comment.author_first_name} ${comment.author_last_name}`}
+        authorRole={comment.role}
+        avatarID={comment.author_avatar_id}
+        body={comment.body}
+        score={comment.score}
+        createdAt={comment.created_at}
+        lastModified={comment.last_modified}
+        endorsed={comment.endorsed}
+        editable={comment.editable}
+        endorsable={comment.endorsable}
+        endorsements={comment.endorsements}
+        replies={comment.replies}
+        onEdit={props.onEditComment}
+      />
+    );
   });
 
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${!props.replies && "reply"}`}>
+    <div className={`CommentListItem ${isParent && "reply"}`}>
+      <main className="comment-parent">
 
-      <section className="left">
+        <section className="left">
 
-        {/* Comment Avatar */}
-        <div className="comment-avatar">
-          avatarid: {props.avatarID}
-        </div>
-
-        {/* Comment Score */}
-        <div className="comment-score">
-          score: {props.score}
-        </div>
-
-      </section>
-
-      <section className="right">
-
-
-        {/* Comment Author */}
-        <div className="comment-author">
-          {authorName}
-        </div>
-
-        {/* Comment Body */}
-        <div className="comment-body">
-          {props.body}
-        </div>
-
-        <footer>
-
-          {/* Comment Timestamp/Last Modified */}
-          <div className="comment-timestamp">
-            created: {props.createdAt} (last modified: {props.lastModified})
+          {/* Comment Avatar */}
+          <div className="comment-avatar">
+            avatarid: {props.avatarID}
           </div>
 
-          {/* Comment Edit Controls */}
-          {props.editable &&
+          {/* Comment Score */}
+          <div className="comment-score">
+            score: {props.score}
+          </div>
+
+        </section>
+
+        <section className="right">
+
+          {/* Comment Author */}
+          <div className="comment-author">
+            {authorName}
+          </div>
+
+          {/* Comment Body */}
+          <div className="comment-body">
+            {props.body}
+          </div>
+
+          <footer>
+
+            {/* Comment Timestamp/Last Modified */}
+            <div className="comment-timestamp">
+            created: {props.createdAt} (last modified: {props.lastModified})
+            </div>
+
+            {/* Comment Edit Controls */}
+            {props.editable &&
             <div className="controls icon-large">
               <>
                 <img
@@ -236,15 +237,21 @@ const CommentListItem = (props) => {
                 />
               </>
             </div>
-          }
+            }
 
-        </footer>
+          </footer>
 
-      </section>
-      {/* <section className="comment-replies">
-        number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
-        {replies}
-      </section> */}
+        </section>
+
+      </main>
+
+      {isParent &&
+        <div className="comment-replies">
+          number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
+          {replies}
+        </div>
+      }
+
       {/* <form className="comment-form" onSubmit={onSave}>
         <label>
           write something:

@@ -1,18 +1,20 @@
 @import "../styles/global.scss";
 
 .CommentListItem {
-  border: 1px solid transparent;
+  border: 1px solid yellow;
+  // border: 1px solid transparent;
   margin-top: 1rem;
   background-color: $navy-2;
-  padding: 1rem;
   display: flex;
   flex-wrap: nowrap;
+  flex-direction: column;
 
   &:hover {
     background-color: $navy-3;
 
     .reply {
       background-color: $navy-5;
+      // background-color: red;
 
       &:hover {
         background-color: $navy-6;
@@ -23,55 +25,72 @@
   }
 
   &.reply {
-    background-color: $navy-4;
+    // background-color: $navy-4;
+    background-color: $orange;
+    margin: 1rem;
   }
 
-  section {
-    border: 2px solid red;
-    height: 100%;
-  }
-
-  section.left {
+  main.comment-parent {
+    border: 2px solid magenta;
     display: flex;
-    flex-direction: column;
-    .comment-avatar {
-      img {
+    padding: 0;
+    height: 100%;
 
-      }
+    section {
+      // border: 2px solid red;
+      height: 100%;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
-    .comment-score {
-      span {
+    section.left {
+      background-color: $red;
+      width: 10rem;
 
+      .comment-avatar {
+        img {
+
+        }
       }
-      img {
 
-      }
-    }
-  }
+      .comment-score {
+        span {
 
-  section.right {
-    .comment-author {
-
-    }
-
-    .comment-body {
-
-    }
-
-    footer {
-      .comment-timestamp {
-
-      }
-      .comment-controls {
+        }
         img {
 
         }
       }
     }
+
+    section.right {
+      background-color: $blue;
+      .comment-author {
+
+      }
+
+      .comment-body {
+
+      }
+
+      footer {
+        .comment-timestamp {
+
+        }
+        .controls {
+          // margin: 0;
+          img {
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+
   }
 
-  section.comment-replies {
+  div.comment-replies {
     border: 2px solid blue;
   }
 
