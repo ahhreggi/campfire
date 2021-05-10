@@ -24,18 +24,6 @@ const PostListItem = (props) => {
     selected: PropTypes.bool
   };
 
-  const tags = props.tags.map((tag, index) => {
-    // return <div>{tag.name}</div>;
-    return (
-      <Button
-        key={index}
-        text={tag.name}
-        styles="tag disabled"
-        disabled={true}
-      />
-    );
-  });
-
   const truncateText = (text, length) => {
     if (text.length > length) {
       let result = "";
@@ -57,6 +45,19 @@ const PostListItem = (props) => {
   const handleClick = () => {
     props.onClick(props.id);
   };
+
+  const tags = props.tags.map((tag, index) => {
+    // return <div>{tag.name}</div>;
+    return (
+      <Button
+        key={index}
+        text={tag.name}
+        styles="tag disabled"
+        onClick={handleClick}
+        disabled={true}
+      />
+    );
+  });
 
   return (
     <div className={`PostListItem ${props.selected ? "selected" : ""}`} onClick={handleClick}>

@@ -2,20 +2,18 @@ import "./Button.scss";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Button = ({text, styles, onClick, disabled}) => {
+const Button = ({text, styles, onClick}) => {
 
   Button.propTypes = {
     id: PropTypes.number,
     text: PropTypes.string,
     styles: PropTypes.string,
-    onClick: PropTypes.func,
-    disabled: PropTypes.bool
+    onClick: PropTypes.func
   };
 
   return (
     <button
-      disabled={disabled}
-      className={`${styles} ${disabled ? "disabled" : ""}`}
+      className={`${styles}`}
       onClick={onClick}
     >
       {text}

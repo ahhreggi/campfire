@@ -36,6 +36,7 @@ button {
     }
     &.disabled {
       opacity: 0.9;
+      cursor: pointer;
     }
     &.filter {
       border-color: $white;
