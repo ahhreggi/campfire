@@ -113,6 +113,16 @@ const CommentListItem = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Like/unlike the comment
+  const toggleLiked = () => {
+    props.onLikeComment(props.id);
+  };
+
+  // Endorse/unendorse the comment
+  const toggleEndorsed = () => {
+    props.onEndorseComment(props.id);
+  };
+
   const onSave = (event) => {
     event.preventDefault();
     console.log("clicked SUBMIT comment button");
@@ -223,18 +233,33 @@ const CommentListItem = (props) => {
             <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
 
-          {/* Comment Score */}
+          {/* Comment Likes */}
           <div className={`comment-counter ${props.liked ? "active" : ""}`}>
-            <span className="icon"><img src={upvote} alt="upvote" /></span>
+            <span className="icon"><img src={upvote} alt="upvote" />
+            </span>
             <span className="number">{props.score}</span>
-            <span className="icon"><img className="score-control" src={props.liked ? minus : plus} alt="plus" /></span>
+            <span className="icon">
+              <img
+                className="score-control"
+                src={props.liked ? minus : plus}
+                alt="plus"
+                onClick={toggleLiked}
+              />
+            </span>
           </div>
 
           {/* Comment Endorsements */}
           <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
             <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
             <span className="number">{props.endorsements.length}</span>
-            <span className="icon endorsements toggle"><img className="score-control" src={props.endorsed ? minus : plus} alt="plus" /></span>
+            <span className="icon endorsements toggle">
+              <img
+                className="score-control"
+                src={props.endorsed ? minus : plus}
+                alt="plus"
+                onClick={toggleEndorsed}
+              />
+            </span>
           </div>
 
         </section>

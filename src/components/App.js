@@ -463,6 +463,8 @@ const App = () => {
                 onBookmarkPost={bookmarkPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
+                onLikeComment={likeComment}
+                onEndorseComment={endorseComment}
                 onEditComment={editComment}
                 onTagToggle={updateSelectedTags}
               />
