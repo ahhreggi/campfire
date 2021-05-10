@@ -91,25 +91,27 @@ const PostList = (props) => {
   });
 
   // Categorize posts as pinned or unpinned
+  // Priority: pinned > bookmarked > default
   const pinned = [];
+  const bookmarked = [];
   const unpinned = [];
 
   for (const post of filteredPosts) {
     if (post.pinned) {
       pinned.push(post);
+    } else if (post.bookmarked) {
+      bookmarked.push(post);
     } else {
       unpinned.push(post);
     }
   }
 
-  // Sort the posts by bookmark status
-  const posts = {
-    pinned: sortByBookmarked(pinned),
-    unpinned: sortByBookmarked(unpinned)
-  };
+  // Sort the pinned posts by bookmark status
+  const sortedPinnedPosts = sortByBookmarked(pinned);
 
-  const pinnedPosts = generatePostListItems(posts.pinned);
-  const unpinnedPosts = generatePostListItems(posts.unpinned);
+  const pinnedPosts = generatePostListItems(sortedPinnedPosts);
+  const bookmarkedPosts = generatePostListItems(bookmarked);
+  const unpinnedPosts = generatePostListItems(unpinned);
 
   ///////////////////////////////////////////////////////////////////
 
@@ -158,6 +160,9 @@ const PostList = (props) => {
           <div className="label">
             <img className="star" src={star} alt="bookmark" />
             BOOKMARKED
+          </div>
+          <div className="list">
+            {bookmarkedPosts}
           </div>
         </div>
 
