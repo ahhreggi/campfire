@@ -57,9 +57,17 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getDisplayName()
+      previewAuthor: getDisplayName(props.anonymous)
     });
   }, [state.showForm]);
+
+  // Update previewAuthor when toggling previewAnonymous
+  useEffect(() => {
+    setState({
+      ...state,
+      previewAuthor: getDisplayName(state.previewAnonymous)
+    });
+  }, [state.previewAnonymous]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -74,9 +82,8 @@ const Post = (props) => {
   };
 
   // Update the preview author dynamically as the user toggles its anonymity
-  // TODO: Manage author name in state?
-  const updatePreviewAuthor = (event) => {
-    setState({ ...state, previewAnonymous: event.target.value });
+  const updatePreviewAnonymous = (event) => {
+    setState({ ...state, previewAnonymous: event.target.checked });
   };
 
   // Toggle and reset the post edit form
@@ -119,13 +126,13 @@ const Post = (props) => {
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // Return the author name to display
+  // Return the author name to display according to the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getDisplayName = () => {
+  const getDisplayName = (anonymous) => {
     // Set the displayed author name
-    let displayName = props.anonymous ? "Anonymous" : props.author;
-    if (props.anonymous && props.author) {
+    let displayName = anonymous ? "Anonymous" : props.author;
+    if (anonymous && props.author) {
       displayName = props.author + " (Anonymous to students)";
     }
     return displayName;
@@ -146,7 +153,7 @@ const Post = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getDisplayName();
+  const authorName = getDisplayName(props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);
@@ -269,6 +276,16 @@ const Post = (props) => {
             onChange={updatePreviewBody}
             styles="form-body"
           />
+          <div className="anon-form">
+            Post as anonymous?
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={state.previewAnonymous}
+              onChange={updatePreviewAnonymous}
+            />
+            <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
+          </div>
         </div>
       }
 
