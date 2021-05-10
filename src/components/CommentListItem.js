@@ -5,6 +5,8 @@ import CommentList from "./CommentList";
 import PostForm from "./PostForm";
 import upvote from "../images/icons/upvote.png";
 import endorse from "../images/icons/endorse.png";
+import plus from "../images/icons/plus.png";
+import minus from "../images/icons/minus.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import PropTypes from "prop-types";
@@ -185,8 +187,9 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${isParent && "reply"}`}>
+    <div className={`CommentListItem ${isParent ? "parent" : "child"}`}>
       <main className="comment-parent">
+        {/* this is a {isParent ? "parent" : "child"} */}
 
         <section className="left">
 
@@ -196,24 +199,35 @@ const CommentListItem = (props) => {
           </div>
 
           {/* Comment Score */}
-          <div className={`comment-score ${props.liked ? "liked" : ""}`}>
-            <span className="arrow"><img src={upvote} alt="upvote" /></span>
-            <span className="counter">{props.score}</span>
-            <span className="arrow"></span>
+          <div className={`comment-counter ${props.liked ? "liked" : ""}`}>
+            <span className="icon"><img src={upvote} alt="upvote" /></span>
+            <span className="number">{props.score}</span>
+            <span className="icon"><img className="score-control" src={props.liked ? minus : plus} alt="plus" /></span>
+          </div>
+
+          {/* Comment Endorsements */}
+          <div className={`comment-counter ${props.endorsed ? "liked" : ""}`}>
+            <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
+            <span className="number">{props.endorsements.length}</span>
+            <span className="icon endorsements toggle"><img className="score-control" src={props.endorsed ? minus : plus} alt="plus" /></span>
           </div>
 
         </section>
 
         <section className="right">
 
-          {/* Comment Author */}
-          <div className="comment-author">
-            {authorName}
-          </div>
+          <div>
 
-          {/* Comment Body */}
-          <div className="comment-body">
-            {props.body}
+            {/* Comment Author */}
+            <div className="comment-author">
+              {authorName}
+            </div>
+
+            {/* Comment Body */}
+            <div className="comment-body">
+              {props.body}
+            </div>
+
           </div>
 
           <footer>
