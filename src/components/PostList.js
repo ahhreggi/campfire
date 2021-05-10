@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./PostList.scss";
 import Button from "./Button";
 import TagList from "./TagList";
@@ -16,12 +17,30 @@ const PostList = (props) => {
     onClick: PropTypes.func,
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
-    onTagClear: PropTypes.func
+    onTagClear: PropTypes.func,
   };
 
-  // TODO: Create functions to add/delete/clear all ids from selectedTags
+  const [state, setState] = useState({
+    showFilters: true,
+    showPinned: true,
+    showBookmarked: true,
+    showPosts: true
+  });
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const toggleList = (category) => {
+    console.log("toggling", category);
+    if (category === "filters") {
+      setState({ ...state, showFilters: !state.showFilters });
+    } else if (category === "pinned") {
+      setState({ ...state, showPinned: !state.showPinned });
+    } else if (category === "bookmarked") {
+      setState({ ...state, showBookmarked: !state.showBookmarked });
+    } else if (category === "posts") {
+      setState({ ...state, showPosts: !state.showPosts });
+    }
+  };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -118,7 +137,7 @@ const PostList = (props) => {
     <div className="PostList">
 
       {/* Filters */}
-      <div className="label">
+      <div className="label" onClick={() => toggleList("filters")}>
         FILTERS
       </div>
       <div className="tags">
@@ -145,7 +164,7 @@ const PostList = (props) => {
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${!pinnedPosts.length && "empty"}`}>
+          <div className={`label ${!pinnedPosts.length && "empty"}`} onClick={() => toggleList("pinned")}>
             <img src={pin} alt="pin" />
             PINNED
           </div>
@@ -156,7 +175,7 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${!bookmarkedPosts.length && "empty"}`}>
+          <div className={`label ${!bookmarkedPosts.length && "empty"}`} onClick={() => toggleList("bookmarked")}>
             <img src={star} alt="bookmark" />
             BOOKMARKED
           </div>
@@ -167,7 +186,7 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${!unpinnedPosts.length && "empty"}`}>
+          <div className={`label ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
             <img src={question} alt="question" />
             POSTS
           </div>
