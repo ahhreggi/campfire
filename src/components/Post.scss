@@ -6,7 +6,7 @@
     opacity: 0.5;
   }
 
-  .status {
+  header.status {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,7 +27,6 @@
     }
 
     .counters {
-      margin-right: 0.5rem;
       font-size: 0.9rem;
       color: $white;
 
@@ -35,11 +34,15 @@
         margin-right: 1rem;
       }
 
+      img {
+        margin-bottom: 0.15rem;
+      }
+
     }
 
   }
 
-  .header {
+  .post-header {
     display: flex;
     overflow: hidden;
     flex-wrap: wrap;
@@ -54,7 +57,7 @@
 
   }
 
-  .subheader {
+  .post-subheader {
     font-size: 0.8rem;
     margin: 0.5rem 0;
 
@@ -70,7 +73,27 @@
 
   }
 
-  .body {
+  footer.post-icons {
+    display: flex;
+    justify-content: space-between;
+    .list-controls {
+      img {
+        width: 1.5rem;
+        cursor: pointer;
+      }
+      .pin {
+        margin-right: 0.6rem;
+      }
+    }
+    .disabled {
+      opacity: 0.4;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .post-body {
     margin: 1rem 0;
     word-break: break-all;
   }
@@ -78,14 +101,15 @@
   .controls {
     display: flex;
     justify-content: flex-end;
+    margin-right: 0.2rem;
 
     img {
       margin-left: 1rem;
       cursor: pointer;
-      opacity: 0.5;
+      opacity: 0.8;
 
       &:hover {
-        opacity: 0.7;
+        opacity: 1;
       }
 
       &.active {

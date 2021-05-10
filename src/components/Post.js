@@ -7,6 +7,8 @@ import CommentList from "./CommentList";
 import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
+import pin from "../images/icons/pin.png";
+import star from "../images/icons/star.png";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
@@ -218,7 +220,7 @@ const Post = (props) => {
         </header>
 
         {/* Bookmark Toggler & Title */}
-        <div className="header">
+        <div className="post-header">
           <span className="bookmark">
             <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
           </span>
@@ -228,26 +230,40 @@ const Post = (props) => {
         </div>
 
         {/* Author & Timestamps */}
-        <div className="subheader">
+        <div className="post-subheader">
           <div>
             Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
           </div>
           {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
         </div>
 
-        {/* Tag Buttons */}
-        <div className="tags">
-          <TagList
-            tags={props.tags}
-            selectedTags={props.tags}
-            onClick={handleClick}
-          />
-        </div>
+        <footer className="post-icons">
+
+          {/* Tag Buttons */}
+          <div className="tags">
+            <TagList
+              tags={props.tags}
+              selectedTags={props.tags}
+              onClick={handleClick}
+            />
+          </div>
+
+          {/* Pin & Bookmark Togglers */}
+          <div className="list-controls">
+            <span className="pin icon-med">
+              <img src={pin} alt="pin" />
+            </span>
+            <span className="bookmark icon-med">
+              <img src={star} alt="bookmark" />
+            </span>
+          </div>
+
+        </footer>
 
         <hr />
 
         {/* Post Body */}
-        <div className="body">
+        <div className="post-body">
           {props.body}
         </div>
 
@@ -261,21 +277,21 @@ const Post = (props) => {
           <div className="label">Preview</div>
 
           {/* PREVIEW: Post Title */}
-          <div className="header">
+          <div className="post-header">
             <div>
               {state.previewTitle}
             </div>
           </div>
 
           {/* PREVIEW: Author */}
-          <div className="subheader">
+          <div className="post-subheader">
             <div>
               Posting as <span className="author">{state.previewAuthor}</span>
             </div>
           </div>
 
           {/* PREVIEW: Post Body */}
-          <div className="body">
+          <div className="post-body">
             {state.previewBody}
           </div>
 
