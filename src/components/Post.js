@@ -5,7 +5,6 @@ import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
-import preview from "../images/icons/paper.png";
 import trash from "../images/icons/trash.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";

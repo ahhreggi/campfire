@@ -34,7 +34,7 @@
     justify-content: space-between;
 
     &.active {
-      background: linear-gradient($navy-5, $navy-1);
+      background: linear-gradient($navy-6, $navy-1);
     }
 
     &:not(.empty) {
@@ -42,7 +42,7 @@
     }
 
     &:hover:not(.empty) {
-      // background: linear-gradient($navy-6, $navy-1);
+      background: linear-gradient($navy-6, $navy-1);
       .arrows {
         img {
           filter: invert(85%);
@@ -58,8 +58,8 @@
     }
 
     &.empty {
-      opacity: 0.7;
-      background: linear-gradient($navy-4, $black);
+      opacity: 0.6;
+      background: linear-gradient($navy-5, $navy-1);
     }
 
     .arrows {

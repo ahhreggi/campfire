@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./PostList.scss";
 import Button from "./Button";
 import TagList from "./TagList";
@@ -29,6 +29,16 @@ const PostList = (props) => {
     showBookmarked: true,
     showPosts: true
   });
+
+  // Uncollapse categories when selecting a filter
+  useEffect(() => {
+    setState({
+      showFilters: true,
+      showPinned: true,
+      showBookmarked: true,
+      showPosts: true
+    });
+  }, [props.selectedTags]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
