@@ -405,15 +405,20 @@ const App = () => {
   };
 
   // Update the selected tags dynamically as the user toggles them
-  const updateSelectedTags = (tag) => {
-    const selected = hasTag(state.selectedTags, tag.id);
-    // If the tag is already selected, unselect it
-    if (selected) {
-      const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
-      setState({ ...state, selectedTags: updatedTags });
-      // Otherwise, select it
+  const updateSelectedTags = (tag, only = false) => {
+    // If only is true, select only the given tag
+    if (only) {
+      setState({ ...state, selectedTags: [tag] });
     } else {
-      setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+      const selected = hasTag(state.selectedTags, tag.id);
+      // If the tag is already selected, unselect it
+      if (selected) {
+        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+        setState({ ...state, selectedTags: updatedTags });
+        // Otherwise, select it
+      } else {
+        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+      }
     }
   };
 
@@ -471,6 +476,7 @@ const App = () => {
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onEditComment={editComment}
+                onTagToggle={updateSelectedTags}
               />
             </div>
           </section>

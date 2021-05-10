@@ -32,7 +32,8 @@ const Post = (props) => {
     views: PropTypes.number,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
-    onEditComment: PropTypes.func
+    onEditComment: PropTypes.func,
+    onTagToggle: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -112,6 +113,10 @@ const Post = (props) => {
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
     setState({ ...state, showConfirmation: !state.showConfirmation });
+  };
+
+  const handleClick = (tag) => {
+    props.onTagToggle(tag, true);
   };
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
@@ -235,7 +240,7 @@ const Post = (props) => {
           <TagList
             tags={props.tags}
             selectedTags={props.tags}
-            onClick={() => console.log("Clicking this will filter PostList by this tag!")}
+            onClick={handleClick}
           />
         </div>
 

@@ -12,7 +12,8 @@ const Main = (props) => {
     postID: PropTypes.number,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
-    onEditComment: PropTypes.func
+    onEditComment: PropTypes.func,
+    onTagToggle: PropTypes.func
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -53,6 +54,7 @@ const Main = (props) => {
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onEditComment={props.onEditComment}
+          onTagToggle={props.onTagToggle}
         />
       }
 
