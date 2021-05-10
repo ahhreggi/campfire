@@ -162,7 +162,7 @@ let dummyCourseData = {
               "body": "Thanks for this!!",
               "score": 0,
               "created_at": "2021-05-10T15:40:05.671Z",
-              "last_modified": "2021-05-10T15:40:05.671Z",
+              "last_modified": "2021-06-10T15:40:05.671Z",
               "liked": false,
               "endorsed": true,
               "role": "student",

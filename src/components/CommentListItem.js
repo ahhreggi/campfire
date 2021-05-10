@@ -255,7 +255,7 @@ const CommentListItem = (props) => {
           <footer>
 
             {/* Comment Timestamp/Last Modified */}
-            <div className="comment-timestamp">
+            <div className={`comment-timestamp ${props.createdAt !== props.lastModified && "modified"}`}>
               {timestamp}
             </div>
 

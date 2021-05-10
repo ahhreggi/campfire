@@ -139,6 +139,9 @@
         .comment-timestamp {
           font-size: 0.7rem;
           opacity: 0.6;
+          &.modified {
+            font-style: italic;
+          }
         }
 
         .controls {
@@ -173,11 +176,6 @@
 
         footer {
           opacity: 1;
-
-          .comment-timestamp {
-            font-size: 0.7rem;
-            opacity: 0.9;
-          }
 
           div.controls {
             opacity: 1;
