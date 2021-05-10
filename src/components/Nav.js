@@ -8,7 +8,7 @@ const Nav = (props) => {
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
-    userAvatar: PropTypes.string,
+    userAvatar: PropTypes.number,
     userName: PropTypes.string
   };
 
@@ -36,7 +36,7 @@ const Nav = (props) => {
 
         {/* User Name */}
         <div>
-          <img src={props.userAvatar} alt="Avatar" />
+          <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
           <span className="user-name">{props.userName}</span>
         </div>
 
