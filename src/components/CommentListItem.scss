@@ -5,6 +5,8 @@
   margin-top: 1rem;
   background-color: $navy-2;
   padding: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
 
   &:hover {
     background-color: $navy-3;
@@ -24,38 +26,53 @@
     background-color: $navy-4;
   }
 
-  .comment-avatar {
-    img {
-
-    }
+  section {
+    border: 2px solid red;
+    height: 100%;
   }
 
-  .comment-score {
-    span {
-
-    }
-    img {
-
-    }
-  }
-
-  .comment-author {
-
-  }
-
-  .comment-body {
-
-  }
-
-  footer {
-    .comment-timestamp {
-
-    }
-    .comment-controls {
+  section.left {
+    display: flex;
+    flex-direction: column;
+    .comment-avatar {
       img {
 
       }
     }
+
+    .comment-score {
+      span {
+
+      }
+      img {
+
+      }
+    }
+  }
+
+  section.right {
+    .comment-author {
+
+    }
+
+    .comment-body {
+
+    }
+
+    footer {
+      .comment-timestamp {
+
+      }
+      .comment-controls {
+        img {
+
+        }
+      }
+    }
+  }
+
+  section.comment-replies {
+    border: 2px solid blue;
   }
 
 }

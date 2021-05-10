@@ -195,6 +195,7 @@ const Post = (props) => {
   };
 
   // Convert timestamp into a readable format
+  // TODO: Move to helper file
   const formatTimestamp = (timestamp) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
   };

@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./CommentListItem.scss";
 import Button from "./Button";
 import CommentList from "./CommentList";
+import PostForm from "./PostForm";
 import upvote from "../images/icons/upvote.png";
 import endorse from "../images/icons/endorse.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 const CommentListItem = (props) => {
 
@@ -26,12 +28,13 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
     endorsements: PropTypes.array,
     replies: PropTypes.array,
-    onEdit: PropTypes.func
+    onEditComment: PropTypes.func
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
+    showReplies: false,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
     previewAuthor: props.author,
@@ -39,11 +42,48 @@ const CommentListItem = (props) => {
     breakBody: false
   });
 
+  // Update previewAuthor when toggling previewAnonymous
+  useEffect(() => {
+    setState({
+      ...state,
+      previewAuthor: getAuthorName(props.author, state.previewAnonymous)
+    });
+  }, [state.previewAnonymous]);
+
+  // Update breakBody when updating previewBody
+  useEffect(() => {
+    const checkBody = getLongestWordLength(state.previewBody) > 34;
+    setState({ ...state, breakBody: checkBody });
+  }, [state.previewBody]);
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
+  // Update the preview body dynamically as the user types
+  const updatePreviewBody = (event) => {
+    setState({ ...state, previewBody: event.target.value });
+  };
+
+  // Update the preview author dynamically as the user toggles its anonymity
+  const updatePreviewAnonymous = (event) => {
+    setState({ ...state, previewAnonymous: event.target.checked });
+  };
+
+  // Toggle and reset the post edit form
   const toggleForm = () => {
-    console.log("toggled comment form");
-    setState({ ...state, showForm: !state.showForm });
+    if (!state.showForm && state.showConfirmation) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    } else {
+      setState({ ...state, showForm: !state.showForm });
+    }
+  };
+
+  // Toggle delete confirmation form
+  const toggleConfirmation = () => {
+    if (!state.showConfirmation && state.showForm) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    } else {
+      setState({ ...state, showConfirmation: !state.showConfirmation });
+    }
   };
 
   const editComment = () => {
@@ -75,7 +115,7 @@ const CommentListItem = (props) => {
       "body": state.previewBody,
       "last_modified": "some new last_modified time",
     };
-    props.onEdit(props.id, updatedData);
+    props.onEditComment(props.id, updatedData);
   };
 
   // If anonymous is true, display anonymous
@@ -96,63 +136,116 @@ const CommentListItem = (props) => {
     return name;
   };
 
+  // Convert timestamp into a readable format
+  // TODO: Move to helper file
+  const formatTimestamp = (timestamp) => {
+    return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  };
+
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    return Math.max(...text.split(" ").map(word => word.length));
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
 
+  // Create the reply list CommentListItem components
+  const replies = props.replies.map(comment => {
+    const replies = props.replies.map(comment => {
+      return (
+        <CommentListItem
+          key={comment.id}
+          id={comment.id}
+          parentID={comment.parent_id}
+          anonymous={comment.anonymous}
+          author={`${comment.author_first_name} ${comment.author_last_name}`}
+          authorRole={comment.role}
+          avatarID={comment.author_avatar_id}
+          body={comment.body}
+          score={comment.score}
+          createdAt={comment.created_at}
+          lastModified={comment.last_modified}
+          endorsed={comment.endorsed}
+          editable={comment.editable}
+          endorsable={comment.endorsable}
+          endorsements={comment.endorsements}
+          replies={comment.replies}
+          onEdit={props.onEditComment}
+        />
+      );
+    });
+  });
+
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className={`CommentListItem ${!props.replies && "reply"}`}>
-      <div className="comment-avatar">
-        avatarid: {props.avatarID}
-      </div>
-      <div className="comment-score">
-        score: {props.score}
-      </div>
-      <div className="comment-author">
-        {authorName}
-      </div>
-      <div className="comment-body">
-        {props.body}
-      </div>
-      <footer>
-        <div className="comment-timestamp">
-          created: {props.createdAt} (last modified: {props.lastModified})
+
+      <section className="left">
+
+        {/* Comment Avatar */}
+        <div className="comment-avatar">
+          avatarid: {props.avatarID}
         </div>
-        {props.editable &&
-          <div className="controls icon-large">
-            <>
-              <img
-                className={state.showForm ? "active" : ""}
-                src={edit}
-                alt="edit"
-                onClick={toggleForm}
-              />
-              <img
-                className={state.showConfirmation ? "active" : ""}
-                src={trash}
-                alt="delete"
-                onClick={() => console.log("")}
-              />
-            </>
+
+        {/* Comment Score */}
+        <div className="comment-score">
+          score: {props.score}
+        </div>
+
+      </section>
+
+      <section className="right">
+
+
+        {/* Comment Author */}
+        <div className="comment-author">
+          {authorName}
+        </div>
+
+        {/* Comment Body */}
+        <div className="comment-body">
+          {props.body}
+        </div>
+
+        <footer>
+
+          {/* Comment Timestamp/Last Modified */}
+          <div className="comment-timestamp">
+            created: {props.createdAt} (last modified: {props.lastModified})
           </div>
-        }
-      </footer>
-      <div>
-        endorsable: {props.endorsable ? "true" : "false"}
-      </div>
-      <div>
-        endorsements: {props.endorsements.length}
-      </div>
-      <div>
-        editable: {props.editable ? "true" : "false"}
-      </div>
-      <div>
+
+          {/* Comment Edit Controls */}
+          {props.editable &&
+            <div className="controls icon-large">
+              <>
+                <img
+                  className={state.showForm ? "active" : ""}
+                  src={edit}
+                  alt="edit"
+                  onClick={toggleForm}
+                />
+                <img
+                  className={state.showConfirmation ? "active" : ""}
+                  src={trash}
+                  alt="delete"
+                  onClick={toggleConfirmation}
+                />
+              </>
+            </div>
+          }
+
+        </footer>
+
+      </section>
+      {/* <section className="comment-replies">
         number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
-      </div>
-      <form className="comment-form" onSubmit={onSave}>
+        {replies}
+      </section> */}
+      {/* <form className="comment-form" onSubmit={onSave}>
         <label>
           write something:
         </label>
@@ -164,7 +257,7 @@ const CommentListItem = (props) => {
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
       {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>}
+      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>} */}
     </div>
   );
 };
