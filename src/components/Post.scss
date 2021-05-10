@@ -96,7 +96,10 @@
 
   .post-body {
     margin: 1rem 0;
-    word-break: break-all;
+    word-break: normal;
+    &.break {
+      word-break: break-all;
+    }
   }
 
   .controls {
@@ -190,10 +193,16 @@
     font-weight: 700;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    img {
+      width: 1.1rem;
+      margin-left: 0.5rem;
+      margin-bottom: 0.1rem;
+    }
     .comments {
       img {
         margin-bottom: 0.2rem;
         margin-right: 0.5rem;
+        margin-left: 0;
       }
     }
   }

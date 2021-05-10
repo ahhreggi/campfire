@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import "./Post.scss";
-import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
+import preview from "../images/icons/paper.png";
 import trash from "../images/icons/trash.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
@@ -48,7 +48,8 @@ const Post = (props) => {
     previewBody: props.body,
     previewAnonymous: props.anonymous,
     previewAuthor: props.author,
-    previewTags: props.tags
+    previewTags: props.tags,
+    breakBody: false
   });
 
   // Reset form and confirmation states when switching posts
@@ -79,6 +80,13 @@ const Post = (props) => {
       previewAuthor: getAuthorName(state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
+
+  // Update breakBody when updating previewTitle and previewBody
+  useEffect(() => {
+    const checkTitle = getLongestWordLength(state.previewTitle) > 34;
+    const checkBody = getLongestWordLength(state.previewBody) > 34;
+    setState({ ...state, breakBody: checkTitle || checkBody });
+  }, [state.previewTitle, state.previewBody]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -188,6 +196,11 @@ const Post = (props) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
 
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    return Math.max(...text.split(" ").map(word => word.length));
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -268,7 +281,7 @@ const Post = (props) => {
         <hr />
 
         {/* Post Body */}
-        <div className="post-body">
+        <div className={`post-body ${state.breakBody && "break"}`}>
           {props.body}
         </div>
 
@@ -279,7 +292,10 @@ const Post = (props) => {
         <div className="preview">
 
           <hr />
-          <div className="label">Preview</div>
+          <div className="label">
+            Preview
+            <img src={preview} alt="preview" />
+          </div>
 
           {/* PREVIEW: Post Title */}
           <div className="post-header">
@@ -296,7 +312,7 @@ const Post = (props) => {
           </div>
 
           {/* PREVIEW: Post Body */}
-          <div className="post-body">
+          <div className={`post-body ${state.breakBody && "break"}`}>
             {state.previewBody}
           </div>
 
