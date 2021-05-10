@@ -425,6 +425,7 @@ const App = () => {
           <section>
             <div className="left">
               <PostList
+                selectedPostID={state.postID}
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
                 onClick={(postID) => selectActive("Post", postID)}

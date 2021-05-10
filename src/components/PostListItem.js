@@ -20,7 +20,8 @@ const PostListItem = (props) => {
     comments: PropTypes.number,
     showStudentBadge: PropTypes.bool,
     showInstructorBadge: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    selected: PropTypes.bool
   };
 
   const tags = props.tags.map((tag, index) => {
@@ -58,7 +59,7 @@ const PostListItem = (props) => {
   };
 
   return (
-    <div className="PostListItem" onClick={handleClick}>
+    <div className={`PostListItem ${props.selected ? "selected" : ""}`} onClick={handleClick}>
       <header>
         <div className="header-left">
           <span className="bookmark">

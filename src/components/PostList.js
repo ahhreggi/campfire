@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 const PostList = (props) => {
 
   PostList.propTypes = {
+    selectedPostID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func
@@ -96,6 +97,7 @@ const PostList = (props) => {
           showStudentBadge={showStudentBadge}
           showInstructorBadge={showInstructorBadge}
           onClick={props.onClick}
+          selected={props.selectedPostID === post.id}
         />
       );
     });

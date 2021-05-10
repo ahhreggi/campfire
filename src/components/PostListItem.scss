@@ -5,12 +5,16 @@
   transition: 0.1s;
   background-color: $navy-2;
   margin: 0.25rem;
-  &:hover {
+  &:hover,
+  &.selected {
     border: 1px solid $navy-5;
     cursor: pointer;
     background-color: $navy-3;
     div.summary {
       color: $navy-7;
+    }
+    &.selected {
+      border-color: $white;
     }
     .tags,
     .counters {
