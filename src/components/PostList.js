@@ -15,13 +15,22 @@ const PostList = (props) => {
     onClick: PropTypes.func
   };
 
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([
+    {
+      "id": 1,
+      "name": "Callbacks"
+    },
+    {
+      "id": 2,
+      "name": "Closures"
+    }
+  ]);
 
   // TODO: Create functions to add/delete/clear all ids from selectedTags
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  const toggleFilter = (tagID) => {
+  const toggleFilter = (tag) => {
     console.log("toggle~");
   };
 
@@ -75,10 +84,17 @@ const PostList = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
+  // Return true if the given tagID is in tags
+  // TODO: Move to helper file (also in Post)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
+
   // If no tags are selected, use all posts, otherwise filter by selected tags
   const filteredPosts = !selectedTags.length ? props.posts : props.posts.filter(post => {
+    // Check if each post has at least one of the selected tags
     for (const tag of post.tags) {
-      if (selectedTags.includes(tag.id)) {
+      if (hasTag(selectedTags, tag.id)) {
         return true;
       }
     }
@@ -116,7 +132,7 @@ const PostList = (props) => {
       <div className="tags">
         <TagList
           tags={props.tags}
-          selectedTags={[]}
+          selectedTags={selectedTags}
           onClick={toggleFilter}
           styles={"tag filter"}
         />
