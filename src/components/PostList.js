@@ -5,6 +5,7 @@ import TagList from "./TagList";
 import PostListItem from "./PostListItem";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
+import question from "../images/icons/question.png";
 import PropTypes from "prop-types";
 
 const PostList = (props) => {
@@ -43,7 +44,6 @@ const PostList = (props) => {
           title={post.title}
           body={post.body}
           pinned={post.pinned}
-          bookmarked={post.bookmarked}
           bestAnswer={post.best_answer}
           tags={post.tags}
           views={post.views}
@@ -147,7 +147,7 @@ const PostList = (props) => {
         {/* Pinned */}
         <div className="pinned">
           <div className="label">
-            <img className="pin" src={pin} alt="pin" />
+            <img src={pin} alt="pin" />
             PINNED
           </div>
           <div className="list">
@@ -158,7 +158,7 @@ const PostList = (props) => {
         {/* Bookmarked */}
         <div className="bookmarked">
           <div className="label">
-            <img className="star" src={star} alt="bookmark" />
+            <img src={star} alt="bookmark" />
             BOOKMARKED
           </div>
           <div className="list">
@@ -169,6 +169,7 @@ const PostList = (props) => {
         {/* Posts */}
         <div className="unpinned">
           <div className="label">
+            <img src={question} alt="question" />
             POSTS
           </div>
           <div className="list">

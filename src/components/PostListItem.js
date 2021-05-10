@@ -1,7 +1,5 @@
 import "./PostListItem.scss";
-import Bookmark from "./Bookmark";
 import Badge from "./Badge";
-import Button from "./Button";
 import TagList from "./TagList";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
@@ -15,7 +13,6 @@ const PostListItem = (props) => {
     body: PropTypes.string,
     bestAnswer: PropTypes.number,
     pinned: PropTypes.bool,
-    bookmarked: PropTypes.bool,
     tags: PropTypes.array,
     views: PropTypes.number,
     comments: PropTypes.number,
@@ -61,13 +58,10 @@ const PostListItem = (props) => {
 
       <header>
 
-        {/* Bookmark Toggler & Title */}
+        {/* Post Title */}
         <div className="header-left">
-          <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
-          </span>
           <span className="title">
-            {truncateText(props.title, 32)}
+            {truncateText(props.title, 38)}
           </span>
         </div>
 
