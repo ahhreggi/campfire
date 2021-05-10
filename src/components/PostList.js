@@ -43,6 +43,11 @@ const PostList = (props) => {
     }
   };
 
+  // Clear selected tags
+  const clearSelectedTags = () => {
+    setSelectedTags([]);
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Create PostListItem components with the given array of posts
@@ -145,7 +150,18 @@ const PostList = (props) => {
           onClick={updateSelectedTags}
           styles={"tag filter"}
         />
-        {selectedTags.length > 0 && <Button type="tag-clear" text="clear" />}
+        {selectedTags.length > 0 &&
+          <>
+            <hr />
+            <div className="tag-clear">
+              <Button
+                text="clear filters"
+                styles="tag clear"
+                onClick={() => clearSelectedTags()}
+              />
+            </div>
+          </>
+        }
       </div>
       <div className="posts">
         <div className="pinned">

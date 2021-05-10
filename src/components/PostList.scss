@@ -11,6 +11,15 @@
   .tags {
     padding: 0.2rem;
     margin-left: 0.2rem;
+    hr {
+      margin: 0.5rem 0;
+    }
+    .tag-clear {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-bottom: 0.3rem;
+    }
   }
 
   .label {
