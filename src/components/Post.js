@@ -263,6 +263,7 @@ const Post = (props) => {
               tags={props.tags}
               selectedTags={props.tags}
               onClick={handleClick}
+              disabled={state.showForm || state.showConfirmation}
             />
           </div>
 
