@@ -7,6 +7,20 @@
   height: 6rem;
   user-select: none;
 
+  &.pinned {
+    border-left: 1px solid $red;
+    &:hover {
+      border-left-color: $red;
+    }
+  }
+
+  &.bookmarked {
+    border-left: 1px solid $yellow;
+    &:hover {
+      border-left-color: $yellow;
+    }
+  }
+
   &:hover,
   &.selected {
     border: 1px solid $navy-5;
@@ -19,7 +33,13 @@
     }
 
     &.selected {
-      border-color: $white;
+      border-right-color: $white;
+      &.pinned {
+        border-left-color: $red;
+      }
+      &.bookmarked {
+        border-left-color: $yellow;
+      }
     }
 
     .tags,
@@ -53,7 +73,7 @@
         font-size: 0.9rem;
         margin-left: 0.5rem;
         &.bookmarked {
-          color: $yellow;
+          border-left-color: $yellow;
         }
       }
 

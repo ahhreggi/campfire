@@ -53,7 +53,7 @@ const PostListItem = (props) => {
 
   return (
     <div
-      className={`PostListItem ${props.selected ? "selected" : ""}`}
+      className={`PostListItem ${props.selected ? "selected" : ""} ${props.pinned && "pinned"} ${props.bookmarked && "bookmarked"}`}
       onClick={handleClick}
     >
 
