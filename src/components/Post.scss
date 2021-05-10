@@ -98,6 +98,16 @@
     }
   }
 
+  .post-form {
+    input.form-check-input {
+      box-shadow: none;
+      &:checked {
+        background-color: $orange;
+        border: none;
+      }
+    }
+  }
+
   .comments {
 
   }

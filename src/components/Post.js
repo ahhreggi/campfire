@@ -276,11 +276,14 @@ const Post = (props) => {
             onChange={updatePreviewBody}
             styles="form-body"
           />
-          <input
-            type="checkbox"
-            checked={state.previewAnonymous}
-            onChange={updatePreviewAnonymous}
-          />
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={state.previewAnonymous}
+              onChange={updatePreviewAnonymous}
+            />
+          </div>
         </div>
       }
 
