@@ -8,3 +8,9 @@ export default {
 };
 
 const Template = (args) => <CommentList {...args} />;
+
+export const TestComponent = Template.bind ({});
+
+TestComponent.args = {
+
+};

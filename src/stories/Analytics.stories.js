@@ -8,3 +8,9 @@ export default {
 };
 
 const Template = (args) => <Analytics {...args} />;
+
+export const TestComponent = Template.bind ({});
+
+TestComponent.args = {
+
+};

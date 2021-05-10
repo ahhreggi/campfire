@@ -8,3 +8,9 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
+
+export const TestComponent = Template.bind ({});
+
+TestComponent.args = {
+
+};

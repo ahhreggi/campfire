@@ -8,3 +8,9 @@ export default {
 };
 
 const Template = (args) => <Main {...args} />;
+
+export const TestComponent = Template.bind ({});
+
+TestComponent.args = {
+
+};

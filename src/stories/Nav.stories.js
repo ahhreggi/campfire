@@ -10,8 +10,9 @@ export default {
 const Template = (args) => <Nav {...args} />;
 
 export const LoggedIn = Template.bind({});
+
 LoggedIn.args = {
-  active: true,
+  // active: true,
   viewTitle: 'Post',
   courseName: 'March 1st 2021',
   userAvatar: '/images/avatars/2.png',

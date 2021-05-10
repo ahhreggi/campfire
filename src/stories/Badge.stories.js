@@ -8,3 +8,9 @@ export default {
 };
 
 const Template = (args) => <Badge {...args} />;
+
+export const TestComponent = Template.bind ({});
+
+TestComponent.args = {
+
+};
