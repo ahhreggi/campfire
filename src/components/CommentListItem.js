@@ -9,6 +9,7 @@ import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
+import checkmark from "../images/icons/checkmark.png";
 import PropTypes from "prop-types";
 import moment from "moment";
 
@@ -243,6 +244,12 @@ const CommentListItem = (props) => {
             {/* Comment Author */}
             <div className="comment-author">
               {authorName}
+              {isBestAnswer &&
+                <div className="best">
+                  <img src={checkmark} alt="checkmark" />
+                  BEST ANSWER
+                </div>
+              }
             </div>
 
             {/* Comment Body */}
