@@ -4,6 +4,7 @@ import Button from "./Button";
 import TagList from "./TagList";
 import PostListItem from "./PostListItem";
 import pin from "../images/icons/pin.png";
+import star from "../images/icons/star.png";
 import PropTypes from "prop-types";
 
 const PostList = (props) => {
@@ -114,6 +115,8 @@ const PostList = (props) => {
 
   return (
     <div className="PostList">
+
+      {/* Filters */}
       <div className="label">
         FILTERS
       </div>
@@ -138,15 +141,27 @@ const PostList = (props) => {
         }
       </div>
       <div className="posts">
+
+        {/* Pinned */}
         <div className="pinned">
           <div className="label">
+            <img className="pin" src={pin} alt="pin" />
             PINNED
-            <img src={pin} alt="pin" />
           </div>
           <div className="list">
             {pinnedPosts}
           </div>
         </div>
+
+        {/* Bookmarked */}
+        <div className="bookmarked">
+          <div className="label">
+            <img className="star" src={star} alt="bookmark" />
+            BOOKMARKED
+          </div>
+        </div>
+
+        {/* Posts */}
         <div className="unpinned">
           <div className="label">
             POSTS
@@ -156,6 +171,7 @@ const PostList = (props) => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };

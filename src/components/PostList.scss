@@ -32,7 +32,14 @@
 
     img {
       width: 0.8rem;
-      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+
+      &.pin {
+      }
+
+      &.star {
+        margin-bottom: 0.2rem;
+      }
     }
 
   }
