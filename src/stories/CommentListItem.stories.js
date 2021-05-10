@@ -44,7 +44,7 @@ Third.args = {
   ...Primary.args,
   replies:
   [
-    {...Secondary.args},
-    {...Secondary.args, body: "Actually that'd be a bad idea nvm"}
+    {...Secondary.args, onEdit: () => onClick()},
+    {...Secondary.args, body: "Actually that'd be a bad idea nvm", onEdit: () => onClick()}
   ]
 };
