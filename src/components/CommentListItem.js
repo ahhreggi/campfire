@@ -23,6 +23,7 @@ const CommentListItem = (props) => {
     score: PropTypes.number,
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
+    liked: PropTypes.bool,
     endorsed: PropTypes.bool,
     editable: PropTypes.bool,
     endorsable: PropTypes.bool,
@@ -170,6 +171,7 @@ const CommentListItem = (props) => {
         score={comment.score}
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
+        liked={comment.liked}
         endorsed={comment.endorsed}
         editable={comment.editable}
         endorsable={comment.endorsable}
@@ -190,12 +192,14 @@ const CommentListItem = (props) => {
 
           {/* Comment Avatar */}
           <div className="comment-avatar">
-            <img src={`./images/avatars/${props.avatarID}.png`} alt="Avatar" />
+            <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
 
           {/* Comment Score */}
-          <div className="comment-score">
-            score: {props.score}
+          <div className={`comment-score ${props.liked ? "liked" : ""}`}>
+            <span className="arrow"><img src={upvote} alt="upvote" /></span>
+            <span className="counter">{props.score}</span>
+            <span className="arrow"></span>
           </div>
 
         </section>

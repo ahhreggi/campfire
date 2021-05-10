@@ -23,6 +23,7 @@ const CommentList = (props) => {
         score={comment.score}
         createdAt={comment.created_at}
         lastModified={comment.last_modified}
+        liked={comment.liked}
         endorsed={comment.endorsed}
         editable={comment.editable}
         endorsable={comment.endorsable}
