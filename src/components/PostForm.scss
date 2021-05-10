@@ -21,6 +21,7 @@
     @include custom-scrollbar;
     outline: none;
     resize: none;
+    word-break: break-all;
 
     &:focus {
       border-color: $navy-7;
