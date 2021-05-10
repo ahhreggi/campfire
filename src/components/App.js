@@ -47,12 +47,16 @@ let dummyCourseData = {
     {
       "id": 5,
       "name": "Async"
+    },
+    {
+      "id": 6,
+      "name": "HTML"
     }
   ],
   "posts": [
     {
       "id": 2,
-      "title": "How do I create a class?",
+      "title": "How do I create a class? 1 2 3 4 5 6 7 8",
       "body": "How do I write a new class in javascript, and declare methods, variables, etc?",
       "bookmarked": true,
       "created_at": "2021-05-08T20:00:11.570Z",
@@ -287,7 +291,8 @@ const App = () => {
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
     courseData: null, // all data for the current course
     postID: null, // a post ID or null if viewing dashboard/analytics,
-    post: null // post data for the current post ID or null if viewing dashboard/analytics
+    post: null, // post data for the current post ID or null if viewing dashboard/analytics
+    selectedTags: []
   });
 
   // Fetch data from the server on load
@@ -314,7 +319,7 @@ const App = () => {
           setState({ ...state, post: selectedPost });
         }
       }
-    }, 1000);
+    }, 1);
   };
 
   // Update course data in the server
@@ -329,7 +334,7 @@ const App = () => {
       const updatedCourseData = res;
       const updatedPost = getPostByID(res.posts, state.postID);
       setState({ ...state, courseData: updatedCourseData, post: updatedPost });
-    }, 1000);
+    }, 1);
   };
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
@@ -348,9 +353,27 @@ const App = () => {
 
   // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
 
+  // Request to toggle pin for a post by ID
+  // Source: Post
+  const pinPost = (postID) => {
+    // Get current pin value of post
+    const pinned = getPostByID(state.courseData.posts, postID).pinned;
+    // Request to update post data
+    editPost(postID, { pinned: !pinned });
+  };
+
+  // Request to toggle bookmark for post by ID
+  // Source: Post
+  const bookmarkPost = (postID) => {
+    // Get current bookmark value of post
+    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
+    // Request to update user bookmarks
+    editPost(postID, { bookmarked: !bookmarked });
+  };
+
   // Request to edit a post by ID with the given data
   // Source: Post
-  const onEditPost = (postID, data) => {
+  const editPost = (postID, data) => {
     // Get the current post by ID
     const currentPost = getPostByID(state.courseData.posts, postID);
     // Update the post with the new data
@@ -369,13 +392,66 @@ const App = () => {
     updateCourseData(newCourseData);
   };
 
+  // Request to delete a post by ID
+  const deletePost = (postID) => {
+    // MOCK: Send a delete request to the server
+    // SUCCESS: Redirect to dashboard
+    // ERROR: Return to post and display an error message
+    // Temp: Retrieve all posts except the one with postID
+    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Update state using the response data and redirect
+    const res = newCourseData;
+
+    if (res) {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: newCourseData,
+        postID: null,
+        post: null
+      });
+    } else {
+      console.log("An error occurred while deleting the post.");
+    }
+  };
+
   // Request to edit a comment by ID with the given data
   // Source: CommentListItem
-  const onEditComment = (commentID, data) => {
+  const editComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
 
+  // Update the selected tags dynamically as the user toggles them
+  const updateSelectedTags = (tag, only = false) => {
+    // If only is true, select only the given tag
+    if (only) {
+      setState({ ...state, selectedTags: [tag] });
+    } else {
+      const selected = hasTag(state.selectedTags, tag.id);
+      // If the tag is already selected, unselect it
+      if (selected) {
+        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+        setState({ ...state, selectedTags: updatedTags });
+        // Otherwise, select it
+      } else {
+        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+      }
+    }
+  };
+
+  // Clear selected tags
+  const clearSelectedTags = () => {
+    setState({ ...state, selectedTags: [] });
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return true if the given tagID is in tags
+  // TODO: Move to helper file (also in Post)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
 
   // Return post data for the given post ID
   const getPostByID = (posts, postID) => {
@@ -392,6 +468,7 @@ const App = () => {
       {state.courseData &&
         <>
           <Nav
+            onClick={selectActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
@@ -401,9 +478,13 @@ const App = () => {
           <section>
             <div className="left">
               <PostList
+                selectedPostID={state.postID}
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
                 onClick={(postID) => selectActive("Post", postID)}
+                selectedTags={state.selectedTags}
+                onTagToggle={updateSelectedTags}
+                onTagClear={clearSelectedTags}
               />
             </div>
             <div className="right">
@@ -411,8 +492,12 @@ const App = () => {
                 active={state.active}
                 courseData={state.courseData}
                 postID={state.postID}
-                onEditPost={onEditPost} // needs to be in App since it feeds data to PostList
-                onEditComment={onEditComment} // same ^
+                onPinPost={pinPost}
+                onBookmarkPost={bookmarkPost}
+                onEditPost={editPost}
+                onDeletePost={deletePost}
+                onEditComment={editComment}
+                onTagToggle={updateSelectedTags}
               />
             </div>
           </section>

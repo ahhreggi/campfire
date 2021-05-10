@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const Nav = (props) => {
 
   Nav.propTypes = {
+    onClick: PropTypes.func,
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
@@ -14,22 +15,31 @@ const Nav = (props) => {
   return (
     <div className="Nav">
 
-      <section className="left">
-        <span className="title">Campfire</span>
-        <img src="./images/campfire.png" alt="Campfire" />
+      {/* Campfire Title */}
+      <section className="left" onClick={() => props.onClick("Dashboard")}>
+        <span className="title glow">
+          Campfire
+          <img className="glow" src="./images/campfire.png" alt="Campfire" />
+        </span>
       </section>
 
+      {/* View Title */}
       <section className="middle">
         <span className="view-title text-truncate">{props.viewTitle}</span>
       </section>
 
+      {/* User Panel */}
       <section className="right">
+
+        {/* Course Name */}
         <span className="course-name">{props.courseName}</span>
+
+        {/* User Name */}
         <div>
-          {/* "./images/avatars/2.png" */}
           <img src={props.userAvatar} alt="Avatar" />
           <span className="user-name">{props.userName}</span>
         </div>
+
       </section>
     </div>
   );

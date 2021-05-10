@@ -6,93 +6,218 @@
     opacity: 0.5;
   }
 
-  .preview {
-
-  }
-
-  .status {
+  header.status {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.7rem;
+
     .resolution {
       font-weight: 700;
       font-size: 0.9rem;
+
       &.resolved {
         color: $green
       }
+
       &.unresolved {
         color: $red
       }
+
     }
-    .counters {
-      margin-right: 0.5rem;
-      font-size: 0.9rem;
+
+    .views {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: 700;
       color: $white;
-      .views {
-        margin-right: 1rem;
+      margin-right: 0.5rem;
+
+      img{
+        width: 1.5rem;
+        margin-right: 0.7rem;
       }
+
     }
+
+    img {
+      margin-bottom: 0.15rem;
+    }
+
   }
 
-  .header {
+  .post-header {
     display: flex;
     overflow: hidden;
     flex-wrap: wrap;
     align-items: center;
     font-weight: 700;
     font-size: 1.5rem;
-    .bookmark {
-      margin-right: 0.3rem;
-      margin-bottom: 0.2rem;
-    }
   }
 
-  .subheader {
+  .post-subheader {
     font-size: 0.8rem;
     margin: 0.5rem 0;
+
     .author {
       font-weight: 700;
       color: $orange;
     }
+
     .modified {
-      opacity: 0.5;
       font-style: italic;
+      color: $navy-7;
     }
-  }
-
-  .tags {
 
   }
 
-  .body {
-    margin: 1rem 0;
-  }
-
-  .controls {
+  footer.post-icons {
     display: flex;
-    justify-content: flex-end;
-    img {
-      margin-left: 1rem;
-      cursor: pointer;
-      opacity: 0.5;
-      &:hover {
-        opacity: 0.7;
+    justify-content: space-between;
+    .list-controls {
+      img {
+        width: 1.5rem;
+        cursor: pointer;
       }
-      &.active {
+      .pin {
+        margin-right: 0.6rem;
+      }
+    }
+    .disabled {
+      opacity: 0.5;
+      filter: grayscale(100);
+      &:hover {
+        filter: grayscale(0);
         opacity: 1;
       }
     }
   }
 
-  .comments {
+  .post-body {
+    margin: 1rem 0;
+    word-break: normal;
+    &.break {
+      word-break: break-all;
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0.2rem;
+
+    img {
+      margin-left: 1rem;
+      cursor: pointer;
+      opacity: 0.5;
+      filter: grayscale(100);
+
+      &:hover {
+        filter: grayscale(0);
+        opacity: 1;
+      }
+
+      &.active {
+        opacity: 1;
+        filter: grayscale(0);
+      }
+
+    }
 
   }
 
-  .label {
+  .confirmation {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    span {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    button {
+      margin: 0.5rem 0.5rem;
+      text-transform: uppercase;
+      width: 7rem;
+      font-weight: 700;
+    }
+
+  }
+
+  .post-form {
+
+    .post-form-tags {
+      margin-top: 0.5rem;
+
+      .label {
+        font-size: 1rem;
+        margin-bottom: 0.1rem;
+
+        .tag-counter.limit {
+          color: $orange;
+        }
+
+      }
+
+    }
+
+  }
+
+  .anon-form {
+    margin-top: 0.5rem;
     font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+
+    input.form-check-input {
+      box-shadow: none;
+      margin-left: 0.5rem;
+      margin-right: 0.3rem;
+      cursor: pointer;
+
+      &:checked {
+        background-color: $orange;
+        border: none;
+      }
+
+    }
+
+    .note {
+      color: $orange;
+      font-weight: 400;
+    }
+
   }
+
+  .preview {
+    .label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: $blue;
+      img {
+        width: 1.1rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
+      .comments {
+        img {
+          margin-bottom: 0.2rem;
+          margin-right: 0.5rem;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .discussion {
+    .label {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+  }
+
+
 
 }
