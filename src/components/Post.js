@@ -40,7 +40,8 @@ const Post = (props) => {
     previewTitle: props.title,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
-    previewAuthor: props.author
+    previewAuthor: null, // props.author,
+    previewTagIDs: []
   });
 
   // Reset form states when switching posts
@@ -58,7 +59,8 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getDisplayName(props.anonymous)
+      previewAuthor: getAuthorName(props.anonymous),
+      previewTagIDs: getPreviewTagIDs(props.tags)
     });
   }, [state.showForm]);
 
@@ -66,7 +68,7 @@ const Post = (props) => {
   useEffect(() => {
     setState({
       ...state,
-      previewAuthor: getDisplayName(state.previewAnonymous)
+      previewAuthor: getAuthorName(state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
 
@@ -85,6 +87,18 @@ const Post = (props) => {
   // Update the preview author dynamically as the user toggles its anonymity
   const updatePreviewAnonymous = (event) => {
     setState({ ...state, previewAnonymous: event.target.checked });
+  };
+
+  // Update the preview tags dynamically as the user toggles them
+  const updatePreviewTagIDs = (event, tagID) => {
+    // If the tagID is in previewTagIDs, add it
+    if (!state.previewTagIDs.includes(tagID)) {
+      setState({ ...state, previewTagIDs: [ ...state.previewTagIDs, tagID ] });
+    } else {
+      const updatedTags = state.previewTagIDs.filter(tag => tag.id !== tagID);
+      setState({ ...state, previewTagIDs: updatedTags });
+    }
+    // Otherwise, remove it
   };
 
   // Toggle and reset the post edit form
@@ -127,16 +141,21 @@ const Post = (props) => {
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // Return the author name to display according to the given anonymous value (bool)
+  // Return the author name based on the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getDisplayName = (anonymous) => {
+  const getAuthorName = (anonymous) => {
     // Set the displayed author name
-    let displayName = anonymous ? "Anonymous" : props.author;
+    let name = anonymous ? "Anonymous" : props.author;
     if (anonymous && props.author) {
-      displayName = props.author + " (Anonymous to students)";
+      name = props.author + " (Anonymous to students)";
     }
-    return displayName;
+    return name;
+  };
+
+  // Return the tag IDs from a list of tags
+  const getPreviewTagIDs = (tags) => {
+    return tags.map(tag => tag.id);
   };
 
   // Return the total number of comments and child comments
@@ -154,7 +173,7 @@ const Post = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getDisplayName(props.anonymous);
+  const authorName = getAuthorName(props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);
@@ -162,7 +181,7 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
-  // Create the tag button components
+  // Create the post tag button components
   const tags = props.tags.map(tag => {
     return (
       <Button
@@ -172,6 +191,20 @@ const Post = (props) => {
       />
     );
   });
+
+  // Create the form tag button components
+  const formTags = props.courseTags.map(tag => {
+    return (
+      <Button
+        key={tag.id}
+        text={tag.name}
+        styles="tag"
+        onClick={updatePreviewTagIDs}
+      />
+    );
+  });
+
+  // When a form tag button is clicked, add the tag's id to previewTagIDs
 
   ///////////////////////////////////////////////////////////////////
 
