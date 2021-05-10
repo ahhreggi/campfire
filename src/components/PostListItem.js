@@ -51,20 +51,6 @@ const PostListItem = (props) => {
     }
   };
 
-  // VARIABLES //////////////////////////////////////////////////////
-
-  const tags = props.tags.map((tag) => {
-    return (
-      <Button
-        key={tag.id}
-        text={tag.name}
-        styles="tag disabled"
-        onClick={handleClick}
-        disabled={true}
-      />
-    );
-  });
-
   ///////////////////////////////////////////////////////////////////
 
   return (
