@@ -5,13 +5,13 @@ import CommentListItem from '../components/CommentListItem';
 export default {
   title: 'CommentListItem',
   component: CommentListItem,
-  argTypes: { onClick: { action: 'Clicked' }, props: { onEdit: {action: 'Saved!' }}}
+  argTypes: { onClick: { action: 'Clicked' }, onEdit: { action: 'Saved' }}
 };
 
 const Template = (args) => <CommentListItem {...args} />;
 
 export const Primary = Template.bind ({});
-Primary.storyname = 'No replies, non-anonymous'
+Primary.storyName = 'No replies, non-anonymous'
 Primary.args = {
   id: 1,
   anonymous: false,
@@ -26,7 +26,7 @@ Primary.args = {
 };
 
 export const Secondary = Template.bind ({});
-Secondary.storyname = 'No replies, anonymous'
+Secondary.storyName = 'No replies, anonymous'
 
 Secondary.args = {
   ...Primary.args,
@@ -38,13 +38,13 @@ Secondary.args = {
 };
 
 export const Third = Template.bind ({});
-Third.storyname = 'Comment with replies'
+Third.storyName = 'Comment with replies'
 
 Third.args = {
   ...Primary.args,
   replies:
   [
-    {...Secondary.args, onEdit: () => onClick()},
+    {...Secondary.args, onEditComment: () => onClick()},
     {...Secondary.args, body: "Actually that'd be a bad idea nvm", onEdit: () => onClick()}
   ]
 };
