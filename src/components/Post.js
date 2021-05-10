@@ -365,6 +365,8 @@ const Post = (props) => {
         </>
       }
 
+      {state.showForm && <hr />}
+
       {/* Edit Control Buttons */}
       {props.editable &&
         <div className="controls icon-large">
@@ -384,30 +386,32 @@ const Post = (props) => {
             </>
           }
           {state.showForm &&
-            <>
-              <Button
-                text="Save"
-                styles="form green"
-                onClick={savePost}
-              />
-              <Button
-                text="Cancel"
-                styles="form red"
-                onClick={toggleForm}
-              />
-            </>
+            <div className="confirmation">
+              <>
+                <Button
+                  text="Save"
+                  styles="form green"
+                  onClick={savePost}
+                />
+                <Button
+                  text="Cancel"
+                  styles="form red"
+                  onClick={toggleForm}
+                />
+              </>
+            </div>
           }
           {state.showConfirmation &&
             <div className="confirmation">
               <>
                 <Button
-                  text="Confirm"
-                  styles="form green"
+                  text="Delete"
+                  styles="form red"
                   onClick={deletePost}
                 />
                 <Button
                   text="Cancel"
-                  styles="form red"
+                  styles="form"
                   onClick={toggleConfirmation}
                 />
               </>

@@ -319,7 +319,7 @@ const App = () => {
           setState({ ...state, post: selectedPost });
         }
       }
-    }, 1000);
+    }, 1);
   };
 
   // Update course data in the server
@@ -334,7 +334,7 @@ const App = () => {
       const updatedCourseData = res;
       const updatedPost = getPostByID(res.posts, state.postID);
       setState({ ...state, courseData: updatedCourseData, post: updatedPost });
-    }, 1000);
+    }, 1);
   };
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
