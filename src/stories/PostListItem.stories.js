@@ -16,7 +16,14 @@ export const Primary = Template.bind ({});
 Primary.args = {
   title: "How fix code? :(",
   body: "My code is broken and I just don't know what to doooo",
-  tags: ["PROMISES", "CLASSES"],
+  tags: [{
+    "id": 3,
+    "name": "Promises"
+  },
+  {
+    "id": 4,
+    "name": "Classes"
+  }],
   views: 0,
   comments: 0,
   showStudentBadge: true
@@ -27,7 +34,10 @@ export const Pinned = Template.bind ({});
 Pinned.args = {
   title: "Super important announcement",
   body: "Starting tomorrow we are going to write better unit tests",
-  tags: ["PROMISES"],
+  tags: [{
+    "id": 3,
+    "name": "Promises"
+  }],
   pinned: true,
   views: 250,
   comments: 20,
@@ -39,7 +49,10 @@ export const Bookmarked = Template.bind ({});
 Bookmarked.args = {
   title: "Confused about callbacks",
   body: "Can somebody please explain what the event loop even is because I just feel like I'm going in circles",
-  tags: ["PROMISES"],
+  tags: [{
+    "id": 3,
+    "name": "Promises"
+  }],
   bookmarked: true,
   bestAnswer: 2,
   views: 33,
