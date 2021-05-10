@@ -108,7 +108,7 @@ let dummyCourseData = {
       "bookmarked": false,
       "created_at": "2021-05-10T15:40:05.671Z",
       "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": 3,
+      "best_answer": 2,
       "author_first_name": "Edward",
       "author_last_name": "Ecksworth",
       "author_avatar_id": 6,

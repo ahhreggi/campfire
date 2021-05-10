@@ -68,8 +68,9 @@ const PostListItem = (props) => {
 
         {/* Post Status Badges */}
         <div className="header-right">
-          {props.showStudentBadge && <Badge type="student" />}
+          {/* {props.showStudentBadge && <Badge type="student" />} */}
           {props.showInstructorBadge && <Badge type="instructor" />}
+          {props.bestAnswer && <Badge type="student" />}
           {props.bestAnswer === null && <Badge type="unresolved" />}
         </div>
 
