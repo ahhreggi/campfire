@@ -19,6 +19,7 @@ const Main = (props) => {
     courseData: PropTypes.object.isRequired,
     postID: PropTypes.number,
     onEditPost: PropTypes.func,
+    onDeletePost: PropTypes.func,
     onEditComment: PropTypes.func
   };
 
@@ -52,6 +53,7 @@ const Main = (props) => {
           userID={post.user_id}
           views={post.views}
           onEditPost={props.onEditPost}
+          onDeletePost={props.onDeletePost}
           onEditComment={props.onEditComment}
         />
       }

@@ -101,17 +101,20 @@ const Post = (props) => {
       };
       props.onEditPost(props.id, data);
     }
+    // Hide edit form
     toggleForm();
   };
 
+  // Toggle delete confirmation form
   const toggleConfirmation = () => {
     setState({ ...state, showConfirmation: !state.showConfirmation });
   };
 
   // Delete the post
-  // TODO: Confirm before deleting
   const deletePost = () => {
     props.onDeletePost(props.id);
+    // Hide confirmation form
+    toggleConfirmation();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////

@@ -350,7 +350,7 @@ const App = () => {
 
   // Request to edit a post by ID with the given data
   // Source: Post
-  const onEditPost = (postID, data) => {
+  const editPost = (postID, data) => {
     // Get the current post by ID
     const currentPost = getPostByID(state.courseData.posts, postID);
     // Update the post with the new data
@@ -369,9 +369,33 @@ const App = () => {
     updateCourseData(newCourseData);
   };
 
+  // Request to delete a post by ID
+  const deletePost = (postID) => {
+    // MOCK: Send a delete request to the server
+    // SUCCESS: Redirect to dashboard
+    // ERROR: Return to post and display an error message
+    // Temp: Retrieve all posts except the one with postID
+    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Update state using the response data and redirect
+    const res = newCourseData;
+
+    if (res) {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: newCourseData,
+        postID: null,
+        post: null
+      });
+    } else {
+      console.log("An error occurred while deleting the post.");
+    }
+  };
+
   // Request to edit a comment by ID with the given data
   // Source: CommentListItem
-  const onEditComment = (commentID, data) => {
+  const editComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
 
@@ -411,8 +435,9 @@ const App = () => {
                 active={state.active}
                 courseData={state.courseData}
                 postID={state.postID}
-                onEditPost={onEditPost} // needs to be in App since it feeds data to PostList
-                onEditComment={onEditComment} // same ^
+                onEditPost={editPost}
+                onDeletePost={deletePost}
+                onEditComment={editComment}
               />
             </div>
           </section>
