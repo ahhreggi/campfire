@@ -42,6 +42,7 @@ const Main = (props) => {
           author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
           bestAnswer={post.best_answer}
           body={post.body}
+          pinned={post.pinned}
           bookmarked={post.bookmarked}
           comments={post.comments}
           createdAt={post.created_at}

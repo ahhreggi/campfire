@@ -23,6 +23,7 @@ const Post = (props) => {
     author: PropTypes.string,
     bestAnswer: PropTypes.number,
     body: PropTypes.string,
+    pinned: PropTypes.bool,
     bookmarked: PropTypes.bool,
     comments: PropTypes.array,
     createdAt: PropTypes.string,
@@ -242,10 +243,10 @@ const Post = (props) => {
 
           {/* Pin & Bookmark Togglers */}
           <div className="list-controls">
-            <span className="pin icon-med">
+            <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
               <img src={pin} alt="pin" />
             </span>
-            <span className="bookmark icon-med">
+            <span className={`bookmark icon-med ${!props.bookmarked && "disabled"}`}>
               <img src={star} alt="bookmark" />
             </span>
           </div>
