@@ -190,7 +190,7 @@ const CommentListItem = (props) => {
 
           {/* Comment Avatar */}
           <div className="comment-avatar">
-            avatarid: {props.avatarID}
+            <img src={`./images/avatars/${props.avatarID}.png`} alt="Avatar" />
           </div>
 
           {/* Comment Score */}

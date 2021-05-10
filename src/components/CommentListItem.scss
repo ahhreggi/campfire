@@ -43,15 +43,17 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+      padding: 0.5rem;
     }
 
     section.left {
       background-color: $red;
-      width: 10rem;
+      width: 7rem;
+      align-items: center;
 
       .comment-avatar {
         img {
-
+          width: 4rem;
         }
       }
 
