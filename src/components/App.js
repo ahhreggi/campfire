@@ -357,7 +357,7 @@ const App = () => {
   // Source: Post
   const pinPost = (postID) => {
     // Get current pin value of post
-    const pinned = getPostByID(postID).pinned;
+    const pinned = getPostByID(state.courseData.posts, postID).pinned;
     // Request to update post data
     editPost(postID, { pinned: !pinned });
   };
@@ -366,7 +366,7 @@ const App = () => {
   // Source: Post
   const bookmarkPost = (postID) => {
     // Get current bookmark value of post
-    const bookmarked = getPostByID(postID).bookmarked;
+    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
     // Request to update user bookmarks
     editPost(postID, { bookmarked: !bookmarked });
   };

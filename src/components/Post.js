@@ -126,6 +126,16 @@ const Post = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Pin/unpin the post
+  const togglePin = () => {
+    props.onPinPost(props.id);
+  };
+
+  // Bookmark/unbookmark the post
+  const toggleBookmark = () => {
+    props.onBookmarkPost(props.id);
+  };
+
   // Save the post changes
   const savePost = () => {
     const data = {
@@ -246,10 +256,10 @@ const Post = (props) => {
           {/* Pin & Bookmark Togglers */}
           <div className="list-controls">
             <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
-              <img src={pin} alt="pin" />
+              <img src={pin} alt="pin" onClick={togglePin} />
             </span>
             <span className={`bookmark icon-med ${!props.bookmarked && "disabled"}`}>
-              <img src={star} alt="bookmark" />
+              <img src={star} alt="bookmark" onClick={toggleBookmark} />
             </span>
           </div>
 
