@@ -8,7 +8,8 @@ const TagList = (props) => {
   TagList.propTypes = {
     tags: PropTypes.array,
     selectedTags: PropTypes.array,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    truncate: PropTypes.number
   };
 
   const [disabled, setDisabled] = useState(props.selectedTags.length >= 3);
@@ -48,7 +49,14 @@ const TagList = (props) => {
 
   ///////////////////////////////////////////////////////////////////
 
-  return <div className="TagList">{tags}</div>;
+  return (
+    <div className="TagList">
+      <div>
+        {tags}
+      </div>
+      <span>+3</span>
+    </div>
+  );
 
 };
 
