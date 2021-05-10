@@ -291,7 +291,8 @@ const App = () => {
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
     courseData: null, // all data for the current course
     postID: null, // a post ID or null if viewing dashboard/analytics,
-    post: null // post data for the current post ID or null if viewing dashboard/analytics
+    post: null, // post data for the current post ID or null if viewing dashboard/analytics
+    selectedTags: []
   });
 
   // Fetch data from the server on load
@@ -403,7 +404,31 @@ const App = () => {
     console.log("onEditComment executed with data:", data);
   };
 
+  // Update the selected tags dynamically as the user toggles them
+  const updateSelectedTags = (tag) => {
+    const selected = hasTag(state.selectedTags, tag.id);
+    // If the tag is already selected, unselect it
+    if (selected) {
+      const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+      setState({ ...state, selectedTags: updatedTags });
+      // Otherwise, select it
+    } else {
+      setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+    }
+  };
+
+  // Clear selected tags
+  const clearSelectedTags = () => {
+    setState({ ...state, selectedTags: [] });
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return true if the given tagID is in tags
+  // TODO: Move to helper file (also in Post)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
 
   // Return post data for the given post ID
   const getPostByID = (posts, postID) => {
@@ -433,6 +458,9 @@ const App = () => {
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
                 onClick={(postID) => selectActive("Post", postID)}
+                selectedTags={state.selectedTags}
+                onTagToggle={updateSelectedTags}
+                onTagClear={clearSelectedTags}
               />
             </div>
             <div className="right">

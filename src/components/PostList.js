@@ -12,41 +12,15 @@ const PostList = (props) => {
     selectedPostID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    selectedTags: PropTypes.array,
+    onTagToggle: PropTypes.func,
+    onTagClear: PropTypes.func
   };
-
-  const [selectedTags, setSelectedTags] = useState([
-    {
-      "id": 1,
-      "name": "Callbacks"
-    },
-    {
-      "id": 2,
-      "name": "Closures"
-    }
-  ]);
 
   // TODO: Create functions to add/delete/clear all ids from selectedTags
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
-
-  // Update the selected tags dynamically as the user toggles them
-  const updateSelectedTags = (tag) => {
-    const selected = hasTag(selectedTags, tag.id);
-    // If the tag is already selected, unselect it
-    if (selected) {
-      const updatedTags = selectedTags.filter(sTag => sTag.id !== tag.id);
-      setSelectedTags(updatedTags);
-      // Otherwise, select it
-    } else {
-      setSelectedTags([ ...selectedTags, tag ]);
-    }
-  };
-
-  // Clear selected tags
-  const clearSelectedTags = () => {
-    setSelectedTags([]);
-  };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -105,10 +79,10 @@ const PostList = (props) => {
   };
 
   // If no tags are selected, use all posts, otherwise filter by selected tags
-  const filteredPosts = !selectedTags.length ? props.posts : props.posts.filter(post => {
+  const filteredPosts = !props.selectedTags.length ? props.posts : props.posts.filter(post => {
     // Check if each post has at least one of the selected tags
     for (const tag of post.tags) {
-      if (hasTag(selectedTags, tag.id)) {
+      if (hasTag(props.selectedTags, tag.id)) {
         return true;
       }
     }
@@ -146,18 +120,18 @@ const PostList = (props) => {
       <div className="tags">
         <TagList
           tags={props.tags}
-          selectedTags={selectedTags}
-          onClick={updateSelectedTags}
+          selectedTags={props.selectedTags}
+          onClick={props.onTagToggle}
           styles={"tag filter"}
         />
-        {selectedTags.length > 0 &&
+        {props.selectedTags.length > 0 &&
           <>
             <hr />
             <div className="tag-clear">
               <Button
                 text="clear filters"
                 styles="tag clear"
-                onClick={() => clearSelectedTags()}
+                onClick={props.onTagClear}
               />
             </div>
           </>
