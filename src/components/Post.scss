@@ -54,12 +54,6 @@
     align-items: center;
     font-weight: 700;
     font-size: 1.5rem;
-
-    .bookmark {
-      margin-right: 0.3rem;
-      margin-bottom: 0.2rem;
-    }
-
   }
 
   .post-subheader {
@@ -91,9 +85,11 @@
       }
     }
     .disabled {
-      opacity: 0.4;
+      opacity: 0.5;
+      filter: grayscale(100);
       &:hover {
-        opacity: 0.8;
+        filter: grayscale(0);
+        opacity: 1;
       }
     }
   }
@@ -111,9 +107,11 @@
     img {
       margin-left: 1rem;
       cursor: pointer;
-      opacity: 0.8;
+      opacity: 0.5;
+      filter: grayscale(100);
 
       &:hover {
+        filter: grayscale(0);
         opacity: 1;
       }
 
