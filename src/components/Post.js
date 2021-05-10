@@ -310,7 +310,7 @@ const Post = (props) => {
           {/* Course Tag Form */}
           <div className="post-form-tags">
             <div className="label">
-              Select up to 3 tags (<span className={`tag-counter ${state.previewTags.length === 3 && "limit"}`}>{3 - state.previewTags.length} remaining</span>):
+              Select up to <span className={`tag-counter ${state.previewTags.length === 3 && "limit"}`}>{3 - state.previewTags.length}</span> tag(s):
             </div>
             <TagList
               tags={props.courseTags}
