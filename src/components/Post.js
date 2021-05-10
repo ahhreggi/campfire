@@ -120,12 +120,22 @@ const Post = (props) => {
 
   // Toggle and reset the post edit form
   const toggleForm = () => {
-    setState({ ...state, showForm: !state.showForm });
+    const setTo = !state.showForm;
+    if (setTo && state.showConfirmation) {
+      setState({ ...state, showForm: setTo, showConfirmation: !state.showConfirmation});
+    } else {
+      setState({ ...state, showForm: setTo });
+    }
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    setState({ ...state, showConfirmation: !state.showConfirmation });
+    const setTo = !state.showConfirmation;
+    if (setTo && state.showForm) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: setTo });
+    } else {
+      setState({ ...state, showConfirmation: setTo });
+    }
   };
 
   const handleClick = (tag) => {
@@ -287,6 +297,26 @@ const Post = (props) => {
 
       </div>
 
+      {/* Edit Control Buttons */}
+      {props.editable &&
+        <div className="controls icon-large">
+          <>
+            <img
+              className={state.showForm ? "active" : ""}
+              src={edit}
+              alt="edit"
+              onClick={toggleForm}
+            />
+            <img
+              className={state.showConfirmation ? "active" : ""}
+              src={trash}
+              alt="delete"
+              onClick={toggleConfirmation}
+            />
+          </>
+        </div>
+      }
+
       {/* Edit Preview */}
       {state.showForm &&
         <div className="preview">
@@ -383,24 +413,9 @@ const Post = (props) => {
 
       {state.showForm && <hr />}
 
-      {/* Edit Control Buttons */}
+      {/* Confirmation Buttons */}
       {props.editable &&
         <div className="controls icon-large">
-          {!state.showForm && !state.showConfirmation &&
-            <>
-              <img
-                className={state.showForm ? "active" : ""}
-                src={edit}
-                alt="edit"
-                onClick={toggleForm}
-              />
-              <img
-                src={trash}
-                alt="delete"
-                onClick={toggleConfirmation}
-              />
-            </>
-          }
           {state.showForm &&
             <div className="confirmation">
               <>
