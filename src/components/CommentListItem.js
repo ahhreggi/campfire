@@ -31,7 +31,8 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
     endorsements: PropTypes.array,
     replies: PropTypes.array,
-    onEditComment: PropTypes.func
+    onEditComment: PropTypes.func,
+    bestAnswer: PropTypes.number
   };
 
   const [state, setState] = useState({
@@ -166,6 +167,12 @@ const CommentListItem = (props) => {
   // Check if the comment is a parent
   const isParent = !props.parentID;
 
+  // Check if the comment is by an instructor
+  const isInstructor = props.authorRole !== "student";
+
+  // Check if the comment is selected as the best answer
+  const isBestAnswer = props.bestAnswer === props.id;
+
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
 
@@ -192,8 +199,9 @@ const CommentListItem = (props) => {
         editable={comment.editable}
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
-        replies={comment.replies}
+        // replies={comment.replies} // Child comments shouldn't have any replies
         onEdit={props.onEditComment}
+        bestAnswer={props.bestAnswer}
       />
     );
   });
@@ -201,7 +209,7 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${isParent ? "parent" : "child"} ${props.authorRole !== "student" && "instructor"}`}>
+    <div className={`CommentListItem ${isParent ? "parent" : "child"} ${isInstructor && "instructor"} ${isBestAnswer && "best"}`}>
       <main className={`comment-main ${isParent ? "parent" : "child"}`}>
         {/* this is a {isParent ? "parent" : "child"} */}
 

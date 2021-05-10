@@ -100,7 +100,6 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          font-size: 0.9rem;
           min-width: 2rem;
         }
 
@@ -135,6 +134,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        user-select: none;
 
         .comment-timestamp {
           font-size: 0.7rem;
@@ -210,6 +210,16 @@
     border: 1px solid $yellow;
     .comment-author {
       color: $yellow;
+    }
+  }
+
+  // Best answer comment styling
+  &.best:not(.instructor) {
+    border: 1px solid $green;
+    & > .comment-main {
+      .comment-author {
+        color: $green;
+      }
     }
   }
 

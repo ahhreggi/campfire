@@ -6,7 +6,8 @@ const CommentList = (props) => {
 
   CommentList.propTypes = {
     comments: PropTypes.array,
-    onEditComment: PropTypes.func
+    onEditComment: PropTypes.func,
+    bestAnswer: PropTypes.number
   };
 
   const comments = props.comments.map(comment => {
@@ -30,6 +31,7 @@ const CommentList = (props) => {
         endorsements={comment.endorsements}
         replies={comment.replies}
         onEdit={props.onEditComment}
+        bestAnswer={props.bestAnswer}
       />
     );
   });

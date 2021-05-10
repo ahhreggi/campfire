@@ -473,6 +473,7 @@ const Post = (props) => {
         <CommentList
           comments={props.comments}
           onEditComment={props.onEditComment}
+          bestAnswer={props.bestAnswer}
         />
       </div>
 

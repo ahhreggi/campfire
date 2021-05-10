@@ -33,6 +33,7 @@
       font-weight: 700;
       color: $white;
       margin-right: 0.5rem;
+      user-select: none;
 
       img{
         width: 1.5rem;
@@ -75,6 +76,7 @@
   footer.post-icons {
     display: flex;
     justify-content: space-between;
+    user-select: none;
     .list-controls {
       img {
         width: 1.5rem;
@@ -106,6 +108,7 @@
     display: flex;
     justify-content: flex-end;
     margin-right: 0.2rem;
+    user-select: none;
 
     img {
       margin-left: 1rem;
@@ -215,6 +218,9 @@
     .label {
       font-size: 1.1rem;
       font-weight: 700;
+      img {
+        user-select: none;
+      }
     }
   }
 
