@@ -1,53 +1,72 @@
-import { useState, useEffect } from "react";
 import "./Main.scss";
 import Post from "./Post";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import PropTypes from "prop-types";
 
-// Receiving: props.active
-// TODO:
-// If showing "post", props should include props.post (specific data for the selected post)
-// If showing "dashboard", props should include props.course (ALL data for the course, including posts, users, etc.)
-// If showing "analytics", props should include props.course (ALL data for the course, including posts, users, etc.)
-// props should just include props.course for all three ?
-
 const Main = (props) => {
 
   Main.propTypes = {
     active: PropTypes.string.isRequired,
     courseData: PropTypes.object.isRequired,
-    post: PropTypes.object,
+    postID: PropTypes.number,
+    onPinPost: PropTypes.func,
+    onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
-    onEditComment: PropTypes.func
+    onDeletePost: PropTypes.func,
+    onEditComment: PropTypes.func,
+    onTagToggle: PropTypes.func
   };
 
-  // Only one main component can active at a given time
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return the post for the given postID
+  const getPostByID = (posts, postID) => {
+    if (postID) {
+      return posts.filter(post => post.id === postID)[0];
+    }
+  };
+
+  // VARIABLES //////////////////////////////////////////////////////
+
+  const post = getPostByID(props.courseData.posts, props.postID);
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Main">
+
       {props.active === "Post" &&
         <Post
-          id={props.post.id}
-          anonymous={props.post.anonymous}
-          author={props.post.author_first_name && `${props.post.author_first_name} ${props.post.author_last_name}`}
-          bestAnswer={props.post.best_answer}
-          body={props.post.body}
-          bookmarked={props.post.bookmarked}
-          comments={props.post.comments}
-          createdAt={props.post.created_at}
-          lastModified={props.post.last_modified}
-          editable={props.post.editable}
-          tags={props.post.tags}
-          title={props.post.title}
-          userID={props.post.user_id}
-          views={props.post.views}
+          id={post.id}
+          courseTags={props.courseData.tags}
+          anonymous={post.anonymous}
+          author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
+          bestAnswer={post.best_answer}
+          body={post.body}
+          pinned={post.pinned}
+          bookmarked={post.bookmarked}
+          comments={post.comments}
+          createdAt={post.created_at}
+          lastModified={post.last_modified}
+          editable={post.editable}
+          tags={post.tags}
+          title={post.title}
+          userID={post.user_id}
+          views={post.views}
+          onPinPost={props.onPinPost}
+          onBookmarkPost={props.onBookmarkPost}
           onEditPost={props.onEditPost}
+          onDeletePost={props.onDeletePost}
           onEditComment={props.onEditComment}
+          onTagToggle={props.onTagToggle}
         />
       }
+
       {props.active === "Dashboard" && <Dashboard />}
+
       {props.active === "Analytics" && <Analytics />}
+
     </div>
   );
 };

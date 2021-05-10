@@ -1,0 +1,19 @@
+@import "../styles/global.scss";
+
+.TagList {
+  display: flex;
+  align-items: center;
+
+  button.disabled:not(.selected) {
+    opacity: 0.4;
+    cursor: initial;
+
+  }
+
+  span {
+    font-family: $font-code;
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+
+}
