@@ -56,8 +56,8 @@
       color: $orange;
     }
     .modified {
-      opacity: 0.5;
       font-style: italic;
+      color: $navy-7;
     }
   }
 
@@ -98,13 +98,20 @@
     }
   }
 
-  .post-form {
+  .anon-form {
+    margin-top: 0.5rem;
     input.form-check-input {
       box-shadow: none;
+      margin-left: 0.5rem;
+      margin-right: 0.3rem;
+      cursor: pointer;
       &:checked {
         background-color: $orange;
         border: none;
       }
+    }
+    .note {
+      color: $orange;
     }
   }
 

@@ -276,13 +276,15 @@ const Post = (props) => {
             onChange={updatePreviewBody}
             styles="form-body"
           />
-          <div className="form-check">
+          <div className="anon-form">
+            Post as anonymous?
             <input
               className="form-check-input"
               type="checkbox"
               checked={state.previewAnonymous}
               onChange={updatePreviewAnonymous}
             />
+            <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
           </div>
         </div>
       }
