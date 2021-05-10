@@ -30,13 +30,25 @@
     padding: 0.2rem 0.5rem;
     background: linear-gradient($navy-5, $navy-1);
     user-select: none;
+    display: flex;
+    justify-content: space-between;
+
+    &.active {
+      background: linear-gradient($navy-5, $navy-1);
+    }
 
     &:not(.empty) {
       cursor: pointer;
     }
 
     &:hover:not(.empty) {
-      background: linear-gradient($navy-6, $navy-1);
+      // background: linear-gradient($navy-6, $navy-1);
+      .arrows {
+        img {
+          filter: invert(85%);
+          opacity: 0.7;
+        }
+      }
     }
 
     img {
@@ -46,7 +58,16 @@
     }
 
     &.empty {
-      opacity: 0.6;
+      opacity: 0.7;
+      background: linear-gradient($navy-4, $black);
+    }
+
+    .arrows {
+      img {
+        filter: invert(70%);
+        opacity: 0.5;
+        margin-right: 0;
+      }
     }
 
   }

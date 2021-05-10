@@ -6,6 +6,8 @@ import PostListItem from "./PostListItem";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
+import up from "../images/icons/up-arrow.png";
+import down from "../images/icons/down-arrow.png";
 import question from "../images/icons/paper.png";
 import PropTypes from "prop-types";
 
@@ -138,9 +140,15 @@ const PostList = (props) => {
     <div className="PostList">
 
       {/* Filters */}
-      <div className="label" onClick={() => toggleList("filters")}>
-        <img src={filter} alt="filter" />
-        FILTERS
+      <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
+        <div>
+          <img src={filter} alt="filter" />
+          FILTERS
+        </div>
+        <div className="arrows">
+          {state.showFilters && <img src={up} alt="up" />}
+          {!state.showFilters && <img src={down} alt="down" />}
+        </div>
       </div>
       {state.showFilters &&
         <div className="tags">
@@ -169,9 +177,15 @@ const PostList = (props) => {
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${!pinnedPosts.length && "empty"}`} onClick={() => toggleList("pinned")}>
-            <img src={pin} alt="pin" />
-            PINNED
+          <div className={`label ${state.showPinned && "active"} ${!pinnedPosts.length && "empty"}`} onClick={() => toggleList("pinned")}>
+            <div>
+              <img src={pin} alt="pin" />
+              PINNED
+            </div>
+            <div className="arrows">
+              {pinnedPosts.length > 0 && state.showPinned && <img src={up} alt="up" />}
+              {pinnedPosts.length > 0 && !state.showPinned && <img src={down} alt="down" />}
+            </div>
           </div>
           {state.showPinned &&
             <div className="list">
@@ -182,9 +196,15 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${!bookmarkedPosts.length && "empty"}`} onClick={() => toggleList("bookmarked")}>
-            <img src={star} alt="bookmark" />
-            BOOKMARKED
+          <div className={`label ${state.showBookmarked && "active"} ${!bookmarkedPosts.length && "empty"}`} onClick={() => toggleList("bookmarked")}>
+            <div>
+              <img src={star} alt="bookmark" />
+              BOOKMARKED
+            </div>
+            <div className="arrows">
+              {bookmarkedPosts.length > 0 && state.showBookmarked && <img src={up} alt="up" />}
+              {bookmarkedPosts.length > 0 && !state.showBookmarked && <img src={down} alt="down" />}
+            </div>
           </div>
           {state.showBookmarked &&
             <div className="list">
@@ -195,9 +215,15 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
-            <img src={question} alt="question" />
-            POSTS
+          <div className={`label ${state.showPosts && "active"} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
+            <div>
+              <img src={question} alt="question" />
+              POSTS
+            </div>
+            <div className="arrows">
+              {unpinnedPosts.length > 0 && state.showPosts && <img src={up} alt="up" />}
+              {unpinnedPosts.length > 0 && !state.showPosts && <img src={down} alt="down" />}
+            </div>
           </div>
           {state.showPosts &&
             <div className="list">
