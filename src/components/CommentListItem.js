@@ -3,7 +3,7 @@ import "./CommentListItem.scss";
 import Button from "./Button";
 import CommentList from "./CommentList";
 import PostForm from "./PostForm";
-import upvote from "../images/icons/upvote.png";
+import upvote from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
@@ -141,8 +141,12 @@ const CommentListItem = (props) => {
 
   // Convert timestamp into a readable format
   // TODO: Move to helper file
-  const formatTimestamp = (timestamp) => {
-    return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  const formatTimestamp = (timestamp, relative) => {
+    if (relative) {
+      return moment(timestamp).fromNow();
+    } else {
+      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+    }
   };
 
   // Return the length of the longest word in the given string
@@ -153,7 +157,8 @@ const CommentListItem = (props) => {
   const getCommentTimestamp = () => {
     const isModified = props.createdAt !== props.lastModified;
     const timestamp = isModified ? props.lastModified : props.createdAt;
-    return `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+    return `${result} (${formatTimestamp(timestamp, true)})`;
   };
 
   // VARIABLES //////////////////////////////////////////////////////
@@ -196,7 +201,7 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${isParent ? "parent" : "child"}`}>
+    <div className={`CommentListItem ${isParent ? "parent" : "child"} ${props.authorRole !== "student" && "instructor"}`}>
       <main className={`comment-main ${isParent ? "parent" : "child"}`}>
         {/* this is a {isParent ? "parent" : "child"} */}
 

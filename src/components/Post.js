@@ -196,8 +196,12 @@ const Post = (props) => {
 
   // Convert timestamp into a readable format
   // TODO: Move to helper file
-  const formatTimestamp = (timestamp) => {
-    return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  const formatTimestamp = (timestamp, relative) => {
+    if (relative) {
+      return moment(timestamp).fromNow();
+    } else {
+      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+    }
   };
 
   // Return true if tags contains the given tag ID
@@ -262,7 +266,11 @@ const Post = (props) => {
           <div>
             Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
           </div>
-          {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
+          {!isModified &&
+            <div className="modified">
+              Last modified: {formatTimestamp(props.lastModified)} ({formatTimestamp(props.lastModified, true)})
+            </div>
+          }
         </div>
 
         <footer className="post-icons">
