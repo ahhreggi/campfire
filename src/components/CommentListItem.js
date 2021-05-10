@@ -4,6 +4,8 @@ import Button from "./Button";
 import CommentList from "./CommentList";
 import upvote from "../images/icons/upvote.png";
 import endorse from "../images/icons/endorse.png";
+import edit from "../images/icons/edit.png";
+import trash from "../images/icons/trash.png";
 import PropTypes from "prop-types";
 
 const CommentListItem = (props) => {
@@ -27,12 +29,14 @@ const CommentListItem = (props) => {
     onEdit: PropTypes.func
   };
 
-  const [commentText, setCommentText] = useState("");
   const [state, setState] = useState({
     showForm: false,
-    anonymous: props.anonymous,
-    commentText: props.body,
-    endorsements: props.endorsements
+    showConfirmation: false,
+    previewBody: props.body,
+    previewAnonymous: props.anonymous,
+    previewAuthor: props.author,
+    endorsed: props.endorsed,
+    breakBody: false
   });
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -68,7 +72,7 @@ const CommentListItem = (props) => {
     // include anything that can change when an existing comment is edited
     const updatedData = {
       "anonymous": state.anonymous,
-      "body": state.commentText,
+      "body": state.previewBody,
       "last_modified": "some new last_modified time",
     };
     props.onEdit(props.id, updatedData);
@@ -102,7 +106,10 @@ const CommentListItem = (props) => {
   return (
     <div className={`CommentListItem ${!props.replies && "reply"}`}>
       <div className="comment-avatar">
-        {props.avatarID}
+        avatarid: {props.avatarID}
+      </div>
+      <div className="comment-score">
+        score: {props.score}
       </div>
       <div className="comment-author">
         {authorName}
@@ -110,9 +117,29 @@ const CommentListItem = (props) => {
       <div className="comment-body">
         {props.body}
       </div>
-      <div>
-        created: {props.createdAt} (last modified: {props.lastModified})
-      </div>
+      <footer>
+        <div className="comment-timestamp">
+          created: {props.createdAt} (last modified: {props.lastModified})
+        </div>
+        {props.editable &&
+          <div className="controls icon-large">
+            <>
+              <img
+                className={state.showForm ? "active" : ""}
+                src={edit}
+                alt="edit"
+                onClick={toggleForm}
+              />
+              <img
+                className={state.showConfirmation ? "active" : ""}
+                src={trash}
+                alt="delete"
+                onClick={() => console.log("")}
+              />
+            </>
+          </div>
+        }
+      </footer>
       <div>
         endorsable: {props.endorsable ? "true" : "false"}
       </div>
@@ -131,7 +158,7 @@ const CommentListItem = (props) => {
         </label>
         <input type="submit" value="Save Changes" />
       </form>
-      {state.showForm && <input type="text" value={commentText} onChange={(event) => setCommentText(event.target.value)} />}
+      {state.showForm && <input type="text" value={"comment text..."} onChange={(event) => console.log("clicked!")} />}
       {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
       {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
