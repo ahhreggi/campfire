@@ -39,30 +39,35 @@ FormRedDisabled.args = {
 export const Tag = Template.bind ({});
 
 Tag.args = {
-  styles: "tag",
+  text: "PROMISES",
+  styles: "tag"
 };
 
 export const TagSelected = Template.bind ({});
 
 TagSelected.args = {
-  styles: "tag selected",
+  text: "PROMISES",
+  styles: "tag selected"
 };
 
 export const TagFilter = Template.bind ({});
 
 TagFilter.args = {
-  styles: "tag filter",
+  text: "PROMISES",
+  styles: "tag filter"
 };
 
 export const TagClear = Template.bind ({});
 
 TagClear.args = {
-  styles: "tag clear",
+  text: "PROMISES",
+  styles: "tag clear"
 };
 
 export const TagDisabled = Template.bind ({});
 
 TagDisabled.args = {
+  text: "PROMISES",
   styles: "tag",
   disabled: true
 };
