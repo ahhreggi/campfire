@@ -4,6 +4,7 @@ import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
+import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import eye from "../images/icons/eye.png";
@@ -89,16 +90,23 @@ const Post = (props) => {
     setState({ ...state, previewAnonymous: event.target.checked });
   };
 
+  // Return true if tags contains the given tag ID
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
+
   // Update the preview tags dynamically as the user toggles them
-  const updatePreviewTags = (event, tag) => {
-    const hasTag = state.previewTags.filter(pTag => pTag.id === tag.id).length;
-    // If the tag is in previewTags, remove it
+  const updatePreviewTags = (tag) => {
     let updatedTags = state.previewTags;
-    if (hasTag) {
-      updatedTags.filter(pTag => pTag.id !== tag.id);
-      // Otherwise, add it
+    const selected = hasTag(state.previewTags, tag.id);
+    // If the tag is already selected, unselect it
+    if (selected) {
+      updatedTags = updatedTags.filter(pTag => pTag.id !== tag.id);
+      console.log("Removing tag");
+      // Otherwise, select it
     } else {
       updatedTags.push(tag);
+      console.log("Adding tag");
     }
     setState({ ...state, previewTags: updatedTags });
   };
@@ -185,18 +193,6 @@ const Post = (props) => {
         key={tag.id}
         text={tag.name}
         styles="tag"
-      />
-    );
-  });
-
-  // Create the form tag button components
-  const formTags = props.courseTags.map(tag => {
-    return (
-      <Button
-        key={tag.id}
-        text={tag.name}
-        styles="tag"
-        onClick={updatePreviewTags}
       />
     );
   });
@@ -316,6 +312,14 @@ const Post = (props) => {
               onChange={updatePreviewAnonymous}
             />
             <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
+          </div>
+          <div className="post-form-tags">
+            Select tags:
+            <TagList
+              tags={props.courseTags}
+              selectedTags={state.previewTags}
+              onClick={updatePreviewTags}
+            />
           </div>
         </div>
       }
