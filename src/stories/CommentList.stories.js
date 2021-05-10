@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CommentList from '../components/CommentList';
+import * as CommentListItemStories from './CommentListItem.stories';
 
 export default {
   title: 'CommentList',
@@ -9,8 +10,12 @@ export default {
 
 const Template = (args) => <CommentList {...args} />;
 
-export const TestComponent = Template.bind ({});
+export const TestCommentList = Template.bind ({});
 
-TestComponent.args = {
-
+TestCommentList.args = {
+  comments:[
+    {...CommentListItemStories.Primary.args},
+    {...CommentListItemStories.Secondary.args},
+    {...CommentListItemStories.Third.args}
+  ]
 };
