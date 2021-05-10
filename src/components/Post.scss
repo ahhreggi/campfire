@@ -26,18 +26,23 @@
 
     }
 
-    .counters {
-      font-size: 0.9rem;
+    .views {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: 700;
       color: $white;
+      margin-right: 0.5rem;
 
-      .views {
-        margin-right: 1rem;
+      img{
+        width: 1.5rem;
+        margin-right: 0.7rem;
       }
 
-      img {
-        margin-bottom: 0.15rem;
-      }
+    }
 
+    img {
+      margin-bottom: 0.15rem;
     }
 
   }
@@ -183,6 +188,12 @@
     font-weight: 700;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    .comments {
+      img {
+        margin-bottom: 0.2rem;
+        margin-right: 0.5rem;
+      }
+    }
   }
 
 }

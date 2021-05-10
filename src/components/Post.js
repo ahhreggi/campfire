@@ -205,17 +205,12 @@ const Post = (props) => {
             {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
           </div>
 
-          {/* View & Comment Counters */}
-          <div className="counters">
-            <span className="views icon-med">
-              <img src={eye} alt="views" />
-              {props.views}
-            </span>
-            <span className="comments icon-med">
-              <img src={comment} alt="comments" />
-              {numComments}
-            </span>
+          {/* Views */}
+          <div className="views icon-med">
+            <img src={eye} alt="views" />
+            {props.views}
           </div>
+
 
         </header>
 
@@ -414,8 +409,13 @@ const Post = (props) => {
       <hr />
 
       {/* Discussion */}
-      <div className="comments">
-        <div className="label">Discussion</div>
+      <div className="discussion">
+        <div className="label">
+          <span className="comments icon-med">
+            <img src={comment} alt="comments" />
+          </span>
+          Discussion {numComments > 0 && `(${numComments})`}
+        </div>
         <CommentList
           comments={props.comments}
           onEditComment={props.onEditComment}
