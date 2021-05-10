@@ -14,6 +14,8 @@ const Main = (props) => {
     onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
@@ -59,6 +61,8 @@ const Main = (props) => {
           onBookmarkPost={props.onBookmarkPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
+          onLikeComment={props.onLikeComment}
+          onEndorseComment={props.onEndorseComment}
           onEditComment={props.onEditComment}
           onTagToggle={props.onTagToggle}
         />

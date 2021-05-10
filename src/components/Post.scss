@@ -33,6 +33,7 @@
       font-weight: 700;
       color: $white;
       margin-right: 0.5rem;
+      user-select: none;
 
       img{
         width: 1.5rem;
@@ -67,7 +68,7 @@
 
     .modified {
       font-style: italic;
-      color: $navy-7;
+      opacity: 0.3;
     }
 
   }
@@ -75,6 +76,7 @@
   footer.post-icons {
     display: flex;
     justify-content: space-between;
+    user-select: none;
     .list-controls {
       img {
         width: 1.5rem;
@@ -106,6 +108,7 @@
     display: flex;
     justify-content: flex-end;
     margin-right: 0.2rem;
+    user-select: none;
 
     img {
       margin-left: 1rem;
@@ -191,33 +194,46 @@
   }
 
   .preview {
+
     .label {
       font-weight: 700;
       font-size: 0.9rem;
       margin-bottom: 1rem;
       color: $blue;
+
       img {
         width: 1.1rem;
         margin-left: 0.5rem;
         margin-bottom: 0.1rem;
       }
+
       .comments {
+
         img {
           margin-bottom: 0.2rem;
           margin-right: 0.5rem;
           margin-left: 0;
         }
+
       }
+
     }
+
   }
 
   .discussion {
+
     .label {
       font-size: 1.1rem;
       font-weight: 700;
+
+      img {
+        user-select: none;
+        margin-bottom: 0.1rem;
+      }
+
     }
+
   }
-
-
 
 }

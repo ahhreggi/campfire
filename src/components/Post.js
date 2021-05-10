@@ -37,6 +37,8 @@ const Post = (props) => {
     onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
@@ -68,7 +70,7 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getAuthorName(props.anonymous),
+      previewAuthor: getAuthorName(props.author, props.anonymous),
       previewTags: props.tags
     });
   }, [state.showForm]);
@@ -77,7 +79,7 @@ const Post = (props) => {
   useEffect(() => {
     setState({
       ...state,
-      previewAuthor: getAuthorName(state.previewAnonymous)
+      previewAuthor: getAuthorName(props.author, state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
 
@@ -177,11 +179,12 @@ const Post = (props) => {
   // Return the author name based on the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getAuthorName = (anonymous) => {
+  // TODO: Move to helper file (also in CommentListItem)
+  const getAuthorName = (author, anonymous) => {
     // Set the displayed author name
-    let name = anonymous ? "Anonymous" : props.author;
-    if (anonymous && props.author) {
-      name = props.author + " (Anonymous to students)";
+    let name = anonymous ? "Anonymous" : author;
+    if (anonymous && author) {
+      name = author + " (Anonymous to students)";
     }
     return name;
   };
@@ -194,8 +197,13 @@ const Post = (props) => {
   };
 
   // Convert timestamp into a readable format
-  const formatTimestamp = (timestamp) => {
-    return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  // TODO: Move to helper file
+  const formatTimestamp = (timestamp, relative) => {
+    if (relative) {
+      return moment(timestamp).fromNow();
+    } else {
+      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+    }
   };
 
   // Return true if tags contains the given tag ID
@@ -212,7 +220,7 @@ const Post = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getAuthorName(props.anonymous);
+  const authorName = getAuthorName(props.author, props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);
@@ -260,7 +268,11 @@ const Post = (props) => {
           <div>
             Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
           </div>
-          {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
+          {!isModified &&
+            <div className="modified">
+              Last modified: {formatTimestamp(props.lastModified)} ({formatTimestamp(props.lastModified, true)})
+            </div>
+          }
         </div>
 
         <footer className="post-icons">
@@ -462,7 +474,10 @@ const Post = (props) => {
         </div>
         <CommentList
           comments={props.comments}
+          onLikeComment={props.onLikeComment}
+          onEndorseComment={props.onEndorseComment}
           onEditComment={props.onEditComment}
+          bestAnswer={props.bestAnswer}
         />
       </div>
 

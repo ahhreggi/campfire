@@ -82,14 +82,15 @@ let dummyCourseData = {
         {
           "id": 5,
           "post_id": 2,
-          "anonymous": false,
+          "anonymous": true,
           "author_first_name": "Carson",
           "author_last_name": "Cool",
           "author_avatar_id": 4,
           "body": "You create a class with the Class keyword followed by {}",
-          "score": "0",
+          "score": 0,
           "created_at": "2021-05-10T15:40:05.671Z",
           "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": true,
           "endorsed": false,
           "role": "instructor",
           "user_id": 3,
@@ -133,9 +134,10 @@ let dummyCourseData = {
           "author_last_name": "Ford",
           "author_avatar_id": 7,
           "body": "You can consume a promise by calling .then() on it! Be sure to use .catch() as well in case of errors.",
-          "score": "3",
+          "score": 999,
           "created_at": "2021-05-10T15:40:05.671Z",
           "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": false,
           "endorsed": true,
           "role": "student",
           "user_id": 6,
@@ -158,9 +160,30 @@ let dummyCourseData = {
               "author_last_name": "Ecksworth",
               "author_avatar_id": 6,
               "body": "Thanks for this!!",
-              "score": "0",
+              "score": 0,
+              "created_at": "2021-05-10T15:40:05.671Z",
+              "last_modified": "2021-06-10T15:40:05.671Z",
+              "liked": false,
+              "endorsed": true,
+              "role": "student",
+              "user_id": 5,
+              "editable": true,
+              "endorsable": true,
+              "endorsements": []
+            },
+            {
+              "id": 5,
+              "parent_id": 2,
+              "anonymous": false,
+              "author_first_name": "Edward",
+              "author_last_name": "Ecksworth",
+              "author_avatar_id": 7,
+              "body": "123123123",
+              "score": 5,
               "created_at": "2021-05-10T15:40:05.671Z",
               "last_modified": "2021-05-10T15:40:05.671Z",
+              "liked": true,
+              "endorsed": true,
               "role": "student",
               "user_id": 5,
               "editable": true,
@@ -177,9 +200,10 @@ let dummyCourseData = {
           "author_last_name": "Aldridge",
           "author_avatar_id": 2,
           "body": "Be sure to check out Promise.resolve and Promise.reject as well for more info.",
-          "score": "0",
+          "score": 0,
           "created_at": "2021-05-10T15:40:05.671Z",
           "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": false,
           "endorsed": false,
           "role": "admin",
           "user_id": 1,
@@ -196,9 +220,10 @@ let dummyCourseData = {
           "author_last_name": "Ecksworth",
           "author_avatar_id": 6,
           "body": "I had the same question!",
-          "score": "0",
+          "score": 0,
           "created_at": "2021-05-10T15:40:05.671Z",
           "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": true,
           "endorsed": false,
           "role": "student",
           "user_id": 5,
@@ -231,41 +256,7 @@ const App = () => {
     fetchCourseData();
   }, []);
 
-  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
-
-  // Fetch course data from the server
-  // TODO: Replace with an actual API request
-  const fetchCourseData = () => {
-    // Request data from the server and await a response
-    setTimeout(() => {
-      const res = dummyCourseData;
-      // If the request is successful and a response is received
-      if (res) {
-        // Update state with the response data
-        setState({ ...state, courseData: res });
-        // If the active view is a post, update the post data in the state using the res data
-        if (state.active === "Post") {
-          const selectedPost = getPostByID(res.posts, state.postID);
-          setState({ ...state, post: selectedPost });
-        }
-      }
-    }, 1);
-  };
-
-  // Update course data in the server
-  // TODO: Replace with an actual API request
-  const updateCourseData = (updatedCourseData) => {
-    // Send data to server and request to insert changes
-    dummyCourseData = updatedCourseData;
-    // Await a response
-    setTimeout(() => {
-      const res = dummyCourseData;
-      // If the request is successful and a response is received, update state with the res data
-      const updatedCourseData = res;
-      const updatedPost = getPostByID(res.posts, state.postID);
-      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
-    }, 1);
-  };
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
   const selectActive = (selection, postID = null) => {
@@ -279,77 +270,6 @@ const App = () => {
       post: selectedPost
     });
 
-  };
-
-  // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
-
-  // Request to toggle pin for a post by ID
-  // Source: Post
-  const pinPost = (postID) => {
-    // Get current pin value of post
-    const pinned = getPostByID(state.courseData.posts, postID).pinned;
-    // Request to update post data
-    editPost(postID, { pinned: !pinned });
-  };
-
-  // Request to toggle bookmark for post by ID
-  // Source: Post
-  const bookmarkPost = (postID) => {
-    // Get current bookmark value of post
-    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
-    // Request to update user bookmarks
-    editPost(postID, { bookmarked: !bookmarked });
-  };
-
-  // Request to edit a post by ID with the given data
-  // Source: Post
-  const editPost = (postID, data) => {
-    // Get the current post by ID
-    const currentPost = getPostByID(state.courseData.posts, postID);
-    // Update the post with the new data
-    const newPost = { ...currentPost, ...data };
-    // Update courseData.posts with the updated post
-    const newPosts = state.courseData.posts.map(post => {
-      if (post.id === postID) {
-        return newPost;
-      } else {
-        return post;
-      }
-    });
-    // Update courseData with the updated posts
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Request to update course data in the server
-    updateCourseData(newCourseData);
-  };
-
-  // Request to delete a post by ID
-  const deletePost = (postID) => {
-    // MOCK: Send a delete request to the server
-    // SUCCESS: Redirect to dashboard
-    // ERROR: Return to post and display an error message
-    // Temp: Retrieve all posts except the one with postID
-    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Update state using the response data and redirect
-    const res = newCourseData;
-
-    if (res) {
-      setState({
-        ...state,
-        active: "Dashboard",
-        courseData: newCourseData,
-        postID: null,
-        post: null
-      });
-    } else {
-      console.log("An error occurred while deleting the post.");
-    }
-  };
-
-  // Request to edit a comment by ID with the given data
-  // Source: CommentListItem
-  const editComment = (commentID, data) => {
-    console.log("onEditComment executed with data:", data);
   };
 
   // Update the selected tags dynamically as the user toggles them
@@ -375,6 +295,154 @@ const App = () => {
     setState({ ...state, selectedTags: [] });
   };
 
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  // Fetch course data from the server
+  // TODO: Replace with an actual API request
+  const fetchCourseData = (courseID) => {
+
+    // TODO: API Request
+    console.log("API: Fetching course data for course ID", courseID);
+
+    // Request data from the server and await a response
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If the request is successful and a response is received
+      if (res) {
+        // Update state with the response data
+        setState({ ...state, courseData: res });
+        // If the active view is a post, update the post data in the state using the res data
+        if (state.active === "Post") {
+          const selectedPost = getPostByID(res.posts, state.postID);
+          setState({ ...state, post: selectedPost });
+        }
+      }
+    }, 1);
+  };
+
+  // MOCK: Update course data in the server
+  // TODO: Replace with an actual API request
+  const updateCourseData = (updatedCourseData) => {
+    // Send data to server and request to insert changes
+    dummyCourseData = updatedCourseData;
+    // Await a response
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If the request is successful and a response is received, update state with the res data
+      const updatedCourseData = res;
+      const updatedPost = getPostByID(res.posts, state.postID);
+      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
+    }, 1);
+  };
+
+  // Request to toggle pin for a post by ID
+  // Source: Post
+  const pinPost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to pin a post with the post ID", postID);
+
+    // Get current pin value of post
+    const pinned = getPostByID(state.courseData.posts, postID).pinned;
+    // Request to update post data
+    editPost(postID, { pinned: !pinned });
+  };
+
+  // Request to toggle bookmark for post by ID
+  // Source: Post
+  const bookmarkPost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to bookmark a post with the post ID", postID);
+
+    // Get current bookmark value of post
+    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
+    // Request to update user bookmarks
+    editPost(postID, { bookmarked: !bookmarked });
+  };
+
+  // Request to edit a post by ID with the given data
+  // Source: Post
+  const editPost = (postID, data) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to UPDATE a post with the post ID", postID);
+    console.log("Data:", data);
+
+    // Get the current post by ID
+    const currentPost = getPostByID(state.courseData.posts, postID);
+    // Update the post with the new data
+    const newPost = { ...currentPost, ...data };
+    // Update courseData.posts with the updated post
+    const newPosts = state.courseData.posts.map(post => {
+      if (post.id === postID) {
+        return newPost;
+      } else {
+        return post;
+      }
+    });
+    // Update courseData with the updated posts
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Request to update course data in the server
+    updateCourseData(newCourseData);
+  };
+
+  // Request to delete a post by ID
+  const deletePost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to delete a post with the post ID", postID);
+
+    // MOCK: Send a delete request to the server
+    // SUCCESS: Redirect to dashboard
+    // ERROR: Return to post and display an error message
+    // Temp: Retrieve all posts except the one with postID
+    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Update state using the response data and redirect
+    const res = newCourseData;
+
+    if (res) {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: newCourseData,
+        postID: null,
+        post: null
+      });
+    } else {
+      console.log("An error occurred while deleting the post.");
+    }
+  };
+
+  // Request to like a comment by ID
+  // Source: CommentListItem
+  const likeComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to like a comment with the comment ID", commentID);
+
+  };
+
+  // Request to endorse a comment by ID
+  // Source: CommentListItem
+  const endorseComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to endorse a comment with the comment ID", commentID);
+
+  };
+
+  // Request to edit a comment by ID with the given data
+  // Source: CommentListItem
+  const editComment = (commentID, data) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to UPDATE a comment with the comment ID", commentID);
+    console.log("Data:", data);
+
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Return true if the given tagID is in tags
@@ -394,9 +462,15 @@ const App = () => {
 
   return (
     <div className="App">
+
+      {/* Loading Message (when there is no courseData) */}
       {!state.courseData && <div>Loading...</div>}
+
+      {/* Course View (courseData exists) */}
       {state.courseData &&
         <>
+
+          {/* Nav Bar */}
           <Nav
             onClick={selectActive}
             active={state.active}
@@ -405,7 +479,10 @@ const App = () => {
             userAvatar={state.user.avatar_id}
             userName={`${state.user.first_name} ${state.user.last_name}`}
           />
+
           <section>
+
+            {/* All Posts */}
             <div className="left">
               <PostList
                 selectedPostID={state.postID}
@@ -417,6 +494,8 @@ const App = () => {
                 onTagClear={clearSelectedTags}
               />
             </div>
+
+            {/* Current View */}
             <div className="right">
               <Main
                 active={state.active}
@@ -426,16 +505,22 @@ const App = () => {
                 onBookmarkPost={bookmarkPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
+                onLikeComment={likeComment}
+                onEndorseComment={endorseComment}
                 onEditComment={editComment}
                 onTagToggle={updateSelectedTags}
               />
             </div>
+
           </section>
+
+          {/* Test Controls */}
           <div className="test-controls">
             test controls:
             <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
             <Button text="Analytics" onClick={() => selectActive("Analytics")} />
           </div>
+
         </>
       }
     </div>
