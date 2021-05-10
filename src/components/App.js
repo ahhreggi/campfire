@@ -47,6 +47,18 @@ let dummyCourseData = {
     {
       "id": 5,
       "name": "Async"
+    },
+    {
+      "id": 6,
+      "name": "HTML"
+    },
+    {
+      "id": 7,
+      "name": "JavaScript"
+    },
+    {
+      "id": 8,
+      "name": "React"
     }
   ],
   "posts": [

@@ -8,6 +8,7 @@ const TagList = (props) => {
   TagList.propTypes = {
     tags: PropTypes.array,
     selectedTags: PropTypes.array,
+    selectLimit: PropTypes.number,
     onClick: PropTypes.func,
     truncate: PropTypes.number,
     styles: PropTypes.string,
@@ -15,13 +16,14 @@ const TagList = (props) => {
   };
 
   TagList.defaultProps = {
-    truncate: 0
+    truncate: Infinity,
+    selectLimit: Infinity
   };
 
-  const [disabled, setDisabled] = useState(props.selectedTags.length >= 5);
+  const [disabled, setDisabled] = useState(props.selectedTags.length >= props.selectLimit);
 
   useEffect(() => {
-    setDisabled(props.selectedTags.length >= 5);
+    setDisabled(props.selectedTags.length >= props.selectLimit);
   }, [props.selectedTags]);
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
