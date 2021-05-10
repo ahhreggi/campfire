@@ -6,6 +6,8 @@ const CommentList = (props) => {
 
   CommentList.propTypes = {
     comments: PropTypes.array,
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
     bestAnswer: PropTypes.number
   };
@@ -30,7 +32,9 @@ const CommentList = (props) => {
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
         replies={comment.replies}
-        onEdit={props.onEditComment}
+        onLikeComment={props.onLikeComment}
+        onEndorseComment={props.onEndorseComment}
+        onEditComment={props.onEditComment}
         bestAnswer={props.bestAnswer}
       />
     );

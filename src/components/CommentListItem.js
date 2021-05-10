@@ -32,6 +32,8 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
     endorsements: PropTypes.array,
     replies: PropTypes.array,
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
     bestAnswer: PropTypes.number
   };
@@ -292,25 +294,29 @@ const CommentListItem = (props) => {
 
       </main>
 
-      {isParent &&
-        <div className="comment-replies">
-          {replies}
-        </div>
-      }
-
-      {/* <form className="comment-form" onSubmit={onSave}>
+      <form className="comment-form" onSubmit={onSave}>
         <label>
           write something:
         </label>
         <input type="submit" value="Save Changes" />
       </form>
+
       {state.showForm && <input type="text" value={"comment text..."} onChange={(event) => console.log("clicked!")} />}
       {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
       {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
       {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>} */}
+      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>}
+
+
+      {/* Replies */}
+      {isParent &&
+        <div className="comment-replies">
+          {replies}
+        </div>
+      }
+
     </div>
   );
 };

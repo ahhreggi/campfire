@@ -371,6 +371,18 @@ const App = () => {
     }
   };
 
+  // Request to like a comment by ID
+  // Source: CommentListItem
+  const likeComment = (commentID) => {
+    console.log("likeComment executed!");
+  };
+
+  // Request to endorse a comment by ID
+  // Source: CommentListItem
+  const endorseComment = (commentID) => {
+    console.log("endorseComment executed!");
+  };
+
   // Request to edit a comment by ID with the given data
   // Source: CommentListItem
   const editComment = (commentID, data) => {
