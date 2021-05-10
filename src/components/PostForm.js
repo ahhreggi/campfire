@@ -1,6 +1,5 @@
-import { useState } from "react";
-import TextareaAutosize from "react-autosize-textarea";
 import "./PostForm.scss";
+import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
 
 const PostForm = (props) => {

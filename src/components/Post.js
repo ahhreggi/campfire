@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import "./Post.scss";
-import Bookmark from "./Bookmark";
 import Button from "./Button";
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
+import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
+import pin from "../images/icons/pin.png";
+import star from "../images/icons/star.png";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
@@ -20,6 +22,7 @@ const Post = (props) => {
     author: PropTypes.string,
     bestAnswer: PropTypes.number,
     body: PropTypes.string,
+    pinned: PropTypes.bool,
     bookmarked: PropTypes.bool,
     comments: PropTypes.array,
     createdAt: PropTypes.string,
@@ -29,9 +32,12 @@ const Post = (props) => {
     title: PropTypes.string,
     userID: PropTypes.number,
     views: PropTypes.number,
+    onPinPost: PropTypes.func,
+    onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
-    onEditComment: PropTypes.func
+    onEditComment: PropTypes.func,
+    onTagToggle: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -40,14 +46,17 @@ const Post = (props) => {
     previewTitle: props.title,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
-    previewAuthor: props.author
+    previewAuthor: props.author,
+    previewTags: props.tags,
+    breakBody: false
   });
 
-  // Reset form states when switching posts
+  // Reset form and confirmation states when switching posts
   useEffect(() => {
     setState({
       ...state,
-      showForm: false
+      showForm: false,
+      showConfirmation: false
     });
   }, [props.id]);
 
@@ -58,7 +67,8 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getDisplayName(props.anonymous)
+      previewAuthor: getAuthorName(props.anonymous),
+      previewTags: props.tags
     });
   }, [state.showForm]);
 
@@ -66,9 +76,16 @@ const Post = (props) => {
   useEffect(() => {
     setState({
       ...state,
-      previewAuthor: getDisplayName(state.previewAnonymous)
+      previewAuthor: getAuthorName(state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
+
+  // Update breakBody when updating previewTitle and previewBody
+  useEffect(() => {
+    const checkTitle = getLongestWordLength(state.previewTitle) > 34;
+    const checkBody = getLongestWordLength(state.previewBody) > 34;
+    setState({ ...state, breakBody: checkTitle || checkBody });
+  }, [state.previewTitle, state.previewBody]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -87,35 +104,64 @@ const Post = (props) => {
     setState({ ...state, previewAnonymous: event.target.checked });
   };
 
-  // Toggle and reset the post edit form
-  const toggleForm = () => {
-    setState({ ...state, showForm: !state.showForm });
+  // Update the preview tags dynamically as the user toggles them
+  const updatePreviewTags = (tag) => {
+    const selected = hasTag(state.previewTags, tag.id);
+    // If the tag is already selected, unselect it
+    if (selected) {
+      const updatedTags = state.previewTags.filter(pTag => pTag.id !== tag.id);
+      setState({ ...state, previewTags: updatedTags });
+      // Otherwise, select it
+    } else {
+      setState({ ...state, previewTags: [ ...state.previewTags, tag ] });
+    }
   };
 
-  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
-
-  // Save the post changes
-  const savePost = () => {
-    // If changes were made, submit them to the server
-    if (
-      state.previewTitle !== props.title ||
-      state.previewBody !== props.body ||
-      state.previewAnonymous !== props.anonymous
-    ) {
-      const data = {
-        title: state.previewTitle,
-        body: state.previewBody,
-        anonymous: state.previewAnonymous
-      };
-      props.onEditPost(props.id, data);
+  // Toggle and reset the post edit form
+  const toggleForm = () => {
+    if (!state.showForm && state.showConfirmation) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    } else {
+      setState({ ...state, showForm: !state.showForm });
     }
-    // Hide edit form
-    toggleForm();
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    setState({ ...state, showConfirmation: !state.showConfirmation });
+    if (!state.showConfirmation && state.showForm) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    } else {
+      setState({ ...state, showConfirmation: !state.showConfirmation });
+    }
+  };
+
+  const handleClick = (tag) => {
+    props.onTagToggle(tag, true);
+  };
+
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  // Pin/unpin the post
+  const togglePin = () => {
+    props.onPinPost(props.id);
+  };
+
+  // Bookmark/unbookmark the post
+  const toggleBookmark = () => {
+    props.onBookmarkPost(props.id);
+  };
+
+  // Save the post changes
+  const savePost = () => {
+    const data = {
+      title: state.previewTitle,
+      body: state.previewBody,
+      anonymous: state.previewAnonymous,
+      tags: state.previewTags
+    };
+    props.onEditPost(props.id, data);
+    // Hide edit form
+    toggleForm();
   };
 
   // Delete the post
@@ -127,16 +173,16 @@ const Post = (props) => {
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // Return the author name to display according to the given anonymous value (bool)
+  // Return the author name based on the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getDisplayName = (anonymous) => {
+  const getAuthorName = (anonymous) => {
     // Set the displayed author name
-    let displayName = anonymous ? "Anonymous" : props.author;
+    let name = anonymous ? "Anonymous" : props.author;
     if (anonymous && props.author) {
-      displayName = props.author + " (Anonymous to students)";
+      name = props.author + " (Anonymous to students)";
     }
-    return displayName;
+    return name;
   };
 
   // Return the total number of comments and child comments
@@ -151,10 +197,21 @@ const Post = (props) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
   };
 
+  // Return true if tags contains the given tag ID
+  // TODO: Move to helper file (also in TagList)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
+
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    return Math.max(...text.split(" ").map(word => word.length));
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getDisplayName(props.anonymous);
+  const authorName = getAuthorName(props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);
@@ -162,16 +219,10 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
-  // Create the tag button components
-  const tags = props.tags.map(tag => {
-    return (
-      <Button
-        key={tag.id}
-        text={tag.name}
-        styles="tag"
-      />
-    );
-  });
+  // Check if limit is reached
+  // TODO: Store tagList in an .env along with other global app variables
+  const tagLimit = 5;
+  const limitReached = state.previewTags.length === tagLimit;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -187,75 +238,107 @@ const Post = (props) => {
             {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
           </div>
 
-          {/* View & Comment Counters */}
-          <div className="counters">
-            <span className="views icon-med">
-              <img src={eye} alt="views" />
-              {props.views}
-            </span>
-            <span className="comments icon-med">
-              <img src={comment} alt="comments" />
-              {numComments}
-            </span>
+          {/* Views */}
+          <div className="views icon-med">
+            <img src={eye} alt="views" />
+            {props.views}
           </div>
+
 
         </header>
 
-        {/* Bookmark Toggler & Title */}
-        <div className="header">
-          <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
-          </span>
+        {/* Title */}
+        <div className="post-header">
           <div>
             {props.title}
           </div>
         </div>
 
         {/* Author & Timestamps */}
-        <div className="subheader">
+        <div className="post-subheader">
           <div>
             Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
           </div>
           {isModified && <div className="modified">Last modified: {formatTimestamp(props.lastModified)}</div>}
         </div>
 
-        {/* Tag Buttons */}
-        <div className="tags">
-          {tags}
-        </div>
+        <footer className="post-icons">
+
+          {/* Tag Buttons */}
+          <div className="tags">
+            <TagList
+              tags={props.tags}
+              selectedTags={props.tags}
+              onClick={handleClick}
+            />
+          </div>
+
+          {/* Pin & Bookmark Togglers */}
+          <div className="list-controls">
+            <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
+              <img src={pin} alt="pin" onClick={togglePin} />
+            </span>
+            <span className={`bookmark icon-med ${!props.bookmarked && "disabled"}`}>
+              <img src={star} alt="bookmark" onClick={toggleBookmark} />
+            </span>
+          </div>
+
+        </footer>
 
         <hr />
 
         {/* Post Body */}
-        <div className="body">
+        <div className={`post-body ${state.breakBody && "break"}`}>
           {props.body}
         </div>
 
       </div>
+
+      {/* Edit Control Buttons */}
+      {props.editable &&
+        <div className="controls icon-large">
+          <>
+            <img
+              className={state.showForm ? "active" : ""}
+              src={edit}
+              alt="edit"
+              onClick={toggleForm}
+            />
+            <img
+              className={state.showConfirmation ? "active" : ""}
+              src={trash}
+              alt="delete"
+              onClick={toggleConfirmation}
+            />
+          </>
+        </div>
+      }
 
       {/* Edit Preview */}
       {state.showForm &&
         <div className="preview">
 
           <hr />
-          <div className="label">Preview</div>
+          <div className="label">
+            PREVIEW
+          </div>
 
           {/* PREVIEW: Post Title */}
-          <div className="header">
+          <div className="post-header">
             <div>
               {state.previewTitle}
             </div>
           </div>
 
           {/* PREVIEW: Author */}
-          <div className="subheader">
+          <div className="post-subheader">
             <div>
               Posting as <span className="author">{state.previewAuthor}</span>
             </div>
           </div>
 
           {/* PREVIEW: Post Body */}
-          <div className="body">
+          <div className={`post-body ${state.breakBody && "break"}`}>
             {state.previewBody}
           </div>
 
@@ -265,18 +348,26 @@ const Post = (props) => {
       {/* Post Form */}
       {state.showForm &&
         <div className="post-form">
+
+          <hr />
+
+          {/* Post Title Textarea */}
           <PostForm
             label="Post Title"
             text={state.previewTitle}
             onChange={updatePreviewTitle}
             styles="form-title"
           />
+
+          {/* Post Body Textarea */}
           <PostForm
             label="Post Body"
             text={state.previewBody}
             onChange={updatePreviewBody}
             styles="form-body"
           />
+
+          {/* Anonymous Checkbox */}
           <div className="anon-form">
             Post as anonymous?
             <input
@@ -285,8 +376,22 @@ const Post = (props) => {
               checked={state.previewAnonymous}
               onChange={updatePreviewAnonymous}
             />
-            <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
+            <span className="note">{state.previewAnonymous && " you will still be visible to instructors"}</span>
           </div>
+
+          {/* Course Tag Form */}
+          <div className="post-form-tags">
+            <div className="label">
+              Select up to <span className={`tag-counter ${limitReached && "limit"}`}> {tagLimit - state.previewTags.length}</span> tag(s):
+            </div>
+            <TagList
+              tags={props.courseTags}
+              selectedTags={state.previewTags}
+              selectLimit={tagLimit}
+              onClick={updatePreviewTags}
+            />
+          </div>
+
         </div>
       }
 
@@ -302,49 +407,38 @@ const Post = (props) => {
         </>
       }
 
-      {/* Edit Control Buttons */}
+      {state.showForm && <hr />}
+
+      {/* Confirmation Buttons */}
       {props.editable &&
         <div className="controls icon-large">
-          {!state.showForm && !state.showConfirmation &&
-            <>
-              <img
-                className={state.showForm ? "active" : ""}
-                src={edit}
-                alt="edit"
-                onClick={toggleForm}
-              />
-              <img
-                src={trash}
-                alt="delete"
-                onClick={toggleConfirmation}
-              />
-            </>
-          }
           {state.showForm &&
-            <>
-              <Button
-                text="Save"
-                styles="form green"
-                onClick={savePost}
-              />
-              <Button
-                text="Cancel"
-                styles="form red"
-                onClick={toggleForm}
-              />
-            </>
+            <div className="confirmation">
+              <>
+                <Button
+                  text="Save"
+                  styles="form green"
+                  onClick={savePost}
+                />
+                <Button
+                  text="Cancel"
+                  styles="form red"
+                  onClick={toggleForm}
+                />
+              </>
+            </div>
           }
           {state.showConfirmation &&
             <div className="confirmation">
               <>
                 <Button
-                  text="Confirm"
-                  styles="form green"
+                  text="Delete"
+                  styles="form red"
                   onClick={deletePost}
                 />
                 <Button
                   text="Cancel"
-                  styles="form red"
+                  styles="form"
                   onClick={toggleConfirmation}
                 />
               </>
@@ -356,8 +450,13 @@ const Post = (props) => {
       <hr />
 
       {/* Discussion */}
-      <div className="comments">
-        <div className="label">Discussion</div>
+      <div className="discussion">
+        <div className="label">
+          <span className="comments icon-med">
+            <img src={comment} alt="comments" />
+          </span>
+          Discussion {numComments > 0 && `(${numComments})`}
+        </div>
         <CommentList
           comments={props.comments}
           onEditComment={props.onEditComment}
