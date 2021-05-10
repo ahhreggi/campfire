@@ -45,11 +45,12 @@ const Post = (props) => {
     previewTags: props.tags
   });
 
-  // Reset form states when switching posts
+  // Reset form and confirmation states when switching posts
   useEffect(() => {
     setState({
       ...state,
-      showForm: false
+      showForm: false,
+      showConfirmation: false
     });
   }, [props.id]);
 
@@ -179,6 +180,7 @@ const Post = (props) => {
   const isModified = props.createdAt !== props.lastModified;
 
   // Check if limit is reached
+  // TODO: Store tagList in an .env along with other global app variables
   const tagLimit = 5;
   const limitReached = state.previewTags.length === tagLimit;
 
