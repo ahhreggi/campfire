@@ -12,6 +12,10 @@ const TagList = (props) => {
     truncate: PropTypes.number
   };
 
+  TagList.defaultProps = {
+    truncate: 0
+  };
+
   const [disabled, setDisabled] = useState(props.selectedTags.length >= 3);
 
   useEffect(() => {
@@ -36,7 +40,20 @@ const TagList = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  const tags = props.tags.map(tag => {
+  let tags = props.tags;
+
+  // Truncate tag list if a length limit is provided
+  if (props.truncate) {
+    tags = tags.slice(0, props.truncate);
+  }
+
+  // Calculate number of removed elements
+  let removed;
+  if (props.truncate && props.truncate < props.tags.length) {
+    removed = props.tags.length - props.truncate;
+  }
+
+  tags = tags.map(tag => {
     return (
       <Button
         key={tag.id}
@@ -54,7 +71,7 @@ const TagList = (props) => {
       <div>
         {tags}
       </div>
-      <span>+3</span>
+      {removed ? <span>+{removed}</span> : ""}
     </div>
   );
 
