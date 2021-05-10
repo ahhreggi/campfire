@@ -1,78 +1,39 @@
 @import "../styles/global.scss";
 
 .CommentListItem {
-  // border: 1px solid white;
   margin-top: 1rem;
-  // background-color: $navy-5;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   padding: 0rem;
 
-  &:hover {
-    .comment-parent.parent {
-      footer {
-        // border: 2px solid white;
-        opacity: 1;
-        .controls {
-          opacity: 1;
-        }
-      }
-
-    }
-  }
-
+  // White border on hover
   &.parent {
     background-color: $navy-3;
-    padding: 1rem 1rem 1rem 0.5rem;
+    padding: 1rem;
     border: 1px solid transparent;
+
     &:hover {
       border-color: $white;
     }
-    .child {
-      // border: 2px solid yellow;
-    }
-    // &:hover {
-      // background-color: $navy-3;
-      // .child {
-      //   background-color: $navy-4;
-      //   &:hover {
-      //     background-color: $navy-5;
-      //   }
-      // }
-    // }
   }
 
-  // &:hover {
-  //   background-color: $navy-3;
-  // }
-
-  // &.reply {
-  //   background-color: $navy-3;
-  //   margin: 1rem;
-  // }
-
-  main.comment-parent {
+  main.comment-main {
     display: flex;
     padding: 0;
-    border: 1px solid $navy-3;
-    cursor: progress;
-    // margin: 0;
-    // border: 1px solid red;
-    &.parent {
-      // background-color: red;
 
-
-    }
+    // Highlight on reply hover
     &.child {
       background-color: $navy-5;
       padding: 0.4rem;
-      // margin: 0;
+
       &:hover {
         background-color: $navy-6;
       }
+
     }
 
+    // Section formatting
     section {
       height: 100%;
       margin: 0;
@@ -90,9 +51,11 @@
       .comment-avatar {
         margin-top: 0.2rem;
         margin-bottom: 0.3rem;
+
         img {
           width: 4rem;
         }
+
       }
 
       .comment-counter {
@@ -101,7 +64,6 @@
         font-weight: 700;
         width: 3rem;
         margin-top: 0.3rem;
-        cursor: pointer;
 
         span.icon {
           display: flex;
@@ -109,53 +71,52 @@
           align-items: center;
           min-width: 1rem;
           margin: 0 0.2rem;
-          // border: 1px solid white;
+
           img {
-            filter: grayscale(100%);
             height: 0.6rem;
             width: 0.6rem;
+
             &.medal {
               height: 0.8rem;
               width: 0.8rem;
             }
 
-            &.score-control {
-              filter: none;
-              opacity: 0;
-            }
           }
+
           &.endorsements {
             margin-top: 0.1rem;
           }
+
           &.toggle {
             filter: none;
             margin-top: 0;
           }
+
         }
+
         span.number {
           display: flex;
           justify-content: center;
           align-items: center;
         }
 
-        &.liked {
-          span.icon {
-            img {
-              filter: none;
-            }
-          }
+        &.active {
+
+          // Text color when liked/endorsed
           span {
             color: $green;
           }
+
         }
+
       }
 
     }
 
     section.right {
-      // border: 1px solid magenta;
       justify-content: space-between;
-      min-height: 10rem;
+      min-height: 9rem;
+
       .comment-author {
 
       }
@@ -169,45 +130,67 @@
         justify-content: space-between;
         align-items: flex-end;
         opacity: 0.5;
-        // border: 1px solid magenta;;
+
         .comment-timestamp {
           font-size: 0.7rem;
           font-weight: 700;
         }
+
         .controls {
-          // border: 1px solid white;
           opacity: 0;
-          img {
-          }
         }
+
       }
+
     }
+
+    // Controls default
+    .score-control {
+      filter: none;
+      cursor: pointer;
+    }
+
+    // Controls on hover
     &:hover {
-      // background-color: red;
-      section.right {
-        footer {
-          // background-color: blue;
+
+      .score-control {
+        opacity: 0.7;
+
+        &:hover {
           opacity: 1;
+        }
+
+      }
+
+      section.right {
+
+        footer {
+          opacity: 1;
+
           div.controls {
-            // background-color: green;
             opacity: 1;
           }
+
         }
+
       }
+
     }
 
   }
 
   div.comment-replies {
-    // margin: 0.8rem;
-    // margin-top: 0;
-    // border: 2px solid $navy-2;
-    // background-color: $navy-2;
+    padding-left: 0.7rem;
+
     .child {
       margin-top: 0.1rem;
-      margin-left: 0.3rem;
-      margin-right: 0.3rem;
+
+      .child {
+        padding: 0.5rem;
+      }
+
     }
+
   }
 
 }

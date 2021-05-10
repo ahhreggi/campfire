@@ -197,7 +197,7 @@ const CommentListItem = (props) => {
 
   return (
     <div className={`CommentListItem ${isParent ? "parent" : "child"}`}>
-      <main className={`comment-parent ${isParent ? "parent" : "child"}`}>
+      <main className={`comment-main ${isParent ? "parent" : "child"}`}>
         {/* this is a {isParent ? "parent" : "child"} */}
 
         <section className="left">
@@ -208,14 +208,14 @@ const CommentListItem = (props) => {
           </div>
 
           {/* Comment Score */}
-          <div className={`comment-counter ${props.liked ? "liked" : ""}`}>
+          <div className={`comment-counter ${props.liked ? "active" : ""}`}>
             <span className="icon"><img src={upvote} alt="upvote" /></span>
             <span className="number">{props.score}</span>
             <span className="icon"><img className="score-control" src={props.liked ? minus : plus} alt="plus" /></span>
           </div>
 
           {/* Comment Endorsements */}
-          <div className={`comment-counter ${props.endorsed ? "liked" : ""}`}>
+          <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
             <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
             <span className="number">{props.endorsements.length}</span>
             <span className="icon endorsements toggle"><img className="score-control" src={props.endorsed ? minus : plus} alt="plus" /></span>
