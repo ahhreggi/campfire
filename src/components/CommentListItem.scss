@@ -3,27 +3,31 @@
 .CommentListItem {
   // border: 1px solid white;
   margin-top: 1rem;
-  background-color: $navy-3;
+  // background-color: $navy-5;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 0rem;
 
   &.parent {
-    background-color: $navy-2;
-    border: 2px solid red;
-    .child {
-      border: 2px solid yellow;
-    }
+    background-color: $navy-3;
+    padding: 1rem 1rem 1rem 0.5rem;
+    border: 1px solid transparent;
     &:hover {
-      background-color: $navy-3;
-      .child {
-        background-color: $navy-4;
-        &:hover {
-          background-color: $navy-5;
-        }
-      }
+      border-color: $white;
     }
+    .child {
+      // border: 2px solid yellow;
+    }
+    // &:hover {
+      // background-color: $navy-3;
+      // .child {
+      //   background-color: $navy-4;
+      //   &:hover {
+      //     background-color: $navy-5;
+      //   }
+      // }
+    // }
   }
 
   // &:hover {
@@ -38,7 +42,23 @@
   main.comment-parent {
     display: flex;
     padding: 0;
-    border: 1px solid blue;
+    border: 1px solid $navy-3;
+    cursor: progress;
+    // margin: 0;
+    // border: 1px solid red;
+    &.parent {
+      // background-color: red;
+
+
+    }
+    &.child {
+      background-color: $navy-5;
+      padding: 0.4rem;
+      // margin: 0;
+      &:hover {
+        background-color: $navy-6;
+      }
+    }
 
     section {
       height: 100%;
@@ -120,7 +140,7 @@
     }
 
     section.right {
-      border: 1px solid magenta;
+      // border: 1px solid magenta;
       justify-content: space-between;
       min-height: 10rem;
       .comment-author {
@@ -132,12 +152,17 @@
       }
 
       footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        opacity: 0.5;
+        // border: 1px solid magenta;;
         .comment-timestamp {
-
+          font-size: 0.7rem;
+          font-weight: 700;
         }
         .controls {
-          border: 1px solid white;
-          margin-top: 1rem;
+          // border: 1px solid white;
           img {
           }
         }
@@ -147,7 +172,15 @@
   }
 
   div.comment-replies {
-    margin: 0.8rem;
+    // margin: 0.8rem;
+    // margin-top: 0;
+    // border: 2px solid $navy-2;
+    // background-color: $navy-2;
+    .child {
+      margin-top: 0.1rem;
+      margin-left: 0.3rem;
+      margin-right: 0.3rem;
+    }
   }
 
 }

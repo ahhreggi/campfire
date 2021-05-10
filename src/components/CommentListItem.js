@@ -150,6 +150,12 @@ const CommentListItem = (props) => {
     return Math.max(...text.split(" ").map(word => word.length));
   };
 
+  const getCommentTimestamp = () => {
+    const isModified = props.createdAt !== props.lastModified;
+    const timestamp = isModified ? props.lastModified : props.createdAt;
+    return `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Check if the comment is a parent
@@ -157,6 +163,9 @@ const CommentListItem = (props) => {
 
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
+
+  // Get the timestamp to display
+  const timestamp = getCommentTimestamp();
 
   // Create the reply list CommentListItem components if it's a parent
   const replies = isParent && props.replies.map(comment => {
@@ -188,7 +197,7 @@ const CommentListItem = (props) => {
 
   return (
     <div className={`CommentListItem ${isParent ? "parent" : "child"}`}>
-      <main className="comment-parent">
+      <main className={`comment-parent ${isParent ? "parent" : "child"}`}>
         {/* this is a {isParent ? "parent" : "child"} */}
 
         <section className="left">
@@ -234,7 +243,7 @@ const CommentListItem = (props) => {
 
             {/* Comment Timestamp/Last Modified */}
             <div className="comment-timestamp">
-            created: {props.createdAt} (last modified: {props.lastModified})
+              {timestamp}
             </div>
 
             {/* Comment Edit Controls */}
@@ -265,7 +274,6 @@ const CommentListItem = (props) => {
 
       {isParent &&
         <div className="comment-replies">
-          number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
           {replies}
         </div>
       }
