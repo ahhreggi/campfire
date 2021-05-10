@@ -13,6 +13,7 @@ const PostListItem = (props) => {
     body: PropTypes.string,
     bestAnswer: PropTypes.number,
     pinned: PropTypes.bool,
+    bookmarked: PropTypes.bool,
     tags: PropTypes.array,
     views: PropTypes.number,
     comments: PropTypes.number,
@@ -60,7 +61,7 @@ const PostListItem = (props) => {
 
         {/* Post Title */}
         <div className="header-left">
-          <span className="title">
+          <span className={`title ${props.bookmarked && "bookmarked"}`}>
             {truncateText(props.title, 38)}
           </span>
         </div>

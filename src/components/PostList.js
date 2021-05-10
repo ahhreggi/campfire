@@ -75,6 +75,7 @@ const PostList = (props) => {
           title={post.title}
           body={post.body}
           pinned={post.pinned}
+          bookmarked={post.bookmarked}
           bestAnswer={post.best_answer}
           tags={post.tags}
           views={post.views}
