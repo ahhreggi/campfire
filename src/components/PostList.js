@@ -30,8 +30,17 @@ const PostList = (props) => {
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  const toggleFilter = (tag) => {
-    console.log("toggle~");
+  // Update the selected tags dynamically as the user toggles them
+  const updateSelectedTags = (tag) => {
+    const selected = hasTag(selectedTags, tag.id);
+    // If the tag is already selected, unselect it
+    if (selected) {
+      const updatedTags = selectedTags.filter(sTag => sTag.id !== tag.id);
+      setSelectedTags(updatedTags);
+      // Otherwise, select it
+    } else {
+      setSelectedTags([ ...selectedTags, tag ]);
+    }
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -133,7 +142,7 @@ const PostList = (props) => {
         <TagList
           tags={props.tags}
           selectedTags={selectedTags}
-          onClick={toggleFilter}
+          onClick={updateSelectedTags}
           styles={"tag filter"}
         />
         {selectedTags.length > 0 && <Button type="tag-clear" text="clear" />}
