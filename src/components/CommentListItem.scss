@@ -9,6 +9,19 @@
   flex-direction: column;
   padding: 0rem;
 
+  &:hover {
+    .comment-parent.parent {
+      footer {
+        // border: 2px solid white;
+        opacity: 1;
+        .controls {
+          opacity: 1;
+        }
+      }
+
+    }
+  }
+
   &.parent {
     background-color: $navy-3;
     padding: 1rem 1rem 1rem 0.5rem;
@@ -163,7 +176,21 @@
         }
         .controls {
           // border: 1px solid white;
+          opacity: 0;
           img {
+          }
+        }
+      }
+    }
+    &:hover {
+      // background-color: red;
+      section.right {
+        footer {
+          // background-color: blue;
+          opacity: 1;
+          div.controls {
+            // background-color: green;
+            opacity: 1;
           }
         }
       }
