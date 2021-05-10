@@ -29,11 +29,13 @@ const Post = (props) => {
     userID: PropTypes.number,
     views: PropTypes.number,
     onEditPost: PropTypes.func,
+    onDeletePost: PropTypes.func,
     onEditComment: PropTypes.func
   };
 
   const [state, setState] = useState({
     showForm: false,
+    showConfirmation: false,
     previewTitle: props.title,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
@@ -55,9 +57,17 @@ const Post = (props) => {
       previewTitle: props.title,
       previewBody: props.body,
       previewAnonymous: props.anonymous,
-      previewAuthor: getDisplayName()
+      previewAuthor: getDisplayName(props.anonymous)
     });
   }, [state.showForm]);
+
+  // Update previewAuthor when toggling previewAnonymous
+  useEffect(() => {
+    setState({
+      ...state,
+      previewAuthor: getDisplayName(state.previewAnonymous)
+    });
+  }, [state.previewAnonymous]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -72,9 +82,8 @@ const Post = (props) => {
   };
 
   // Update the preview author dynamically as the user toggles its anonymity
-  // TODO: Manage author name in state?
-  const updatePreviewAuthor = (event) => {
-    setState({ ...state, previewAnonymous: event.target.value });
+  const updatePreviewAnonymous = (event) => {
+    setState({ ...state, previewAnonymous: event.target.checked });
   };
 
   // Toggle and reset the post edit form
@@ -85,31 +94,45 @@ const Post = (props) => {
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Save the post changes
-  // TODO: Save only if it's different
   const savePost = () => {
-    // TODO: May need to add more data to this (title, anonymous, lastModified?)
-    // state.preview => { title, body, anonymous } ? things that can be edited via edit form
-    const data = {
-      body: state.previewBody
-    };
-    props.onEditPost(props.id, data);
-    setState({ ...state, showForm: false, previewTitle: props.title, previewBody: props.body, previewAnonymous: props.anonymous });
+    // If changes were made, submit them to the server
+    if (
+      state.previewTitle !== props.title ||
+      state.previewBody !== props.body ||
+      state.previewAnonymous !== props.anonymous
+    ) {
+      const data = {
+        title: state.previewTitle,
+        body: state.previewBody,
+        anonymous: state.previewAnonymous
+      };
+      props.onEditPost(props.id, data);
+    }
+    // Hide edit form
+    toggleForm();
+  };
+
+  // Toggle delete confirmation form
+  const toggleConfirmation = () => {
+    setState({ ...state, showConfirmation: !state.showConfirmation });
   };
 
   // Delete the post
   const deletePost = () => {
-    console.log("clicked DELETE post button");
+    props.onDeletePost(props.id);
+    // Hide confirmation form
+    toggleConfirmation();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // Return the author name to display
+  // Return the author name to display according to the given anonymous value (bool)
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
-  const getDisplayName = () => {
+  const getDisplayName = (anonymous) => {
     // Set the displayed author name
-    let displayName = props.anonymous ? "Anonymous" : props.author;
-    if (props.anonymous && props.author) {
+    let displayName = anonymous ? "Anonymous" : props.author;
+    if (anonymous && props.author) {
       displayName = props.author + " (Anonymous to students)";
     }
     return displayName;
@@ -130,7 +153,7 @@ const Post = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
-  const authorName = getDisplayName();
+  const authorName = getDisplayName(props.anonymous);
 
   // Get the number of comments for the post
   const numComments = getNumComments(props.comments);
@@ -154,7 +177,7 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <div className={`display ${state.showForm && "preview-mode"}`}>
+      <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
         <header className="status">
 
@@ -240,16 +263,48 @@ const Post = (props) => {
 
       {/* Post Form */}
       {state.showForm &&
-        <PostForm
-          text={state.previewBody}
-          onChange={updatePreviewBody}
-        />
+        <div className="post-form">
+          <PostForm
+            label="Post Title"
+            text={state.previewTitle}
+            onChange={updatePreviewTitle}
+            styles="form-title"
+          />
+          <PostForm
+            label="Post Body"
+            text={state.previewBody}
+            onChange={updatePreviewBody}
+            styles="form-body"
+          />
+          <div className="anon-form">
+            Post as anonymous?
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={state.previewAnonymous}
+              onChange={updatePreviewAnonymous}
+            />
+            <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
+          </div>
+        </div>
       }
 
-      {/* Edit & Delete Buttons */}
+      {/* Delete Confirmation */}
+      {state.showConfirmation &&
+        <>
+          <hr />
+          <div className="confirmation">
+            <span>
+              Are you sure you would like to delete this post?
+            </span>
+          </div>
+        </>
+      }
+
+      {/* Edit Control Buttons */}
       {props.editable &&
         <div className="controls icon-large">
-          {!state.showForm &&
+          {!state.showForm && !state.showConfirmation &&
             <>
               <img
                 className={state.showForm ? "active" : ""}
@@ -260,7 +315,7 @@ const Post = (props) => {
               <img
                 src={trash}
                 alt="delete"
-                onClick={deletePost}
+                onClick={toggleConfirmation}
               />
             </>
           }
@@ -277,6 +332,22 @@ const Post = (props) => {
                 onClick={toggleForm}
               />
             </>
+          }
+          {state.showConfirmation &&
+            <div className="confirmation">
+              <>
+                <Button
+                  text="Confirm"
+                  styles="form green"
+                  onClick={deletePost}
+                />
+                <Button
+                  text="Cancel"
+                  styles="form red"
+                  onClick={toggleConfirmation}
+                />
+              </>
+            </div>
           }
         </div>
       }
