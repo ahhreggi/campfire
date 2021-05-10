@@ -67,7 +67,7 @@ const CommentListItem = (props) => {
   // Only instructors can view first/last name
 
   return (
-    <div className="CommentListItem">
+    <div className={`CommentListItem ${!props.replies && "reply"}`}>
       <div>
         Author: {props.anonymous ? "Anonymous" : props.author}
       </div>

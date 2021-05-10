@@ -166,6 +166,23 @@ let dummyCourseData = {
               "editable": true,
               "endorsable": true,
               "endorsements": []
+            },
+            {
+              "id": 5,
+              "parent_id": 2,
+              "anonymous": false,
+              "author_first_name": "Edward",
+              "author_last_name": "Ecksworth",
+              "author_avatar_id": 7,
+              "body": "123123123",
+              "score": "5",
+              "created_at": "2021-05-10T15:40:05.671Z",
+              "last_modified": "2021-05-10T15:40:05.671Z",
+              "role": "student",
+              "user_id": 5,
+              "editable": true,
+              "endorsable": true,
+              "endorsements": []
             }
           ]
         },
