@@ -70,6 +70,7 @@ let dummyCourseData = {
       "anonymous": true,
       "role": "student",
       "user_id": 6,
+      "pinnable": false,
       "editable": true,
       "tags": [
         {
@@ -154,6 +155,7 @@ let dummyCourseData = {
       "anonymous": false,
       "role": "student",
       "user_id": 5,
+      "pinnable": true,
       "editable": true,
       "tags": [
         {

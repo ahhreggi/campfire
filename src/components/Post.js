@@ -27,6 +27,7 @@ const Post = (props) => {
     comments: PropTypes.array,
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
+    pinnable: PropTypes.bool,
     editable: PropTypes.bool,
     tags: PropTypes.array,
     title: PropTypes.string,
@@ -275,9 +276,11 @@ const Post = (props) => {
 
           {/* Pin & Bookmark Togglers */}
           <div className="list-controls">
-            <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
-              <img src={pin} alt="pin" onClick={togglePin} />
-            </span>
+            {props.pinnable &&
+              <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
+                <img src={pin} alt="pin" onClick={togglePin} />
+              </span>
+            }
             <span className={`bookmark icon-med ${!props.bookmarked && "disabled"}`}>
               <img src={star} alt="bookmark" onClick={toggleBookmark} />
             </span>

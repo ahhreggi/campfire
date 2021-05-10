@@ -49,6 +49,7 @@ const Main = (props) => {
           comments={post.comments}
           createdAt={post.created_at}
           lastModified={post.last_modified}
+          pinnable={post.pinnable}
           editable={post.editable}
           tags={post.tags}
           title={post.title}
