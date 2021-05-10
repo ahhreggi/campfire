@@ -24,16 +24,9 @@ const TagList = (props) => {
   };
 
   const handleClick = (tag) => {
-    if (!disabled) {
+    if (!disabled || hasTag(props.selectedTags, tag.id)) {
       props.onClick(tag);
-    } else if (disabled) {
-      if (hasTag(props.selectedTags, tag.id)) {
-        props.onClick(tag);
-      } else {
-        console.log("This button is unavailable.");
-      }
     }
-    console.log(props.selectedTags);
   };
 
   const tags = props.tags.map(tag => {
