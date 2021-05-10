@@ -97,18 +97,15 @@ const Post = (props) => {
 
   // Update the preview tags dynamically as the user toggles them
   const updatePreviewTags = (tag) => {
-    let updatedTags = state.previewTags;
     const selected = hasTag(state.previewTags, tag.id);
     // If the tag is already selected, unselect it
     if (selected) {
-      updatedTags = updatedTags.filter(pTag => pTag.id !== tag.id);
-      console.log("Removing tag");
+      const updatedTags = state.previewTags.filter(pTag => pTag.id !== tag.id);
+      setState({ ...state, previewTags: updatedTags });
       // Otherwise, select it
     } else {
-      updatedTags.push(tag);
-      console.log("Adding tag");
+      setState({ ...state, previewTags: [ ...state.previewTags, tag ] });
     }
-    setState({ ...state, previewTags: updatedTags });
   };
 
   // Toggle and reset the post edit form
@@ -186,17 +183,6 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
-  // Create the post tag button components
-  const tags = props.tags.map(tag => {
-    return (
-      <Button
-        key={tag.id}
-        text={tag.name}
-        styles="tag"
-      />
-    );
-  });
-
   // When a form tag button is clicked, add the tag to previewTags
 
   ///////////////////////////////////////////////////////////////////
@@ -247,7 +233,11 @@ const Post = (props) => {
 
         {/* Tag Buttons */}
         <div className="tags">
-          {tags}
+          <TagList
+            tags={props.tags}
+            selectedTags={props.tags}
+            onClick={() => console.log("Clicking this will filter PostList by this tag!")}
+          />
         </div>
 
         <hr />
