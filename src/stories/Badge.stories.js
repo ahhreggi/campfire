@@ -7,10 +7,6 @@ export default {
   component: Badge
 };
 
-const Template = (args) => <Badge {...args} />;
-
-export const TestComponent = Template.bind ({});
-
-TestComponent.args = {
-
-};
+export const Instructor = () => <Badge type="instructor" />;
+export const Student = () => <Badge type="student" />;
+export const Unresolved = () => <Badge type="unresolved" />;
