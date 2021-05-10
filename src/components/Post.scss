@@ -190,22 +190,34 @@
 
   }
 
-  .label {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    img {
-      width: 1.1rem;
-      margin-left: 0.5rem;
-      margin-bottom: 0.1rem;
-    }
-    .comments {
+  .preview {
+    .label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: $blue;
       img {
-        margin-bottom: 0.2rem;
-        margin-right: 0.5rem;
-        margin-left: 0;
+        width: 1.1rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
+      .comments {
+        img {
+          margin-bottom: 0.2rem;
+          margin-right: 0.5rem;
+          margin-left: 0;
+        }
       }
     }
   }
+
+  .discussion {
+    .label {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+  }
+
+
 
 }

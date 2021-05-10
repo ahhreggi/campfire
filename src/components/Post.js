@@ -120,21 +120,19 @@ const Post = (props) => {
 
   // Toggle and reset the post edit form
   const toggleForm = () => {
-    const setTo = !state.showForm;
-    if (setTo && state.showConfirmation) {
-      setState({ ...state, showForm: setTo, showConfirmation: !state.showConfirmation});
+    if (!state.showForm && state.showConfirmation) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
     } else {
-      setState({ ...state, showForm: setTo });
+      setState({ ...state, showForm: !state.showForm });
     }
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    const setTo = !state.showConfirmation;
-    if (setTo && state.showForm) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: setTo });
+    if (!state.showConfirmation && state.showForm) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
     } else {
-      setState({ ...state, showConfirmation: setTo });
+      setState({ ...state, showConfirmation: !state.showConfirmation });
     }
   };
 
@@ -323,8 +321,7 @@ const Post = (props) => {
 
           <hr />
           <div className="label">
-            Preview
-            <img src={preview} alt="preview" />
+            PREVIEW
           </div>
 
           {/* PREVIEW: Post Title */}

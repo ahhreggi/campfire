@@ -145,7 +145,7 @@ const PostList = (props) => {
 
         {/* Pinned */}
         <div className="pinned">
-          <div className="label">
+          <div className={`label ${!pinnedPosts.length && "empty"}`}>
             <img src={pin} alt="pin" />
             PINNED
           </div>
@@ -156,7 +156,7 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className="label">
+          <div className={`label ${!bookmarkedPosts.length && "empty"}`}>
             <img src={star} alt="bookmark" />
             BOOKMARKED
           </div>
@@ -167,7 +167,7 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className="label">
+          <div className={`label ${!unpinnedPosts.length && "empty"}`}>
             <img src={question} alt="question" />
             POSTS
           </div>
