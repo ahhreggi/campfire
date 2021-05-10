@@ -40,8 +40,8 @@ const Post = (props) => {
     previewTitle: props.title,
     previewBody: props.body,
     previewAnonymous: props.anonymous,
-    previewAuthor: null, // props.author,
-    previewTagIDs: []
+    previewAuthor: props.author,
+    previewTags: props.tags
   });
 
   // Reset form states when switching posts
@@ -60,7 +60,7 @@ const Post = (props) => {
       previewBody: props.body,
       previewAnonymous: props.anonymous,
       previewAuthor: getAuthorName(props.anonymous),
-      previewTagIDs: getPreviewTagIDs(props.tags)
+      previewTags: props.tags
     });
   }, [state.showForm]);
 
@@ -90,15 +90,17 @@ const Post = (props) => {
   };
 
   // Update the preview tags dynamically as the user toggles them
-  const updatePreviewTagIDs = (event, tagID) => {
-    // If the tagID is in previewTagIDs, add it
-    if (!state.previewTagIDs.includes(tagID)) {
-      setState({ ...state, previewTagIDs: [ ...state.previewTagIDs, tagID ] });
+  const updatePreviewTags = (event, tag) => {
+    const hasTag = state.previewTags.filter(pTag => pTag.id === tag.id).length;
+    // If the tag is in previewTags, remove it
+    let updatedTags = state.previewTags;
+    if (hasTag) {
+      updatedTags.filter(pTag => pTag.id !== tag.id);
+      // Otherwise, add it
     } else {
-      const updatedTags = state.previewTagIDs.filter(tag => tag.id !== tagID);
-      setState({ ...state, previewTagIDs: updatedTags });
+      updatedTags.push(tag);
     }
-    // Otherwise, remove it
+    setState({ ...state, previewTags: updatedTags });
   };
 
   // Toggle and reset the post edit form
@@ -153,11 +155,6 @@ const Post = (props) => {
     return name;
   };
 
-  // Return the tag IDs from a list of tags
-  const getPreviewTagIDs = (tags) => {
-    return tags.map(tag => tag.id);
-  };
-
   // Return the total number of comments and child comments
   const getNumComments = (comments) => {
     return comments
@@ -199,12 +196,12 @@ const Post = (props) => {
         key={tag.id}
         text={tag.name}
         styles="tag"
-        onClick={updatePreviewTagIDs}
+        onClick={updatePreviewTags}
       />
     );
   });
 
-  // When a form tag button is clicked, add the tag's id to previewTagIDs
+  // When a form tag button is clicked, add the tag to previewTags
 
   ///////////////////////////////////////////////////////////////////
 
