@@ -1,11 +1,10 @@
-import { useState } from "react";
 import "./PostList.scss";
 import Button from "./Button";
 import TagList from "./TagList";
 import PostListItem from "./PostListItem";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
-import question from "../images/icons/question.png";
+import question from "../images/icons/paper.png";
 import PropTypes from "prop-types";
 
 const PostList = (props) => {
