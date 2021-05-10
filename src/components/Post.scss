@@ -98,8 +98,23 @@
     }
   }
 
+  .post-form {
+    .post-form-tags {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      .label {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+        .tag-counter.limit {
+          color: $orange;
+        }
+      }
+    }
+  }
+
   .anon-form {
     margin-top: 0.5rem;
+    font-weight: 700;
     input.form-check-input {
       box-shadow: none;
       margin-left: 0.5rem;
@@ -112,6 +127,7 @@
     }
     .note {
       color: $orange;
+      font-weight: 400;
     }
   }
 

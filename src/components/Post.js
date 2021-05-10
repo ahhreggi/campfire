@@ -90,11 +90,6 @@ const Post = (props) => {
     setState({ ...state, previewAnonymous: event.target.checked });
   };
 
-  // Return true if tags contains the given tag ID
-  const hasTag = (tags, tagID) => {
-    return tags.filter(tag => tag.id === tagID).length;
-  };
-
   // Update the preview tags dynamically as the user toggles them
   const updatePreviewTags = (tag) => {
     const selected = hasTag(state.previewTags, tag.id);
@@ -113,30 +108,24 @@ const Post = (props) => {
     setState({ ...state, showForm: !state.showForm });
   };
 
+  // Toggle delete confirmation form
+  const toggleConfirmation = () => {
+    setState({ ...state, showConfirmation: !state.showConfirmation });
+  };
+
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Save the post changes
   const savePost = () => {
-    // If changes were made, submit them to the server
-    if (
-      state.previewTitle !== props.title ||
-      state.previewBody !== props.body ||
-      state.previewAnonymous !== props.anonymous
-    ) {
-      const data = {
-        title: state.previewTitle,
-        body: state.previewBody,
-        anonymous: state.previewAnonymous
-      };
-      props.onEditPost(props.id, data);
-    }
+    const data = {
+      title: state.previewTitle,
+      body: state.previewBody,
+      anonymous: state.previewAnonymous,
+      tags: state.previewTags
+    };
+    props.onEditPost(props.id, data);
     // Hide edit form
     toggleForm();
-  };
-
-  // Toggle delete confirmation form
-  const toggleConfirmation = () => {
-    setState({ ...state, showConfirmation: !state.showConfirmation });
   };
 
   // Delete the post
@@ -170,6 +159,12 @@ const Post = (props) => {
   // Convert timestamp into a readable format
   const formatTimestamp = (timestamp) => {
     return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+  };
+
+  // Return true if tags contains the given tag ID
+  // TODO: Move to helper file (also in TagList)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
   };
 
   // VARIABLES //////////////////////////////////////////////////////
@@ -281,18 +276,26 @@ const Post = (props) => {
       {/* Post Form */}
       {state.showForm &&
         <div className="post-form">
+
+          <hr />
+
+          {/* Post Title Textarea */}
           <PostForm
             label="Post Title"
             text={state.previewTitle}
             onChange={updatePreviewTitle}
             styles="form-title"
           />
+
+          {/* Post Body Textarea */}
           <PostForm
             label="Post Body"
             text={state.previewBody}
             onChange={updatePreviewBody}
             styles="form-body"
           />
+
+          {/* Anonymous Checkbox */}
           <div className="anon-form">
             Post as anonymous?
             <input
@@ -301,16 +304,21 @@ const Post = (props) => {
               checked={state.previewAnonymous}
               onChange={updatePreviewAnonymous}
             />
-            <span className="note">{state.previewAnonymous && " (you will still be visible to instructors)"}</span>
+            <span className="note">{state.previewAnonymous && " you will still be visible to instructors"}</span>
           </div>
+
+          {/* Course Tag Form */}
           <div className="post-form-tags">
-            Select tags:
+            <div className="label">
+              Select up to 3 tags (<span className={`tag-counter ${state.previewTags.length === 3 && "limit"}`}>{3 - state.previewTags.length} remaining</span>):
+            </div>
             <TagList
               tags={props.courseTags}
               selectedTags={state.previewTags}
               onClick={updatePreviewTags}
             />
           </div>
+
         </div>
       }
 

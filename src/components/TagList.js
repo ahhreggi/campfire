@@ -10,11 +10,10 @@ const TagList = (props) => {
   };
 
   // Return true if the given tagID is in tags
+  // TODO: Move to helper file (also in Post)
   const hasTag = (tags, tagID) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
-
-  console.log(props.tags.length);
 
   const tags = props.tags.map(tag => {
     return (
