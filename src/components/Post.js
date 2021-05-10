@@ -15,6 +15,7 @@ const Post = (props) => {
 
   Post.propTypes = {
     id: PropTypes.number,
+    courseTags: PropTypes.array,
     anonymous: PropTypes.bool,
     author: PropTypes.string,
     bestAnswer: PropTypes.number,
