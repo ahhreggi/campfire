@@ -4,9 +4,8 @@ import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
-import Post from "./Post";
 
-// Temporary data
+// TEMPORARY DUMMY DATA /////////////////////////////////////////////
 
 let dummyUser = {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
@@ -279,76 +278,146 @@ let dummyCourseData = {
   ]
 };
 
+/////////////////////////////////////////////////////////////////////
+
 const App = () => {
 
   const [state, setState] = useState({
-    user: dummyUser,
-    active: "Dashboard",
-    courseData: null,
-    post: null
+    user: dummyUser, // current user
+    active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
+    courseData: null, // all data for the current course
+    postID: null, // a post ID or null if viewing dashboard/analytics,
+    post: null // post data for the current post ID or null if viewing dashboard/analytics
   });
 
-  // TODO: Use useEffect to fetch data from the server (replace dummy data)
-
+  // Fetch data from the server on load
   useEffect(() => {
-    getCourseData();
+    // Fetch course data
+    fetchCourseData();
   }, []);
 
-  const getCourseData = () => {
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  // Fetch course data from the server
+  // TODO: Replace with an actual API request
+  const fetchCourseData = () => {
+    // Request data from the server and await a response
     setTimeout(() => {
-      const courseData = dummyCourseData;
-      console.log("retrieved coursedata");
-      setState({ ...state, courseData });
+      const res = dummyCourseData;
+      // If the request is successful and a response is received
+      if (res) {
+        // Update state with the response data
+        setState({ ...state, courseData: res });
+        // If the active view is a post, update the post data in the state using the res data
+        if (state.active === "Post") {
+          const selectedPost = getPostByID(res.posts, state.postID);
+          setState({ ...state, post: selectedPost });
+        }
+      }
     }, 1000);
   };
 
-  // temp "update server"
-  const setCourseData = (updatedData) => {
-    dummyCourseData = updatedData;
-    console.log("updated server data");
-    getCourseData();
+  // Update course data in the server
+  // TODO: Replace with an actual API request
+  const updateCourseData = (updatedCourseData) => {
+    // Send data to server and request to insert changes
+    dummyCourseData = updatedCourseData;
+    // Await a response
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If the request is successful and a response is received, update state with the res data
+      const updatedCourseData = res;
+      const updatedPost = getPostByID(res.posts, state.postID);
+      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
+    }, 1000);
   };
 
-  // TODO: Create functions that add/edit/remove items from the data (addPost, updatePost, deletePost, etc.)
-
-  // TODO: Create a function that changes active to post, dashboard, or analytics
-  // Whenever this happens, viewTitle should be changed
-
+  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
   const selectActive = (selection, postID = null) => {
+    // Get the current post data
+    const selectedPost = getPostByID(state.courseData.posts, postID);
+    // Update state data
     setState({
       ...state,
       active: selection,
-      post: postID === null ? null : state.courseData.posts.filter(post => post.id === postID)[0]
+      postID: postID,
+      post: selectedPost
     });
+
   };
 
-  const onEditPost = (postID, data) => {
-    const updatedPosts = state.courseData.posts.map(post => {
+  // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
+
+  // Request to edit a post by ID with the given data
+  // Source: Post
+  const editPost = (postID, data) => {
+    // Get the current post by ID
+    const currentPost = getPostByID(state.courseData.posts, postID);
+    // Update the post with the new data
+    const newPost = { ...currentPost, ...data };
+    // Update courseData.posts with the updated post
+    const newPosts = state.courseData.posts.map(post => {
       if (post.id === postID) {
-        return { ...post, ...data };
+        return newPost;
       } else {
         return post;
       }
     });
-    const updatedCourseData = { ...state.courseData, posts: updatedPosts };
-    setState({ ...state, courseData: updatedCourseData });
-
-    // temp "update server data"
-    setCourseData(updatedCourseData);
+    // Update courseData with the updated posts
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Request to update course data in the server
+    updateCourseData(newCourseData);
   };
 
-  const onEditComment = (commentID, data) => {
+  // Request to delete a post by ID
+  const deletePost = (postID) => {
+    // MOCK: Send a delete request to the server
+    // SUCCESS: Redirect to dashboard
+    // ERROR: Return to post and display an error message
+    // Temp: Retrieve all posts except the one with postID
+    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Update state using the response data and redirect
+    const res = newCourseData;
+
+    if (res) {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: newCourseData,
+        postID: null,
+        post: null
+      });
+    } else {
+      console.log("An error occurred while deleting the post.");
+    }
+  };
+
+  // Request to edit a comment by ID with the given data
+  // Source: CommentListItem
+  const editComment = (commentID, data) => {
     console.log("onEditComment executed with data:", data);
   };
 
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return post data for the given post ID
+  const getPostByID = (posts, postID) => {
+    if (postID) {
+      return posts.filter(post => post.id === postID)[0];
+    }
+  };
+
+  ///////////////////////////////////////////////////////////////////
+
   return (
-    <main className="App">
+    <div className="App">
       {!state.courseData && <div>Loading...</div>}
       {state.courseData &&
         <>
           <Nav
             active={state.active}
-            viewTitle={state.active} // temporary
+            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
             userAvatar={state.user.avatar_url}
             userName={`${state.user.first_name} ${state.user.last_name}`}
@@ -365,9 +434,10 @@ const App = () => {
               <Main
                 active={state.active}
                 courseData={state.courseData}
-                post={state.post}
-                onEditPost={onEditPost}
-                onEditComment={onEditComment}
+                postID={state.postID}
+                onEditPost={editPost}
+                onDeletePost={deletePost}
+                onEditComment={editComment}
               />
             </div>
           </section>
@@ -378,7 +448,7 @@ const App = () => {
           </div>
         </>
       }
-    </main>
+    </div>
   );
 };
 
