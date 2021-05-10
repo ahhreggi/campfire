@@ -9,17 +9,19 @@ const TagList = (props) => {
     tags: PropTypes.array,
     selectedTags: PropTypes.array,
     onClick: PropTypes.func,
-    truncate: PropTypes.number
+    truncate: PropTypes.number,
+    styles: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   TagList.defaultProps = {
     truncate: 0
   };
 
-  const [disabled, setDisabled] = useState(props.selectedTags.length >= 3);
+  const [disabled, setDisabled] = useState(props.selectedTags.length >= 5);
 
   useEffect(() => {
-    setDisabled(props.selectedTags.length >= 3);
+    setDisabled(props.selectedTags.length >= 5);
   }, [props.selectedTags]);
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -58,8 +60,9 @@ const TagList = (props) => {
       <Button
         key={tag.id}
         text={tag.name}
-        styles={`tag ${hasTag(props.selectedTags, tag.id) ? "selected" : "unselected"} ${disabled && "disabled"}`}
+        styles={`tag ${props.styles} ${hasTag(props.selectedTags, tag.id) ? "selected" : "unselected"} ${disabled && "disabled"}`}
         onClick={() => handleClick(tag)}
+        disabled={props.disabled}
       />
     );
   });

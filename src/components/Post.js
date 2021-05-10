@@ -178,7 +178,8 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
-  // When a form tag button is clicked, add the tag to previewTags
+  // Check if limit is reached
+  const limit = state.previewTags.length === 5;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -310,7 +311,7 @@ const Post = (props) => {
           {/* Course Tag Form */}
           <div className="post-form-tags">
             <div className="label">
-              Select up to <span className={`tag-counter ${state.previewTags.length === 3 && "limit"}`}>{3 - state.previewTags.length}</span> tag(s):
+              Select up to <span className={`tag-counter ${limit && "limit"}`}> {5 - state.previewTags.length}</span> tag(s):
             </div>
             <TagList
               tags={props.courseTags}
