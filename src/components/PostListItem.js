@@ -1,7 +1,6 @@
 import "./PostListItem.scss";
-import Bookmark from "./Bookmark";
 import Badge from "./Badge";
-import Button from "./Button";
+import TagList from "./TagList";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
@@ -20,20 +19,17 @@ const PostListItem = (props) => {
     comments: PropTypes.number,
     showStudentBadge: PropTypes.bool,
     showInstructorBadge: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    selected: PropTypes.bool
   };
 
-  const tags = props.tags.map((tag, index) => {
-    // return <div>{tag.name}</div>;
-    return (
-      <Button
-        key={index}
-        text={tag.name}
-        styles="tag disabled"
-        disabled={true}
-      />
-    );
-  });
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const handleClick = () => {
+    props.onClick(props.id);
+  };
+
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   const truncateText = (text, length) => {
     if (text.length > length) {
@@ -53,34 +49,51 @@ const PostListItem = (props) => {
     }
   };
 
-  const handleClick = () => {
-    props.onClick(props.id);
-  };
+  ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className="PostListItem" onClick={handleClick}>
+    <div
+      className={`PostListItem ${props.selected ? "selected" : ""}`}
+      onClick={handleClick}
+    >
+
       <header>
+
+        {/* Post Title */}
         <div className="header-left">
-          <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
-          </span>
-          <span className="title text-truncate">
-            {truncateText(props.title, 32)}
+          <span className={`title ${props.bookmarked && "bookmarked"}`}>
+            {truncateText(props.title, 38)}
           </span>
         </div>
+
+        {/* Post Status Badges */}
         <div className="header-right">
           {props.showStudentBadge && <Badge type="student" />}
           {props.showInstructorBadge && <Badge type="instructor" />}
           {props.bestAnswer === null && <Badge type="unresolved" />}
         </div>
+
       </header>
+
+      {/* Post Body Snippet */}
       <div className="summary text-truncate">
         {props.body}
       </div>
+
       <footer>
+
+        {/* Tag Buttons */}
         <div className="tags">
-          {tags}
+          <TagList
+            tags={props.tags}
+            selectedTags={props.tags}
+            styles="tag disabled"
+            onClick={handleClick}
+            truncate={2}
+          />
         </div>
+
+        {/* View & Comment Counters */}
         <div className="counters">
           <span className="views icon-small">
             <img src={eye} alt="views" />
@@ -91,7 +104,9 @@ const PostListItem = (props) => {
             {props.comments}
           </span>
         </div>
+
       </footer>
+
     </div>
   );
 };

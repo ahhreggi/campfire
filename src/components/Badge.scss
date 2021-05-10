@@ -4,16 +4,21 @@
   height: 15px;
   width: 15px;
   border-radius: 100%;
+
   &.badge-instructor {
     background-color: $yellow;
   }
+
   &.badge-student {
     background-color: $green;
   }
+
   &.badge-unresolved {
     background-color: $red;
   }
+
   &:not(:first-child) {
     margin-left: 0.5rem;
   }
+
 }

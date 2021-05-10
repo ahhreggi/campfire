@@ -2,7 +2,7 @@ import "./Button.scss";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Button = ({text, styles, onClick, disabled}) => {
+const Button = (props) => {
 
   Button.propTypes = {
     id: PropTypes.number,
@@ -14,11 +14,11 @@ const Button = ({text, styles, onClick, disabled}) => {
 
   return (
     <button
-      disabled={disabled}
-      className={`${styles} ${disabled ? "disabled" : ""}`}
-      onClick={onClick}
+      className={`${props.styles}`}
+      onClick={props.onClick}
+      disabled={props.disabled}
     >
-      {text}
+      {props.text}
     </button>
   );
 };

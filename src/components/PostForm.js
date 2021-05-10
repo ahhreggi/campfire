@@ -1,26 +1,30 @@
-import { useState } from "react";
-import ReactDOM from "react-dom";
-import TextareaAutosize from "react-autosize-textarea";
 import "./PostForm.scss";
-import Button from "./Button";
+import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
 
 const PostForm = (props) => {
-  const [formHeight, setFormHeight] = useState("200px");
+
   PostForm.propTypes = {
+    label: PropTypes.string,
     text: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    styles: PropTypes.string
   };
+
   return (
     <div className="PostForm">
+      <div className="form-label">
+        {props.label}
+      </div>
       <TextareaAutosize
-        className="textarea"
+        className={`textarea ${props.styles}`}
         style={{ height: "100%" }}
         value={props.text}
-        onChange={(e) => props.onChange(e)}
+        onChange={(event) => props.onChange(event)}
       />
     </div>
   );
+
 };
 
 export default PostForm;

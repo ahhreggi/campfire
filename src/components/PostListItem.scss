@@ -4,19 +4,31 @@
   border: 1px solid $navy-3;
   transition: 0.1s;
   background-color: $navy-2;
-  margin: 0.25rem;
-  &:hover {
+  height: 6rem;
+  user-select: none;
+
+  &:hover,
+  &.selected {
     border: 1px solid $navy-5;
     cursor: pointer;
     background-color: $navy-3;
+    transition: 0.3s;
+
     div.summary {
       color: $navy-7;
     }
+
+    &.selected {
+      border-color: $white;
+    }
+
     .tags,
     .counters {
       opacity: 1;
     }
+
   }
+
   header {
     display: flex;
     flex-direction: row;
@@ -24,7 +36,7 @@
     align-items: center;
     background-color: $navy-4;
     height: 2rem;
-    // overflow: hidden;
+
     .header-left {
       display: flex;
       align-items: center;
@@ -39,6 +51,10 @@
       .title {
         font-weight: 700;
         font-size: 0.8rem;
+        margin-left: 0.5rem;
+        &.bookmarked {
+          color: $yellow;
+        }
       }
 
     }
@@ -49,33 +65,45 @@
       margin-right: 0.5rem;
       width: 4rem;
     }
+
   }
+
   div.summary {
     padding: 0.4rem 0.5rem 0.2rem 0.5rem;
     overflow: hidden;
     color: $navy-6;
     font-size: 0.8rem;
   }
+
   footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 2rem;
+
     .tags {
       margin-left: 0.3rem;
       opacity: 0.8;
     }
+
     .counters {
       margin-top: 0.5rem;
       margin-right: 0.5rem;
       font-size: 0.8rem;
       color: $white;
       opacity: 0.8;
+      margin-bottom: 0.6rem;
+
+      img {
+        margin-bottom: 0.1rem;
+      }
+
       .views {
         margin-right: 1rem;
       }
-      .comments {
 
-      }
     }
+
   }
+
 }

@@ -7,17 +7,31 @@
   margin: 1rem;
   overflow: hidden;
   height: 96vh;
+
   section {
     display: flex;
     height: 83vh;
+
     .left {
-      // border: 1px solid white;
       width: 20rem;
     }
+
     .right {
-      // border: 1px solid red;
       width: 100%;
       overflow-wrap: break-word;
     }
+
   }
+
+  main {
+    height: 100%;
+    min-width: 30rem;
+    width: 100%;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    @include custom-scrollbar;
+  }
+
 }
