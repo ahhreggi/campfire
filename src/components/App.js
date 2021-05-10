@@ -468,6 +468,7 @@ const App = () => {
       {state.courseData &&
         <>
           <Nav
+            onClick={selectActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"

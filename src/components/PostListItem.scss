@@ -5,6 +5,7 @@
   transition: 0.1s;
   background-color: $navy-2;
   height: 6rem;
+  user-select: none;
 
   &:hover,
   &.selected {

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const Nav = (props) => {
 
   Nav.propTypes = {
+    onClick: PropTypes.func,
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
@@ -15,9 +16,11 @@ const Nav = (props) => {
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="left">
-        <span className="title">Campfire</span>
-        <img src="./images/campfire.png" alt="Campfire" />
+      <section className="left" onClick={() => props.onClick("Dashboard")}>
+        <span className="title glow">
+          Campfire
+          <img className="glow" src="./images/campfire.png" alt="Campfire" />
+        </span>
       </section>
 
       {/* View Title */}
