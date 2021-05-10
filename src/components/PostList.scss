@@ -26,10 +26,18 @@
 
   .label {
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 0.2rem 0.5rem;
     background: linear-gradient($navy-5, $navy-1);
-    cursor: pointer;
+    user-select: none;
+
+    &:not(.empty) {
+      cursor: pointer;
+    }
+
+    &:hover:not(.empty) {
+      background: linear-gradient($navy-6, $navy-1);
+    }
 
     img {
       width: 0.8rem;

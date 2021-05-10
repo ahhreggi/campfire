@@ -3,6 +3,7 @@ import "./PostList.scss";
 import Button from "./Button";
 import TagList from "./TagList";
 import PostListItem from "./PostListItem";
+import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
 import question from "../images/icons/paper.png";
@@ -138,28 +139,32 @@ const PostList = (props) => {
 
       {/* Filters */}
       <div className="label" onClick={() => toggleList("filters")}>
+        <img src={filter} alt="filter" />
         FILTERS
       </div>
-      <div className="tags">
-        <TagList
-          tags={props.tags}
-          selectedTags={props.selectedTags}
-          onClick={props.onTagToggle}
-          styles={"tag filter"}
-        />
-        {props.selectedTags.length > 0 &&
-          <>
-            <hr />
-            <div className="tag-clear">
-              <Button
-                text="clear filters"
-                styles="tag clear"
-                onClick={props.onTagClear}
-              />
-            </div>
-          </>
-        }
-      </div>
+      {state.showFilters &&
+        <div className="tags">
+          <TagList
+            tags={props.tags}
+            selectedTags={props.selectedTags}
+            onClick={props.onTagToggle}
+            styles={"tag filter"}
+          />
+          {props.selectedTags.length > 0 &&
+            <>
+              <hr />
+              <div className="tag-clear">
+                <Button
+                  text="clear filters"
+                  styles="tag clear"
+                  onClick={props.onTagClear}
+                />
+              </div>
+            </>
+          }
+        </div>
+      }
+
       <div className="posts">
 
         {/* Pinned */}
@@ -168,9 +173,11 @@ const PostList = (props) => {
             <img src={pin} alt="pin" />
             PINNED
           </div>
-          <div className="list">
-            {pinnedPosts}
-          </div>
+          {state.showPinned &&
+            <div className="list">
+              {pinnedPosts}
+            </div>
+          }
         </div>
 
         {/* Bookmarked */}
@@ -179,9 +186,11 @@ const PostList = (props) => {
             <img src={star} alt="bookmark" />
             BOOKMARKED
           </div>
-          <div className="list">
-            {bookmarkedPosts}
-          </div>
+          {state.showBookmarked &&
+            <div className="list">
+              {bookmarkedPosts}
+            </div>
+          }
         </div>
 
         {/* Posts */}
@@ -190,9 +199,11 @@ const PostList = (props) => {
             <img src={question} alt="question" />
             POSTS
           </div>
-          <div className="list">
-            {unpinnedPosts}
-          </div>
+          {state.showPosts &&
+            <div className="list">
+              {unpinnedPosts}
+            </div>
+          }
         </div>
       </div>
 
