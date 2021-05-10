@@ -10,6 +10,8 @@ const Main = (props) => {
     active: PropTypes.string.isRequired,
     courseData: PropTypes.object.isRequired,
     postID: PropTypes.number,
+    onPinPost: PropTypes.func,
+    onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onEditComment: PropTypes.func,
@@ -52,6 +54,8 @@ const Main = (props) => {
           title={post.title}
           userID={post.user_id}
           views={post.views}
+          onPinPost={props.onPinPost}
+          onBookmarkPost={props.onBookmarkPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onEditComment={props.onEditComment}

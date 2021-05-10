@@ -33,6 +33,8 @@ const Post = (props) => {
     title: PropTypes.string,
     userID: PropTypes.number,
     views: PropTypes.number,
+    onPinPost: PropTypes.func,
+    onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onEditComment: PropTypes.func,

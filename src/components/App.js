@@ -353,6 +353,24 @@ const App = () => {
 
   // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
 
+  // Request to toggle pin for a post by ID
+  // Source: Post
+  const pinPost = (postID) => {
+    // Get current pin value of post
+    const pinned = getPostByID(postID).pinned;
+    // Request to update post data
+    editPost(postID, { pinned: !pinned });
+  };
+
+  // Request to toggle bookmark for post by ID
+  // Source: Post
+  const bookmarkPost = (postID) => {
+    // Get current bookmark value of post
+    const bookmarked = getPostByID(postID).bookmarked;
+    // Request to update user bookmarks
+    editPost(postID, { bookmarked: !bookmarked });
+  };
+
   // Request to edit a post by ID with the given data
   // Source: Post
   const editPost = (postID, data) => {
@@ -473,6 +491,8 @@ const App = () => {
                 active={state.active}
                 courseData={state.courseData}
                 postID={state.postID}
+                onPinPost={pinPost}
+                onBookmarkPost={bookmarkPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onEditComment={editComment}
