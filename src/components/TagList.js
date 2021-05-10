@@ -55,6 +55,18 @@ const TagList = (props) => {
     removed = props.tags.length - props.truncate;
   }
 
+  // Sort tags alphabetically
+  tags.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+
+  // Create button components
   tags = tags.map(tag => {
     return (
       <Button
