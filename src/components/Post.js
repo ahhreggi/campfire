@@ -214,11 +214,8 @@ const Post = (props) => {
 
         </header>
 
-        {/* Bookmark Toggler & Title */}
+        {/* Title */}
         <div className="post-header">
-          <span className="bookmark">
-            <Bookmark bookmarked={props.bookmarked} styles="icon-small" />
-          </span>
           <div>
             {props.title}
           </div>
