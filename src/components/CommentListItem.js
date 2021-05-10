@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./CommentListItem.scss";
 import Button from "./Button";
 import CommentList from "./CommentList";
+import upvote from "../images/icons/upvote.png";
+import endorse from "../images/icons/endorse.png";
 import PropTypes from "prop-types";
 
 const CommentListItem = (props) => {
