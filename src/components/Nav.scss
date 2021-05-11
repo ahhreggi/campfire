@@ -42,6 +42,8 @@
           margin-left: 0.8rem;
         }
 
+        animation: glow 2s infinite alternate;
+
         &:hover {
           color: $orange;
           cursor: pointer;

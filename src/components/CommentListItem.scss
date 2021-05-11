@@ -7,17 +7,27 @@
   margin-top: 1rem;
   padding: 1rem;
   padding-bottom: 1rem;
+  border: 1px solid transparent;
+
+  &.pendingDelete {
+    border: 1px solid $red;
+  }
 
   // Instructor comment styling
   &.isInstructor {
-    border: 1px solid $yellow;
+
+    &:not(.pendingDelete) {
+      border: 1px solid $yellow;
+    }
+
     .author {
       color: $yellow;
     }
+
   }
 
   // Best answer styling
-  &.isBestAnswer {
+  &.isBestAnswer:not(.pendingDelete) {
     border: 1px solid $green;
   }
 

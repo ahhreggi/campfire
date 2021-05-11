@@ -61,7 +61,7 @@ let dummyCourseData = {
       "bookmarked": false,
       "created_at": "2021-05-10T15:40:05.671Z",
       "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": 5,
+      "best_answer": null,
       "author_first_name": "Fiona",
       "author_last_name": "Ford",
       "author_avatar_id": 7,
@@ -108,7 +108,7 @@ let dummyCourseData = {
       "bookmarked": false,
       "created_at": "2021-05-10T15:40:05.671Z",
       "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": 2,
+      "best_answer": 4,
       "author_first_name": "Edward",
       "author_last_name": "Ecksworth",
       "author_avatar_id": 6,
@@ -252,8 +252,10 @@ const App = () => {
 
   // Fetch data from the server on load
   useEffect(() => {
-    // Fetch course data
-    fetchCourseData();
+    setTimeout(() => {
+      // Fetch course data
+      fetchCourseData();
+    }, 1500);
   }, []);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -473,7 +475,10 @@ const App = () => {
     <div className="App">
 
       {/* Loading Message (when there is no courseData) */}
-      {!state.courseData && <div>Loading...</div>}
+      {!state.courseData &&
+        <div className="display-4 d-flex justify-content-center align-items-center h-100">
+          Fetching course data...
+        </div>}
 
       {/* Course View (courseData exists) */}
       {state.courseData &&

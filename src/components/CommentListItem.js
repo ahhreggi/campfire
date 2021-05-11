@@ -169,7 +169,8 @@ const CommentListItem = (props) => {
     CommentListItem: true,
     isParent,
     isInstructor,
-    isBestAnswer
+    isBestAnswer,
+    pendingDelete: state.showConfirmation
   });
 
   // Create the reply list components if the comment is top-level (parentID is null)
