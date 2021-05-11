@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import "./TagList.scss";
-import Button from "./Button";
 import PropTypes from "prop-types";
+import Button from "./Button";
+import "./TagList.scss";
 
 const TagList = (props) => {
 

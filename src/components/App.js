@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.scss";
 import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
+import "./App.scss";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
 

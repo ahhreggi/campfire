@@ -1,5 +1,5 @@
-import "./Nav.scss";
 import PropTypes from "prop-types";
+import "./Nav.scss";
 
 const Nav = (props) => {
 

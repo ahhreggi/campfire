@@ -1,8 +1,8 @@
-import "./Main.scss";
-import Post from "./Post";
+import PropTypes from "prop-types";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
-import PropTypes from "prop-types";
+import Post from "./Post";
+import "./Main.scss";
 
 const Main = (props) => {
 

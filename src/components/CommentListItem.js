@@ -1,8 +1,10 @@
 import { useState } from "react";
-import "./CommentListItem.scss";
-import CommentList from "./CommentList";
+import PropTypes from "prop-types";
+import moment from "moment";
+import classNames from "classnames";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
+import CommentList from "./CommentList";
 import like from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
@@ -10,9 +12,7 @@ import minus from "../images/icons/minus.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
-import PropTypes from "prop-types";
-import moment from "moment";
-import classNames from "classnames";
+import "./CommentListItem.scss";
 
 const CommentListItem = (props) => {
 

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import "./index.scss";
 import PropTypes from "prop-types";
-
 import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
 import TagForm from "./TagForm";
 import Confirmation from "../Confirmation";
+import "./index.scss";
 
 const EditForm = (props) => {
 
