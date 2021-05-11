@@ -1,9 +1,14 @@
 @import "../styles/global.scss";
 
 .CommentListItem {
+  display: flex;
+  flex-direction: column;
   main.top {
+    display: flex;
 
     section.left {
+      display: flex;
+      flex-direction: column;
 
       .avatar {
         img {
@@ -12,6 +17,8 @@
       }
 
       .engagements {
+        display: flex;
+        flex-direction: column;
 
         .icon {
           .heart {
@@ -37,10 +44,14 @@
         }
 
         .likes {
+          display: flex;
+          flex-wrap: nowrap;
 
         }
 
         .endorsements {
+          display: flex;
+          flex-wrap: nowrap;
 
         }
 
@@ -49,8 +60,13 @@
     }
 
     section.right {
+      display: flex;
+      flex-direction: column;
 
       header {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
         .author {
 
         }
@@ -69,6 +85,8 @@
       }
 
       footer {
+        display: flex;
+        justify-content: space-between;
 
         .timestamp {
           &.modified {
@@ -77,6 +95,9 @@
         }
 
         .controls {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
 
           img {
 
