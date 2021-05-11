@@ -5,7 +5,8 @@ import * as CommentListItemStories from './CommentListItem.stories';
 
 export default {
   title: 'CommentList',
-  component: CommentList
+  component: CommentList,
+  decorators: [(Story) => <div style={{ 'margin-left': '20rem'}}><Story/></div>]
 };
 
 const Template = (args) => <CommentList {...args} />;

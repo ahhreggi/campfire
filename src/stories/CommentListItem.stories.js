@@ -5,7 +5,8 @@ import CommentListItem from '../components/CommentListItem';
 export default {
   title: 'CommentListItem',
   component: CommentListItem,
-  argTypes: { onClick: { action: 'Clicked' }, onEdit: { action: 'Saved' }}
+  argTypes: { onClick: { action: 'Clicked' }, onEdit: { action: 'Saved' }},
+  decorators: [(Story) => <div style={{ 'margin-left': '20rem'}}><Story/></div>]
 };
 
 const Template = (args) => <CommentListItem {...args} />;

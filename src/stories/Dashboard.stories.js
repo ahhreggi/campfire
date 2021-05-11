@@ -4,7 +4,8 @@ import Dashboard from '../components/Dashboard';
 
 export default {
   title: 'Dashboard',
-  component: Dashboard
+  component: Dashboard,
+  decorators: [(Story) => <div style={{ 'margin-left': '20rem'}}><Story/></div>]
 };
 
 const Template = (args) => <Dashboard {...args} />;

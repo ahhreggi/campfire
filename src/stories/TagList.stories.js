@@ -31,7 +31,8 @@ const tags = [
 
 export default {
   title: 'TagList',
-  component: TagList
+  component: TagList,
+  decorators: [(Story) => <div style={{ width: '20rem'}}><Story/></div>]
 };
 
 const Template = (args) => <TagList {...args} />;
