@@ -120,7 +120,6 @@ const App = () => {
   // Set the application data
   const setAppData = (data, type) => {
     if (type === "course") {
-      console.log(data);
       setState({
         ...state,
         courseData: data,
