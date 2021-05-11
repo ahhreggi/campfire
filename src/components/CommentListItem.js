@@ -334,7 +334,7 @@ const CommentListItem = (props) => {
                 <div className="preview">
 
                   <div className="label">
-                  PREVIEW
+                    PREVIEW
                   </div>
 
                   {/* PREVIEW: Post Title */}
