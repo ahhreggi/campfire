@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./index.scss";
 import PropTypes from "prop-types";
 
 import Preview from "./Preview";
