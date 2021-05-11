@@ -1,0 +1,26 @@
+@import "../../styles/global.scss";
+
+.Checkbox {
+
+  .label {
+    font-weight: 700;
+  }
+
+  input.form-check-input {
+    box-shadow: none;
+    margin-left: 0.5rem;
+    margin-right: 0.3rem;
+    cursor: pointer;
+
+    &:checked {
+      background-color: $orange;
+      border: none;
+    }
+
+  }
+
+  .note {
+    color: $orange;
+  }
+
+}
