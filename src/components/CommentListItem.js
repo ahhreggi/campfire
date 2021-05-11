@@ -208,7 +208,7 @@ const CommentListItem = (props) => {
 
             {/* Likes */}
             <div className="likes">
-              <span className="heart">
+              <span className="icon heart">
                 <img src={like} alt="like" />
               </span>
               <span className="counter">
@@ -225,8 +225,8 @@ const CommentListItem = (props) => {
 
             {/* Endorsements */}
             <div className="endorsements">
-              <span className="medal">
-                <img className="medal" src={endorse} alt="endorse" />
+              <span className="icon medal">
+                <img src={endorse} alt="endorse" />
               </span>
               <span className="counter">
                 {props.endorsements.length}
