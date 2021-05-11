@@ -1,30 +1,33 @@
-import "./PostForm.scss";
+import "./TextForm.scss";
 import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
 
-const PostForm = (props) => {
+const TextForm = (props) => {
 
-  PostForm.propTypes = {
+  TextForm.propTypes = {
     label: PropTypes.string,
     text: PropTypes.string,
+    minHeight: PropTypes.string,
     onChange: PropTypes.func,
-    styles: PropTypes.string
   };
 
   return (
-    <div className="PostForm">
-      <div className="form-label">
-        {props.label}
-      </div>
+    <div className="TextForm">
+
+      {props.label &&
+        <div className="label">
+          {props.label}
+        </div>
+      }
+
       <TextareaAutosize
-        className={`textarea ${props.styles}`}
-        style={{ height: "100%" }}
+        style={{ "minHeight": props.minHeight }}
         value={props.text}
         onChange={(event) => props.onChange(event)}
       />
+
     </div>
   );
-
 };
 
-export default PostForm;
+export default TextForm;

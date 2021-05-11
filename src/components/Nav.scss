@@ -7,7 +7,7 @@
   align-items: center;
   user-select: none;
 
-  section {
+  section.app-nav {
     height: 100%;
     display: flex;
     align-items: center;
@@ -41,6 +41,8 @@
           width: 1.5rem;
           margin-left: 0.8rem;
         }
+
+        animation: glow 2s infinite alternate;
 
         &:hover {
           color: $orange;
@@ -77,7 +79,6 @@
       img {
         width: 2rem;
         margin: 1rem;
-        border: 1px solid $white;
         border-radius: 100%;
       }
 

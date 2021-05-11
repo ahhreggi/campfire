@@ -14,7 +14,10 @@ const Main = (props) => {
     onBookmarkPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
 
@@ -49,6 +52,7 @@ const Main = (props) => {
           comments={post.comments}
           createdAt={post.created_at}
           lastModified={post.last_modified}
+          pinnable={post.pinnable}
           editable={post.editable}
           tags={post.tags}
           title={post.title}
@@ -58,7 +62,10 @@ const Main = (props) => {
           onBookmarkPost={props.onBookmarkPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
+          onLikeComment={props.onLikeComment}
+          onEndorseComment={props.onEndorseComment}
           onEditComment={props.onEditComment}
+          onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
         />
       }

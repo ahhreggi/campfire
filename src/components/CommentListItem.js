@@ -1,113 +1,367 @@
 import { useState } from "react";
 import "./CommentListItem.scss";
-import Button from "./Button";
-import CommentList from "./CommentList";
+import EditForm from "./EditForm";
+import Confirmation from "./Confirmation";
+import like from "../images/icons/heart.png";
+import endorse from "../images/icons/endorse.png";
+import plus from "../images/icons/plus.png";
+import minus from "../images/icons/minus.png";
+import edit from "../images/icons/edit.png";
+import trash from "../images/icons/trash.png";
+import checkmark from "../images/icons/checkmark.png";
 import PropTypes from "prop-types";
+import moment from "moment";
+import classNames from "classnames";
 
 const CommentListItem = (props) => {
 
-  const [commentText, setCommentText] = useState("");
-  const [state, setState] = useState({
-    showForm: false,
-    anonymous: props.anonymous,
-    commentText: props.body,
-    endorsements: props.endorsements
-  });
-
   CommentListItem.propTypes = {
     id: PropTypes.number,
+    parentID: PropTypes.number,
     anonymous: PropTypes.bool,
     author: PropTypes.string,
+    authorRole: PropTypes.string,
+    avatarID: PropTypes.number,
     body: PropTypes.string,
+    score: PropTypes.number,
+
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
+
+    liked: PropTypes.bool,
+    endorsed: PropTypes.bool,
+
     editable: PropTypes.bool,
     endorsable: PropTypes.bool,
+
     endorsements: PropTypes.array,
     replies: PropTypes.array,
-    onEdit: PropTypes.func
+
+    onLikeComment: PropTypes.func,
+    onEndorseComment: PropTypes.func,
+
+    onEditComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
+
+    bestAnswer: PropTypes.number
   };
 
+  const [state, setState] = useState({
+    showForm: false,
+    showConfirmation: false,
+    showReplies: false,
+    endorsed: props.endorsed
+  });
+
+  // // Update breakBody when updating previewBody
+  // useEffect(() => {
+  //   const checkBody = getLongestWordLength(state.previewBody) > 34;
+  //   setState({ ...state, breakBody: checkBody });
+  // }, [state.previewBody]);
+
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  // Toggle and reset the post edit form
   const toggleForm = () => {
-    console.log("toggled comment form");
-    setState({ ...state, showForm: !state.showForm });
+    if (!state.showForm && state.showConfirmation) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    } else {
+      setState({ ...state, showForm: !state.showForm });
+    }
   };
+
+  // Toggle delete confirmation form
+  const toggleConfirmation = () => {
+    if (!state.showConfirmation && state.showForm) {
+      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    } else {
+      setState({ ...state, showConfirmation: !state.showConfirmation });
+    }
+  };
+
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   const editComment = () => {
     console.log("clicked EDIT comment button");
   };
+  // Like/unlike the comment
+  const toggleLiked = () => {
+    props.onLikeComment(props.id);
+  };
+
+  // Endorse/unendorse the comment
+  const toggleEndorsed = () => {
+    props.onEndorseComment(props.id);
+  };
+
+
+  const saveComment = (data) => {
+    props.onEditComment(props.id, data);
+    // Hide edit form
+    toggleForm();
+  };
 
   const deleteComment = () => {
-    console.log("clicked DELETE comment button");
+    props.onDeleteComment(props.id);
+    // Hide confirmation form
+    toggleConfirmation();
   };
 
-  const toggleAnonymous = () => {
-    console.log("clicked TOGGLE ANONYMOUS button");
-    setState({ ...state, anonymous: !state.anonymous });
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return the author name based on the given anonymous value (bool)
+  // e.g. User is a student: "First Last" or "Anonymous"
+  //      User is the author or an instructor: "First Last (Anonymous to students)"
+  // TODO: Move to helper file (also in Post)
+  const getAuthorName = (author, anonymous) => {
+    // Set the displayed author name
+    let name = anonymous ? "Anonymous" : author;
+    if (anonymous && author) {
+      name = author + " (Anonymous to students)";
+    }
+    return name;
   };
 
-  const endorseComment = () => {
-    console.log("clicked ENDORSE button");
-    setState({ ...state, endorsed: state.endorsed + 1 });
+  // Convert timestamp into a readable format
+  // TODO: Move to helper file
+  const formatTimestamp = (timestamp, relative) => {
+    if (relative) {
+      return moment(timestamp).fromNow();
+    } else {
+      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+    }
   };
 
-  const onSave = (event) => {
-    event.preventDefault();
-    console.log("clicked SUBMIT comment button");
-    // include anything that can change when an existing comment is edited
-    const updatedData = {
-      "anonymous": state.anonymous,
-      "body": state.commentText,
-      "last_modified": "some new last_modified time",
-    };
-    props.onEdit(props.id, updatedData);
+  // Return a formatted relative timestamp based on if it was modified
+  const getTimestamp = (timestamp, isModified) => {
+    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+    return `${result} (${formatTimestamp(timestamp, true)})`;
   };
 
-  // If anonymous is true, display anonymous
-  // Only instructors can view first/last name
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    return Math.max(...text.split(" ").map(word => word.length));
+  };
+
+
+  // VARIABLES //////////////////////////////////////////////////////
+
+  // Check if the comment is a parent
+  const isParent = !props.parentID;
+
+  // Check if the comment is by an instructor
+  const isInstructor = props.authorRole !== "student";
+
+  // Check if the comment is selected as the best answer
+  const isBestAnswer = props.bestAnswer === props.id;
+
+  // Check if the comment was ever modified
+  const isModified = props.createdAt !== props.lastModified;
+
+  // Get the author name to display
+  const authorName = getAuthorName(props.author, props.anonymous);
+
+  // Get the timestamp to display
+  const timestamp = getTimestamp(props.lastModified, isModified);
+
+  // Get class names
+  const classes = classNames({
+    CommentListItem: true,
+    isParent,
+    isInstructor,
+    isBestAnswer,
+    pendingDelete: state.showConfirmation
+  });
+
+  // Create the reply list components if the comment is top-level (parentID is null)
+  const replies = isParent && props.replies.map(comment => {
+    return (
+      <CommentListItem
+        key={comment.id}
+        id={comment.id}
+        parentID={comment.parent_id}
+        anonymous={comment.anonymous}
+        author={`${comment.author_first_name} ${comment.author_last_name}`}
+        authorRole={comment.role}
+        avatarID={comment.author_avatar_id}
+        body={comment.body}
+        score={comment.score}
+        createdAt={comment.created_at}
+        lastModified={comment.last_modified}
+        liked={comment.liked}
+        endorsed={comment.endorsed}
+        editable={comment.editable}
+        endorsable={comment.endorsable}
+        endorsements={comment.endorsements}
+        onEditComment={props.onEditComment}
+        onDeleteComment={props.onDeleteComment}
+        bestAnswer={props.bestAnswer}
+      />
+    );
+  });
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className="CommentListItem">
-      <div>
-        Author: {props.anonymous ? "Anonymous" : props.author}
+    <div className={classes}>
+
+      {/* Top-level Comment */}
+      <div className="top">
+        <section className="left">
+
+          {/* Avatar */}
+          <div className="avatar">
+            <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
+          </div>
+
+          {/* Engagements */}
+          <div className="engagements">
+
+            {/* Likes */}
+            <div className="likes">
+              <span className="icon heart">
+                <img src={like} alt="like" />
+              </span>
+              <span className={`counter ${props.liked && "active"}`}>
+                {props.score}
+              </span>
+              <span className="toggle">
+                <img
+                  src={props.liked ? minus : plus}
+                  alt="liked"
+                  onClick={toggleLiked}
+                />
+              </span>
+            </div>
+
+            {/* Endorsements */}
+            <div className="endorsements">
+              <span className="icon medal">
+                <img src={endorse} alt="endorse" />
+              </span>
+              <span className={`counter ${props.endorsed && "active"}`}>
+                {props.endorsements.length}
+              </span>
+              <span className="toggle">
+                <img
+                  src={props.endorsed ? minus : plus}
+                  alt="endorsed"
+                  onClick={toggleEndorsed}
+                />
+              </span>
+            </div>
+
+          </div>
+
+        </section>
+
+        <section className="right">
+
+
+          {/* Comment Header */}
+          <div>
+            <header>
+
+              {/* Author */}
+              <div className="author">
+                {authorName}
+              </div>
+
+              {/* Best Answer Label */}
+              {isBestAnswer &&
+                <div className="label">
+                  <img src={checkmark} alt="checkmark" />
+                  <span>BEST ANSWER</span>
+                </div>
+              }
+
+            </header>
+
+            {/* Comment Body */}
+            <div className="body">
+              {props.body}
+            </div>
+          </div>
+
+          {/* Comment Footer */}
+          <footer>
+
+            {/* Timestamp */}
+            <div className={`timestamp ${isModified && "modified"}`}>
+              {timestamp}
+            </div>
+
+            {/* Comment Edit Controls */}
+            {props.editable &&
+              <div className="controls icon-large?">
+
+                <span className="edit">
+                  <img
+                    className={state.showForm ? "active" : ""}
+                    src={edit}
+                    alt="edit"
+                    onClick={toggleForm}
+                  />
+                </span>
+                <span className="delete">
+                  <img
+                    className={state.showConfirmation ? "active" : ""}
+                    src={trash}
+                    alt="delete"
+                    onClick={toggleConfirmation}
+                  />
+                </span>
+
+              </div>
+            }
+
+          </footer>
+
+        </section>
       </div>
-      <div>
-        Anonymous: {props.anonymous ? "true" : "false"}
-      </div>
-      <div>
-        Author (visible only to instructors when anonymous): {props.author}
-      </div>
-      <div>
-        {props.body}
-      </div>
-      <div>
-        created: {props.createdAt} (last modified: {props.lastModified})
-      </div>
-      <div>
-        endorsable: {props.endorsable ? "true" : "false"}
-      </div>
-      <div>
-        endorsements: {props.endorsements.length}
-      </div>
-      <div>
-        editable: {props.editable ? "true" : "false"}
-      </div>
-      <div>
-        number of replies: {props.replies ? props.replies.length : "you cannot reply to this comment bc this is a reply"}
-      </div>
-      <form className="comment-form" onSubmit={onSave}>
-        <label>
-          write something:
-        </label>
-        <input type="submit" value="Save Changes" />
-      </form>
-      {state.showForm && <input type="text" value={commentText} onChange={(event) => setCommentText(event.target.value)} />}
-      {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
-      {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
-      {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
-      {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>}
+
+      {/* Edit Form & Confirmation */}
+      {props.editable &&
+        <div className="editable">
+
+          {/* Edit Form */}
+          {state.showForm &&
+            <>
+              <hr />
+              <EditForm
+                id={props.id}
+                author={props.author}
+                body={props.body}
+                anonymous={props.anonymous}
+                mode={"COMMENT"}
+                onSave={saveComment}
+                onCancel={toggleForm}
+              />
+            </>
+          }
+
+          {/* Delete Confirmation */}
+          {state.showConfirmation &&
+            <>
+              <hr />
+              <Confirmation
+                message={"Are you sure you would like to delete this comment?"}
+                onConfirm={deleteComment}
+                onCancel={toggleConfirmation}
+              />
+            </>
+          }
+
+        </div>
+      }
+
+      {/* Replies */}
+      {isParent && replies.length > 0 &&
+        <section className="replies">
+          {replies}
+        </section>
+      }
+
     </div>
   );
 };
