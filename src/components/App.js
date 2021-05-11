@@ -252,8 +252,10 @@ let dummyCourseData = {
 
 const API = {
   // GET_COURSES: "/api/courses",
-  GET_COURSE: "/api/courses/:id",
-  PATCH_POST: "/api/posts/:id"
+  GET_COURSE: "/api/courses/:id", // data = { state.courseID }
+  EDIT_POST: "/api/posts/:id", // data = { ...updatedData }
+  ADD_BOOKMARK: "/api/bookmarks", // data = { postID: state.postID }
+  DELETE_BOOKMARK: "/api/bookmarks" // data = { postID: state.postID }
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -364,35 +366,6 @@ const App = () => {
 
   };
 
-  // Request to toggle pin for a post by ID
-  // Source: Post
-  const pinPost = (postID) => {
-
-    // TODO: Replace this entire thing with just editPost from the component
-
-    // TODO: API Request
-    console.log("API: Requesting to PIN a post with the post ID", postID);
-
-    // Get current value of pinned for postID
-    const pinned = getPostByID(state.posts, postID).pinned;
-
-    // Send a request to set it to the opposite value
-    editPost(postID, { pinned: !pinned });
-  };
-
-  // Request to toggle bookmark for post by ID
-  // Source: Post
-  const bookmarkPost = (postID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to BOOKMARK a post with the post ID", postID);
-
-    // Get current bookmark value of post
-    const bookmarked = getPostByID(state.posts, postID).bookmarked;
-    // Request to update user bookmarks
-    editPost(postID, { bookmarked: !bookmarked });
-  };
-
   // Request to edit a post by ID with the given data
   // Source: Post
   const editPost = (postID, data) => {
@@ -404,11 +377,31 @@ const App = () => {
 
     axios({
       method: "PATCH",
-      url: API.PATCH_POST.replace(":id", postID),
+      url: API.EDIT_POST.replace(":id", postID),
       headers: {
         "Authorization": state.authToken
       },
       data
+    })
+      .then((res) => {
+        console.log("Request successful!");
+        // Fetch updated course data to update local state
+        fetchCourseData(state.courseID);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Send a POST or DELETE request based on the current user's bookmarked value
+  const editBookmark = (postID, bookmarked) => {
+    axios({
+      method: bookmarked ? "DELETE" : "POST",
+      url: bookmarked ? API.DELETE_BOOKMARK : API.ADD_BOOKMARK,
+      headers: {
+        "Authorization": state.authToken
+      },
+      data: { postID }
     })
       .then((res) => {
         console.log("Request successful!");
@@ -537,8 +530,6 @@ const App = () => {
                 active={state.active}
                 courseData={state.courseData}
                 postID={state.postID}
-                onPinPost={pinPost}
-                onBookmarkPost={bookmarkPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onLikeComment={likeComment}
