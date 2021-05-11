@@ -61,6 +61,7 @@ const App = () => {
 
     selectedTags: [],
 
+    loading: true,
     reloader: false // set this to !reloader when making a request without fetchCourseData and a reload is needed
   });
 
@@ -69,16 +70,25 @@ const App = () => {
   // -- changing active view
   // -- changing active postID
   useEffect(() => {
-    console.log("Fetching course data...");
     fetchCourseData(state.courseID);
   }, [state.courseID, state.reloader]);
+
+  // Show a loading screen if courseData is null
+  useEffect(() => {
+    setState({ ...state, loading: !state.courseData });
+  }, [state.courseData]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   const resetDB = () => {
     console.log("Re-seeding database as admin.");
+    setState({ ...state, courseData: null });
     request("GET", API.RESET, null, null, "admin")
-      .then(() => setActive("Dashboard"));
+      .then(() => {
+        setTimeout(() => {
+          setActive("Dashboard");
+        }, 1000);
+      });
   };
 
   // Create an axios request
@@ -107,11 +117,13 @@ const App = () => {
   // Set the application data
   const setAppData = (data, type) => {
     if (type === "course") {
+      console.log(data);
       setState({
         ...state,
         courseData: data,
-        postData: getPostByID(data.posts, state.postID),
-        posts: data.posts
+        postData: data ? getPostByID(data.posts, state.postID) : null,
+        posts: data ? data.posts : null,
+        loading: !data
       });
     }
   };
@@ -132,7 +144,6 @@ const App = () => {
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
-    console.log(data);
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
@@ -157,27 +168,24 @@ const App = () => {
   // Request to edit a comment by ID with the given data
   // Source: CommentListItem
   const editComment = (commentID, data) => {
-
-    console.log(data);
     request("PATCH", API.COMMENTS, commentID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
-
   };
 
   // Request to delete a comment by ID
   // Source: CommentListItem
   const deleteComment = (commentID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to DELETE a comment with the comment ID", commentID);
-
+    request("DELETE", API.COMMENTS, commentID)
+      .then(() => setActive("Post", state.postID))
+      .catch((err) => console.log(err));
   };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null) => {
+    console.log(selection, postID);
     setState({
       ...state,
       active: selection,
@@ -230,13 +238,13 @@ const App = () => {
     <div className="App">
 
       {/* Loading Message (when there is no courseData) */}
-      {!state.courseData &&
+      {state.loading &&
         <div className="display-4 d-flex justify-content-center align-items-center h-100">
-          Fetching course data...
+          Loading...
         </div>}
 
       {/* Course View (courseData exists) */}
-      {state.courseData &&
+      {!state.loading && state.courseData &&
         <>
 
           {/* Nav Bar */}
