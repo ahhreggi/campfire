@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Preview from "./Preview";
@@ -12,8 +13,8 @@ const EditForm = (props) => {
 
     title: PropTypes.string,
     author: PropTypes.string,
-    anonymous: PropTypes.string,
     body: PropTypes.string,
+    anonymous: PropTypes.string,
     tags: PropTypes.array,
     courseTags: PropTypes.string,
 
@@ -24,6 +25,22 @@ const EditForm = (props) => {
 
   return (
     <div className="EditForm">
+
+      <Preview />
+
+      {props.title && <TextForm />}
+
+      <TextForm />
+
+      <Checkbox />
+
+      <TagForm />
+
+      <Confirmation />
+
+
+
+
 
     </div>
   )

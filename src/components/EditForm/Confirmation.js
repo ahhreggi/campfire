@@ -5,28 +5,34 @@ const Confirmation = (props) => {
 
   Confirmation.propTypes = {
     message: PropTypes.string,
+    onConfirm: PropTypes.func,
+    onConfirmText: PropTypes.string,
+    onConfirmStyles: PropTypes.string,
     onCancel: PropTypes.func,
-    onConfirm: PropTypes.func
+    onCancelText: PropTypes.string,
+    onCancelStyles: PropTypes.string
   };
 
   return (
     <div className="Confirmation">
 
-      <div className="message">
-        {props.message}
-      </div>
+      {props.message &&
+        <div className="message">
+          {props.message}
+        </div>
+      }
 
       <div className="buttons">
 
         <Button
-          text="Save"
-          styles="form green"
+          text={props.onConfirmText}
+          styles={props.onConfirmStyles}
           onClick={props.onConfirm}
         />
 
         <Button
-          text="Cancel"
-          styles="form red"
+          text={props.onCancelText}
+          styles={props.onCancelStyles}
           onClick={props.onCancel}
         />
 
