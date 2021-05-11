@@ -32,6 +32,7 @@ const API = {
   // GET_COURSES: "/api/courses",
   GET_COURSE: "/api/courses/:id", // data = { state.courseID }
   EDIT_POST: "/api/posts/:id", // data = { ...updatedData }
+  DELETE_POST: "/api/posts/:id",
   ADD_BOOKMARK: "/api/bookmarks", // data = { postID: state.postID }
   DELETE_BOOKMARK: "/api/bookmarks" // data = { postID: state.postID }
 };
@@ -56,52 +57,16 @@ const App = () => {
     selectedTags: []
   });
 
-  // Fetch data from the server on load
+  // Fetch course data from the server whenever the courseID in state changes
   useEffect(() => {
-
-    console.log("API: Requesting all course data for the current course ID in state:", state.courseID);
-
     // Get course data for the current course ID in state
     fetchCourseData(state.courseID);
+  }, [state.courseID]);
 
-  }, []);
-
-  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
-
-  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
-  const selectActive = (selection, postID = null) => {
-    // Get the current post data
-    const selectedPostData = getPostByID(state.posts, postID);
-    // Update state
-    setState({
-      ...state,
-      active: selection,
-      postID: postID,
-      postData: selectedPostData
-    });
-
-  };
-
-  // Update the selected tags dynamically as the user toggles them
-  // If only is set to true, only the given tag will be selected
-  const updateSelectedTags = (tag, only = false) => {
-    if (only) {
-      setState({ ...state, selectedTags: [tag] });
-    } else {
-      const selected = hasTag(state.selectedTags, tag.id);
-      if (selected) {
-        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
-        setState({ ...state, selectedTags: updatedTags });
-      } else {
-        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
-      }
-    }
-  };
-
-  // Clear selected tags
-  const clearSelectedTags = () => {
-    setState({ ...state, selectedTags: [] });
-  };
+  // When selecting a new active view, refresh app data
+  useEffect(() => {
+    fetchCourseData(state.courseID);
+  }, [state.active]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -127,6 +92,7 @@ const App = () => {
       });
   };
 
+  // Set the application data
   const setAppData = (data, type) => {
     if (type === "course") {
       setState({
@@ -146,63 +112,51 @@ const App = () => {
       headers: {
         "Authorization": state.authToken
       },
-      data: { postId: postID }
+      data: { postID }
     })
-      .then((res) => {
-        // Fetch updated course data to update local state
-        fetchCourseData(state.courseID);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
   };
 
-  // Request to edit a post by ID with the given data
-  // Source: Post
+  // Request to edit a postID with the given data
   const editPost = (postID, data) => {
-    axios({
-      method: "PATCH",
-      url: API.EDIT_POST.replace(":id", postID),
-      headers: {
-        "Authorization": state.authToken
-      },
-      data
-    })
-      .then((res) => {
-        // Fetch updated course data to update local state
-        fetchCourseData(state.courseID);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    request("PATCH", API.EDIT_POST, postID, data)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
   };
 
   // Request to delete a post by ID
   const deletePost = (postID) => {
+    request("DELETE", API.DELETE_POST, postID)
+      .then(() => {
+        console.log("Deleted post! Redirecting to dashboard...");
+        setActive("Dashboard");
+      })
+      .catch((err) => console.log(err));
 
-    // TODO: API Request
-    console.log("API: Requesting to DELETE a post with the post ID", postID);
+    // // TODO: API Request
+    // console.log("API: Requesting to DELETE a post with the post ID", postID);
 
-    // MOCK: Send a delete request to the server
-    // SUCCESS: Redirect to dashboard
-    // ERROR: Return to post and display an error message
-    // Temp: Retrieve all posts except the one with postID
-    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Update state using the response data and redirect
-    const res = newCourseData;
+    // // MOCK: Send a delete request to the server
+    // // SUCCESS: Redirect to dashboard
+    // // ERROR: Return to post and display an error message
+    // // Temp: Retrieve all posts except the one with postID
+    // const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    // const newCourseData = { ...state.courseData, posts: newPosts };
+    // // Update state using the response data and redirect
+    // const res = newCourseData;
 
-    if (res) {
-      setState({
-        ...state,
-        active: "Dashboard",
-        courseData: newCourseData,
-        postID: null,
-        postData: null
-      });
-    } else {
-      console.log("An error occurred while deleting the post.");
-    }
+    // if (res) {
+    //   setState({
+    //     ...state,
+    //     active: "Dashboard",
+    //     courseData: newCourseData,
+    //     postID: null,
+    //     postData: null
+    //   });
+    // } else {
+    //   console.log("An error occurred while deleting the post.");
+    // }
   };
 
   // Request to like a comment by ID
@@ -231,6 +185,51 @@ const App = () => {
     // TODO: API Request
     console.log("API: Requesting to DELETE a comment with the comment ID", commentID);
 
+  };
+
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
+  const setActive = (selection, postID = null) => {
+    if (selection === "Post") {
+      // Get the post data for the postID in state
+      const selectedPostData = getPostByID(state.posts, postID);
+      setState({
+        ...state,
+        active: "Post",
+        postID: postID,
+        postData: selectedPostData
+      });
+    } else {
+      setState({
+        ...state,
+        active: selection,
+        postID: null,
+        postData: null
+      });
+    }
+
+  };
+
+  // Update the selected tags dynamically as the user toggles them
+  // If only is set to true, only the given tag will be selected
+  const updateSelectedTags = (tag, only = false) => {
+    if (only) {
+      setState({ ...state, selectedTags: [tag] });
+    } else {
+      const selected = hasTag(state.selectedTags, tag.id);
+      if (selected) {
+        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+        setState({ ...state, selectedTags: updatedTags });
+      } else {
+        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+      }
+    }
+  };
+
+  // Clear selected tags
+  const clearSelectedTags = () => {
+    setState({ ...state, selectedTags: [] });
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -265,7 +264,7 @@ const App = () => {
 
           {/* Nav Bar */}
           <Nav
-            onClick={selectActive}
+            onClick={setActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
@@ -281,7 +280,7 @@ const App = () => {
                 selectedPostID={state.postID}
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
-                onClick={(postID) => selectActive("Post", postID)}
+                onClick={(postID) => setActive("Post", postID)}
                 selectedTags={state.selectedTags}
                 onTagToggle={updateSelectedTags}
                 onTagClear={clearSelectedTags}
@@ -309,8 +308,8 @@ const App = () => {
           {/* Test Controls */}
           <div className="test-controls">
             test controls:
-            <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
-            <Button text="Analytics" onClick={() => selectActive("Analytics")} />
+            <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+            <Button text="Analytics" onClick={() => setActive("Analytics")} />
           </div>
 
         </>
