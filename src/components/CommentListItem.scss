@@ -24,10 +24,11 @@
 
     // Highlight on reply hover
     &.child {
-      border-left: 0.5rem solid $navy-7;
-      background-color: $navy-5;
+      border-left: 0.5rem solid $navy-4;
+      background-color: $navy-2;
       &:hover {
-        background-color: $navy-6;
+        // background-color: $navy-5;
+        // border: 1px solid white;
       }
 
     }
@@ -237,6 +238,7 @@
     flex-direction: column;
     // border: 1px solid white;
     padding: 1rem;
+    // background-color: red;
 
     .preview {
       .label {

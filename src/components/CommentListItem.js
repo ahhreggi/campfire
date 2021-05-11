@@ -213,7 +213,7 @@ const CommentListItem = (props) => {
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
         // replies={comment.replies} // Child comments shouldn't have any replies
-        onEdit={props.onEditComment}
+        onEditComment={props.onEditComment}
         bestAnswer={props.bestAnswer}
       />
     );
@@ -322,7 +322,7 @@ const CommentListItem = (props) => {
         </div>
 
         {/* Editable Area */}
-        {props.editable &&
+        {props.editable && state.showForm &&
 
           <div className="edit-form">
 
@@ -368,7 +368,7 @@ const CommentListItem = (props) => {
 
                 {/* Comment Body Textarea */}
                 <PostForm
-                  label="Post Body"
+                  // label="Post Body"
                   text={state.previewBody}
                   onChange={updatePreviewBody}
                   styles="form-body"
