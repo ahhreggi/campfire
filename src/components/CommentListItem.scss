@@ -1,6 +1,233 @@
 @import "../styles/global.scss";
 
 .CommentListItem {
-  border: 1px solid orange;
+  display: flex;
+  flex-direction: column;
+  background-color: $navy-2;
+  margin-top: 1rem;
   padding: 1rem;
+  padding-bottom: 1rem;
+  border: 1px solid transparent;
+
+  &.pendingDelete {
+    border: 1px solid $red;
+  }
+
+  // Instructor comment styling
+  &.isInstructor {
+
+    &:not(.pendingDelete) {
+      border: 1px solid $yellow;
+    }
+
+    .author {
+      color: $yellow;
+    }
+
+  }
+
+  // Best answer styling
+  &.isBestAnswer:not(.pendingDelete) {
+    border: 1px solid $green;
+  }
+
+  // Reply styling
+  &:not(.isParent) {
+    background-color: $navy-4;
+    margin-top: 0;
+    padding-bottom: 0.7rem;
+
+    &:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+
+  }
+
+  // Hover styling
+  .toggle {
+    img {
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .top {
+    display: flex;
+
+    section.left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 6rem;
+      height: 100%;
+      margin-right: 1rem;
+
+      .avatar {
+        margin: 0.2rem 0 0.3rem 0;
+        img {
+          width: 5rem;
+        }
+      }
+
+      .engagements {
+        display: flex;
+        flex-direction: column;
+
+        .icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 1rem;
+
+          &.heart {
+            img {
+              width: 0.9rem;
+            }
+          }
+          &.medal {
+            img {
+              width: 1rem;
+              margin-top: 0.1rem;
+            }
+          }
+        }
+
+        .counter {
+          display: flex;
+          justify-content: center;
+          font-weight: 700;
+          width: 3rem;
+          font-size: 1.2rem;
+
+          &.active {
+            color: $green;
+          }
+
+        }
+
+        .toggle {
+          width: 1rem;
+          img {
+            width: 1rem;
+            margin-bottom: 0.15rem;
+          }
+        }
+
+        .likes {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+
+        }
+
+        .endorsements {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+
+        }
+
+      }
+
+    }
+
+    section.right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 10rem;
+
+      header {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        height: 2rem;
+
+        .author {
+          font-weight: 700;
+          font-size: 0.9rem;
+        }
+        .label {
+          font-weight: 700;
+
+          img {
+            width: 1.2rem;
+            margin: 0 0.5rem 0.3rem 0;
+          }
+
+          span {
+            color: $green;
+            font-size: 1.3rem;
+            margin-right: 0.2rem;
+          }
+        }
+      }
+
+      .body {
+        margin-top: 0.5rem;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid $navy-7;
+        padding-top: 0.5rem;
+
+        .timestamp {
+          font-size: 0.8rem;
+          color: $navy-8;
+
+          &.modified {
+            font-style: italic;
+          }
+
+        }
+
+        .controls {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+
+          img {
+            width: 1.5rem;
+          }
+
+          .edit {
+
+          }
+
+          .delete {
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  .editable {
+
+    .EditForm {
+      padding: 1rem;
+      border: 1px solid $navy-6;
+    }
+
+  }
+
+  .replies {
+    height: 100%;
+    border-left: 0.5rem solid $navy-7;
+    padding-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+
 }

@@ -4,6 +4,7 @@ import TagList from "./TagList";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 const PostListItem = (props) => {
 
@@ -49,11 +50,21 @@ const PostListItem = (props) => {
     }
   };
 
+  // VARIABLES //////////////////////////////////////////////////////
+
+  // Get class names
+  const classes = classNames({
+    PostListItem: true,
+    pinned: props.pinned,
+    bookmarked: props.bookmarked,
+    selected: props.selected
+  });
+
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div
-      className={`PostListItem ${props.selected ? "selected" : ""}`}
+      className={classes}
       onClick={handleClick}
     >
 
@@ -62,14 +73,15 @@ const PostListItem = (props) => {
         {/* Post Title */}
         <div className="header-left">
           <span className={`title ${props.bookmarked && "bookmarked"}`}>
-            {truncateText(props.title, 38)}
+            {truncateText(props.title, 30)}
           </span>
         </div>
 
         {/* Post Status Badges */}
         <div className="header-right">
-          {props.showStudentBadge && <Badge type="student" />}
+          {/* {props.showStudentBadge && <Badge type="student" />} */}
           {props.showInstructorBadge && <Badge type="instructor" />}
+          {props.bestAnswer && <Badge type="student" />}
           {props.bestAnswer === null && <Badge type="unresolved" />}
         </div>
 

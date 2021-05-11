@@ -12,7 +12,7 @@ let dummyUser = {
   "first_name": "Reggi",
   "last_name": "Sirilan",
   "email": "rs@rs.ca",
-  "avatar_url": "/images/avatars/2.png"
+  "avatar_id": 2
 };
 
 let dummyCourseData = {
@@ -26,6 +26,10 @@ let dummyCourseData = {
     "total_comments": "5",
     "num_unresolved_questions": "1",
     "num_resolved_questions": "1"
+  },
+  "secrets": {
+    "student_access_code": "111111",
+    "instructor_access_code": "222222"
   },
   "tags": [
     {
@@ -47,29 +51,26 @@ let dummyCourseData = {
     {
       "id": 5,
       "name": "Async"
-    },
-    {
-      "id": 6,
-      "name": "HTML"
     }
   ],
   "posts": [
     {
       "id": 2,
-      "title": "How do I create a class? 1 2 3 4 5 6 7 8",
+      "title": "How do I create a class? 1 2 3 4 5 6 7 8 9 1 2 3 4",
       "body": "How do I write a new class in javascript, and declare methods, variables, etc?",
-      "bookmarked": true,
-      "created_at": "2021-05-08T20:00:11.570Z",
-      "last_modified": "2021-05-08T20:00:12.570Z",
+      "bookmarked": false,
+      "created_at": "2021-05-10T15:40:05.671Z",
+      "last_modified": "2021-05-10T15:40:05.671Z",
       "best_answer": null,
       "author_first_name": "Fiona",
       "author_last_name": "Ford",
-      "author_avatar_id": null,
+      "author_avatar_id": 7,
       "pinned": false,
       "views": 0,
-      "anonymous": true,
+      "anonymous": false,
       "role": "student",
       "user_id": 6,
+      "pinnable": true,
       "editable": true,
       "tags": [
         {
@@ -81,59 +82,21 @@ let dummyCourseData = {
         {
           "id": 5,
           "post_id": 2,
-          "anonymous": false,
+          "anonymous": true,
           "author_first_name": "Carson",
           "author_last_name": "Cool",
-          "author_avatar_id": 1,
+          "author_avatar_id": 4,
           "body": "You create a class with the Class keyword followed by {}",
-          "score": "0",
-          "created_at": "2021-05-08T20:00:11.574Z",
-          "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsable": true,
-          "endorsements": [
-            {
-              id: 1,
-              "endorser_id": 1,
-              "endorser_name": "First Last"
-            },
-            {
-              id: 2,
-              "endorser_id": 5,
-              "endorser_name": "First1 Last1"
-            }
-          ],
+          "score": 0,
+          "created_at": "2021-05-10T15:40:05.671Z",
+          "last_modified": "2021-06-10T15:40:05.671Z",
+          "liked": true,
+          "endorsed": false,
           "role": "instructor",
           "user_id": 3,
-          "editable": false,
-          "replies": []
-        },
-        {
-          "id": 80,
-          "post_id": 2,
-          "anonymous": false,
-          "author_first_name": "Carson",
-          "author_last_name": "Cool",
-          "author_avatar_id": 2,
-          "body": "You create a class with the Class keyword followed by {}",
-          "score": "0",
-          "created_at": "2021-05-08T20:00:11.574Z",
-          "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsable": false,
-          "endorsements": [
-            {
-              id: 2,
-              "endorser_id": 1,
-              "endorser_name": "First Last"
-            },
-            {
-              id: 3,
-              "endorser_id": 5,
-              "endorser_name": "First1 Last1"
-            }
-          ],
-          "role": "student",
-          "user_id": 3,
-          "editable": false,
+          "editable": true,
+          "endorsable": true,
+          "endorsements": [],
           "replies": []
         }
       ]
@@ -141,19 +104,20 @@ let dummyCourseData = {
     {
       "id": 1,
       "title": "How do I use a promise?",
-      "body": "I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done? I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done? I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done? I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done? ",
+      "body": "I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done?",
       "bookmarked": false,
-      "created_at": "2021-05-08T20:00:11.570Z",
-      "last_modified": "2021-05-08T20:00:11.570Z",
-      "best_answer": 2,
+      "created_at": "2021-05-10T15:40:05.671Z",
+      "last_modified": "2021-05-10T15:40:05.671Z",
+      "best_answer": 4,
       "author_first_name": "Edward",
       "author_last_name": "Ecksworth",
-      "author_avatar_id": 3,
-      "pinned": true,
-      "views": 5,
+      "author_avatar_id": 6,
+      "pinned": false,
+      "views": 0,
       "anonymous": false,
       "role": "student",
       "user_id": 5,
+      "pinnable": true,
       "editable": true,
       "tags": [
         {
@@ -168,27 +132,25 @@ let dummyCourseData = {
           "anonymous": false,
           "author_first_name": "Fiona",
           "author_last_name": "Ford",
-          "author_avatar_id": 4,
+          "author_avatar_id": 7,
           "body": "You can consume a promise by calling .then() on it! Be sure to use .catch() as well in case of errors.",
-          "score": "3",
-          "created_at": "2021-05-08T20:00:11.574Z",
-          "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsable": false,
-          "endorsements": [
-            {
-              id: 1,
-              "endorser_id": 1,
-              "endorser_name": "First Last"
-            },
-            {
-              id: 2,
-              "endorser_id": 5,
-              "endorser_name": "First1 Last1"
-            }
-          ],
+          "score": 999,
+          "created_at": "2021-05-10T15:40:05.671Z",
+          "last_modified": "2021-07-10T15:40:05.671Z",
+          "liked": false,
+          "endorsed": true,
           "role": "student",
           "user_id": 6,
           "editable": true,
+          "endorsable": true,
+          "endorsements": [
+            {
+              "id": 1,
+              "user_id": 3,
+              "endorser_name": "Carson Cool",
+              "comment_id": 2
+            }
+          ],
           "replies": [
             {
               "id": 4,
@@ -196,85 +158,78 @@ let dummyCourseData = {
               "anonymous": false,
               "author_first_name": "Edward",
               "author_last_name": "Ecksworth",
-              "author_avatar_id": 5,
+              "author_avatar_id": 6,
               "body": "Thanks for this!!",
-              "created_at": "2021-05-08T20:00:11.574Z",
-              "last_modified": "2021-05-08T20:00:11.574Z",
-              "endorsable": true,
-              "endorsements": [
-                {
-                  id: 5,
-                  "endorser_id": 1,
-                  "endorser_name": "First Last"
-                },
-                {
-                  id: 6,
-                  "endorser_id": 5,
-                  "endorser_name": "First1 Last1"
-                }
-              ],
+              "score": 0,
+              "created_at": "2021-05-10T15:40:05.671Z",
+              "last_modified": "2021-06-10T15:40:05.671Z",
+              "liked": false,
+              "endorsed": true,
               "role": "student",
               "user_id": 5,
-              "editable": true
+              "editable": true,
+              "endorsable": true,
+              "endorsements": []
+            },
+            {
+              "id": 5,
+              "parent_id": 2,
+              "anonymous": false,
+              "author_first_name": "Edward",
+              "author_last_name": "Ecksworth",
+              "author_avatar_id": 7,
+              "body": "123123123",
+              "score": 5,
+              "created_at": "2021-05-10T15:40:05.671Z",
+              "last_modified": "2021-05-10T15:40:05.671Z",
+              "liked": true,
+              "endorsed": true,
+              "role": "student",
+              "user_id": 5,
+              "editable": true,
+              "endorsable": true,
+              "endorsements": []
             }
           ]
         },
         {
           "id": 6,
           "post_id": 1,
-          "anonymous": true,
+          "anonymous": false,
           "author_first_name": "Aaron",
           "author_last_name": "Aldridge",
-          "author_avatar_id": 6,
+          "author_avatar_id": 2,
           "body": "Be sure to check out Promise.resolve and Promise.reject as well for more info.",
-          "score": "0",
-          "created_at": "2021-05-08T20:00:11.574Z",
-          "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsable": true,
-          "endorsements": [
-            {
-              id: 8,
-              "endorser_id": 1,
-              "endorser_name": "First Last"
-            },
-            {
-              id: 9,
-              "endorser_id": 5,
-              "endorser_name": "First1 Last1"
-            }
-          ],
+          "score": 0,
+          "created_at": "2021-05-10T15:40:05.671Z",
+          "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": false,
+          "endorsed": false,
           "role": "admin",
           "user_id": 1,
-          "editable": false,
+          "editable": true,
+          "endorsable": true,
+          "endorsements": [],
           "replies": []
         },
         {
           "id": 1,
           "post_id": 1,
           "anonymous": true,
-          "author_first_name": "Milly",
-          "author_last_name": "Monka",
-          "author_avatar_id": 1,
+          "author_first_name": "Edward",
+          "author_last_name": "Ecksworth",
+          "author_avatar_id": 6,
           "body": "I had the same question!",
-          "score": "0",
-          "created_at": "2021-05-08T20:00:11.574Z",
-          "last_modified": "2021-05-08T20:00:11.574Z",
-          "endorsable": true,
-          "endorsements": [
-            {
-              id: 10,
-              "endorser_id": 1,
-              "endorser_name": "First Last"
-            },
-            {
-              id: 11,
-              "endorser_id": 5,
-              "endorser_name": "First1 Last1"
-            }
-          ],
+          "score": 0,
+          "created_at": "2021-05-10T15:40:05.671Z",
+          "last_modified": "2021-05-10T15:40:05.671Z",
+          "liked": true,
+          "endorsed": false,
           "role": "student",
           "user_id": 5,
           "editable": true,
+          "endorsable": true,
+          "endorsements": [],
           "replies": []
         }
       ]
@@ -297,45 +252,13 @@ const App = () => {
 
   // Fetch data from the server on load
   useEffect(() => {
-    // Fetch course data
-    fetchCourseData();
+    setTimeout(() => {
+      // Fetch course data
+      fetchCourseData();
+    }, 1500);
   }, []);
 
-  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
-
-  // Fetch course data from the server
-  // TODO: Replace with an actual API request
-  const fetchCourseData = () => {
-    // Request data from the server and await a response
-    setTimeout(() => {
-      const res = dummyCourseData;
-      // If the request is successful and a response is received
-      if (res) {
-        // Update state with the response data
-        setState({ ...state, courseData: res });
-        // If the active view is a post, update the post data in the state using the res data
-        if (state.active === "Post") {
-          const selectedPost = getPostByID(res.posts, state.postID);
-          setState({ ...state, post: selectedPost });
-        }
-      }
-    }, 1);
-  };
-
-  // Update course data in the server
-  // TODO: Replace with an actual API request
-  const updateCourseData = (updatedCourseData) => {
-    // Send data to server and request to insert changes
-    dummyCourseData = updatedCourseData;
-    // Await a response
-    setTimeout(() => {
-      const res = dummyCourseData;
-      // If the request is successful and a response is received, update state with the res data
-      const updatedCourseData = res;
-      const updatedPost = getPostByID(res.posts, state.postID);
-      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
-    }, 1);
-  };
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
   const selectActive = (selection, postID = null) => {
@@ -349,77 +272,6 @@ const App = () => {
       post: selectedPost
     });
 
-  };
-
-  // CHILD COMPONENT FUNCTIONS //////////////////////////////////////
-
-  // Request to toggle pin for a post by ID
-  // Source: Post
-  const pinPost = (postID) => {
-    // Get current pin value of post
-    const pinned = getPostByID(state.courseData.posts, postID).pinned;
-    // Request to update post data
-    editPost(postID, { pinned: !pinned });
-  };
-
-  // Request to toggle bookmark for post by ID
-  // Source: Post
-  const bookmarkPost = (postID) => {
-    // Get current bookmark value of post
-    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
-    // Request to update user bookmarks
-    editPost(postID, { bookmarked: !bookmarked });
-  };
-
-  // Request to edit a post by ID with the given data
-  // Source: Post
-  const editPost = (postID, data) => {
-    // Get the current post by ID
-    const currentPost = getPostByID(state.courseData.posts, postID);
-    // Update the post with the new data
-    const newPost = { ...currentPost, ...data };
-    // Update courseData.posts with the updated post
-    const newPosts = state.courseData.posts.map(post => {
-      if (post.id === postID) {
-        return newPost;
-      } else {
-        return post;
-      }
-    });
-    // Update courseData with the updated posts
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Request to update course data in the server
-    updateCourseData(newCourseData);
-  };
-
-  // Request to delete a post by ID
-  const deletePost = (postID) => {
-    // MOCK: Send a delete request to the server
-    // SUCCESS: Redirect to dashboard
-    // ERROR: Return to post and display an error message
-    // Temp: Retrieve all posts except the one with postID
-    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Update state using the response data and redirect
-    const res = newCourseData;
-
-    if (res) {
-      setState({
-        ...state,
-        active: "Dashboard",
-        courseData: newCourseData,
-        postID: null,
-        post: null
-      });
-    } else {
-      console.log("An error occurred while deleting the post.");
-    }
-  };
-
-  // Request to edit a comment by ID with the given data
-  // Source: CommentListItem
-  const editComment = (commentID, data) => {
-    console.log("onEditComment executed with data:", data);
   };
 
   // Update the selected tags dynamically as the user toggles them
@@ -445,6 +297,163 @@ const App = () => {
     setState({ ...state, selectedTags: [] });
   };
 
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  // Fetch course data from the server
+  // TODO: Replace with an actual API request
+  const fetchCourseData = (courseID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting all course data for the course ID", courseID);
+
+    // Request data from the server and await a response
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If the request is successful and a response is received
+      if (res) {
+        // Update state with the response data
+        setState({ ...state, courseData: res });
+        // If the active view is a post, update the post data in the state using the res data
+        if (state.active === "Post") {
+          const selectedPost = getPostByID(res.posts, state.postID);
+          setState({ ...state, post: selectedPost });
+        }
+      }
+    }, 1);
+  };
+
+  // MOCK: Update course data in the server
+  // TODO: Replace with an actual API request
+  const updateCourseData = (updatedCourseData) => {
+    // Send data to server and request to insert changes
+    dummyCourseData = updatedCourseData;
+    // Await a response
+    setTimeout(() => {
+      const res = dummyCourseData;
+      // If the request is successful and a response is received, update state with the res data
+      const updatedCourseData = res;
+      const updatedPost = getPostByID(res.posts, state.postID);
+      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
+    }, 1);
+  };
+
+  // Request to toggle pin for a post by ID
+  // Source: Post
+  const pinPost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to PIN a post with the post ID", postID);
+
+    // Get current pin value of post
+    const pinned = getPostByID(state.courseData.posts, postID).pinned;
+    // Request to update post data
+    editPost(postID, { pinned: !pinned });
+  };
+
+  // Request to toggle bookmark for post by ID
+  // Source: Post
+  const bookmarkPost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to BOOKMARK a post with the post ID", postID);
+
+    // Get current bookmark value of post
+    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
+    // Request to update user bookmarks
+    editPost(postID, { bookmarked: !bookmarked });
+  };
+
+  // Request to edit a post by ID with the given data
+  // Source: Post
+  const editPost = (postID, data) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to UPDATE a post with the post ID", postID);
+    console.log("Data:", data);
+
+    // Get the current post by ID
+    const currentPost = getPostByID(state.courseData.posts, postID);
+    // Update the post with the new data
+    const newPost = { ...currentPost, ...data };
+    // Update courseData.posts with the updated post
+    const newPosts = state.courseData.posts.map(post => {
+      if (post.id === postID) {
+        return newPost;
+      } else {
+        return post;
+      }
+    });
+    // Update courseData with the updated posts
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Request to update course data in the server
+    updateCourseData(newCourseData);
+  };
+
+  // Request to delete a post by ID
+  const deletePost = (postID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to DELETE a post with the post ID", postID);
+
+    // MOCK: Send a delete request to the server
+    // SUCCESS: Redirect to dashboard
+    // ERROR: Return to post and display an error message
+    // Temp: Retrieve all posts except the one with postID
+    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
+    const newCourseData = { ...state.courseData, posts: newPosts };
+    // Update state using the response data and redirect
+    const res = newCourseData;
+
+    if (res) {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: newCourseData,
+        postID: null,
+        post: null
+      });
+    } else {
+      console.log("An error occurred while deleting the post.");
+    }
+  };
+
+  // Request to like a comment by ID
+  // Source: CommentListItem
+  const likeComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to LIKE a comment with the comment ID", commentID);
+
+  };
+
+  // Request to endorse a comment by ID
+  // Source: CommentListItem
+  const endorseComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to ENDORSE a comment with the comment ID", commentID);
+
+  };
+
+  // Request to edit a comment by ID with the given data
+  // Source: CommentListItem
+  const editComment = (commentID, data) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to UPDATE a comment with the comment ID", commentID);
+    console.log("Data:", data);
+
+  };
+
+  // Request to delete a comment by ID
+  // Source: CommentListItem
+  const deleteComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to DELETE a comment with the comment ID", commentID);
+
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Return true if the given tagID is in tags
@@ -464,18 +473,30 @@ const App = () => {
 
   return (
     <div className="App">
-      {!state.courseData && <div>Loading...</div>}
+
+      {/* Loading Message (when there is no courseData) */}
+      {!state.courseData &&
+        <div className="display-4 d-flex justify-content-center align-items-center h-100">
+          Fetching course data...
+        </div>}
+
+      {/* Course View (courseData exists) */}
       {state.courseData &&
         <>
+
+          {/* Nav Bar */}
           <Nav
             onClick={selectActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
-            userAvatar={state.user.avatar_url}
+            userAvatar={state.user.avatar_id}
             userName={`${state.user.first_name} ${state.user.last_name}`}
           />
-          <section>
+
+          <section className="app-containers">
+
+            {/* All Posts */}
             <div className="left">
               <PostList
                 selectedPostID={state.postID}
@@ -487,6 +508,8 @@ const App = () => {
                 onTagClear={clearSelectedTags}
               />
             </div>
+
+            {/* Current View */}
             <div className="right">
               <Main
                 active={state.active}
@@ -496,16 +519,23 @@ const App = () => {
                 onBookmarkPost={bookmarkPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
+                onLikeComment={likeComment}
+                onEndorseComment={endorseComment}
                 onEditComment={editComment}
+                onDeleteComment={deleteComment}
                 onTagToggle={updateSelectedTags}
               />
             </div>
+
           </section>
+
+          {/* Test Controls */}
           <div className="test-controls">
             test controls:
             <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
             <Button text="Analytics" onClick={() => selectActive("Analytics")} />
           </div>
+
         </>
       }
     </div>

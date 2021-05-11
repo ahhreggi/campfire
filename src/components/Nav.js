@@ -8,7 +8,7 @@ const Nav = (props) => {
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
-    userAvatar: PropTypes.string,
+    userAvatar: PropTypes.number,
     userName: PropTypes.string
   };
 
@@ -16,7 +16,7 @@ const Nav = (props) => {
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="left" onClick={() => props.onClick("Dashboard")}>
+      <section className="app-nav left" onClick={() => props.onClick("Dashboard")}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
@@ -24,19 +24,19 @@ const Nav = (props) => {
       </section>
 
       {/* View Title */}
-      <section className="middle">
+      <section className="app-nav middle">
         <span className="view-title text-truncate">{props.viewTitle}</span>
       </section>
 
       {/* User Panel */}
-      <section className="right">
+      <section className="app-nav right">
 
         {/* Course Name */}
         <span className="course-name">{props.courseName}</span>
 
         {/* User Name */}
         <div>
-          <img src={props.userAvatar} alt="Avatar" />
+          <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
           <span className="user-name">{props.userName}</span>
         </div>
 
