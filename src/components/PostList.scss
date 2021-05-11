@@ -34,17 +34,19 @@
     user-select: none;
     display: flex;
     justify-content: space-between;
+    border: 1px solid $navy-2;
 
     &.active {
-      background: linear-gradient($navy-6, $navy-1);
+      background: linear-gradient($navy-7, $navy-2);
     }
 
     &:not(.empty) {
       cursor: pointer;
     }
 
-    &:hover:not(.empty) {
-      background: linear-gradient($navy-6, $navy-1);
+    &:hover:not(.empty):not(.active) {
+      background: linear-gradient($navy-7, $navy-2);
+      // border: 1px solid white;
       .arrows {
         img {
           filter: invert(85%);

@@ -12,6 +12,9 @@ const Dashboard = (props) => {
       There are currently:
       {props.resolved} resolved questions
       {props.unresolved} unresolved questions
+
+      Post a new question
+
     </div>
   );
 };

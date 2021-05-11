@@ -9,7 +9,8 @@ const Button = (props) => {
     text: PropTypes.string,
     styles: PropTypes.string,
     onClick: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    image: PropTypes.string
   };
 
   return (
@@ -18,6 +19,9 @@ const Button = (props) => {
       onClick={props.onClick}
       disabled={props.disabled}
     >
+      {props.image &&
+        <img src={props.image} />
+      }
       {props.text}
     </button>
   );

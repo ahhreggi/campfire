@@ -150,6 +150,16 @@ const PostList = (props) => {
   return (
     <div className="PostList">
 
+      {/* New Post Button */}
+      <div className="newPost">
+        <Button
+          text="new post"
+          styles="new-post"
+          onClick={props.onTagClear}
+          image={question}
+        />
+      </div>
+
       {/* Filters */}
       <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
         <div>
