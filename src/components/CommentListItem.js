@@ -371,14 +371,14 @@ const CommentListItem = (props) => {
 
           {/* Delete Confirmation */}
           {state.showConfirmation &&
-            <>
+            <div className="confirmation-delete">
               <hr />
               <Confirmation
-                message={"Are you sure you would like to delete this comment?"}
+                message={`Are you sure you would like to delete this ${isParent ? "comment" : "reply"}?`}
                 onConfirm={deleteComment}
                 onCancel={toggleConfirmation}
               />
-            </>
+            </div>
           }
 
         </div>
