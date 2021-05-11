@@ -184,6 +184,7 @@ const CommentListItem = (props) => {
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
         onEditComment={props.onEditComment}
+        onDeleteComment={props.onDeleteComment}
         bestAnswer={props.bestAnswer}
       />
     );
@@ -257,10 +258,12 @@ const CommentListItem = (props) => {
               </div>
 
               {/* Best Answer Label */}
-              <div className="label">
-                <img src={checkmark} alt="checkmark" />
-                <span>BEST ANSWER</span>
-              </div>
+              {isBestAnswer &&
+                <div className="label">
+                  <img src={checkmark} alt="checkmark" />
+                  <span>BEST ANSWER</span>
+                </div>
+              }
 
             </header>
 
@@ -308,7 +311,7 @@ const CommentListItem = (props) => {
       </div>
 
       {/* Edit Form & Confirmation */}
-      {false && props.editable &&
+      {props.editable &&
         <div className="editable">
 
           {/* Edit Form */}
@@ -343,9 +346,9 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
-      {false && isParent &&
+      {isParent &&
         <section className="replies">
-          {/* < CommentList here > */}
+          {replies}
         </section>
       }
 

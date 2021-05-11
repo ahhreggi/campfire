@@ -307,7 +307,7 @@ const Post = (props) => {
 
       {/* Discussion */}
       <div className="discussion">
-        <div className="label">
+        <div className="discussion-label">
           <span className="comments icon-med">
             <img src={comment} alt="comments" />
           </span>
