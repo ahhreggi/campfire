@@ -86,7 +86,7 @@ const Post = (props) => {
 
   // Pin/unpin the post
   const togglePin = () => {
-    props.onPinPost(props.id);
+    props.onEditPost(props.id, { pinned: !props.pinned });
   };
 
   // Bookmark/unbookmark the post
