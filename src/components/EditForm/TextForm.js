@@ -1,3 +1,4 @@
+import "./TextForm.scss";
 import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
 
@@ -6,6 +7,7 @@ const TextForm = (props) => {
   TextForm.propTypes = {
     label: PropTypes.string,
     text: PropTypes.string,
+    minHeight: PropTypes.string,
     onChange: PropTypes.func,
   };
 
@@ -19,7 +21,7 @@ const TextForm = (props) => {
       }
 
       <TextareaAutosize
-        style={{ height: "100%" }}
+        style={{ "min-height": props.minHeight }}
         value={props.text}
         onChange={(event) => props.onChange(event)}
       />
