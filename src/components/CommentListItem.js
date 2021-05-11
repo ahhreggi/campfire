@@ -131,18 +131,17 @@ const CommentListItem = (props) => {
     }
   };
 
+  // Return a formatted relative timestamp based on if it was modified
+  const getTimestamp = (timestamp, isModified) => {
+    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+    return `${result} (${formatTimestamp(timestamp, true)})`;
+  };
+
   // Return the length of the longest word in the given string
   const getLongestWordLength = (text) => {
     return Math.max(...text.split(" ").map(word => word.length));
   };
 
-  // Return the creation timestamp or Last modified: <timestamp> if it was modified
-  const getCommentTimestamp = () => {
-    const isModified = props.createdAt !== props.lastModified;
-    const timestamp = isModified ? props.lastModified : props.createdAt;
-    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
-    return `${result} (${formatTimestamp(timestamp, true)})`;
-  };
 
   // VARIABLES //////////////////////////////////////////////////////
 
@@ -155,11 +154,14 @@ const CommentListItem = (props) => {
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
 
+  // Check if the comment was ever modified
+  const isModified = props.createdAt !== props.lastModified;
+
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
 
   // Get the timestamp to display
-  const timestamp = getCommentTimestamp();
+  const timestamp = getTimestamp(props.lastModified, isModified);
 
   // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
@@ -240,8 +242,8 @@ const CommentListItem = (props) => {
 
           </div>
 
-
         </section>
+
         <section className="right">
 
           {/* Comment Header */}
@@ -249,18 +251,20 @@ const CommentListItem = (props) => {
 
             {/* Author */}
             <div className="author">
-
+              {authorName}
             </div>
 
             {/* Best Answer Label */}
             <div className="label">
-
+              <img src={checkmark} alt="checkmark" />
+              <span>BEST ANSWER</span>
             </div>
 
           </header>
 
           {/* Comment Body */}
           <div className="body">
+            {props.body}
           </div>
 
           {/* Comment Footer */}
@@ -268,7 +272,7 @@ const CommentListItem = (props) => {
 
             {/* Timestamp */}
             <div className="timestamp">
-
+              {timestamp}
             </div>
 
             {/* Controls */}
