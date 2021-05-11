@@ -43,6 +43,7 @@ const Post = (props) => {
     onLikeComment: PropTypes.func,
     onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
 
@@ -317,6 +318,7 @@ const Post = (props) => {
           onLikeComment={props.onLikeComment}
           onEndorseComment={props.onEndorseComment}
           onEditComment={props.onEditComment}
+          onDeleteComment={props.onDeleteComment}
           bestAnswer={props.bestAnswer}
         />
       </div>

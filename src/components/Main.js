@@ -17,6 +17,7 @@ const Main = (props) => {
     onLikeComment: PropTypes.func,
     onEndorseComment: PropTypes.func,
     onEditComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
 
@@ -64,6 +65,7 @@ const Main = (props) => {
           onLikeComment={props.onLikeComment}
           onEndorseComment={props.onEndorseComment}
           onEditComment={props.onEditComment}
+          onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
         />
       }

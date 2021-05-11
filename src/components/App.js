@@ -302,7 +302,7 @@ const App = () => {
   const fetchCourseData = (courseID) => {
 
     // TODO: API Request
-    console.log("API: Fetching course data for course ID", courseID);
+    console.log("API: Requesting all course data for the course ID", courseID);
 
     // Request data from the server and await a response
     setTimeout(() => {
@@ -340,7 +340,7 @@ const App = () => {
   const pinPost = (postID) => {
 
     // TODO: API Request
-    console.log("API: Requesting to pin a post with the post ID", postID);
+    console.log("API: Requesting to PIN a post with the post ID", postID);
 
     // Get current pin value of post
     const pinned = getPostByID(state.courseData.posts, postID).pinned;
@@ -353,7 +353,7 @@ const App = () => {
   const bookmarkPost = (postID) => {
 
     // TODO: API Request
-    console.log("API: Requesting to bookmark a post with the post ID", postID);
+    console.log("API: Requesting to BOOKMARK a post with the post ID", postID);
 
     // Get current bookmark value of post
     const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
@@ -391,7 +391,7 @@ const App = () => {
   const deletePost = (postID) => {
 
     // TODO: API Request
-    console.log("API: Requesting to delete a post with the post ID", postID);
+    console.log("API: Requesting to DELETE a post with the post ID", postID);
 
     // MOCK: Send a delete request to the server
     // SUCCESS: Redirect to dashboard
@@ -420,7 +420,7 @@ const App = () => {
   const likeComment = (commentID) => {
 
     // TODO: API Request
-    console.log("API: Requesting to like a comment with the comment ID", commentID);
+    console.log("API: Requesting to LIKE a comment with the comment ID", commentID);
 
   };
 
@@ -429,7 +429,7 @@ const App = () => {
   const endorseComment = (commentID) => {
 
     // TODO: API Request
-    console.log("API: Requesting to endorse a comment with the comment ID", commentID);
+    console.log("API: Requesting to ENDORSE a comment with the comment ID", commentID);
 
   };
 
@@ -440,6 +440,15 @@ const App = () => {
     // TODO: API Request
     console.log("API: Requesting to UPDATE a comment with the comment ID", commentID);
     console.log("Data:", data);
+
+  };
+
+  // Request to delete a comment by ID
+  // Source: CommentListItem
+  const deleteComment = (commentID) => {
+
+    // TODO: API Request
+    console.log("API: Requesting to DELETE a comment with the comment ID", commentID);
 
   };
 
@@ -508,6 +517,7 @@ const App = () => {
                 onLikeComment={likeComment}
                 onEndorseComment={endorseComment}
                 onEditComment={editComment}
+                onDeleteComment={deleteComment}
                 onTagToggle={updateSelectedTags}
               />
             </div>

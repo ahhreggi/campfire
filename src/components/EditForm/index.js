@@ -137,12 +137,14 @@ const EditForm = (props) => {
         onChange={updatePreviewAnonymous}
       />
 
-      <TagForm
-        tags={props.courseTags}
-        selectedTags={state.previewTags}
-        selectLimit={4}
-        onClick={updatePreviewTags}
-      />
+      {props.mode === "POST" &&
+        <TagForm
+          tags={props.courseTags}
+          selectedTags={state.previewTags}
+          selectLimit={4}
+          onClick={updatePreviewTags}
+        />
+      }
 
       <hr />
 

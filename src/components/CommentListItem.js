@@ -3,6 +3,8 @@ import "./CommentListItem.scss";
 import Button from "./Button";
 import CommentList from "./CommentList";
 import PostForm from "./PostForm";
+import EditForm from "./EditForm";
+import Confirmation from "./Confirmation";
 import upvote from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
@@ -24,17 +26,25 @@ const CommentListItem = (props) => {
     avatarID: PropTypes.number,
     body: PropTypes.string,
     score: PropTypes.number,
+
     createdAt: PropTypes.string,
     lastModified: PropTypes.string,
+
     liked: PropTypes.bool,
     endorsed: PropTypes.bool,
+
     editable: PropTypes.bool,
     endorsable: PropTypes.bool,
+
     endorsements: PropTypes.array,
     replies: PropTypes.array,
+
     onLikeComment: PropTypes.func,
     onEndorseComment: PropTypes.func,
+
     onEditComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
+
     bestAnswer: PropTypes.number
   };
 
@@ -42,38 +52,16 @@ const CommentListItem = (props) => {
     showForm: false,
     showConfirmation: false,
     showReplies: false,
-    previewBody: props.body,
-    previewAnonymous: props.anonymous,
-    previewAuthor: props.author,
-    endorsed: props.endorsed,
-    breakBody: false
+    endorsed: props.endorsed
   });
 
-  // Update previewAuthor when toggling previewAnonymous
-  useEffect(() => {
-    setState({
-      ...state,
-      previewAuthor: getAuthorName(props.author, state.previewAnonymous)
-    });
-  }, [state.previewAnonymous]);
-
-  // Update breakBody when updating previewBody
-  useEffect(() => {
-    const checkBody = getLongestWordLength(state.previewBody) > 34;
-    setState({ ...state, breakBody: checkBody });
-  }, [state.previewBody]);
+  // // Update breakBody when updating previewBody
+  // useEffect(() => {
+  //   const checkBody = getLongestWordLength(state.previewBody) > 34;
+  //   setState({ ...state, breakBody: checkBody });
+  // }, [state.previewBody]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
-
-  // Update the preview body dynamically as the user types
-  const updatePreviewBody = (event) => {
-    setState({ ...state, previewBody: event.target.value });
-  };
-
-  // Update the preview author dynamically as the user toggles its anonymity
-  const updatePreviewAnonymous = (event) => {
-    setState({ ...state, previewAnonymous: event.target.checked });
-  };
 
   // Toggle and reset the post edit form
   const toggleForm = () => {
@@ -93,26 +81,11 @@ const CommentListItem = (props) => {
     }
   };
 
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
   const editComment = () => {
     console.log("clicked EDIT comment button");
   };
-
-  const deleteComment = () => {
-    console.log("clicked DELETE comment button");
-  };
-
-  const toggleAnonymous = () => {
-    console.log("clicked TOGGLE ANONYMOUS button");
-    setState({ ...state, anonymous: !state.anonymous });
-  };
-
-  const endorseComment = () => {
-    console.log("clicked ENDORSE button");
-    setState({ ...state, endorsed: state.endorsed + 1 });
-  };
-
-  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
-
   // Like/unlike the comment
   const toggleLiked = () => {
     props.onLikeComment(props.id);
@@ -123,20 +96,18 @@ const CommentListItem = (props) => {
     props.onEndorseComment(props.id);
   };
 
-  const saveComment = (event) => {
-    event.preventDefault();
-    console.log("clicked SUBMIT comment button");
-    // include anything that can change when an existing comment is edited
-    const updatedData = {
-      "anonymous": state.anonymous,
-      "body": state.previewBody,
-      "last_modified": "some new last_modified time",
-    };
-    props.onEditComment(props.id, updatedData);
+
+  const saveComment = (data) => {
+    props.onEditComment(props.id, data);
+    // Hide edit form
+    toggleForm();
   };
 
-  // If anonymous is true, display anonymous
-  // Only instructors can view first/last name
+  const deleteComment = () => {
+    props.onDeleteComment(props.id);
+    // Hide confirmation form
+    toggleConfirmation();
+  };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -168,6 +139,7 @@ const CommentListItem = (props) => {
     return Math.max(...text.split(" ").map(word => word.length));
   };
 
+  // Return the creation timestamp or Last modified: <timestamp> if it was modified
   const getCommentTimestamp = () => {
     const isModified = props.createdAt !== props.lastModified;
     const timestamp = isModified ? props.lastModified : props.createdAt;
@@ -192,7 +164,7 @@ const CommentListItem = (props) => {
   // Get the timestamp to display
   const timestamp = getCommentTimestamp();
 
-  // Create the reply list CommentListItem components if it's a parent
+  // Create the reply list components if this is a parent
   const replies = isParent && props.replies.map(comment => {
     return (
       <CommentListItem
@@ -212,7 +184,6 @@ const CommentListItem = (props) => {
         editable={comment.editable}
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
-        // replies={comment.replies} // Child comments shouldn't have any replies
         onEditComment={props.onEditComment}
         bestAnswer={props.bestAnswer}
       />
@@ -224,7 +195,6 @@ const CommentListItem = (props) => {
   return (
     <div className={`CommentListItem ${isParent ? "parent" : "child"} ${isInstructor && "instructor"} ${isBestAnswer && "best"}`}>
       <main className={`comment-main ${isParent ? "parent" : "child"}`}>
-        {/* this is a {isParent ? "parent" : "child"} */}
 
         <div className="comment-display">
 
@@ -252,7 +222,9 @@ const CommentListItem = (props) => {
 
             {/* Comment Endorsements */}
             <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
-              <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
+              <span className="icon endorsements">
+                <img className="medal" src={endorse} alt="endorse" />
+              </span>
               <span className="number">{props.endorsements.length}</span>
               <span className="icon endorsements toggle">
                 <img
@@ -321,127 +293,52 @@ const CommentListItem = (props) => {
 
         </div>
 
-        {/* Editable Area */}
-        {props.editable && state.showForm &&
-
-          <div className="edit-form">
-
-
-            {/* Edit Preview */}
-            {state.showForm &&
-              <>
-                <hr />
-                <div className="preview">
-
-                  <div className="label">
-                    PREVIEW
-                  </div>
-
-                  {/* PREVIEW: Post Title */}
-                  <div className="post-header">
-                    <div>
-                      {state.previewTitle}
-                    </div>
-                  </div>
-
-                  {/* PREVIEW: Author */}
-                  <div className="post-subheader">
-                    <div>
-                    Posting as <span className="author">{state.previewAuthor}</span>
-                    </div>
-                  </div>
-
-                  {/* PREVIEW: Post Body */}
-                  <div className={`post-body ${state.breakBody && "break"}`}>
-                    {state.previewBody}
-                  </div>
-
-                </div>
-              </>
-            }
-
-            {/* Edit Form */}
-            {state.showForm &&
-              <div className="forms">
-
-                <hr />
-
-                {/* Comment Body Textarea */}
-                <PostForm
-                  // label="Post Body"
-                  text={state.previewBody}
-                  onChange={updatePreviewBody}
-                  styles="form-body"
-                />
-
-                {/* Anonymous Checkbox */}
-                <div className="anon-form">
-                  Post as anonymous?
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={state.previewAnonymous}
-                    onChange={updatePreviewAnonymous}
-                  />
-                  <span className="note">{state.previewAnonymous && " you will still be visible to instructors"}</span>
-                </div>
-
-              </div>
-            }
-
-            {/* Delete Confirmation */}
-            {state.showConfirmation &&
-              <>
-                <hr />
-                <div className="confirmation">
-                  <span>
-                    Are you sure you would like to delete this post?
-                  </span>
-                </div>
-              </>
-            }
-
-            {state.showForm && <hr />}
-
-            {/* Confirmation Buttons */}
-            {props.editable &&
-              <div className="controls icon-large">
-                {state.showForm &&
-                  <div className="confirmation">
-                    <>
-                      <Button
-                        text="Save"
-                        styles="form green"
-                        onClick={saveComment}
-                      />
-                      <Button
-                        text="Cancel"
-                        styles="form red"
-                        onClick={toggleForm}
-                      />
-                    </>
-                  </div>
-                }
-                {state.showConfirmation &&
-                  <div className="confirmation">
-                    <>
-                      <Button
-                        text="Delete"
-                        styles="form red"
-                        onClick={deleteComment}
-                      />
-                      <Button
-                        text="Cancel"
-                        styles="form"
-                        onClick={toggleConfirmation}
-                      />
-                    </>
-                  </div>
-                }
-              </div>
-            }
-
+        {/* Edit Control Buttons */}
+        {props.editable &&
+          <div className="controls icon-large">
+            <>
+              <img
+                className={state.showForm ? "active" : ""}
+                src={edit}
+                alt="edit"
+                onClick={toggleForm}
+              />
+              <img
+                className={state.showConfirmation ? "active" : ""}
+                src={trash}
+                alt="delete"
+                onClick={toggleConfirmation}
+              />
+            </>
           </div>
+        }
+
+        {/* Edit Form */}
+        {state.showForm &&
+          <>
+            <hr />
+            <EditForm
+              id={props.id}
+              author={props.author}
+              body={props.body}
+              anonymous={props.anonymous}
+              mode={"POST"}
+              onSave={saveComment}
+              onCancel={toggleForm}
+            />
+          </>
+        }
+
+        {/* Delete Confirmation */}
+        {state.showConfirmation &&
+          <>
+            <hr />
+            <Confirmation
+              message={"Are you sure you would like to delete this comment?"}
+              onConfirm={deleteComment}
+              onCancel={toggleConfirmation}
+            />
+          </>
         }
 
       </main>
