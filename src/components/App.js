@@ -107,34 +107,27 @@ const App = () => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
-  const request = (method, url, id = null, data = null) => {
-    axios({
+  const request = async (method, url, id = null, data = null) => {
+    return axios({
       method: method,
       url: url.replace(":id", id),
       headers: {
         "Authorization": state.authToken
       },
       data
-    });
+    })
+      .then(res => res.data)
+      .catch(err => console.log(err));
   };
 
   // Fetch course data from the server
   const fetchCourseData = (courseID) => {
 
     console.log("API: Requesting all course data for the course ID", courseID);
-    axios({
-      method: "GET",
-      url: API.GET_COURSE.replace(":id", courseID),
-      headers: {
-        "Authorization": state.authToken
-      }
-    })
-      .then((res) => {
-        const courseData = res.data;
-        setAppData(courseData, "course");
-      })
-      .catch((error) => {
-        console.log(error);
+
+    request("GET", API.GET_COURSE, courseID)
+      .then(data => {
+        setAppData(data, "course");
       });
   };
 
