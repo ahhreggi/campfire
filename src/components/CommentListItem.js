@@ -161,7 +161,7 @@ const CommentListItem = (props) => {
   // Get the timestamp to display
   const timestamp = getCommentTimestamp();
 
-  // Create the reply list components if this is a parent
+  // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
     return (
       <CommentListItem
@@ -190,8 +190,93 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${isParent ? "parent" : "child"} ${isInstructor && "instructor"} ${isBestAnswer && "best"}`}>
-      <main className={`comment-main ${isParent ? "parent" : "child"}`}>
+    <div className="CommentListItem">
+
+      {/* Top-level Comment */}
+      <main className="top">
+        <section className="left">
+
+          {/* Avatar */}
+          <div className="avatar">
+
+          </div>
+
+          {/* Engagements */}
+          <div className="engagements">
+
+            {/* Likes */}
+            <div className="likes">
+              <span className="heart">
+              </span>
+              <span className="counter">
+              </span>
+              <span className="toggle">
+              </span>
+            </div>
+
+            {/* Endorsements */}
+            <div className="endorsements">
+              <span className="medal">
+              </span>
+              <span className="counter">
+              </span>
+              <span className="toggle">
+              </span>
+            </div>
+
+          </div>
+
+
+        </section>
+        <section className="right">
+
+          {/* Comment Header */}
+          <header>
+
+            {/* Author */}
+            <div className="author">
+
+            </div>
+
+            {/* Best Answer Label */}
+            <div className="label">
+
+            </div>
+
+          </header>
+
+          {/* Comment Body */}
+          <div className="body">
+          </div>
+
+          {/* Comment Footer */}
+          <footer>
+
+            {/* Timestamp */}
+            <div className="timestamp">
+
+            </div>
+
+            {/* Controls */}
+            <div className="controls">
+
+              <span className="edit"></span>
+              <span className="delete"></span>
+
+            </div>
+
+          </footer>
+
+        </section>
+      </main>
+
+      {/* Replies */}
+      {isParent &&
+        <section className="replies">
+          {/* < CommentList here > */}
+        </section>
+      }
+
 
         <div className="comment-display">
 
