@@ -1,3 +1,4 @@
+import "./TagForm.scss";
 import TagList from "../TagList";
 import PropTypes from "prop-types";
 
