@@ -114,6 +114,7 @@ const App = () => {
     request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
+        console.log(data);
       });
   };
 
@@ -258,7 +259,7 @@ const App = () => {
           <section className="app-containers">
 
             {/* All Posts */}
-            <div className="left">
+            <div className="app-left">
               <PostList
                 selectedPostID={state.postID}
                 tags={state.courseData.tags}
@@ -271,7 +272,7 @@ const App = () => {
             </div>
 
             {/* Current View */}
-            <div className="right">
+            <div className="app-right">
               <Main
                 active={state.active}
                 courseData={state.courseData}

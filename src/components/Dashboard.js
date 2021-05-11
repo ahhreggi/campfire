@@ -1,11 +1,23 @@
+import PropTypes from "prop-types";
 import "./Dashboard.scss";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+
+  Dashboard.propTypes = {
+    resolved: PropTypes.number,
+    unresolved: PropTypes.number
+  };
   return (
-    <div>
-      This is Dashboard.
+    <div className="Dashboard">
+      There are currently:
+      {props.resolved} resolved questions
+      {props.unresolved} unresolved questions
     </div>
   );
+};
+
+Dashboard.propTypes = {
+
 };
 
 export default Dashboard;

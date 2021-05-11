@@ -32,6 +32,8 @@ const Main = (props) => {
 
   const post = getPostByID(props.courseData.posts, props.postID);
 
+  const stats = props.courseData.analytics;
+
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -66,7 +68,12 @@ const Main = (props) => {
         />
       }
 
-      {props.active === "Dashboard" && <Dashboard />}
+      {props.active === "Dashboard" &&
+        <Dashboard
+          resolved={stats.num_resolved_questions}
+          unresolved={stats.num_unresolved_questions}
+        />
+      }
 
       {props.active === "Analytics" && <Analytics />}
 
