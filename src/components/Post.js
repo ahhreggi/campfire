@@ -34,6 +34,7 @@ const Post = (props) => {
     title: PropTypes.string,
     userID: PropTypes.number,
     views: PropTypes.number,
+    onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
@@ -89,7 +90,7 @@ const Post = (props) => {
 
   // Bookmark/unbookmark the post
   const toggleBookmark = () => {
-    props.onEditPost(props.id, { bookmarked: !props.bookmarked });
+    props.onEditBookmark(props.id, props.bookmarked);
   };
 
   // Save the post changes

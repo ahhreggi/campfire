@@ -10,6 +10,7 @@ const Main = (props) => {
     active: PropTypes.string.isRequired,
     courseData: PropTypes.object.isRequired,
     postID: PropTypes.number,
+    onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
@@ -55,6 +56,7 @@ const Main = (props) => {
           title={post.title}
           userID={post.user_id}
           views={post.views}
+          onEditBookmark={props.onEditBookmark}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}

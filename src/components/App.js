@@ -369,12 +369,6 @@ const App = () => {
   // Request to edit a post by ID with the given data
   // Source: Post
   const editPost = (postID, data) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to edit (PATCH) a post with the post ID", postID);
-    console.log("Updating values for:", Object.keys(data));
-    console.log("Data:", data);
-
     axios({
       method: "PATCH",
       url: API.EDIT_POST.replace(":id", postID),
@@ -401,7 +395,7 @@ const App = () => {
       headers: {
         "Authorization": state.authToken
       },
-      data: { postID }
+      data: { postId: postID }
     })
       .then((res) => {
         console.log("Request successful!");
@@ -530,6 +524,7 @@ const App = () => {
                 active={state.active}
                 courseData={state.courseData}
                 postID={state.postID}
+                onEditBookmark={editBookmark}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onLikeComment={likeComment}
