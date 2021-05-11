@@ -83,14 +83,14 @@ const Post = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
-  // Pin/unpin the post
-  const togglePin = () => {
-    props.onEditPost(props.id, { pinned: !props.pinned });
-  };
-
   // Bookmark/unbookmark the post
   const toggleBookmark = () => {
     props.onEditBookmark(props.id, props.bookmarked);
+  };
+
+  // Pin/unpin the post
+  const togglePin = () => {
+    props.onEditPost(props.id, { pinned: !props.pinned });
   };
 
   // Save the post changes
@@ -210,11 +210,11 @@ const Post = (props) => {
           {/* Pin & Bookmark Togglers */}
           <div className="list-controls">
             {props.pinnable &&
-              <span className={`pin icon-med ${!props.pinned && "disabled"}`}>
+              <span className={`pin icon-large ${!props.pinned && "disabled"}`}>
                 <img src={pin} alt="pin" onClick={togglePin} />
               </span>
             }
-            <span className={`bookmark icon-med ${!props.bookmarked && "disabled"}`}>
+            <span className={`bookmark icon-large ${!props.bookmarked && "disabled"}`}>
               <img src={star} alt="bookmark" onClick={toggleBookmark} />
             </span>
           </div>
@@ -235,13 +235,13 @@ const Post = (props) => {
         <div className="controls icon-large">
           <>
             <img
-              className={state.showForm ? "active" : ""}
+              className={"icon-large" + (!state.showForm && " disabled")}
               src={edit}
               alt="edit"
               onClick={toggleForm}
             />
             <img
-              className={state.showConfirmation ? "active" : ""}
+              className={"icon-large" + (!state.showConfirmation && " disabled")}
               src={trash}
               alt="delete"
               onClick={toggleConfirmation}
