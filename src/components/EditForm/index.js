@@ -142,6 +142,8 @@ const EditForm = (props) => {
         onClick={updatePreviewTags}
       />
 
+      <hr />
+
       <Confirmation
         onConfirm={saveEdit}
         onCancel={() => props.onCancel()}

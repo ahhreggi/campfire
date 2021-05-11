@@ -271,77 +271,35 @@ const Post = (props) => {
         </div>
       }
 
-      {/* NEW Edit Form */}
+      {/* Edit Form */}
       {state.showForm &&
-        <EditForm
-          id={props.id}
-          title={props.title}
-          author={props.author}
-          body={props.body}
-          anonymous={props.anonymous}
-          tags={props.tags}
-          courseTags={props.courseTags}
-          mode={"POST"}
-          onSave={savePost}
-          onCancel={toggleForm}
-        />
-      }
-
-      {/* NEW Save Confirmation */}
-      {/* {state.showForm}
-      <Confirmation
-      /> */}
-
-      {/* Delete Confirmation */}
-      { false && state.showConfirmation &&
         <>
           <hr />
-          <div className="confirmation">
-            <span>
-              Are you sure you would like to delete this post?
-            </span>
-          </div>
+          <EditForm
+            id={props.id}
+            title={props.title}
+            author={props.author}
+            body={props.body}
+            anonymous={props.anonymous}
+            tags={props.tags}
+            courseTags={props.courseTags}
+            mode={"POST"}
+            onSave={savePost}
+            onCancel={toggleForm}
+          />
         </>
       }
 
-      {state.showForm && <hr />}
-
-      {/* Confirmation Buttons */}
-      {false && props.editable &&
-        <div className="controls icon-large">
-          {state.showForm &&
-            <div className="confirmation">
-              <>
-                <Button
-                  text="Save"
-                  styles="form green"
-                  onClick={savePost}
-                />
-                <Button
-                  text="Cancel"
-                  styles="form red"
-                  onClick={toggleForm}
-                />
-              </>
-            </div>
-          }
-          {state.showConfirmation &&
-            <div className="confirmation">
-              <>
-                <Button
-                  text="Delete"
-                  styles="form red"
-                  onClick={deletePost}
-                />
-                <Button
-                  text="Cancel"
-                  styles="form"
-                  onClick={toggleConfirmation}
-                />
-              </>
-            </div>
-          }
-        </div>
+      {/* Delete Confirmation */}
+      {state.showConfirmation &&
+        <>
+          <hr />
+          <Confirmation
+            message={"Are you sure you would like to delete this post?"}
+            onConfirm={deletePost}
+            onCancel={toggleConfirmation}
+          />
+        </>
       }
 
       <hr />
