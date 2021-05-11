@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./CommentListItem.scss";
+import CommentList from "./CommentList";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 import like from "../images/icons/heart.png";
@@ -383,9 +384,16 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
-      {isParent && replies.length > 0 &&
+      {isParent && props.replies.length > 0 &&
         <section className="replies">
-          {replies}
+          <CommentList
+            comments={props.replies}
+            onLikeComment={props.onLikeComment}
+            onEditComment={props.onEditComment}
+            onDeleteComment={props.onDeleteComment}
+            bestAnswer={props.bestAnswer}
+            postAuthorID={props.postAuthorID}
+          />
         </section>
       }
 

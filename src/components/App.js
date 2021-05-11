@@ -84,7 +84,7 @@ const App = () => {
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   const resetDB = () => {
-    console.log("Re-seeding database as admin.");
+    console.log("Re-seeding database as admin...");
     setState({ ...state, courseData: null });
     request("GET", API.RESET, null, null, "admin")
       .then(() => {
@@ -185,7 +185,6 @@ const App = () => {
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null) => {
-    console.log(selection, postID);
     setState({
       ...state,
       active: selection,
