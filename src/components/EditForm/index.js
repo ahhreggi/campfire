@@ -15,7 +15,7 @@ const EditForm = (props) => {
     title: PropTypes.string,
     author: PropTypes.string,
     body: PropTypes.string,
-    anonymous: PropTypes.string,
+    anonymous: PropTypes.bool,
     tags: PropTypes.array,
     courseTags: PropTypes.string,
 

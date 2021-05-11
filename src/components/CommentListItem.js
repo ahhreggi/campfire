@@ -293,26 +293,6 @@ const CommentListItem = (props) => {
 
         </div>
 
-        {/* Edit Control Buttons */}
-        {props.editable &&
-          <div className="controls icon-large">
-            <>
-              <img
-                className={state.showForm ? "active" : ""}
-                src={edit}
-                alt="edit"
-                onClick={toggleForm}
-              />
-              <img
-                className={state.showConfirmation ? "active" : ""}
-                src={trash}
-                alt="delete"
-                onClick={toggleConfirmation}
-              />
-            </>
-          </div>
-        }
-
         {/* Edit Form */}
         {state.showForm &&
           <>
@@ -322,7 +302,7 @@ const CommentListItem = (props) => {
               author={props.author}
               body={props.body}
               anonymous={props.anonymous}
-              mode={"POST"}
+              mode={"COMMENT"}
               onSave={saveComment}
               onCancel={toggleForm}
             />
