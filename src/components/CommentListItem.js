@@ -39,7 +39,6 @@ const CommentListItem = (props) => {
     replies: PropTypes.array,
 
     onLikeComment: PropTypes.func,
-    onEndorseComment: PropTypes.func,
 
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
@@ -88,11 +87,6 @@ const CommentListItem = (props) => {
   // Like/unlike the comment
   const toggleLiked = () => {
     props.onLikeComment(props.id);
-  };
-
-  // Endorse/unendorse the comment
-  const toggleEndorsed = () => {
-    props.onEndorseComment(props.id);
   };
 
 

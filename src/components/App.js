@@ -492,15 +492,6 @@ const App = () => {
 
   };
 
-  // Request to endorse a comment by ID
-  // Source: CommentListItem
-  const endorseComment = (commentID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to ENDORSE a comment with the comment ID", commentID);
-
-  };
-
   // Request to edit a comment by ID with the given data
   // Source: CommentListItem
   const editComment = (commentID, data) => {
@@ -586,7 +577,6 @@ const App = () => {
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onLikeComment={likeComment}
-                onEndorseComment={endorseComment}
                 onEditComment={editComment}
                 onDeleteComment={deleteComment}
                 onTagToggle={updateSelectedTags}
