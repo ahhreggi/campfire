@@ -12,9 +12,12 @@ const TextForm = (props) => {
   return (
     <div className="TextForm">
 
-      <div className="label">
-        {props.label}
-      </div>
+      {props.label &&
+        <div className="label">
+          {props.label}
+        </div>
+      }
+
       <TextareaAutosize
         style={{ height: "100%" }}
         value={props.text}

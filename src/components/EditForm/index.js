@@ -11,6 +11,8 @@ const EditForm = (props) => {
 
   EditForm.propTypes = {
 
+    id: PropTypes.number,
+
     title: PropTypes.string,
     author: PropTypes.string,
     body: PropTypes.string,
@@ -19,16 +21,85 @@ const EditForm = (props) => {
     courseTags: PropTypes.string,
 
     onSave: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
 
+    isPost: PropTypes.bool // true = includes labels for text areas, none otherwise
+
+  };
+
+  const [state, setState] = useState({
+    id: props.id,
+    showForm: false,
+    showConfirmation: false,
+    previewTitle: props.title,
+    previewBody: props.body,
+    previewAuthor: props.author,
+    previewAnonymous: props.anonymous,
+    previewTags: props.tags
+  });
+
+  // Reset form and confirmation states when switching posts
+  useEffect(() => {
+    setState({
+      ...state,
+      showForm: false,
+      showConfirmation: false
+    });
+  }, [props.id]);
+
+  // Reset preview states when toggling the post edit form
+  useEffect(() => {
+    setState({
+      ...state,
+      previewTitle: props.title,
+      previewBody: props.body,
+      previewAnonymous: props.anonymous,
+      previewAuthor: getAuthorName(props.author, props.anonymous),
+      previewTags: props.tags
+    });
+  }, [state.showForm]);
+
+  // Update previewAuthor when toggling previewAnonymous
+  useEffect(() => {
+    setState({
+      ...state,
+      previewAuthor: getAuthorName(props.author, state.previewAnonymous)
+    });
+  }, [state.previewAnonymous]);
+
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return the author name based on the given anonymous value (bool)
+  // e.g. User is a student: "First Last" or "Anonymous"
+  //      User is the author or an instructor: "First Last (Anonymous to students)"
+  // TODO: Move to helper file (also in CommentListItem)
+  const getAuthorName = (author, anonymous) => {
+    // Set the displayed author name
+    let name = anonymous ? "Anonymous" : author;
+    if (anonymous && author) {
+      name = author + " (Anonymous to students)";
+    }
+    return name;
   };
 
   return (
     <div className="EditForm">
 
-      <Preview />
+      <Preview
+        title={props.title}
+        author={props.author}
+        body={props.body}
+      />
 
-      {props.title && <TextForm />}
+      {isPost &&
+        <TextForm
+          label="Post Title"
+          text={props.title}
+          onChange={onChangePreviewTitle}
+        />
+      }
 
       <TextForm />
 
@@ -37,10 +108,6 @@ const EditForm = (props) => {
       <TagForm />
 
       <Confirmation />
-
-
-
-
 
     </div>
   )
