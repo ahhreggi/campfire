@@ -6,6 +6,7 @@
   background-color: $navy-2;
   margin-top: 1rem;
   padding: 1rem;
+  padding-bottom: 1rem;
 
   // Instructor comment styling
   &.isInstructor {
@@ -18,6 +19,17 @@
   // Best answer styling
   &.isBestAnswer {
     border: 1px solid $green;
+  }
+
+  // Reply styling
+  &:not(.isParent) {
+    // border: 1px solid white;
+    background-color: $navy-4;
+    margin-top: 0;
+    padding-bottom: 0.7rem;
+    &:not(:first-child) {
+      margin-top: 0.5rem;
+    }
   }
 
   .top {
@@ -180,7 +192,7 @@
 
   .editable {
     // border: 1px solid white;
-    padding: 0.2rem;
+    // padding: 0.2rem;
   }
 
   .replies {
@@ -190,14 +202,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-    .CommentListItem {
-      // border: 1px solid white;
-      background-color: $navy-4;
-      margin-top: 0;
-      &:not(:first-child) {
-        margin-top: 0.5rem;
-      }
-    }
+    // margin-bottom: 1rem;
   }
 
 }

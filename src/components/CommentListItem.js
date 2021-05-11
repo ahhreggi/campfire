@@ -355,7 +355,7 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
-      {isParent &&
+      {isParent && replies.length > 0 &&
         <section className="replies">
           {replies}
         </section>

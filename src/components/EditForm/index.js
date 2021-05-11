@@ -126,7 +126,7 @@ const EditForm = (props) => {
       }
 
       <TextForm
-        label={props.mode === "POST" && "Post Body"} // no label if it's a comment body
+        label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
         minHeight={"10rem"}
         onChange={updatePreviewBody}
