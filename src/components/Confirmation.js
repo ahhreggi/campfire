@@ -1,3 +1,4 @@
+import "./Confirmation.scss";
 import Button from "./Button";
 import PropTypes from "prop-types";
 
@@ -9,9 +10,9 @@ const Confirmation = (props) => {
     onCancel: PropTypes.func
   };
 
-  const confirmText = props.message !== null ? "SAVE" : "DELETE";
-  const confirmStyles = props.message !== null ? "green" : "red";
-  const cancelStyles = props.message !== null ? "red" : "white";
+  const confirmText = props.message ? "DELETE" : "SAVE";
+  const confirmStyles = props.message ? "red" : "green";
+  const cancelStyles = props.message ? "white" : "red";
 
   return (
     <div className="Confirmation">
@@ -26,13 +27,13 @@ const Confirmation = (props) => {
 
         <Button
           text={confirmText}
-          styles={confirmStyles}
+          styles={"form " + confirmStyles}
           onClick={props.onConfirm}
         />
 
         <Button
           text={"CANCEL"}
-          styles={cancelStyles}
+          styles={"form " + cancelStyles}
           onClick={props.onCancel}
         />
 

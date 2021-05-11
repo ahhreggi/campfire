@@ -1,0 +1,15 @@
+@import "../styles/global.scss";
+
+.Confirmation {
+
+  .message {
+    font-weight: 700;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 13.5rem;
+  }
+
+}
