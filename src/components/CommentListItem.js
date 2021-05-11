@@ -211,7 +211,7 @@ const CommentListItem = (props) => {
               <span className="icon heart">
                 <img src={like} alt="like" />
               </span>
-              <span className="counter">
+              <span className={`counter ${props.liked && "active"}`}>
                 {props.score}
               </span>
               <span className="toggle">
@@ -228,7 +228,7 @@ const CommentListItem = (props) => {
               <span className="icon medal">
                 <img src={endorse} alt="endorse" />
               </span>
-              <span className="counter">
+              <span className={`counter ${props.endorsed && "active"}`}>
                 {props.endorsements.length}
               </span>
               <span className="toggle">
@@ -246,25 +246,28 @@ const CommentListItem = (props) => {
 
         <section className="right">
 
+
           {/* Comment Header */}
-          <header>
+          <div>
+            <header>
 
-            {/* Author */}
-            <div className="author">
-              {authorName}
+              {/* Author */}
+              <div className="author">
+                {authorName}
+              </div>
+
+              {/* Best Answer Label */}
+              <div className="label">
+                <img src={checkmark} alt="checkmark" />
+                <span>BEST ANSWER</span>
+              </div>
+
+            </header>
+
+            {/* Comment Body */}
+            <div className="body">
+              {props.body}
             </div>
-
-            {/* Best Answer Label */}
-            <div className="label">
-              <img src={checkmark} alt="checkmark" />
-              <span>BEST ANSWER</span>
-            </div>
-
-          </header>
-
-          {/* Comment Body */}
-          <div className="body">
-            {props.body}
           </div>
 
           {/* Comment Footer */}
