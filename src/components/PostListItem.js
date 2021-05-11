@@ -3,7 +3,6 @@ import Badge from "./Badge";
 import TagList from "./TagList";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
-import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
 import PropTypes from "prop-types";
 import classNames from "classnames";

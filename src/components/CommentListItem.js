@@ -57,12 +57,6 @@ const CommentListItem = (props) => {
     endorsed: props.endorsed
   });
 
-  // // Update breakBody when updating previewBody
-  // useEffect(() => {
-  //   const checkBody = getLongestWordLength(state.previewBody) > 34;
-  //   setState({ ...state, breakBody: checkBody });
-  // }, [state.previewBody]);
-
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Toggle and reset the post edit form
@@ -147,11 +141,6 @@ const CommentListItem = (props) => {
     return `${result} (${formatTimestamp(timestamp, true)})`;
   };
 
-  // Return the length of the longest word in the given string
-  const getLongestWordLength = (text) => {
-    return Math.max(...text.split(" ").map(word => word.length));
-  };
-
 
   // VARIABLES //////////////////////////////////////////////////////
 
@@ -174,12 +163,13 @@ const CommentListItem = (props) => {
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
 
   // Get the author role to display
-  // true = replace owner/admin with instructor
-  // false = display owner/admin as is
   const authorRole = getAuthorRole(props.authorRole, false);
 
   // Get the timestamp to display
   const timestamp = getTimestamp(props.lastModified, isModified);
+
+  // Get a list of all endorsers
+  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
 
   // Get class names
   const classes = classNames({
@@ -189,38 +179,6 @@ const CommentListItem = (props) => {
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
     "highlight-delete": state.showConfirmation
-  });
-
-  // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
-
-  // Create the reply list components if the comment is top-level (parentID is null)
-  const replies = isParent && props.replies.map(comment => {
-    return (
-      <CommentListItem
-        key={comment.id}
-        id={comment.id}
-        parentID={comment.parent_id}
-        anonymous={comment.anonymous}
-        authorFirstName={comment.author_first_name}
-        authorLastName={comment.author_last_name}
-        authorRole={comment.role}
-        avatarID={comment.author_avatar_id}
-        body={comment.body}
-        score={comment.score}
-        createdAt={comment.created_at}
-        lastModified={comment.last_modified}
-        liked={comment.liked}
-        endorsed={comment.endorsed}
-        editable={comment.editable}
-        endorsable={comment.endorsable}
-        endorsements={comment.endorsements}
-        onLikeComment={props.onLikeComment}
-        onEditComment={props.onEditComment}
-        onDeleteComment={props.onDeleteComment}
-        bestAnswer={props.bestAnswer}
-      />
-    );
   });
 
   ///////////////////////////////////////////////////////////////////
