@@ -1,45 +1,34 @@
 @import "../styles/global.scss";
 
 .PostListItem {
-  border: 1px solid $navy-3;
+  border: 1px solid $navy-4;
   transition: 0.1s;
   background-color: $navy-2;
   height: 6rem;
   user-select: none;
 
-  &.pinned {
-    border-left: 1px solid $red;
-    &:hover {
-      border-left-color: $red;
-    }
-  }
-
-  &.bookmarked {
-    border-left: 1px solid $yellow;
-    &:hover {
-      border-left-color: $yellow;
-    }
-  }
-
   &:hover,
   &.selected {
-    border: 1px solid $navy-5;
+    border: 1px solid $navy-8;
     cursor: pointer;
-    background-color: $navy-3;
-    transition: 0.3s;
+    background-color: $navy-2;
+    // transition: 0.3s;
 
     div.summary {
-      color: $navy-7;
+      color: $navy-8;
     }
 
     &.selected {
-      border-right-color: $white;
+      border-color: $white;
+
       &.pinned {
-        border-left-color: $red;
+        // border-color: $red;
       }
+
       &.bookmarked {
-        border-left-color: $yellow;
+        // border-color: $yellow;
       }
+
     }
 
     .tags,
@@ -72,9 +61,11 @@
         font-weight: 700;
         font-size: 0.9rem;
         margin-left: 0.5rem;
+
         &.bookmarked {
           border-left-color: $yellow;
         }
+
       }
 
     }
@@ -91,7 +82,7 @@
   div.summary {
     padding: 0.4rem 0.5rem 0.2rem 0.5rem;
     overflow: hidden;
-    color: $navy-6;
+    color: $navy-8;
     font-size: 0.8rem;
   }
 

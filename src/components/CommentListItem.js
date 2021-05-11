@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./CommentListItem.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
-import upvote from "../images/icons/heart.png";
+import like from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
@@ -11,6 +11,7 @@ import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
 import PropTypes from "prop-types";
 import moment from "moment";
+import classNames from "classnames";
 
 const CommentListItem = (props) => {
 
@@ -131,18 +132,17 @@ const CommentListItem = (props) => {
     }
   };
 
+  // Return a formatted relative timestamp based on if it was modified
+  const getTimestamp = (timestamp, isModified) => {
+    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
+    return `${result} (${formatTimestamp(timestamp, true)})`;
+  };
+
   // Return the length of the longest word in the given string
   const getLongestWordLength = (text) => {
     return Math.max(...text.split(" ").map(word => word.length));
   };
 
-  // Return the creation timestamp or Last modified: <timestamp> if it was modified
-  const getCommentTimestamp = () => {
-    const isModified = props.createdAt !== props.lastModified;
-    const timestamp = isModified ? props.lastModified : props.createdAt;
-    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
-    return `${result} (${formatTimestamp(timestamp, true)})`;
-  };
 
   // VARIABLES //////////////////////////////////////////////////////
 
@@ -155,13 +155,25 @@ const CommentListItem = (props) => {
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
 
+  // Check if the comment was ever modified
+  const isModified = props.createdAt !== props.lastModified;
+
   // Get the author name to display
   const authorName = getAuthorName(props.author, props.anonymous);
 
   // Get the timestamp to display
-  const timestamp = getCommentTimestamp();
+  const timestamp = getTimestamp(props.lastModified, isModified);
 
-  // Create the reply list components if this is a parent
+  // Get class names
+  const classes = classNames({
+    CommentListItem: true,
+    isParent,
+    isInstructor,
+    isBestAnswer,
+    pendingDelete: state.showConfirmation
+  });
+
+  // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
     return (
       <CommentListItem
@@ -182,6 +194,7 @@ const CommentListItem = (props) => {
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
         onEditComment={props.onEditComment}
+        onDeleteComment={props.onDeleteComment}
         bestAnswer={props.bestAnswer}
       />
     );
@@ -190,107 +203,126 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={`CommentListItem ${isParent ? "parent" : "child"} ${isInstructor && "instructor"} ${isBestAnswer && "best"}`}>
-      <main className={`comment-main ${isParent ? "parent" : "child"}`}>
+    <div className={classes}>
 
-        <div className="comment-display">
+      {/* Top-level Comment */}
+      <div className="top">
+        <section className="left">
 
-          <section className="left">
+          {/* Avatar */}
+          <div className="avatar">
+            <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
+          </div>
 
-            {/* Comment Avatar */}
-            <div className="comment-avatar">
-              <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
-            </div>
+          {/* Engagements */}
+          <div className="engagements">
 
-            {/* Comment Likes */}
-            <div className={`comment-counter ${props.liked ? "active" : ""}`}>
-              <span className="icon"><img src={upvote} alt="upvote" />
+            {/* Likes */}
+            <div className="likes">
+              <span className="icon heart">
+                <img src={like} alt="like" />
               </span>
-              <span className="number">{props.score}</span>
-              <span className="icon">
+              <span className={`counter ${props.liked && "active"}`}>
+                {props.score}
+              </span>
+              <span className="toggle">
                 <img
-                  className="score-control"
                   src={props.liked ? minus : plus}
-                  alt="plus"
+                  alt="liked"
                   onClick={toggleLiked}
                 />
               </span>
             </div>
 
-            {/* Comment Endorsements */}
-            <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
-              <span className="icon endorsements">
-                <img className="medal" src={endorse} alt="endorse" />
+            {/* Endorsements */}
+            <div className="endorsements">
+              <span className="icon medal">
+                <img src={endorse} alt="endorse" />
               </span>
-              <span className="number">{props.endorsements.length}</span>
-              <span className="icon endorsements toggle">
+              <span className={`counter ${props.endorsed && "active"}`}>
+                {props.endorsements.length}
+              </span>
+              <span className="toggle">
                 <img
-                  className="score-control"
                   src={props.endorsed ? minus : plus}
-                  alt="plus"
+                  alt="endorsed"
                   onClick={toggleEndorsed}
                 />
               </span>
             </div>
 
-          </section>
+          </div>
 
-          <section className="right">
+        </section>
 
-            <div>
+        <section className="right">
 
-              {/* Comment Author */}
-              <div className="comment-author">
+
+          {/* Comment Header */}
+          <div>
+            <header>
+
+              {/* Author */}
+              <div className="author">
                 {authorName}
-                {isBestAnswer &&
-                <div className="best">
+              </div>
+
+              {/* Best Answer Label */}
+              {isBestAnswer &&
+                <div className="label">
                   <img src={checkmark} alt="checkmark" />
-                  BEST ANSWER
+                  <span>BEST ANSWER</span>
                 </div>
-                }
-              </div>
-
-              {/* Comment Body */}
-              <div className="comment-body">
-                {props.body}
-              </div>
-
-            </div>
-
-            <footer>
-
-              {/* Comment Timestamp/Last Modified */}
-              <div className={`comment-timestamp ${props.createdAt !== props.lastModified && "modified"}`}>
-                {timestamp}
-              </div>
-
-              {/* Comment Edit Controls */}
-              {props.editable &&
-            <div className="controls icon-large">
-              <>
-                <img
-                  className={state.showForm ? "active" : ""}
-                  src={edit}
-                  alt="edit"
-                  onClick={toggleForm}
-                />
-                <img
-                  className={state.showConfirmation ? "active" : ""}
-                  src={trash}
-                  alt="delete"
-                  onClick={toggleConfirmation}
-                />
-              </>
-            </div>
               }
 
-            </footer>
+            </header>
 
-          </section>
+            {/* Comment Body */}
+            <div className="body">
+              {props.body}
+            </div>
+          </div>
 
-        </div>
+          {/* Comment Footer */}
+          <footer>
 
-        <section>
+            {/* Timestamp */}
+            <div className={`timestamp ${isModified && "modified"}`}>
+              {timestamp}
+            </div>
+
+            {/* Comment Edit Controls */}
+            {props.editable &&
+              <div className="controls icon-large?">
+
+                <span className="edit">
+                  <img
+                    className={state.showForm ? "active" : ""}
+                    src={edit}
+                    alt="edit"
+                    onClick={toggleForm}
+                  />
+                </span>
+                <span className="delete">
+                  <img
+                    className={state.showConfirmation ? "active" : ""}
+                    src={trash}
+                    alt="delete"
+                    onClick={toggleConfirmation}
+                  />
+                </span>
+
+              </div>
+            }
+
+          </footer>
+
+        </section>
+      </div>
+
+      {/* Edit Form & Confirmation */}
+      {props.editable &&
+        <div className="editable">
 
           {/* Edit Form */}
           {state.showForm &&
@@ -320,42 +352,14 @@ const CommentListItem = (props) => {
             </>
           }
 
-        </section>
-
-      </main>
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* <form className="comment-form" onSubmit={saveComment}>
-        <label>
-          write something:
-        </label>
-        <input type="submit" value="Save Changes" />
-      </form>
-
-      {state.showForm && <input type="text" value={"comment text..."} onChange={(event) => console.log("clicked!")} />}
-      {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
-      {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
-      {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
-      {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>} */}
-
+        </div>
+      }
 
       {/* Replies */}
-      {isParent &&
-        <div className="comment-replies">
+      {isParent && replies.length > 0 &&
+        <section className="replies">
           {replies}
-        </div>
+        </section>
       }
 
     </div>

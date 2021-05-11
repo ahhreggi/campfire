@@ -21,7 +21,7 @@ const TextForm = (props) => {
       }
 
       <TextareaAutosize
-        style={{ "min-height": props.minHeight }}
+        style={{ "minHeight": props.minHeight }}
         value={props.text}
         onChange={(event) => props.onChange(event)}
       />

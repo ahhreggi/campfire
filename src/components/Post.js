@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import "./Post.scss";
-import Button from "./Button";
-import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 import TagList from "./TagList";
 import edit from "../images/icons/edit.png";
@@ -60,13 +58,6 @@ const Post = (props) => {
       showConfirmation: false
     });
   }, [props.id]);
-
-  // // Update breakBody when updating previewTitle and previewBody
-  // useEffect(() => {
-  //   const checkTitle = getLongestWordLength(state.previewTitle) > 34;
-  //   const checkBody = getLongestWordLength(state.previewBody) > 34;
-  //   setState({ ...state, breakBody: checkTitle || checkBody });
-  // }, [state.previewTitle, state.previewBody]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -148,17 +139,6 @@ const Post = (props) => {
     } else {
       return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
     }
-  };
-
-  // Return true if tags contains the given tag ID
-  // TODO: Move to helper file (also in TagList)
-  const hasTag = (tags, tagID) => {
-    return tags.filter(tag => tag.id === tagID).length;
-  };
-
-  // Return the length of the longest word in the given string
-  const getLongestWordLength = (text) => {
-    return Math.max(...text.split(" ").map(word => word.length));
   };
 
   // VARIABLES //////////////////////////////////////////////////////
@@ -307,7 +287,7 @@ const Post = (props) => {
 
       {/* Discussion */}
       <div className="discussion">
-        <div className="label">
+        <div className="discussion-label">
           <span className="comments icon-med">
             <img src={comment} alt="comments" />
           </span>

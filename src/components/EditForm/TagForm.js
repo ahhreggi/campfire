@@ -18,7 +18,7 @@ const TagForm = (props) => {
     <div className="TagForm">
 
       <div className="label">
-        Select up to <span className={limitReached && "limit"}>{remaining}</span> tag(s):
+        Select up to <span className={limitReached ? "limit" : ""}>{remaining}</span> tag(s):
       </div>
 
       <TagList

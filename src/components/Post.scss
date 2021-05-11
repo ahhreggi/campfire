@@ -2,6 +2,11 @@
 
 .Post {
 
+  .EditForm {
+    border: 1px solid $navy-6;
+    padding: 1rem;
+  }
+
   .display.preview-mode {
     opacity: 0.5;
   }
@@ -139,7 +144,7 @@
 
   .discussion {
 
-    .label {
+    .discussion-label {
       font-size: 1.1rem;
       font-weight: 700;
 
