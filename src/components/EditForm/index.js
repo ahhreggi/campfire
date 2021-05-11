@@ -5,13 +5,10 @@ import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
 import TagForm from "./TagForm";
-import Confirmation from "./Confirmation";
 
 const EditForm = (props) => {
 
   EditForm.propTypes = {
-
-    id: PropTypes.number,
 
     title: PropTypes.string,
     author: PropTypes.string,
@@ -29,35 +26,12 @@ const EditForm = (props) => {
 
   const [state, setState] = useState({
     id: props.id,
-    showForm: false,
-    showConfirmation: false,
     previewTitle: props.title,
     previewBody: props.body,
     previewAuthor: props.author,
     previewAnonymous: props.anonymous,
     previewTags: props.tags
   });
-
-  // Reset form and confirmation states when switching posts
-  useEffect(() => {
-    setState({
-      ...state,
-      showForm: false,
-      showConfirmation: false
-    });
-  }, [props.id]);
-
-  // Reset preview states when toggling the post edit form
-  useEffect(() => {
-    setState({
-      ...state,
-      previewTitle: props.title,
-      previewBody: props.body,
-      previewAnonymous: props.anonymous,
-      previewAuthor: getAuthorName(props.author, props.anonymous),
-      previewTags: props.tags
-    });
-  }, [state.showForm]);
 
   // Update previewAuthor when toggling previewAnonymous
   useEffect(() => {
@@ -152,13 +126,6 @@ const EditForm = (props) => {
         selectLimit={5}
         onChange={updatePreviewTags}
       />
-
-      {state.showConfirmation &&
-        <Confirmation
-          message={`Are you sure you would like to delete this ${props.mode.toLowerCase()}?`}
-          onConfirm
-        />
-      }
 
     </div>
   )

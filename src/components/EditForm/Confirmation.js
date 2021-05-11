@@ -6,8 +6,7 @@ const Confirmation = (props) => {
   Confirmation.propTypes = {
     message: PropTypes.string,
     onConfirm: PropTypes.func,
-    onCancel: PropTypes.func,
-    mode: PropTypes.string
+    onCancel: PropTypes.func
   };
 
   const confirmText = props.message !== null ? "SAVE" : "DELETE";
