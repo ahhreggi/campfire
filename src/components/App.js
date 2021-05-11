@@ -55,7 +55,9 @@ const App = () => {
 
     posts: null, // all posts for the current course
 
-    selectedTags: []
+    selectedTags: [],
+
+    reloader: false // set this to !reloader when changing the state of something that requires a data refresh
   });
 
   // Fetch course data when:
@@ -63,8 +65,9 @@ const App = () => {
   // -- changing active view
   // -- changing active postID
   useEffect(() => {
+    console.log("Fetching course data...");
     fetchCourseData(state.courseID);
-  }, [state.courseID, state.active, state.postID]);
+  }, [state.courseID, state.reloader]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -167,26 +170,15 @@ const App = () => {
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
-  // If setting the view to the existing view, refresh the course data
+  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null) => {
-    if (selection === "Post") {
-      // Get the post data for the postID in state
-      const selectedPostData = getPostByID(state.posts, postID);
-      setState({
-        ...state,
-        active: "Post",
-        postID: postID,
-        postData: selectedPostData
-      });
-    } else {
-      setState({
-        ...state,
-        active: selection,
-        postID: null,
-        postData: null
-      });
-    }
+    setState({
+      ...state,
+      active: selection,
+      postID: selection === "Post" ? postID : null,
+      postData: selection === "Post" ? getPostByID(state.posts, postID) : null,
+      reloader: !state.reloader
+    });
 
   };
 
