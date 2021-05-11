@@ -180,8 +180,7 @@ const CommentListItem = (props) => {
   });
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.map(endorsement => endorsement.endorser_name);
-  const endorsedBy = endorsers.length ? "Endorsed by: " + endorsers.join(", ") : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
 
   // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
@@ -246,7 +245,7 @@ const CommentListItem = (props) => {
             </div>
 
             {/* Endorsements */}
-            <div className="endorsements">
+            {/* <div className="endorsements">
               <span className="icon medal">
                 <img src={endorse} alt="endorse" />
               </span>
@@ -260,7 +259,7 @@ const CommentListItem = (props) => {
                   onClick={toggleEndorsed}
                 />
               </span>
-            </div>
+            </div> */}
 
           </div>
 
@@ -275,10 +274,6 @@ const CommentListItem = (props) => {
 
               {/* Author */}
               <div className="author">
-                {/* props.authorFirstName: {props.authorFirstName} |
-                props.authorLastName: {props.authorLastName}
-                props.anonymous: {props.anonymous ? "true" : "false"} |
-                authorName: */}
                 {authorName}
               </div>
 
@@ -300,10 +295,17 @@ const CommentListItem = (props) => {
                 {props.body}
               </div>
 
-              {/* Comment Text */}
-              <div className="endorsers">
-                {endorsedBy}
-              </div>
+              {/* Comment Endorsers */}
+              {endorsers &&
+                <div className="endorsers">
+                  <div className="icon medal">
+                    <img src={endorse} alt="endorse" />
+                  </div>
+                  <div className="text">
+                    Endorsed by <span className="names">{endorsers}</span>
+                  </div>
+                </div>
+              }
 
             </div>
           </div>
