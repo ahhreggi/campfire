@@ -12,7 +12,7 @@
 
       .avatar {
         img {
-
+          width: 4rem;
         }
       }
 
@@ -21,14 +21,14 @@
         flex-direction: column;
 
         .icon {
-          .heart {
+          &.heart {
             img {
-
+              width: 0.9rem;
             }
           }
-          .medal {
+          &.medal {
             img {
-
+              width: 1rem;
             }
           }
         }
@@ -39,7 +39,7 @@
 
         .toggle {
           img {
-
+            width: 0.8rem;
           }
         }
 
@@ -72,6 +72,7 @@
         }
         .label {
           img {
+            width: 1rem;
 
           }
           span {
@@ -100,7 +101,7 @@
           justify-content: space-between;
 
           img {
-
+            width: 1.5rem;
           }
 
           .edit {
