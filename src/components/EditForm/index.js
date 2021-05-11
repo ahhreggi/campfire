@@ -58,7 +58,7 @@ const EditForm = (props) => {
       title: state.previewTitle,
       body: state.previewBody,
       anonymous: state.previewAnonymous,
-      tags: state.previewTags
+      tags: state.previewTags.map(tag => tag.id)
     };
     props.onSave(data);
   };

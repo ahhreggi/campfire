@@ -128,6 +128,7 @@ const App = () => {
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
+    console.log(data);
     request("PATCH", API.EDIT_POST, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
