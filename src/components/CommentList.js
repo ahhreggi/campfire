@@ -20,7 +20,8 @@ const CommentList = (props) => {
         id={comment.id}
         parentID={comment.parent_id}
         anonymous={comment.anonymous}
-        author={`${comment.author_first_name} ${comment.author_last_name}`}
+        authorFirstName={comment.author_first_name}
+        authorLastName={comment.author_last_name}
         authorRole={comment.role}
         avatarID={comment.author_avatar_id}
         body={comment.body}

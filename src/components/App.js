@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import "./App.scss";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -7,8 +8,18 @@ import Button from "./Button";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
 
+let tokens = {
+  "admin": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNzQ3MjI4fQ.i1gNBhXeJNrnWhlLqngOYqloLPe3HkkGKMp30EfbFgY",
+  // owner of course 1:
+  "owner": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjIwNzQ4MjE1fQ.kM16mLvZLmxthRkhWBIZw7QWQ7XMl2nty1y3JKzfdts",
+  // non-owner instructor of course 1:
+  "instructor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjIwNzQ4MjAxfQ.EMzIvNQTDvgf1hKo0-z-LMs2qpmXDuGcu6sPlRz2RkQ",
+  // student in course 1:
+  "student": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNjIwNzQ4MTcwfQ.rZKQEy9cvl5byYNji8_k4MFtYEQG_XtLsCU7kiEaxOk"
+};
+
 let dummyUser = {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNTAyMTQ0fQ.h89X0-TNtL436Qe8Zaaa5lewJCNmfM5Enjc8LeiPFT0",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNzQ3MjI4fQ.i1gNBhXeJNrnWhlLqngOYqloLPe3HkkGKMp30EfbFgY",
   "first_name": "Reggi",
   "last_name": "Sirilan",
   "email": "rs@rs.ca",
@@ -239,6 +250,13 @@ let dummyCourseData = {
 
 /////////////////////////////////////////////////////////////////////
 
+const API = {
+  GET_COURSES: "/api/courses",
+  GET_COURSE: "/api/courses/1"
+};
+
+/////////////////////////////////////////////////////////////////////
+
 const App = () => {
 
   const [state, setState] = useState({
@@ -250,12 +268,60 @@ const App = () => {
     selectedTags: []
   });
 
+
+
   // Fetch data from the server on load
   useEffect(() => {
-    setTimeout(() => {
-      // Fetch course data
-      fetchCourseData();
-    }, 1500);
+
+    const courseID = 1;
+    console.log("API: Requesting all course data for the course ID", courseID);
+    const updatedData = {};
+    // Get course data for course id 1
+    axios({
+      method: "GET",
+      url: API.GET_COURSE,
+      headers: {
+        // "Authorization": tokens.admin
+        // "Authorization": tokens.owner
+        // "Authorization": tokens.instructor
+        "Authorization": tokens.student
+      }
+    })
+      .then((res) => {
+        console.log(res.data);
+        const courseData = res.data;
+        setState({ ...state, courseData: courseData });
+        // If the active view is a post, update the post data in the state using the res data
+        if (state.active === "Post") {
+          const selectedPost = getPostByID(res.posts, state.postID);
+          setState({ ...state, post: selectedPost });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // const errorMessage = JSON.parse(error.request.response);
+        // console.log(errorMessage.message);
+      });
+
+
+    // // Request data from the server and await a response
+    // setTimeout(() => {
+    //   const res = dummyCourseData;
+    //   // If the request is successful and a response is received
+    //   if (res) {
+    //     // Update state with the response data
+    //     setState({ ...state, courseData: res });
+    //     // If the active view is a post, update the post data in the state using the res data
+    //     if (state.active === "Post") {
+    //       const selectedPost = getPostByID(res.posts, state.postID);
+    //       setState({ ...state, post: selectedPost });
+    //     }
+    //   }
+    // }, 1);
+
+
+    // Store token in state
+
   }, []);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////

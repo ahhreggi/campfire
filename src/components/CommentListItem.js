@@ -19,7 +19,8 @@ const CommentListItem = (props) => {
     id: PropTypes.number,
     parentID: PropTypes.number,
     anonymous: PropTypes.bool,
-    author: PropTypes.string,
+    authorFirstName: PropTypes.string,
+    authorLastName: PropTypes.string,
     authorRole: PropTypes.string,
     avatarID: PropTypes.number,
     body: PropTypes.string,
@@ -113,11 +114,16 @@ const CommentListItem = (props) => {
   // e.g. User is a student: "First Last" or "Anonymous"
   //      User is the author or an instructor: "First Last (Anonymous to students)"
   // TODO: Move to helper file (also in Post)
-  const getAuthorName = (author, anonymous) => {
+  const getAuthorName = (authorFirstName, authorLastName, anonymous) => {
+
+    const fullName = authorFirstName ? authorFirstName + " " + authorLastName : null;
+
     // Set the displayed author name
-    let name = anonymous ? "Anonymous" : author;
-    if (anonymous && author) {
-      name = author + " (Anonymous to students)";
+    let name = anonymous ? "Anonymous" : fullName;
+
+    // BUT if the author is the owner (checked by anonymous = true and F/L !== null)
+    if (anonymous && fullName) {
+      name = fullName + " (Anonymous to students)";
     }
     return name;
   };
@@ -159,7 +165,7 @@ const CommentListItem = (props) => {
   const isModified = props.createdAt !== props.lastModified;
 
   // Get the author name to display
-  const authorName = getAuthorName(props.author, props.anonymous);
+  const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
 
   // Get the timestamp to display
   const timestamp = getTimestamp(props.lastModified, isModified);
@@ -173,6 +179,10 @@ const CommentListItem = (props) => {
     pendingDelete: state.showConfirmation
   });
 
+  // Get a list of all endorsers
+  const endorsers = props.endorsements.map(endorsement => endorsement.endorser_name);
+  const endorsedBy = endorsers.length ? "Endorsed by: " + endorsers.join(", ") : null;
+
   // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
     return (
@@ -181,7 +191,8 @@ const CommentListItem = (props) => {
         id={comment.id}
         parentID={comment.parent_id}
         anonymous={comment.anonymous}
-        author={`${comment.author_first_name} ${comment.author_last_name}`}
+        authorFirstName={comment.author_first_name}
+        authorLastName={comment.author_last_name}
         authorRole={comment.role}
         avatarID={comment.author_avatar_id}
         body={comment.body}
@@ -264,6 +275,10 @@ const CommentListItem = (props) => {
 
               {/* Author */}
               <div className="author">
+                {/* props.authorFirstName: {props.authorFirstName} |
+                props.authorLastName: {props.authorLastName}
+                props.anonymous: {props.anonymous ? "true" : "false"} |
+                authorName: */}
                 {authorName}
               </div>
 
@@ -278,8 +293,18 @@ const CommentListItem = (props) => {
             </header>
 
             {/* Comment Body */}
-            <div className="body">
-              {props.body}
+            <div className="comment-body">
+
+              {/* Comment Text */}
+              <div className="text">
+                {props.body}
+              </div>
+
+              {/* Comment Text */}
+              <div className="endorsers">
+                {endorsedBy}
+              </div>
+
             </div>
           </div>
 
@@ -330,7 +355,7 @@ const CommentListItem = (props) => {
               <hr />
               <EditForm
                 id={props.id}
-                author={props.author}
+                author={props.authorFirstName + " " + props.authorLastName}
                 body={props.body}
                 anonymous={props.anonymous}
                 mode={"COMMENT"}
