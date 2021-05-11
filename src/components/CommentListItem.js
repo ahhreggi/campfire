@@ -84,9 +84,6 @@ const CommentListItem = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
-  const editComment = () => {
-    console.log("clicked EDIT comment button");
-  };
   // Like/unlike the comment
   const toggleLiked = () => {
     props.onLikeComment(props.id);

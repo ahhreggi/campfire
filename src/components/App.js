@@ -31,11 +31,15 @@ let dummyUser = {
 const API = {
   // GET_COURSES: "/api/courses",
   RESET: "/api/debug/reset_db",
-  GET_COURSE: "/api/courses/:id", // data = { state.courseID }
-  EDIT_POST: "/api/posts/:id", // data = { ...updatedData }
-  DELETE_POST: "/api/posts/:id",
-  ADD_BOOKMARK: "/api/bookmarks", // data = { postID: state.postID }
-  DELETE_BOOKMARK: "/api/bookmarks" // data = { postID: state.postID }
+
+  COURSES: "/api/courses/:id", // data = { state.courseID }
+
+  POSTS: "/api/posts/:id",
+
+  BOOKMARKS: "/api/bookmarks",
+
+  COMMENTS: "/api/comments/:id"
+
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -57,7 +61,7 @@ const App = () => {
 
     selectedTags: [],
 
-    reloader: false // set this to !reloader when changing the state of something that requires a data refresh
+    reloader: false // set this to !reloader when making a request without fetchCourseData and a reload is needed
   });
 
   // Fetch course data when:
@@ -94,7 +98,7 @@ const App = () => {
 
   // Fetch course data from the server
   const fetchCourseData = (courseID) => {
-    request("GET", API.GET_COURSE, courseID)
+    request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
       });
@@ -116,7 +120,7 @@ const App = () => {
   const editBookmark = (postID, bookmarked) => {
     axios({
       method: bookmarked ? "DELETE" : "POST",
-      url: bookmarked ? API.DELETE_BOOKMARK : API.ADD_BOOKMARK,
+      url: bookmarked ? API.BOOKMARKS : API.BOOKMARKS,
       headers: {
         "Authorization": state.authToken
       },
@@ -129,14 +133,14 @@ const App = () => {
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
     console.log(data);
-    request("PATCH", API.EDIT_POST, postID, data)
+    request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
   };
 
   // Request to delete a post by ID and redirect to Dashboard
   const deletePost = (postID) => {
-    request("DELETE", API.DELETE_POST, postID)
+    request("DELETE", API.POSTS, postID)
       .then(() => setActive("Dashboard"))
       .catch((err) => console.log(err));
   };
@@ -154,9 +158,10 @@ const App = () => {
   // Source: CommentListItem
   const editComment = (commentID, data) => {
 
-    // TODO: API Request
-    console.log("API: Requesting to UPDATE a comment with the comment ID", commentID);
-    console.log("Data:", data);
+    console.log(data);
+    request("PATCH", API.COMMENTS, commentID, data)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
 
   };
 

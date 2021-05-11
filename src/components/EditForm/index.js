@@ -52,13 +52,14 @@ const EditForm = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Save changes to the post or comment
   const saveEdit = () => {
     // Gather new post data to send to the server
     const data = {
-      title: state.previewTitle,
+      title: state.mode === "POST" ? state.previewTitle : null,
       body: state.previewBody,
       anonymous: state.previewAnonymous,
-      tags: state.previewTags.map(tag => tag.id)
+      tags: state.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
     };
     props.onSave(data);
   };
