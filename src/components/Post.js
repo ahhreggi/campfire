@@ -235,13 +235,13 @@ const Post = (props) => {
         <div className="controls icon-large">
           <>
             <img
-              className={"icon-large" + (!state.showForm && " disabled")}
+              className={"icon-large" + (state.showForm ? "" : " disabled")}
               src={edit}
               alt="edit"
               onClick={toggleForm}
             />
             <img
-              className={"icon-large" + (!state.showConfirmation && " disabled")}
+              className={"icon-large" + (state.showConfirmation ? "" : " disabled")}
               src={trash}
               alt="delete"
               onClick={toggleConfirmation}

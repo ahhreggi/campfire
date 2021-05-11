@@ -322,11 +322,11 @@ const CommentListItem = (props) => {
 
             {/* Comment Edit Controls */}
             {props.editable &&
-              <div className="controls icon-large?">
+              <div className="controls">
 
                 <span className="edit">
                   <img
-                    className={state.showForm ? "active" : ""}
+                    className={"icon-large" + (state.showForm ? "" : " disabled")}
                     src={edit}
                     alt="edit"
                     onClick={toggleForm}
@@ -334,7 +334,7 @@ const CommentListItem = (props) => {
                 </span>
                 <span className="delete">
                   <img
-                    className={state.showConfirmation ? "active" : ""}
+                    className={"icon-large" + (state.showConfirmation ? "" : " disabled")}
                     src={trash}
                     alt="delete"
                     onClick={toggleConfirmation}
