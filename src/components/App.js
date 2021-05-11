@@ -72,7 +72,7 @@ const App = () => {
   const selectActive = (selection, postID = null) => {
     // Get the current post data
     const selectedPostData = getPostByID(state.posts, postID);
-    // Update state data
+    // Update state
     setState({
       ...state,
       active: selection,
@@ -83,17 +83,15 @@ const App = () => {
   };
 
   // Update the selected tags dynamically as the user toggles them
+  // If only is set to true, only the given tag will be selected
   const updateSelectedTags = (tag, only = false) => {
-    // If only is true, select only the given tag
     if (only) {
       setState({ ...state, selectedTags: [tag] });
     } else {
       const selected = hasTag(state.selectedTags, tag.id);
-      // If the tag is already selected, unselect it
       if (selected) {
         const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
         setState({ ...state, selectedTags: updatedTags });
-        // Otherwise, select it
       } else {
         setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
       }
@@ -107,6 +105,7 @@ const App = () => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Create an axios request
   const request = async (method, url, id = null, data = null) => {
     return axios({
       method: method,
@@ -122,9 +121,6 @@ const App = () => {
 
   // Fetch course data from the server
   const fetchCourseData = (courseID) => {
-
-    console.log("API: Requesting all course data for the course ID", courseID);
-
     request("GET", API.GET_COURSE, courseID)
       .then(data => {
         setAppData(data, "course");
@@ -132,23 +128,17 @@ const App = () => {
   };
 
   const setAppData = (data, type) => {
-
     if (type === "course") {
-      console.log("Updating courseData, postData, and posts...");
-
-      // Updating courseData also updates state.posts and state.post
       setState({
         ...state,
         courseData: data,
         postData: getPostByID(data.posts, state.postID),
         posts: data.posts
       });
-
     }
-
   };
 
-  // Send a POST or DELETE request based on the current user's bookmarked value
+  // Edit the user's bookmark for the given postID
   const editBookmark = (postID, bookmarked) => {
     axios({
       method: bookmarked ? "DELETE" : "POST",
