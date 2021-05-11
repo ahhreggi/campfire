@@ -20,12 +20,11 @@ const EditForm = (props) => {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 
-    mode: propTypes.string // "POST" or "COMMENT"
+    mode: PropTypes.string // "POST" or "COMMENT"
 
   };
 
   const [state, setState] = useState({
-    id: props.id,
     previewTitle: props.title,
     previewBody: props.body,
     previewAuthor: props.author,
@@ -128,7 +127,7 @@ const EditForm = (props) => {
       />
 
     </div>
-  )
-}
+  );
+};
 
-export default EditForm
+export default EditForm;

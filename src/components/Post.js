@@ -13,6 +13,8 @@ import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 import moment from "moment";
 
+import EditForm from "./EditForm";
+
 const Post = (props) => {
 
   Post.propTypes = {

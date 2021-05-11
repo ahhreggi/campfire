@@ -39,7 +39,7 @@ const Confirmation = (props) => {
       </div>
 
     </div>
-  )
-}
+  );
+};
 
-export default Confirmation
+export default Confirmation;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const TextForm = (props) => {
 
-  PostForm.propTypes = {
+  TextForm.propTypes = {
     label: PropTypes.string,
     text: PropTypes.string,
     onChange: PropTypes.func,

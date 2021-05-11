@@ -28,7 +28,7 @@ const TagForm = (props) => {
       />
 
     </div>
-  )
-}
+  );
+};
 
-export default TagForm
+export default TagForm;
