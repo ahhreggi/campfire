@@ -23,12 +23,24 @@
 
   // Reply styling
   &:not(.isParent) {
-    // border: 1px solid white;
     background-color: $navy-4;
     margin-top: 0;
     padding-bottom: 0.7rem;
+
     &:not(:first-child) {
       margin-top: 0.5rem;
+    }
+
+  }
+
+  // Hover styling
+  .toggle {
+    img {
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
     }
   }
 
@@ -89,7 +101,7 @@
         .toggle {
           width: 1rem;
           img {
-            width: 0.8rem;
+            width: 1rem;
             margin-bottom: 0.15rem;
           }
         }

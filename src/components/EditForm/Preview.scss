@@ -2,6 +2,10 @@
 
 .Preview {
 
+  &.break {
+    word-break: break-all;
+  }
+
   .label {
     font-weight: 700;
     font-size: 0.9rem;

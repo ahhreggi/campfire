@@ -7,13 +7,14 @@ const Preview = (props) => {
   Preview.propTypes = {
     title: PropTypes.string,
     author: PropTypes.string,
-    body: PropTypes.string
+    body: PropTypes.string,
+    breakBody: PropTypes.bool
   };
 
   // TODO: Break body if it contains words with 30+ chars
 
   return (
-    <div className="Preview">
+    <div className="Preview break">
 
       <div className="label">
         PREVIEW

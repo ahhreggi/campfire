@@ -17,7 +17,7 @@ const EditForm = (props) => {
     body: PropTypes.string,
     anonymous: PropTypes.bool,
     tags: PropTypes.array,
-    courseTags: PropTypes.string,
+    courseTags: PropTypes.array,
 
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
@@ -31,7 +31,8 @@ const EditForm = (props) => {
     previewBody: props.body,
     previewAuthor: props.author,
     previewAnonymous: props.anonymous,
-    previewTags: props.tags
+    previewTags: props.tags,
+    breakBody: false
   });
 
   // Update previewAuthor when toggling previewAnonymous
@@ -41,6 +42,13 @@ const EditForm = (props) => {
       previewAuthor: getAuthorName(props.author, state.previewAnonymous)
     });
   }, [state.previewAnonymous]);
+
+  // Update breakBody when updating previewTitle or previewBody
+  useEffect(() => {
+    const checkTitle = getLongestWordLength(state.previewTitle) > 30;
+    const checkBody = getLongestWordLength(state.previewBody) > 30;
+    setState({ ...state, breakBody: checkTitle || checkBody });
+  }, [state.previewBody]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -102,11 +110,20 @@ const EditForm = (props) => {
     return name;
   };
 
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    if (text) {
+      return Math.max(...text.split(" ").map(word => word.length));
+    }
+  };
+
   // Return true if tags contains the given tag ID
   // TODO: Move to helper file (also in TagList)
   const hasTag = (tags, tagID) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="EditForm">
@@ -115,6 +132,7 @@ const EditForm = (props) => {
         title={state.previewTitle}
         author={state.previewAuthor}
         body={state.previewBody}
+        breakBody={state.breakBody}
       />
 
       {props.mode === "POST" &&

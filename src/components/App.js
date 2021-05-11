@@ -61,7 +61,7 @@ let dummyCourseData = {
       "bookmarked": false,
       "created_at": "2021-05-10T15:40:05.671Z",
       "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": null,
+      "best_answer": 5,
       "author_first_name": "Fiona",
       "author_last_name": "Ford",
       "author_avatar_id": 7,
