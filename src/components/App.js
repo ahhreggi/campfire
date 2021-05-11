@@ -489,7 +489,7 @@ const App = () => {
             userName={`${state.user.first_name} ${state.user.last_name}`}
           />
 
-          <section>
+          <section className="app-containers">
 
             {/* All Posts */}
             <div className="left">
