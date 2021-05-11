@@ -69,6 +69,34 @@ const EditForm = (props) => {
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
+  // Update the preview title dynamically as the user types
+  const updatePreviewTitle = (event) => {
+    setState({ ...state, previewTitle: event.target.value });
+  };
+
+  // Update the preview body dynamically as the user types
+  const updatePreviewBody = (event) => {
+    setState({ ...state, previewBody: event.target.value });
+  };
+
+  // Update the preview author dynamically as the user toggles anonymous
+  const updatePreviewAnonymous = (event) => {
+    setState({ ...state, previewAnonymous: event.target.checked });
+  };
+
+  // Update the preview tags dynamically as the user toggles them
+  const updatePreviewTags = (tag) => {
+    const selected = hasTag(state.previewTags, tag.id);
+    // If the tag is already selected, unselect it
+    if (selected) {
+      const updatedTags = state.previewTags.filter(pTag => pTag.id !== tag.id);
+      setState({ ...state, previewTags: updatedTags });
+      // Otherwise, select it
+    } else {
+      setState({ ...state, previewTags: [ ...state.previewTags, tag ] });
+    }
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Return the author name based on the given anonymous value (bool)
@@ -84,26 +112,39 @@ const EditForm = (props) => {
     return name;
   };
 
+  // Return true if tags contains the given tag ID
+  // TODO: Move to helper file (also in TagList)
+  const hasTag = (tags, tagID) => {
+    return tags.filter(tag => tag.id === tagID).length;
+  };
+
   return (
     <div className="EditForm">
 
       <Preview
-        title={props.title}
-        author={props.author}
-        body={props.body}
+        title={state.previewTitle}
+        author={state.previewAuthor}
+        body={state.previewBoy}
       />
 
       {isPost &&
         <TextForm
           label="Post Title"
-          text={props.title}
-          onChange={onChangePreviewTitle}
+          text={state.previewTitle}
+          onChange={updatePreviewTitle}
         />
       }
 
-      <TextForm />
+      <TextForm
+        label={isPost && "Post Body"} // no label if it's a comment body
+        text={state.previewBody}
+        onChange={updatePreviewBody}
+      />
 
-      <Checkbox />
+      <Checkbox
+        checked={state.previewAnonymous}
+        onChange={updatePreviewAnonymous}
+      />
 
       <TagForm />
 
