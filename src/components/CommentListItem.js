@@ -11,6 +11,7 @@ import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
 import PropTypes from "prop-types";
 import moment from "moment";
+import classNames from "classnames";
 
 const CommentListItem = (props) => {
 
@@ -163,6 +164,14 @@ const CommentListItem = (props) => {
   // Get the timestamp to display
   const timestamp = getTimestamp(props.lastModified, isModified);
 
+  // Get class names
+  const classes = classNames({
+    CommentListItem: true,
+    isParent,
+    isInstructor,
+    isBestAnswer
+  });
+
   // Create the reply list components if the comment is top-level (parentID is null)
   const replies = isParent && props.replies.map(comment => {
     return (
@@ -193,7 +202,7 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className="CommentListItem">
+    <div className={classes}>
 
       {/* Top-level Comment */}
       <div className="top">
