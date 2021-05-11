@@ -252,7 +252,9 @@ let dummyCourseData = {
 
 const API = {
   GET_COURSES: "/api/courses",
-  GET_COURSE: "/api/courses/1"
+  GET_COURSE: "/api/courses/:id",
+  GET_POST: "/api/posts/:id",
+  PATCH_POST: "/api/posts/:id"
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -262,65 +264,25 @@ const App = () => {
   const [state, setState] = useState({
     user: dummyUser, // current user
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
-    courseData: null, // all data for the current course
+
+    courseID: 1,
+    courseData: null, // all data for the current courseID
+
     postID: null, // a post ID or null if viewing dashboard/analytics,
-    post: null, // post data for the current post ID or null if viewing dashboard/analytics
+    postData: null, // post data for the current post ID or null if viewing dashboard/analytics
+
+    posts: null, // all posts for the current course
+
     selectedTags: []
   });
-
-
 
   // Fetch data from the server on load
   useEffect(() => {
 
     const courseID = 1;
     console.log("API: Requesting all course data for the course ID", courseID);
-    const updatedData = {};
     // Get course data for course id 1
-    axios({
-      method: "GET",
-      url: API.GET_COURSE,
-      headers: {
-        "Authorization": tokens.admin
-        // "Authorization": tokens.owner
-        // "Authorization": tokens.instructor
-        // "Authorization": tokens.student
-      }
-    })
-      .then((res) => {
-        console.log(res.data);
-        const courseData = res.data;
-        setState({ ...state, courseData: courseData });
-        // If the active view is a post, update the post data in the state using the res data
-        if (state.active === "Post") {
-          const selectedPost = getPostByID(res.posts, state.postID);
-          setState({ ...state, post: selectedPost });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        // const errorMessage = JSON.parse(error.request.response);
-        // console.log(errorMessage.message);
-      });
-
-
-    // // Request data from the server and await a response
-    // setTimeout(() => {
-    //   const res = dummyCourseData;
-    //   // If the request is successful and a response is received
-    //   if (res) {
-    //     // Update state with the response data
-    //     setState({ ...state, courseData: res });
-    //     // If the active view is a post, update the post data in the state using the res data
-    //     if (state.active === "Post") {
-    //       const selectedPost = getPostByID(res.posts, state.postID);
-    //       setState({ ...state, post: selectedPost });
-    //     }
-    //   }
-    // }, 1);
-
-
-    // Store token in state
+    fetchCourseData(courseID);
 
   }, []);
 
@@ -335,7 +297,7 @@ const App = () => {
       ...state,
       active: selection,
       postID: postID,
-      post: selectedPost
+      postData: selectedPost
     });
 
   };
@@ -369,23 +331,72 @@ const App = () => {
   // TODO: Replace with an actual API request
   const fetchCourseData = (courseID) => {
 
-    // TODO: API Request
     console.log("API: Requesting all course data for the course ID", courseID);
-
-    // Request data from the server and await a response
-    setTimeout(() => {
-      const res = dummyCourseData;
-      // If the request is successful and a response is received
-      if (res) {
-        // Update state with the response data
-        setState({ ...state, courseData: res });
-        // If the active view is a post, update the post data in the state using the res data
-        if (state.active === "Post") {
-          const selectedPost = getPostByID(res.posts, state.postID);
-          setState({ ...state, post: selectedPost });
-        }
+    axios({
+      method: "GET",
+      url: API.GET_COURSE.replace(":id", courseID),
+      headers: {
+        "Authorization": tokens.admin
+        // "Authorization": tokens.owner
+        // "Authorization": tokens.instructor
+        // "Authorization": tokens.student
       }
-    }, 1);
+    })
+      .then((res) => {
+        console.log(res.data);
+        const courseData = res.data;
+        setAppData(courseData, "course");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // // Fetch post data from the server
+  // const fetchPostData = (postID) => {
+  //   console.log("API: Requesting all post data for the post ID", postID);
+  //   axios({
+  //     method: "GET",
+  //     url: API.GET_POST.replace(":id", postID),
+  //     headers: {
+  //       "Authorization": tokens.admin
+  //       // "Authorization": tokens.owner
+  //       // "Authorization": tokens.instructor
+  //       // "Authorization": tokens.student
+  //     }
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       const post = res.data;
+  //       setAppData(post, "post");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const setAppData = (data, type) => {
+
+    if (type === "course") {
+      console.log("Updating courseData, postData, and posts...");
+
+      // Updating courseData also updates state.posts and state.post
+      setState({
+        ...state,
+        courseData: data,
+        postData: getPostByID(data.posts, state.postID),
+        posts: data.posts
+      });
+
+      // If the active view is a post, update the post data in the state using the new res data
+      // if (state.active === "Post") {
+      //   console.log("Updating current post state...");
+      //   const selectedPost = getPostByID(data.posts, state.postID);
+      //   setState({ ...state, post: selectedPost });
+      // }
+
+    }
+
   };
 
   // MOCK: Update course data in the server
@@ -399,7 +410,7 @@ const App = () => {
       // If the request is successful and a response is received, update state with the res data
       const updatedCourseData = res;
       const updatedPost = getPostByID(res.posts, state.postID);
-      setState({ ...state, courseData: updatedCourseData, post: updatedPost });
+      setState({ ...state, courseData: updatedCourseData, postData: updatedPost });
     }, 1);
   };
 
@@ -410,10 +421,40 @@ const App = () => {
     // TODO: API Request
     console.log("API: Requesting to PIN a post with the post ID", postID);
 
-    // Get current pin value of post
-    const pinned = getPostByID(state.courseData.posts, postID).pinned;
-    // Request to update post data
-    editPost(postID, { pinned: !pinned });
+    // Get current value of pinned for postID
+    const pinned = getPostByID(state.posts, postID).pinned;
+
+    // Send a request to set it to the opposite value
+
+    axios({
+      method: "PATCH",
+      url: API.PATCH_POST.replace(":id", postID),
+      headers: {
+        "Authorization": tokens.admin
+        // "Authorization": tokens.owner
+        // "Authorization": tokens.instructor
+        // "Authorization": tokens.student
+      },
+      data: {
+        pinned: !pinned
+      }
+    })
+      .then((res) => {
+        console.log("Request successful!");
+
+        // Fetch updated course data to update local state
+        fetchCourseData(state.courseID);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+
+    // // Get current pin value of post
+    // const pinned = getPostByID(state.courseData.posts, postID).pinned;
+    // // Request to update post data
+    // editPost(postID, { pinned: !pinned });
   };
 
   // Request to toggle bookmark for post by ID
@@ -424,7 +465,7 @@ const App = () => {
     console.log("API: Requesting to BOOKMARK a post with the post ID", postID);
 
     // Get current bookmark value of post
-    const bookmarked = getPostByID(state.courseData.posts, postID).bookmarked;
+    const bookmarked = getPostByID(state.posts, postID).bookmarked;
     // Request to update user bookmarks
     editPost(postID, { bookmarked: !bookmarked });
   };
@@ -438,11 +479,11 @@ const App = () => {
     console.log("Data:", data);
 
     // Get the current post by ID
-    const currentPost = getPostByID(state.courseData.posts, postID);
+    const currentPost = getPostByID(state.posts, postID);
     // Update the post with the new data
     const newPost = { ...currentPost, ...data };
-    // Update courseData.posts with the updated post
-    const newPosts = state.courseData.posts.map(post => {
+    // Update state.posts with the updated post
+    const newPosts = state.posts.map(post => {
       if (post.id === postID) {
         return newPost;
       } else {
@@ -450,7 +491,7 @@ const App = () => {
       }
     });
     // Update courseData with the updated posts
-    const newCourseData = { ...state.courseData, posts: newPosts };
+    const newCourseData = { ...state.courseData, posts: newPosts, post: getPostByID(newPosts, state.postID) };
     // Request to update course data in the server
     updateCourseData(newCourseData);
   };
@@ -476,7 +517,7 @@ const App = () => {
         active: "Dashboard",
         courseData: newCourseData,
         postID: null,
-        post: null
+        postData: null
       });
     } else {
       console.log("An error occurred while deleting the post.");
