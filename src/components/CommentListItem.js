@@ -123,7 +123,7 @@ const CommentListItem = (props) => {
     props.onEndorseComment(props.id);
   };
 
-  const onSave = (event) => {
+  const saveComment = (event) => {
     event.preventDefault();
     console.log("clicked SUBMIT comment button");
     // include anything that can change when an existing comment is edited
@@ -226,75 +226,77 @@ const CommentListItem = (props) => {
       <main className={`comment-main ${isParent ? "parent" : "child"}`}>
         {/* this is a {isParent ? "parent" : "child"} */}
 
-        <section className="left">
+        <div className="comment-display">
 
-          {/* Comment Avatar */}
-          <div className="comment-avatar">
-            <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
-          </div>
+          <section className="left">
 
-          {/* Comment Likes */}
-          <div className={`comment-counter ${props.liked ? "active" : ""}`}>
-            <span className="icon"><img src={upvote} alt="upvote" />
-            </span>
-            <span className="number">{props.score}</span>
-            <span className="icon">
-              <img
-                className="score-control"
-                src={props.liked ? minus : plus}
-                alt="plus"
-                onClick={toggleLiked}
-              />
-            </span>
-          </div>
+            {/* Comment Avatar */}
+            <div className="comment-avatar">
+              <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
+            </div>
 
-          {/* Comment Endorsements */}
-          <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
-            <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
-            <span className="number">{props.endorsements.length}</span>
-            <span className="icon endorsements toggle">
-              <img
-                className="score-control"
-                src={props.endorsed ? minus : plus}
-                alt="plus"
-                onClick={toggleEndorsed}
-              />
-            </span>
-          </div>
+            {/* Comment Likes */}
+            <div className={`comment-counter ${props.liked ? "active" : ""}`}>
+              <span className="icon"><img src={upvote} alt="upvote" />
+              </span>
+              <span className="number">{props.score}</span>
+              <span className="icon">
+                <img
+                  className="score-control"
+                  src={props.liked ? minus : plus}
+                  alt="plus"
+                  onClick={toggleLiked}
+                />
+              </span>
+            </div>
 
-        </section>
+            {/* Comment Endorsements */}
+            <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
+              <span className="icon endorsements"><img className="medal" src={endorse} alt="endorse" /></span>
+              <span className="number">{props.endorsements.length}</span>
+              <span className="icon endorsements toggle">
+                <img
+                  className="score-control"
+                  src={props.endorsed ? minus : plus}
+                  alt="plus"
+                  onClick={toggleEndorsed}
+                />
+              </span>
+            </div>
 
-        <section className="right">
+          </section>
 
-          <div>
+          <section className="right">
 
-            {/* Comment Author */}
-            <div className="comment-author">
-              {authorName}
-              {isBestAnswer &&
+            <div>
+
+              {/* Comment Author */}
+              <div className="comment-author">
+                {authorName}
+                {isBestAnswer &&
                 <div className="best">
                   <img src={checkmark} alt="checkmark" />
                   BEST ANSWER
                 </div>
-              }
+                }
+              </div>
+
+              {/* Comment Body */}
+              <div className="comment-body">
+                {props.body}
+              </div>
+
             </div>
 
-            {/* Comment Body */}
-            <div className="comment-body">
-              {props.body}
-            </div>
+            <footer>
 
-          </div>
+              {/* Comment Timestamp/Last Modified */}
+              <div className={`comment-timestamp ${props.createdAt !== props.lastModified && "modified"}`}>
+                {timestamp}
+              </div>
 
-          <footer>
-
-            {/* Comment Timestamp/Last Modified */}
-            <div className={`comment-timestamp ${props.createdAt !== props.lastModified && "modified"}`}>
-              {timestamp}
-            </div>
-
-            {/* Comment Edit Controls */}
-            {props.editable &&
+              {/* Comment Edit Controls */}
+              {props.editable &&
             <div className="controls icon-large">
               <>
                 <img
@@ -311,15 +313,151 @@ const CommentListItem = (props) => {
                 />
               </>
             </div>
+              }
+
+            </footer>
+
+          </section>
+
+        </div>
+
+        {/* Editable Area */}
+        {props.editable &&
+
+          <div className="edit-form">
+
+
+            {/* Edit Preview */}
+            {state.showForm &&
+              <>
+                <hr />
+                <div className="preview">
+
+                  <div className="label">
+                  PREVIEW
+                  </div>
+
+                  {/* PREVIEW: Post Title */}
+                  <div className="post-header">
+                    <div>
+                      {state.previewTitle}
+                    </div>
+                  </div>
+
+                  {/* PREVIEW: Author */}
+                  <div className="post-subheader">
+                    <div>
+                    Posting as <span className="author">{state.previewAuthor}</span>
+                    </div>
+                  </div>
+
+                  {/* PREVIEW: Post Body */}
+                  <div className={`post-body ${state.breakBody && "break"}`}>
+                    {state.previewBody}
+                  </div>
+
+                </div>
+              </>
             }
 
-          </footer>
+            {/* Edit Form */}
+            {state.showForm &&
+              <div className="forms">
 
-        </section>
+                <hr />
+
+                {/* Comment Body Textarea */}
+                <PostForm
+                  label="Post Body"
+                  text={state.previewBody}
+                  onChange={updatePreviewBody}
+                  styles="form-body"
+                />
+
+                {/* Anonymous Checkbox */}
+                <div className="anon-form">
+                  Post as anonymous?
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={state.previewAnonymous}
+                    onChange={updatePreviewAnonymous}
+                  />
+                  <span className="note">{state.previewAnonymous && " you will still be visible to instructors"}</span>
+                </div>
+
+              </div>
+            }
+
+            {/* Delete Confirmation */}
+            {state.showConfirmation &&
+              <>
+                <hr />
+                <div className="confirmation">
+                  <span>
+                    Are you sure you would like to delete this post?
+                  </span>
+                </div>
+              </>
+            }
+
+            {state.showForm && <hr />}
+
+            {/* Confirmation Buttons */}
+            {props.editable &&
+              <div className="controls icon-large">
+                {state.showForm &&
+                  <div className="confirmation">
+                    <>
+                      <Button
+                        text="Save"
+                        styles="form green"
+                        onClick={saveComment}
+                      />
+                      <Button
+                        text="Cancel"
+                        styles="form red"
+                        onClick={toggleForm}
+                      />
+                    </>
+                  </div>
+                }
+                {state.showConfirmation &&
+                  <div className="confirmation">
+                    <>
+                      <Button
+                        text="Delete"
+                        styles="form red"
+                        onClick={deleteComment}
+                      />
+                      <Button
+                        text="Cancel"
+                        styles="form"
+                        onClick={toggleConfirmation}
+                      />
+                    </>
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        }
 
       </main>
 
-      <form className="comment-form" onSubmit={onSave}>
+
+
+
+
+
+
+
+
+
+
+
+      {/* <form className="comment-form" onSubmit={saveComment}>
         <label>
           write something:
         </label>
@@ -332,7 +470,7 @@ const CommentListItem = (props) => {
       {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
       {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
       {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>}
+      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>} */}
 
 
       {/* Replies */}

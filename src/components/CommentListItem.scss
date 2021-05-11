@@ -19,6 +19,7 @@
 
   main.comment-main {
     display: flex;
+    flex-direction: column;
     padding: 0;
 
     // Highlight on reply hover
@@ -225,6 +226,24 @@
   // Best answer comment styling
   &.best:not(.instructor) {
     border: 1px solid $green;
+  }
+
+  .comment-display {
+    display: flex;
+  }
+
+  .edit-form {
+    display: flex;
+    flex-direction: column;
+    // border: 1px solid white;
+    padding: 1rem;
+
+    .preview {
+      .label {
+        margin: 0;
+      }
+    }
+
   }
 
 }
