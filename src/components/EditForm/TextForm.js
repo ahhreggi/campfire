@@ -1,7 +1,7 @@
 import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
 
-const Textarea = (props) => {
+const TextForm = (props) => {
 
   PostForm.propTypes = {
     label: PropTypes.string,
@@ -10,7 +10,7 @@ const Textarea = (props) => {
   };
 
   return (
-    <div className="Textarea">
+    <div className="TextForm">
 
       <div className="label">
         {props.label}
@@ -25,4 +25,4 @@ const Textarea = (props) => {
   );
 };
 
-export default Textarea;
+export default TextForm;
