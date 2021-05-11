@@ -3,6 +3,8 @@ import Badge from "./Badge";
 import TagList from "./TagList";
 import eye from "../images/icons/eye.png";
 import comment from "../images/icons/comment.png";
+import pin from "../images/icons/pin.png";
+import star from "../images/icons/star.png";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -72,7 +74,13 @@ const PostListItem = (props) => {
 
         {/* Post Title */}
         <div className="header-left">
-          <span className={`title ${props.bookmarked && "bookmarked"}`}>
+          {/* {props.pinned &&
+            <img className="pin" src={pin} alt="pin" />
+          } */}
+          {props.bookmarked &&
+            <img className="bookmark" src={star} alt="bookmark" />
+          }
+          <span className="title">
             {truncateText(props.title, 30)}
           </span>
         </div>

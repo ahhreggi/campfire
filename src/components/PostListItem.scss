@@ -26,7 +26,7 @@
       }
 
       &.bookmarked {
-        // border-color: $yellow;
+        // border-left-color: $yellow;
       }
 
     }
@@ -49,11 +49,12 @@
     .header-left {
       display: flex;
       align-items: center;
+      margin-left: 0.2rem;
 
+      .pin,
       .bookmark {
-        margin-left: 0.5rem;
-        width: 15px;
-        margin-right: 0.5rem;
+        margin-left: 0.3rem;
+        width: 10px;
         margin-bottom: 0.1rem;
       }
 
@@ -61,10 +62,6 @@
         font-weight: 700;
         font-size: 0.9rem;
         margin-left: 0.5rem;
-
-        &.bookmarked {
-          border-left-color: $yellow;
-        }
 
       }
 
