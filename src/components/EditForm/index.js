@@ -123,7 +123,7 @@ const EditForm = (props) => {
         tags={props.courseTags}
         selectedTags={state.previewTags}
         selectLimit={5}
-        onChange={updatePreviewTags}
+        onClick={updatePreviewTags}
       />
 
     </div>
