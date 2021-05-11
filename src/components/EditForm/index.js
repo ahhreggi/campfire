@@ -5,6 +5,7 @@ import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
 import TagForm from "./TagForm";
+import Confirmation from "../Confirmation";
 
 const EditForm = (props) => {
 
@@ -40,15 +41,23 @@ const EditForm = (props) => {
     });
   }, [state.previewAnonymous]);
 
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  const saveEdit = () => {
+
+  };
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
   const updatePreviewTitle = (event) => {
+    console.log(event.target.value);
     setState({ ...state, previewTitle: event.target.value });
   };
 
   // Update the preview body dynamically as the user types
   const updatePreviewBody = (event) => {
+    console.log(event.target.value);
     setState({ ...state, previewBody: event.target.value });
   };
 
@@ -124,6 +133,11 @@ const EditForm = (props) => {
         selectedTags={state.previewTags}
         selectLimit={5}
         onClick={updatePreviewTags}
+      />
+
+      <Confirmation
+        onConfirm={saveEdit}
+        onCancel={() => props.onCancel()}
       />
 
     </div>

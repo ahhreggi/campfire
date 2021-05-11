@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 
 import EditForm from "./EditForm";
+import Confirmation from "./Confirmation";
 
 const Post = (props) => {
 
@@ -270,7 +271,7 @@ const Post = (props) => {
         </div>
       }
 
-      {/* Edit Form */}
+      {/* NEW Edit Form */}
       {state.showForm &&
         <EditForm
           id={props.id}
@@ -280,13 +281,19 @@ const Post = (props) => {
           anonymous={props.anonymous}
           tags={props.tags}
           courseTags={props.courseTags}
+          mode={"POST"}
           onSave={savePost}
           onCancel={toggleForm}
         />
       }
 
+      {/* NEW Save Confirmation */}
+      {/* {state.showForm}
+      <Confirmation
+      /> */}
+
       {/* Delete Confirmation */}
-      {state.showConfirmation &&
+      { false && state.showConfirmation &&
         <>
           <hr />
           <div className="confirmation">
@@ -300,7 +307,7 @@ const Post = (props) => {
       {state.showForm && <hr />}
 
       {/* Confirmation Buttons */}
-      {props.editable &&
+      {false && props.editable &&
         <div className="controls icon-large">
           {state.showForm &&
             <div className="confirmation">
