@@ -43,7 +43,10 @@ const CommentListItem = (props) => {
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
 
-    bestAnswer: PropTypes.number
+    bestAnswer: PropTypes.number,
+
+    postAuthorID: PropTypes.number,
+    commentAuthorID: PropTypes.number
   };
 
   const [state, setState] = useState({
@@ -122,6 +125,14 @@ const CommentListItem = (props) => {
     return name;
   };
 
+  // Return the author role to display
+  const getAuthorRole = (authorRole, replaceOwner = false) => {
+    if (replaceOwner && ["owner", "admin"].includes(authorRole)) {
+      return "instructor";
+    }
+    return authorRole;
+  };
+
   // Convert timestamp into a readable format
   // TODO: Move to helper file
   const formatTimestamp = (timestamp, relative) => {
@@ -152,6 +163,9 @@ const CommentListItem = (props) => {
   // Check if the comment is by an instructor
   const isInstructor = props.authorRole !== "student";
 
+  // Check if the comment is the post author
+  const isPostAuthor = props.postAuthorID === props.commentAuthorID;
+
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
 
@@ -161,16 +175,22 @@ const CommentListItem = (props) => {
   // Get the author name to display
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
 
+  // Get the author role to display
+  // true = replace owner/admin with instructor
+  // false = display owner/admin as is
+  const authorRole = getAuthorRole(props.authorRole, false);
+
   // Get the timestamp to display
   const timestamp = getTimestamp(props.lastModified, isModified);
 
   // Get class names
   const classes = classNames({
     CommentListItem: true,
-    isParent,
-    isInstructor,
-    isBestAnswer,
-    pendingDelete: state.showConfirmation
+    "highlight-parent": isParent,
+    "highlight-instructor": isInstructor,
+    "highlight-author": isPostAuthor,
+    "highlight-best": isBestAnswer,
+    "highlight-delete": state.showConfirmation
   });
 
   // Get a list of all endorsers
@@ -218,6 +238,11 @@ const CommentListItem = (props) => {
             <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
 
+          {/* Role */}
+          <div className={`role ${isInstructor && "instructor"}`}>
+            {authorRole}
+          </div>
+
           {/* Engagements */}
           <div className="engagements">
 
@@ -237,23 +262,6 @@ const CommentListItem = (props) => {
                 />
               </span>
             </div>
-
-            {/* Endorsements */}
-            {/* <div className="endorsements">
-              <span className="icon medal">
-                <img src={endorse} alt="endorse" />
-              </span>
-              <span className={`counter ${props.endorsed && "active"}`}>
-                {props.endorsements.length}
-              </span>
-              <span className="toggle">
-                <img
-                  src={props.endorsed ? minus : plus}
-                  alt="endorsed"
-                  onClick={toggleEndorsed}
-                />
-              </span>
-            </div> */}
 
           </div>
 

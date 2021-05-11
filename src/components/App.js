@@ -281,10 +281,10 @@ const App = () => {
       method: "GET",
       url: API.GET_COURSE,
       headers: {
-        // "Authorization": tokens.admin
+        "Authorization": tokens.admin
         // "Authorization": tokens.owner
         // "Authorization": tokens.instructor
-        "Authorization": tokens.student
+        // "Authorization": tokens.student
       }
     })
       .then((res) => {

@@ -9,14 +9,18 @@
   padding-bottom: 1rem;
   border: 1px solid transparent;
 
-  &.pendingDelete {
+  &.highlight-delete {
     border: 1px solid $red;
+    background-color: $navy-0;
+    &:not(.highlight-parent) {
+      background-color: $navy-1;
+    }
   }
 
   // Instructor comment styling
-  &.isInstructor {
+  &.highlight-instructor {
 
-    &:not(.pendingDelete) {
+    &:not(.highlight-delete) {
       border: 1px solid $yellow;
     }
 
@@ -26,13 +30,22 @@
 
   }
 
+  // Post author styling
+  &.highlight-author {
+
+    &:not(.highlight-delete) {
+      border: 1px solid $white;
+    }
+
+  }
+
   // Best answer styling
-  &.isBestAnswer:not(.pendingDelete) {
+  &.highlight-best:not(.highlight-delete) {
     border: 1px solid $green;
   }
 
   // Reply styling
-  &:not(.isParent) {
+  &:not(.highlight-parent) {
     background-color: $navy-4;
     margin-top: 0;
     padding-bottom: 0.7rem;
@@ -92,44 +105,50 @@
         }
       }
 
+      .role {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        margin: 0.2rem 0 0.5rem 0;
+        &.instructor {
+          color: $yellow;
+        }
+      }
+
       .engagements {
         display: flex;
         flex-direction: column;
-
-        .counter {
-          display: flex;
-          justify-content: center;
-          font-weight: 700;
-          width: 3rem;
-          font-size: 1.2rem;
-
-          &.active {
-            color: $green;
-          }
-
-        }
-
-        .toggle {
-          width: 1rem;
-          img {
-            width: 1rem;
-            margin-bottom: 0.15rem;
-          }
-        }
 
         .likes {
           display: flex;
           flex-wrap: nowrap;
           align-items: center;
 
+          .counter {
+            display: flex;
+            justify-content: center;
+            font-weight: 700;
+            width: 3rem;
+            font-size: 1.2rem;
+
+            &.active {
+              color: $green;
+            }
+
+          }
+
+          .toggle {
+            width: 1rem;
+
+            img {
+              width: 1rem;
+              margin-bottom: 0.15rem;
+            }
+
+          }
+
         }
 
-        .endorsements {
-          display: flex;
-          flex-wrap: nowrap;
-          align-items: center;
-
-        }
 
       }
 
@@ -220,14 +239,6 @@
 
           img {
             width: 1.5rem;
-          }
-
-          .edit {
-
-          }
-
-          .delete {
-
           }
 
         }

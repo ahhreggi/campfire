@@ -298,6 +298,7 @@ const Post = (props) => {
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           bestAnswer={props.bestAnswer}
+          postAuthorID={props.userID}
         />
       </div>
 
