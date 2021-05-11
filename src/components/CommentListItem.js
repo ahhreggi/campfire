@@ -86,7 +86,7 @@ const CommentListItem = (props) => {
 
   // Like/unlike the comment
   const toggleLiked = () => {
-    props.onLikeComment(props.id);
+    props.onLikeComment(props.id, props.liked);
   };
 
 
@@ -214,6 +214,7 @@ const CommentListItem = (props) => {
         editable={comment.editable}
         endorsable={comment.endorsable}
         endorsements={comment.endorsements}
+        onLikeComment={props.onLikeComment}
         onEditComment={props.onEditComment}
         onDeleteComment={props.onDeleteComment}
         bestAnswer={props.bestAnswer}

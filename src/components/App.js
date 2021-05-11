@@ -38,7 +38,10 @@ const API = {
 
   BOOKMARKS: "/api/bookmarks",
 
-  COMMENTS: "/api/comments/:id"
+  COMMENTS: "/api/comments/:id",
+
+  LIKE: "/api/comments/:id/like",
+  UNLIKE: "/api/comments/id/unlike"
 
 };
 
@@ -157,16 +160,14 @@ const App = () => {
   };
 
   // Request to like a comment by ID
-  // Source: CommentListItem
-  const likeComment = (commentID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to LIKE a comment with the comment ID", commentID);
-
+  const likeComment = (commentID, liked) => {
+    const url = API.COMMENTS.replace(":id", commentID) + (liked ? "/unlike" : "/like");
+    request("POST", url)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
   };
 
   // Request to edit a comment by ID with the given data
-  // Source: CommentListItem
   const editComment = (commentID, data) => {
     request("PATCH", API.COMMENTS, commentID, data)
       .then(() => fetchCourseData(state.courseID))
@@ -174,7 +175,6 @@ const App = () => {
   };
 
   // Request to delete a comment by ID
-  // Source: CommentListItem
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
       .then(() => setActive("Post", state.postID))
