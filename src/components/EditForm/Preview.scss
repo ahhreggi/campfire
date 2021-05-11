@@ -1,6 +1,7 @@
 @import "../../styles/global.scss";
 
 .Preview {
+  min-height: 6rem;
 
   &.break {
     word-break: break-all;

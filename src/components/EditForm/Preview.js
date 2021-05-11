@@ -11,8 +11,6 @@ const Preview = (props) => {
     breakBody: PropTypes.bool
   };
 
-  // TODO: Break body if it contains words with 30+ chars
-
   return (
     <div className="Preview break">
 
