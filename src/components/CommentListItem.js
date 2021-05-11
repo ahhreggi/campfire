@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./CommentListItem.scss";
-import Button from "./Button";
-import CommentList from "./CommentList";
-import PostForm from "./PostForm";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 import upvote from "../images/icons/heart.png";
@@ -293,33 +290,37 @@ const CommentListItem = (props) => {
 
         </div>
 
-        {/* Edit Form */}
-        {state.showForm &&
-          <>
-            <hr />
-            <EditForm
-              id={props.id}
-              author={props.author}
-              body={props.body}
-              anonymous={props.anonymous}
-              mode={"COMMENT"}
-              onSave={saveComment}
-              onCancel={toggleForm}
-            />
-          </>
-        }
+        <section>
 
-        {/* Delete Confirmation */}
-        {state.showConfirmation &&
-          <>
-            <hr />
-            <Confirmation
-              message={"Are you sure you would like to delete this comment?"}
-              onConfirm={deleteComment}
-              onCancel={toggleConfirmation}
-            />
-          </>
-        }
+          {/* Edit Form */}
+          {state.showForm &&
+            <>
+              <hr />
+              <EditForm
+                id={props.id}
+                author={props.author}
+                body={props.body}
+                anonymous={props.anonymous}
+                mode={"COMMENT"}
+                onSave={saveComment}
+                onCancel={toggleForm}
+              />
+            </>
+          }
+
+          {/* Delete Confirmation */}
+          {state.showConfirmation &&
+            <>
+              <hr />
+              <Confirmation
+                message={"Are you sure you would like to delete this comment?"}
+                onConfirm={deleteComment}
+                onCancel={toggleConfirmation}
+              />
+            </>
+          }
+
+        </section>
 
       </main>
 
