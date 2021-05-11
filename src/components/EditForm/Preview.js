@@ -1,4 +1,6 @@
+import "./styles.scss";
 import PropTypes from "prop-types";
+
 
 const Preview = (props) => {
 
@@ -25,7 +27,7 @@ const Preview = (props) => {
 
       {props.author &&
         <div className="author">
-          Posting as {props.author}
+          Posting as <span className="name">{props.author}</span>
         </div>
       }
 

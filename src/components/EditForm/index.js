@@ -113,7 +113,7 @@ const EditForm = (props) => {
       <Preview
         title={state.previewTitle}
         author={state.previewAuthor}
-        body={state.previewBoy}
+        body={state.previewBody}
       />
 
       {props.mode === "POST" &&
