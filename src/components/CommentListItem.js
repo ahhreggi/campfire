@@ -216,9 +216,9 @@ const CommentListItem = (props) => {
               </span>
               <span className="toggle">
                 <img
-                    src={props.liked ? minus : plus}
-                    alt="liked"
-                    onClick={toggleLiked}
+                  src={props.liked ? minus : plus}
+                  alt="liked"
+                  onClick={toggleLiked}
                 />
               </span>
             </div>
@@ -271,194 +271,77 @@ const CommentListItem = (props) => {
           <footer>
 
             {/* Timestamp */}
-            <div className="timestamp">
+            <div className={`timestamp ${isModified && "modified"}`}>
               {timestamp}
             </div>
 
-            {/* Controls */}
-            <div className="controls">
+            {/* Comment Edit Controls */}
+            {props.editable &&
+              <div className="controls icon-large?">
 
-              <span className="edit"></span>
-              <span className="delete"></span>
+                <span className="edit">
+                  <img
+                    className={state.showForm ? "active" : ""}
+                    src={edit}
+                    alt="edit"
+                    onClick={toggleForm}
+                  />
+                </span>
+                <span className="delete">
+                  <img
+                    className={state.showConfirmation ? "active" : ""}
+                    src={trash}
+                    alt="delete"
+                    onClick={toggleConfirmation}
+                  />
+                </span>
 
-            </div>
+              </div>
+            }
 
           </footer>
 
         </section>
       </main>
 
+      {/* Edit Form & Confirmation */}
+      <section className="editable">
+
+        {/* Edit Form */}
+        {state.showForm &&
+          <>
+            <hr />
+            <EditForm
+              id={props.id}
+              author={props.author}
+              body={props.body}
+              anonymous={props.anonymous}
+              mode={"COMMENT"}
+              onSave={saveComment}
+              onCancel={toggleForm}
+            />
+          </>
+        }
+
+        {/* Delete Confirmation */}
+        {state.showConfirmation &&
+          <>
+            <hr />
+            <Confirmation
+              message={"Are you sure you would like to delete this comment?"}
+              onConfirm={deleteComment}
+              onCancel={toggleConfirmation}
+            />
+          </>
+        }
+
+      </section>
+
       {/* Replies */}
       {isParent &&
         <section className="replies">
           {/* < CommentList here > */}
         </section>
-      }
-
-
-        <div className="comment-display">
-
-          <section className="left">
-
-            {/* Comment Avatar */}
-            <div className="comment-avatar">
-              <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
-            </div>
-
-            {/* Comment Likes */}
-            <div className={`comment-counter ${props.liked ? "active" : ""}`}>
-              <span className="icon"><img src={upvote} alt="upvote" />
-              </span>
-              <span className="number">{props.score}</span>
-              <span className="icon">
-                <img
-                  className="score-control"
-                  src={props.liked ? minus : plus}
-                  alt="plus"
-                  onClick={toggleLiked}
-                />
-              </span>
-            </div>
-
-            {/* Comment Endorsements */}
-            <div className={`comment-counter ${props.endorsed ? "active" : ""}`}>
-              <span className="icon endorsements">
-                <img className="medal" src={endorse} alt="endorse" />
-              </span>
-              <span className="number">{props.endorsements.length}</span>
-              <span className="icon endorsements toggle">
-                <img
-                  className="score-control"
-                  src={props.endorsed ? minus : plus}
-                  alt="plus"
-                  onClick={toggleEndorsed}
-                />
-              </span>
-            </div>
-
-          </section>
-
-          <section className="right">
-
-            <div>
-
-              {/* Comment Author */}
-              <div className="comment-author">
-                {authorName}
-                {isBestAnswer &&
-                <div className="best">
-                  <img src={checkmark} alt="checkmark" />
-                  BEST ANSWER
-                </div>
-                }
-              </div>
-
-              {/* Comment Body */}
-              <div className="comment-body">
-                {props.body}
-              </div>
-
-            </div>
-
-            <footer>
-
-              {/* Comment Timestamp/Last Modified */}
-              <div className={`comment-timestamp ${props.createdAt !== props.lastModified && "modified"}`}>
-                {timestamp}
-              </div>
-
-              {/* Comment Edit Controls */}
-              {props.editable &&
-            <div className="controls icon-large">
-              <>
-                <img
-                  className={state.showForm ? "active" : ""}
-                  src={edit}
-                  alt="edit"
-                  onClick={toggleForm}
-                />
-                <img
-                  className={state.showConfirmation ? "active" : ""}
-                  src={trash}
-                  alt="delete"
-                  onClick={toggleConfirmation}
-                />
-              </>
-            </div>
-              }
-
-            </footer>
-
-          </section>
-
-        </div>
-
-        <section>
-
-          {/* Edit Form */}
-          {state.showForm &&
-            <>
-              <hr />
-              <EditForm
-                id={props.id}
-                author={props.author}
-                body={props.body}
-                anonymous={props.anonymous}
-                mode={"COMMENT"}
-                onSave={saveComment}
-                onCancel={toggleForm}
-              />
-            </>
-          }
-
-          {/* Delete Confirmation */}
-          {state.showConfirmation &&
-            <>
-              <hr />
-              <Confirmation
-                message={"Are you sure you would like to delete this comment?"}
-                onConfirm={deleteComment}
-                onCancel={toggleConfirmation}
-              />
-            </>
-          }
-
-        </section>
-
-      </main>
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* <form className="comment-form" onSubmit={saveComment}>
-        <label>
-          write something:
-        </label>
-        <input type="submit" value="Save Changes" />
-      </form>
-
-      {state.showForm && <input type="text" value={"comment text..."} onChange={(event) => console.log("clicked!")} />}
-      {props.endorsable && <Button type="endorse" onClick={endorseComment} text="ENDORSE" />}
-      {props.editable && <Button type="toggle-anon" onClick={toggleAnonymous} text="TOGGLE ANONYMOUS" /> }
-      {props.editable && <Button type="edit" onClick={editComment} text="EDIT" />}
-      {props.editable && <Button type="delete" onClick={deleteComment} text="DELETE" />}
-      {props.replies && props.replies.length > 0 && <CommentList comments={props.replies} />}
-      {props.replies && props.replies.length === 0 && <div>this comment has no replies yet</div>} */}
-
-
-      {/* Replies */}
-      {isParent &&
-        <div className="comment-replies">
-          {replies}
-        </div>
       }
 
     </div>
