@@ -23,7 +23,7 @@ const EditForm = (props) => {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 
-    isPost: PropTypes.bool // true = includes labels for text areas, none otherwise
+    mode: propTypes.string // "POST" or "COMMENT"
 
   };
 
@@ -127,16 +127,16 @@ const EditForm = (props) => {
         body={state.previewBoy}
       />
 
-      {isPost &&
+      {props.mode === "POST" &&
         <TextForm
-          label="Post Title"
+          label={"Post Title"}
           text={state.previewTitle}
           onChange={updatePreviewTitle}
         />
       }
 
       <TextForm
-        label={isPost && "Post Body"} // no label if it's a comment body
+        label={props.mode === "POST" && "Post Body"} // no label if it's a comment body
         text={state.previewBody}
         onChange={updatePreviewBody}
       />
@@ -146,9 +146,19 @@ const EditForm = (props) => {
         onChange={updatePreviewAnonymous}
       />
 
-      <TagForm />
+      <TagForm
+        tags={props.courseTags}
+        selectedTags={state.previewTags}
+        selectLimit={5}
+        onChange={updatePreviewTags}
+      />
 
-      <Confirmation />
+      {state.showConfirmation &&
+        <Confirmation
+          message={`Are you sure you would like to delete this ${props.mode.toLowerCase()}?`}
+          onConfirm
+        />
+      }
 
     </div>
   )
