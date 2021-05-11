@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
 import "./EditForm.scss";
 import PostForm from "./PostForm";
@@ -49,7 +49,7 @@ const EditForm = () => {
       {/* Text Input Fields */}
       <section className="text-fields">
 
-      <hr />
+        <hr />
 
         {/* Title */}
         <PostForm
@@ -99,7 +99,7 @@ const EditForm = () => {
 
 
     </div>
-  )
-}
+  );
+};
 
-export default EditForm
+export default EditForm;
