@@ -195,7 +195,7 @@ const CommentListItem = (props) => {
     <div className="CommentListItem">
 
       {/* Top-level Comment */}
-      <main className="top">
+      <div className="top">
         <section className="left">
 
           {/* Avatar */}
@@ -302,43 +302,45 @@ const CommentListItem = (props) => {
           </footer>
 
         </section>
-      </main>
+      </div>
 
       {/* Edit Form & Confirmation */}
-      <section className="editable">
+      {false && props.editable &&
+        <div className="editable">
 
-        {/* Edit Form */}
-        {state.showForm &&
-          <>
-            <hr />
-            <EditForm
-              id={props.id}
-              author={props.author}
-              body={props.body}
-              anonymous={props.anonymous}
-              mode={"COMMENT"}
-              onSave={saveComment}
-              onCancel={toggleForm}
-            />
-          </>
-        }
+          {/* Edit Form */}
+          {state.showForm &&
+            <>
+              <hr />
+              <EditForm
+                id={props.id}
+                author={props.author}
+                body={props.body}
+                anonymous={props.anonymous}
+                mode={"COMMENT"}
+                onSave={saveComment}
+                onCancel={toggleForm}
+              />
+            </>
+          }
 
-        {/* Delete Confirmation */}
-        {state.showConfirmation &&
-          <>
-            <hr />
-            <Confirmation
-              message={"Are you sure you would like to delete this comment?"}
-              onConfirm={deleteComment}
-              onCancel={toggleConfirmation}
-            />
-          </>
-        }
+          {/* Delete Confirmation */}
+          {state.showConfirmation &&
+            <>
+              <hr />
+              <Confirmation
+                message={"Are you sure you would like to delete this comment?"}
+                onConfirm={deleteComment}
+                onCancel={toggleConfirmation}
+              />
+            </>
+          }
 
-      </section>
+        </div>
+      }
 
       {/* Replies */}
-      {isParent &&
+      {false && isParent &&
         <section className="replies">
           {/* < CommentList here > */}
         </section>

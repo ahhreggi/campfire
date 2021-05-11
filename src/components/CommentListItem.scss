@@ -3,12 +3,18 @@
 .CommentListItem {
   display: flex;
   flex-direction: column;
-  main.top {
+  border: 1px solid white;
+  // height: 100%;
+  .top {
     display: flex;
+    // height: 30rem;
+
 
     section.left {
       display: flex;
       flex-direction: column;
+      width: 6rem;
+      height: 100%;
 
       .avatar {
         img {
@@ -62,6 +68,7 @@
     section.right {
       display: flex;
       flex-direction: column;
+      height: 100%;
 
       header {
         display: flex;
