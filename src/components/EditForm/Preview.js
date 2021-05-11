@@ -1,4 +1,4 @@
-import "./styles.scss";
+import "./Preview.scss";
 import PropTypes from "prop-types";
 
 
