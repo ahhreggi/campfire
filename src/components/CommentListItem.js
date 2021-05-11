@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./CommentListItem.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
-import upvote from "../images/icons/heart.png";
+import like from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
@@ -198,7 +198,7 @@ const CommentListItem = (props) => {
 
           {/* Avatar */}
           <div className="avatar">
-
+            <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
 
           {/* Engagements */}
@@ -207,20 +207,34 @@ const CommentListItem = (props) => {
             {/* Likes */}
             <div className="likes">
               <span className="heart">
+                <img src={like} alt="like" />
               </span>
               <span className="counter">
+                {props.score}
               </span>
               <span className="toggle">
+                <img
+                    src={props.liked ? minus : plus}
+                    alt="liked"
+                    onClick={toggleLiked}
+                />
               </span>
             </div>
 
             {/* Endorsements */}
             <div className="endorsements">
               <span className="medal">
+                <img className="medal" src={endorse} alt="endorse" />
               </span>
               <span className="counter">
+                {props.endorsements.length}
               </span>
               <span className="toggle">
+                <img
+                  src={props.endorsed ? minus : plus}
+                  alt="endorsed"
+                  onClick={toggleEndorsed}
+                />
               </span>
             </div>
 
