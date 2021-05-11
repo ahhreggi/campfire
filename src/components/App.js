@@ -30,6 +30,7 @@ let dummyUser = {
 
 const API = {
   // GET_COURSES: "/api/courses",
+  RESET: "/api/debug/reset_db",
   GET_COURSE: "/api/courses/:id", // data = { state.courseID }
   EDIT_POST: "/api/posts/:id", // data = { ...updatedData }
   DELETE_POST: "/api/posts/:id",
@@ -57,26 +58,30 @@ const App = () => {
     selectedTags: []
   });
 
-  // Fetch course data from the server whenever the courseID in state changes
-  useEffect(() => {
-    // Get course data for the current course ID in state
-    fetchCourseData(state.courseID);
-  }, [state.courseID]);
-
-  // When selecting a new active view, refresh app data
+  // Fetch course data when:
+  // -- selecting a new courseID
+  // -- changing active view
+  // -- changing active postID
   useEffect(() => {
     fetchCourseData(state.courseID);
-  }, [state.active]);
+  }, [state.courseID, state.active, state.postID]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  const resetDB = () => {
+    console.log("Re-seeding database as admin.");
+    request("GET", API.RESET, null, null, "admin")
+      .then(() => setActive("Dashboard"));
+  };
+
   // Create an axios request
-  const request = async (method, url, id = null, data = null) => {
+  const request = async(method, url, id = null, data = null, role = null) => {
+    // If a role is provided, use its token, otherwise use state.authToken
     return axios({
       method: method,
       url: url.replace(":id", id),
       headers: {
-        "Authorization": state.authToken
+        "Authorization": role ? tokens[role] : state.authToken
       },
       data
     })
@@ -125,38 +130,11 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  // Request to delete a post by ID
+  // Request to delete a post by ID and redirect to Dashboard
   const deletePost = (postID) => {
     request("DELETE", API.DELETE_POST, postID)
-      .then(() => {
-        console.log("Deleted post! Redirecting to dashboard...");
-        setActive("Dashboard");
-      })
+      .then(() => setActive("Dashboard"))
       .catch((err) => console.log(err));
-
-    // // TODO: API Request
-    // console.log("API: Requesting to DELETE a post with the post ID", postID);
-
-    // // MOCK: Send a delete request to the server
-    // // SUCCESS: Redirect to dashboard
-    // // ERROR: Return to post and display an error message
-    // // Temp: Retrieve all posts except the one with postID
-    // const newPosts = state.courseData.posts.filter(post => post.id !== postID);
-    // const newCourseData = { ...state.courseData, posts: newPosts };
-    // // Update state using the response data and redirect
-    // const res = newCourseData;
-
-    // if (res) {
-    //   setState({
-    //     ...state,
-    //     active: "Dashboard",
-    //     courseData: newCourseData,
-    //     postID: null,
-    //     postData: null
-    //   });
-    // } else {
-    //   console.log("An error occurred while deleting the post.");
-    // }
   };
 
   // Request to like a comment by ID
@@ -190,6 +168,7 @@ const App = () => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
+  // If setting the view to the existing view, refresh the course data
   const setActive = (selection, postID = null) => {
     if (selection === "Post") {
       // Get the post data for the postID in state
@@ -310,6 +289,7 @@ const App = () => {
             test controls:
             <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
             <Button text="Analytics" onClick={() => setActive("Analytics")} />
+            <Button text="Refresh DB" onClick={() => resetDB()} />
           </div>
 
         </>
