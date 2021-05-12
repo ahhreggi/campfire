@@ -1,10 +1,10 @@
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Nav.scss";
 
 const Nav = (props) => {
 
   Nav.propTypes = {
-    onClick: PropTypes.func,
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
@@ -16,12 +16,15 @@ const Nav = (props) => {
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onClick("Dashboard")}>
-        <span className="title glow">
-          Campfire
-          <img className="glow" src="./images/campfire.png" alt="Campfire" />
-        </span>
-      </section>
+      {/* <section className="app-nav left" onClick={() => props.onClick("Dashboard")}> */}
+      <Link to="/dashboard">
+        <section className="app-nav left">
+          <span className="title glow">
+            Campfire
+            <img className="glow" src="./images/campfire.png" alt="Campfire" />
+          </span>
+        </section>
+      </Link>
 
       {/* View Title */}
       <section className="app-nav middle">

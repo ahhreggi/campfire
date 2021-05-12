@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -267,21 +268,21 @@ const App = () => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
 
-      {/* Loading Message (when there is no courseData) */}
-      {state.loading &&
+        {/* Loading Message (when there is no courseData) */}
+        {state.loading &&
         <div className="display-4 d-flex justify-content-center align-items-center h-100">
           Loading...
         </div>}
 
-      {/* Course View (courseData exists) */}
-      {!state.loading && state.courseData &&
+        {/* Course View (courseData exists) */}
+        {!state.loading && state.courseData &&
         <>
 
           {/* Nav Bar */}
           <Nav
-            onClick={setActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
@@ -307,22 +308,24 @@ const App = () => {
             </div>
 
             {/* Current View */}
-            <div className="app-right">
-              <Main
-                active={state.active}
-                userData={state.user}
-                courseData={state.courseData}
-                postID={state.postID}
-                onEditBookmark={editBookmark}
-                onAddPost={addPost}
-                onEditPost={editPost}
-                onDeletePost={deletePost}
-                onLikeComment={likeComment}
-                onEditComment={editComment}
-                onDeleteComment={deleteComment}
-                onTagToggle={updateSelectedTags}
-              />
-            </div>
+            <Route path="/dashboard" exact render={(props) => (
+              <div className="app-right">
+                <Main
+                  active={state.active}
+                  userData={state.user}
+                  courseData={state.courseData}
+                  postID={state.postID}
+                  onEditBookmark={editBookmark}
+                  onAddPost={addPost}
+                  onEditPost={editPost}
+                  onDeletePost={deletePost}
+                  onLikeComment={likeComment}
+                  onEditComment={editComment}
+                  onDeleteComment={deleteComment}
+                  onTagToggle={updateSelectedTags}
+                />
+              </div>
+            )} />
 
           </section>
 
@@ -335,8 +338,9 @@ const App = () => {
           </div>
 
         </>
-      }
-    </div>
+        }
+      </div>
+    </Router>
   );
 };
 
