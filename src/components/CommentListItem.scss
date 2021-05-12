@@ -59,7 +59,7 @@
     background-color: $navy-4;
     margin-top: 0;
     padding-bottom: 0.5rem;
-    zoom: 85%;
+    // zoom: 85%;
     border-radius: 20px;
     border-left-width: 3px;
 
@@ -251,26 +251,30 @@
 
         }
 
-        .controls {
-          display: flex;
-          flex-wrap: nowrap;
-          justify-content: space-between;
-
-          img {
-            width: 1.5rem;
-          }
-
-          .edit {
-            margin-left: 0.2rem;
-          }
-
-        }
 
       }
 
     }
 
   }
+
+  .controls {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    // margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    img {
+      width: 1.5rem;
+    }
+
+    .edit {
+      margin-left: 0.2rem;
+    }
+
+  }
+
 
   .editable {
 
@@ -283,7 +287,7 @@
 
   .discussion-label {
     .replies-toggle {
-      margin-right: 2rem;
+      // margin-right: 0rem;
     }
   }
 

@@ -75,6 +75,10 @@
 
   }
 
+  footer {
+    margin-top: 1rem;
+  }
+
   footer.post-icons {
     display: flex;
     justify-content: space-between;
@@ -123,41 +127,67 @@
     .discussion-label {
       font-size: 1.1rem;
       font-weight: 700;
-
-      img {
-        user-select: none;
-        margin-bottom: 0.1rem;
-      }
+      user-select: none;
 
       &.replies-label {
         font-size: 1rem;
-        display: flex;
-        align-items: center;
-        // margin-left: 1rem;
-        margin-left: 6.2rem;
-        img {
-          width: 1.3rem;
+        margin-left: 6.3rem;
+
+        .reply-controls {
+          display: flex;
+          flex-direction: row;
         }
-        .replies-toggle {
+
+        img {
+          width: 1.2rem;
           user-select: none;
+          margin-right: 0.3rem;
+          margin-bottom: 0.1rem;
+          opacity: 0.9;
+        }
+
+        .replies-present {
           cursor: pointer;
-          .toggle-item {
+          opacity: 0.9;
+          &:hover,
+          &.replies-active {
+            opacity: 1;
+            img {
+              opacity: 1;
+            }
+          }
+
+        }
+
+        .replies-absent {
+          opacity: 0.3;
+        }
+
+        .reply {
+          margin-right: 1rem;
+          cursor: pointer;
+          opacity: 0.9;
+          img {
+            filter: brightness(0) invert(100);
             opacity: 0.8;
           }
-        }
-        .replies-toggle:hover,
-        .replies-toggle.active {
-          .toggle-item {
+          &:hover,
+          &.reply-active {
             opacity: 1;
+            img {
+              filter: none;
+              opacity: 1;
+            }
           }
-
         }
-
-
       }
 
     }
 
+  }
+
+  .reply-form {
+    margin-left: 6.4rem;
   }
 
 }
