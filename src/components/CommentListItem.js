@@ -209,7 +209,8 @@ const CommentListItem = (props) => {
   const authorRole = getAuthorRole(props.authorRole, false);
 
   // Get the timestamp to display
-  const timestamp = getTimestamp(props.lastModified, isModified);
+  const timestamp = formatTimestamp(props.lastModified);
+  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Get a list of all endorsers
   const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
@@ -340,8 +341,8 @@ const CommentListItem = (props) => {
           <footer>
 
             {/* Timestamp */}
-            <div className={`timestamp ${isModified && "modified"}`}>
-              {timestamp}
+            <div className="timestamp">
+              {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
             </div>
 
             {/* Comment Edit Controls */}

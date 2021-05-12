@@ -50,7 +50,7 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: true,
+    showCommentForm: false,
   });
 
   // Reset form and confirmation states when switching posts
@@ -59,7 +59,7 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: true
+      showCommentForm: false
     });
   }, [props.id]);
 
@@ -164,6 +164,18 @@ const Post = (props) => {
     }
   };
 
+  // Return a formatted relative timestamp based on if it was modified
+  // Wednesday, May 12th, 2021 @ 5:35pm (edited a minute ago)
+  const getTimestamp = (timestamp, isModified) => {
+    let result = formatTimestamp(timestamp);
+    if (isModified) {
+      result += isModified ? ` (edited ${formatTimestamp(props.lastModified, true)})` : "";
+    } else {
+      result += ` (${formatTimestamp(timestamp, true)})`;
+    }
+    return result;
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -174,6 +186,10 @@ const Post = (props) => {
 
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
+
+  // Get the timestamp to display
+  const timestamp = formatTimestamp(props.lastModified);
+  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Check if limit is reached
   // TODO: Store tagList in an .env along with other global app variables
@@ -212,13 +228,8 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
+            Submitted by <span className="author">{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
           </div>
-          {isModified &&
-            <div className="modified">
-              Last modified: {formatTimestamp(props.lastModified)} ({formatTimestamp(props.lastModified, true)})
-            </div>
-          }
         </div>
 
         <footer className="post-icons">
