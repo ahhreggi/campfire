@@ -79,6 +79,11 @@ const Post = (props) => {
     }
   };
 
+  // Toggle new comment form
+  const toggleCommentForm = () => {
+    setState({ ...state, showCommentForm: !state.showCommentForm });
+  };
+
   const handleClick = (tag) => {
     props.onTagToggle(tag, true);
   };
