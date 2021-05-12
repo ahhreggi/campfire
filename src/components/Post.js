@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import TagList from "./TagList";
+import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import eye from "../images/icons/eye.png";
 import pin from "../images/icons/pin.png";
@@ -41,7 +42,8 @@ const Post = (props) => {
     onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
-    onTagToggle: PropTypes.func
+    onTagToggle: PropTypes.func,
+    userName: PropTypes.string
   };
 
   const [state, setState] = useState({
@@ -299,17 +301,9 @@ const Post = (props) => {
       {state.showCommentForm &&
         <>
           <hr />
-          <EditForm
-            id={props.id}
-            title={props.title}
-            author={props.author}
-            body={props.body}
-            anonymous={props.anonymous}
-            tags={props.tags}
-            courseTags={props.courseTags}
-            mode={"POST"}
-            onSave={savePost}
-            onCancel={toggleForm}
+          <CommentForm
+            userName={`${props.userData.first_name} ${props.userData.last_name}`}
+            onAddComment={addComment}
           />
         </>
       }
