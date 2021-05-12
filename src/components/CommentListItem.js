@@ -129,9 +129,9 @@ const CommentListItem = (props) => {
   // TODO: Move to helper file
   const formatTimestamp = (timestamp, relative) => {
     if (relative) {
-      return moment(timestamp).fromNow();
+      return moment(timestamp).subtract(3, "seconds").fromNow();
     } else {
-      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+      return moment(timestamp).subtract(3, "seconds").format("dddd, MMMM Do, YYYY @ h:mm a");
     }
   };
 

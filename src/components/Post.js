@@ -133,9 +133,9 @@ const Post = (props) => {
   // TODO: Move to helper file
   const formatTimestamp = (timestamp, relative) => {
     if (relative) {
-      return moment(timestamp).fromNow();
+      return moment(timestamp).subtract(3, "seconds").fromNow();
     } else {
-      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+      return moment(timestamp).subtract(3, "seconds").format("dddd, MMMM Do, YYYY @ h:mm a");
     }
   };
 
@@ -149,6 +149,7 @@ const Post = (props) => {
 
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
+  console.log(props.createdAt, props.lastModified, props.createdAt === props.lastModified);
 
   // Check if limit is reached
   // TODO: Store tagList in an .env along with other global app variables
@@ -189,7 +190,7 @@ const Post = (props) => {
           <div>
             Submitted by <span className="author">{authorName}</span> on {formatTimestamp(props.createdAt)}
           </div>
-          {!isModified &&
+          {isModified &&
             <div className="modified">
               Last modified: {formatTimestamp(props.lastModified)} ({formatTimestamp(props.lastModified, true)})
             </div>
