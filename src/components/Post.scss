@@ -149,12 +149,15 @@
         .replies-present {
           cursor: pointer;
           opacity: 0.9;
+
           &:hover,
           &.replies-active {
             opacity: 1;
+
             img {
               opacity: 1;
             }
+
           }
 
         }
@@ -167,19 +170,25 @@
           margin-right: 1rem;
           cursor: pointer;
           opacity: 0.9;
+
           img {
             filter: brightness(0) invert(100);
             opacity: 0.8;
           }
+
           &:hover,
           &.reply-active {
             opacity: 1;
+
             img {
               filter: none;
               opacity: 1;
             }
+
           }
+
         }
+
       }
 
     }

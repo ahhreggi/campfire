@@ -19,17 +19,21 @@
   &.highlight-delete {
     border: 2px solid $red;
     background-color: $navy-1;
+
     &:not(.highlight-parent) {
       background-color: $navy-1;
     }
+
   }
 
   // Parent comment styling
   &.highlight-parent {
+
     .EditForm {
       background-color: $navy-1;
       margin-bottom: 1rem;
     }
+
   }
 
   // Instructor comment styling
@@ -64,7 +68,6 @@
     background-color: $navy-4;
     margin-top: 0;
     padding-bottom: 0.5rem;
-    // zoom: 85%;
     border-radius: 20px;
     border-left-width: 3px;
 
@@ -76,13 +79,17 @@
 
   // Hover styling
   .toggle {
+
     img {
       opacity: 0.7;
+
       &:hover {
         opacity: 1;
         cursor: pointer;
       }
+
     }
+
   }
 
   .top {
@@ -95,17 +102,22 @@
       width: 1rem;
 
       &.heart {
+
         img {
           width: 0.9rem;
         }
+
       }
 
       &.medal {
+
         img {
           width: 1rem;
           margin-top: 0.1rem;
         }
+
       }
+
     }
 
     section.left {
@@ -118,9 +130,11 @@
 
       .avatar {
         margin: 0.2rem 0 0.3rem 0;
+
         img {
           width: 5rem;
         }
+
       }
 
       .role {
@@ -128,9 +142,11 @@
         text-transform: uppercase;
         font-size: 0.8rem;
         margin: 0.2rem 0 0.5rem 0;
+
         &.instructor {
           color: $yellow;
         }
+
       }
 
       .engagements {
@@ -188,12 +204,15 @@
         .comment-author {
           font-weight: 700;
           font-size: 0.9rem;
+
           img.author-badge {
             width: 0.8rem;
             margin-left: 0.5rem;
             margin-bottom: 0.2rem;
           }
+
         }
+
         .label {
           font-weight: 700;
 
@@ -207,7 +226,9 @@
             font-size: 1.3rem;
             margin-right: 0.2rem;
           }
+
         }
+
       }
 
       .comment-body {
@@ -268,7 +289,6 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-end;
-    // margin-top: 1rem;
     margin-bottom: 1rem;
 
     img {
@@ -291,12 +311,6 @@
 
   }
 
-  .discussion-label {
-    .replies-toggle {
-      // margin-right: 0rem;
-    }
-  }
-
 
   .replies {
     height: 100%;
@@ -304,6 +318,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+
   }
 
 }
