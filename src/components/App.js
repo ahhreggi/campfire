@@ -268,21 +268,21 @@ const App = () => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
 
-        {/* Loading Message (when there is no courseData) */}
-        {state.loading &&
+      {/* Loading Message (when there is no courseData) */}
+      {state.loading &&
         <div className="display-4 d-flex justify-content-center align-items-center h-100">
           Loading...
         </div>}
 
-        {/* Course View (courseData exists) */}
-        {!state.loading && state.courseData &&
+      {/* Course View (courseData exists) */}
+      {!state.loading && state.courseData &&
         <>
 
           {/* Nav Bar */}
           <Nav
+            onClick={setActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
@@ -308,24 +308,22 @@ const App = () => {
             </div>
 
             {/* Current View */}
-            <Route path="/dashboard" exact render={(props) => (
-              <div className="app-right">
-                <Main
-                  active={state.active}
-                  userData={state.user}
-                  courseData={state.courseData}
-                  postID={state.postID}
-                  onEditBookmark={editBookmark}
-                  onAddPost={addPost}
-                  onEditPost={editPost}
-                  onDeletePost={deletePost}
-                  onLikeComment={likeComment}
-                  onEditComment={editComment}
-                  onDeleteComment={deleteComment}
-                  onTagToggle={updateSelectedTags}
-                />
-              </div>
-            )} />
+            <div className="app-right">
+              <Main
+                active={state.active}
+                userData={state.user}
+                courseData={state.courseData}
+                postID={state.postID}
+                onEditBookmark={editBookmark}
+                onAddPost={addPost}
+                onEditPost={editPost}
+                onDeletePost={deletePost}
+                onLikeComment={likeComment}
+                onEditComment={editComment}
+                onDeleteComment={deleteComment}
+                onTagToggle={updateSelectedTags}
+              />
+            </div>
 
           </section>
 
@@ -338,9 +336,8 @@ const App = () => {
           </div>
 
         </>
-        }
-      </div>
-    </Router>
+      }
+    </div>
   );
 };
 
