@@ -74,6 +74,7 @@ const App = () => {
   // -- changing active postID
   useEffect(() => {
     fetchCourseData(state.courseID);
+    console.log("fetching course data");
   }, [state.courseID, state.reloader]);
 
   // Show a loading screen if courseData is null
@@ -182,7 +183,7 @@ const App = () => {
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID) and refresh course data
+  // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null) => {
     setState({
       ...state,
@@ -260,6 +261,7 @@ const App = () => {
             {/* All Posts */}
             <div className="app-left">
               <PostList
+                active={state.active}
                 selectedPostID={state.postID}
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
@@ -267,7 +269,7 @@ const App = () => {
                 selectedTags={state.selectedTags}
                 onTagToggle={updateSelectedTags}
                 onTagClear={clearSelectedTags}
-                onNewPost={() => setActive("New")}
+                onNewPost={() => setActive("New Post")}
               />
             </div>
 

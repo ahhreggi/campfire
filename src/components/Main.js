@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
+import Post from "./Post";
+import PostForm from "./PostForm";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
-import Post from "./Post";
 import "./Main.scss";
 
 const Main = (props) => {
@@ -66,6 +67,10 @@ const Main = (props) => {
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
         />
+      }
+
+      {props.active === "New Post" &&
+        <PostForm />
       }
 
       {props.active === "Dashboard" &&

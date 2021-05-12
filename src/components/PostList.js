@@ -14,6 +14,7 @@ import "./PostList.scss";
 const PostList = (props) => {
 
   PostList.propTypes = {
+    active: PropTypes.string,
     selectedPostID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
@@ -155,7 +156,7 @@ const PostList = (props) => {
       <div className="newPost">
         <Button
           text="new post"
-          styles="new-post"
+          styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
           onClick={props.onNewPost}
           image={question}
         />
