@@ -9,36 +9,29 @@ import {jest} from "@jest/globals";
 // import axios from "axios";
 
 
-beforeEach(() => {
+beforeEach(async() => {
   jest.useFakeTimers(); // necessary before app tests to bypass loading screen
+
+  render(<App />);
+  // waits for loading screen to finish
+  await waitFor(() => screen.getByText("Campfire"));
 });
 
 afterEach(cleanup);
 
 describe("Application", () => {
   it("Renders", async() => {
-    render(<App />);
-    // waits for loading screen to finish
-    await waitFor(() => screen.getByText("Campfire"));
 
     expect(screen.getByText("Campfire")).toBeInTheDocument();
   });
 
   it("Displays a post when it is clicked", async() => {
-    render(<App />);
-
-    await waitFor(() => screen.getByText("Campfire"));
-
     fireEvent.click(screen.getByText(/do I create a class/));
 
     expect(screen.getByText(/keyword followed by/)).toBeInTheDocument();
   });
 
   it("Applies filter to postlist when tag is clicked and resets when clear filters is clicked", async() => {
-    render(<App />);
-
-    await waitFor(() => screen.getByText("Campfire"));
-
     fireEvent.click(screen.getAllByRole('button', {name: /promises/i})[0]);
 
     expect(screen.getByRole('button', {name: /clear filters/i})).toBeInTheDocument();
@@ -46,6 +39,17 @@ describe("Application", () => {
     fireEvent.click(screen.getByRole('button', {name: /clear filters/i}));
 
     expect(screen.getByText(/do I create a class/)).toBeInTheDocument();
+  });
+
+  it("Goes to analytics and back to dashboard when the buttons are pressed", async() => {
+    fireEvent.click(screen.getByRole('button', {name: /analytics/i}));
+
+    expect(screen.getByText('This is Analytics.'));
+    
+    fireEvent.click(screen.getByRole('button', {name: /dashboard/i}));
+
+    expect(screen.getByText('This is Dashboard.'));
+
   });
 
 });
