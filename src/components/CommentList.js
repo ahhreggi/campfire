@@ -16,7 +16,15 @@ const CommentList = (props) => {
     userName: PropTypes.string
   };
 
-  const comments = props.comments.map(comment => {
+  // Sort comments in order (most recent to oldest)
+
+  console.log(props.comments);
+
+  const sortedComments = props.comments.sort((a, b) => {
+    return b.id - a.id;
+  });
+
+  const comments = sortedComments.map(comment => {
     return (
       <CommentListItem
         key={comment.id}

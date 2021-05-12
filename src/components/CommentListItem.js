@@ -170,9 +170,15 @@ const CommentListItem = (props) => {
   };
 
   // Return a formatted relative timestamp based on if it was modified
+  // Wednesday, May 12th, 2021 @ 5:35pm (edited a minute ago)
   const getTimestamp = (timestamp, isModified) => {
-    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
-    return `${result} (${formatTimestamp(timestamp, true)})`;
+    let result = formatTimestamp(timestamp);
+    if (isModified) {
+      result += isModified ? ` (edited ${formatTimestamp(props.lastModified, true)})` : "";
+    } else {
+      result += ` (${formatTimestamp(timestamp, true)})`;
+    }
+    return result;
   };
 
 
