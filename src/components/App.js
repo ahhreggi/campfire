@@ -76,12 +76,52 @@ const App = () => {
   useEffect(() => {
     console.log("fetching course data");
     fetchCourseData(state.courseID);
-  }, [state.courseID, state.reloader]);
+  }, [state.courseID, state.active, state.reloader]);
 
   // Show a loading screen if courseData is null
   useEffect(() => {
     setState({ ...state, loading: !state.courseData });
   }, [state.courseData]);
+
+  // If postID changes, check that the active view is "Post". If not, change to it.
+  useEffect(() => {
+    if (state.postID && state.active !== "Post") {
+      console.log("postID changed and active was not on Post. changing now...");
+      // setState({ ...state, active: "Post" });
+      // console.log(state.postID);
+      // setActive("Post", state.postID);
+    }
+  }, [state.postID]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("COURSEDATA TRIGGERED");
+  }, [state.courseData]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("POSTS TRIGGERED", state.posts);
+  }, [state.posts]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("POSTDATA TRIGGERED", state.postData);
+  }, [state.postData]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("POSTID TRIGGERED", state.postID);
+  }, [state.postID]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("ACTIVE TRIGGERED", state.active);
+  }, [state.active]);
+
+  // Reloader
+  useEffect(() => {
+    console.log("RELOADER TRIGGERED");
+  }, [state.reloader]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -134,7 +174,7 @@ const App = () => {
         ...state,
         postData: data,
         postID: data.id,
-        reloader: true
+        reloader: !state.reloader
       });
     }
   };
@@ -170,7 +210,9 @@ const App = () => {
           reloader: !state.reloader
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("An error occurred. Check that the form is complete!");
+      });
   };
 
   // Request to edit a postID with the given data
@@ -218,7 +260,7 @@ const App = () => {
         ...state,
         active: selection,
         postID: postID,
-        postData: postData ? postData : getPostByID(state.postID),
+        postData: postData ? postData : getPostByID(state.posts, state.postID),
         reloader: !state.reloader
       });
     } else {

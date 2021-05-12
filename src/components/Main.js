@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
@@ -22,6 +23,12 @@ const Main = (props) => {
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
+
+  // const [state, setState] = useState({
+  //   mainActive: props.active
+  // });
+
+  // console.log(props.active, state.mainActive, props.postID);
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 

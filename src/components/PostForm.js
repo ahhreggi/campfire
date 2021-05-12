@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import EditForm from "./EditForm";
 import "./PostForm.scss";
 
+import axios from "axios";
+
 const PostForm = (props) => {
 
   PostForm.propTypes = {

@@ -149,7 +149,6 @@ const Post = (props) => {
 
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
-  console.log(props.createdAt, props.lastModified, props.createdAt === props.lastModified);
 
   // Check if limit is reached
   // TODO: Store tagList in an .env along with other global app variables
