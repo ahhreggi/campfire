@@ -10,9 +10,6 @@ import * as dummyData from "../../__mocks__/__dummyData";
 
 // import axios from "axios";
 
-
-
-
 afterEach(cleanup);
 describe("PostListItem", () => {
   it("renders without crashing", () => {
