@@ -38,6 +38,7 @@ const Post = (props) => {
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
@@ -105,6 +106,17 @@ const Post = (props) => {
     props.onDeletePost(props.id);
     // Hide confirmation form
     toggleConfirmation();
+  };
+
+  // Add a new comment
+  const addComment = (data) => {
+    const commentData = {
+      postID: props.id,
+      body: data.body,
+      parentID: null,
+      anonymous: data.anonymous
+    };
+    props.onAddComment(commentData);
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -283,8 +295,8 @@ const Post = (props) => {
 
       <hr />
 
-       {/* Comment Form */}
-       {state.showCommentForm &&
+      {/* Comment Form */}
+      {state.showCommentForm &&
         <>
           <hr />
           <EditForm

@@ -19,6 +19,7 @@ const Main = (props) => {
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
@@ -74,6 +75,7 @@ const Main = (props) => {
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}
+          onAddComment={props.onAddComment}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}

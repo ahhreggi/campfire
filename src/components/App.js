@@ -237,6 +237,13 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  // Request to add a comment with the given data
+  const addComment = (data) => {
+    request("POST", API.COMMENTS, null, data)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
   // Request to edit a comment by ID with the given data
   const editComment = (commentID, data) => {
     request("PATCH", API.COMMENTS, commentID, data)
@@ -370,6 +377,7 @@ const App = () => {
                           onAddPost={addPost}
                           onEditPost={editPost}
                           onDeletePost={deletePost}
+                          onAddComment={addComment}
                           onLikeComment={likeComment}
                           onEditComment={editComment}
                           onDeleteComment={deleteComment}
