@@ -50,7 +50,7 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: false,
+    showCommentForm: true,
   });
 
   // Reset form and confirmation states when switching posts
@@ -59,7 +59,7 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false
+      showCommentForm: true
     });
   }, [props.id]);
 
@@ -316,7 +316,7 @@ const Post = (props) => {
       {/* Discussion */}
       <div className="discussion">
         <div className="discussion-label">
-          <span className="comments icon-med">
+          <span className="comments">
             <img src={comment} alt="comments" />
           </span>
           Comments {numComments > 0 && `(${numComments})`}

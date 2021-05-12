@@ -69,7 +69,7 @@ const CommentListItem = (props) => {
   // Toggle and reset the comment edit form
   const toggleForm = () => {
     if (!state.showForm) {
-      setState({ ...state, showForm: true, showConfirmation: false });
+      setState({ ...state, showForm: true, showConfirmation: false, showReplyForm: false });
     } else {
       setState({ ...state, showForm: false });
     }
@@ -78,7 +78,7 @@ const CommentListItem = (props) => {
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
     if (!state.showReplyForm) {
-      setState({ ...state, showReplyForm: true, showConfirmation: false });
+      setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showReplyForm: false });
     }
@@ -425,7 +425,7 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies Toggler */}
-      {isParent &&
+      {isParent && !state.showConfirmation &&
         <>
           <div className="discussion-label replies-label">
             <span className="reply-controls">

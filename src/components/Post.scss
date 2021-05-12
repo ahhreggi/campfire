@@ -129,6 +129,12 @@
       font-weight: 700;
       user-select: none;
 
+      img {
+        width: 1.6rem;
+        cursor: initial;
+        margin-right: 0.5rem;
+      }
+
       &.replies-label {
         font-size: 1rem;
         margin-left: 6.3rem;
@@ -139,7 +145,7 @@
         }
 
         img {
-          width: 1.2rem;
+          width: 1.3rem;
           user-select: none;
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
