@@ -69,7 +69,7 @@ const CommentListItem = (props) => {
   // Toggle and reset the comment edit form
   const toggleForm = () => {
     if (!state.showForm) {
-      setState({ ...state, showForm: true, showConfirmation: false, showReplyForm: false });
+      setState({ ...state, showForm: true, showConfirmation: false });
     } else {
       setState({ ...state, showForm: false });
     }
@@ -77,9 +77,8 @@ const CommentListItem = (props) => {
 
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
-    console.log("toggling reply form");
     if (!state.showReplyForm) {
-      setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
+      setState({ ...state, showReplyForm: true, showConfirmation: false });
     } else {
       setState({ ...state, showReplyForm: false });
     }
@@ -129,10 +128,7 @@ const CommentListItem = (props) => {
     };
     props.onAddComment(newReplyData);
     // Hide reply form
-    toggleReplyForm();
-    if (!state.showReplyList) {
-      toggleReplyList();
-    }
+    setState({ ...state, showReplyForm: false, showReplyList: true });
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
