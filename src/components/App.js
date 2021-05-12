@@ -70,6 +70,7 @@ const App = () => {
   // -- changing active view
   // -- changing active postID
   useEffect(() => {
+    console.log("fetching course data");
     fetchCourseData(state.courseID);
   }, [state.courseID, state.reloader]);
 
@@ -155,11 +156,15 @@ const App = () => {
 
     request("POST", API.POSTS, null, data)
       .then((postData) => {
-        // Redirect to the newly created post
-        // BUG: postData is received, but courseID is null
-        // setActive("Post", postData.id, postData);
-        console.log("Post successfully added! Server response: ", postData);
-        setActive("Dashboard");
+        // Update state to contain the new post data
+        // Reload course data
+        setState({
+          ...state,
+          postID: postData.id,
+          postData: postData,
+          posts: { ...state.posts, postData },
+          reloader: !state.reloader
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -209,7 +214,7 @@ const App = () => {
         ...state,
         active: selection,
         postID: postID,
-        postData: postData ? postData : getPostByID(state.posts),
+        postData: postData ? postData : getPostByID(state.postID),
         reloader: !state.reloader
       });
     } else {
