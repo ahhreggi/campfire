@@ -66,13 +66,11 @@ const EditForm = (props) => {
 
   // Update the preview title dynamically as the user types
   const updatePreviewTitle = (event) => {
-    console.log(event.target.value);
     setState({ ...state, previewTitle: event.target.value });
   };
 
   // Update the preview body dynamically as the user types
   const updatePreviewBody = (event) => {
-    console.log(event.target.value);
     setState({ ...state, previewBody: event.target.value });
   };
 

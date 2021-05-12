@@ -462,9 +462,19 @@ const App = () => {
             </>
           )} />
 
-          <Route path="/login" exact component={Login} />
+          <Route path="/login" exact render={(props) => (
+            <Login
+              onSubmit={fetchUserData}
+              mode={"LOGIN"}
+            />
+          )} />
 
-          <Route path="/register" exact component={Register} />
+          <Route path="/register" exact render={(props) => (
+            <Register
+              onSubmit={registerUser}
+              mode={"REGISTER"}
+            />
+          )} />
 
           <Route component={Error404} />
 
