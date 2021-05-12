@@ -7,6 +7,8 @@ import Main from "./Main";
 import Button from "./Button";
 import Login from "./Login";
 import Register from "./Register";
+import Create from "./Create";
+import Join from "./Join";
 import Error404 from "./Error404";
 import "./App.scss";
 
@@ -465,14 +467,24 @@ const App = () => {
           <Route path="/login" exact render={(props) => (
             <Login
               onSubmit={fetchUserData}
-              mode={"LOGIN"}
             />
           )} />
 
           <Route path="/register" exact render={(props) => (
             <Register
               onSubmit={registerUser}
-              mode={"REGISTER"}
+            />
+          )} />
+
+          <Route path="/create" exact render={(props) => (
+            <Create
+              onSubmit={createCourse}
+            />
+          )} />
+
+          <Route path="/join" exact render={(props) => (
+            <Join
+              onSubmit={joinCourse}
             />
           )} />
 
