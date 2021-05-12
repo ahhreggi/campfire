@@ -8,6 +8,7 @@
   padding: 1rem;
   padding-bottom: 1rem;
   border: 1px solid transparent;
+  border-left: 3px solid $navy-6;
 
   // Delete confirmation styling
   &.highlight-delete {
@@ -37,7 +38,7 @@
   &.highlight-instructor {
 
     &:not(.highlight-delete) {
-      border: 1px solid $yellow;
+      border-left-color: $yellow;
     }
 
     .comment-author {
@@ -57,7 +58,7 @@
 
   // Best answer styling
   &.highlight-best:not(.highlight-delete) {
-    border: 1px solid $green;
+    border-left-color: $green;
   }
 
   // Reply styling
@@ -186,6 +187,11 @@
         .comment-author {
           font-weight: 700;
           font-size: 0.9rem;
+          img.author-badge {
+            width: 0.8rem;
+            margin-left: 0.5rem;
+            margin-bottom: 0.2rem;
+          }
         }
         .label {
           font-weight: 700;
@@ -280,7 +286,7 @@
   }
   .replies {
     height: 100%;
-    border-left: 0.5rem solid $navy-7;
+    // border-left: 0.5rem solid $navy-7;
     padding-left: 0.5rem;
     display: flex;
     flex-direction: column;

@@ -262,6 +262,9 @@ const CommentListItem = (props) => {
                 {/* Author */}
                 <div className="comment-author">
                   {authorName}
+                  {isPostAuthor &&
+                    <img className="author-badge" src={edit} alt="author" />
+                  }
                 </div>
 
                 {/* Best Answer Label */}
