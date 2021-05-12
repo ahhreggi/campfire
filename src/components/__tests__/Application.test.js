@@ -49,7 +49,6 @@ describe("Application", () => {
     fireEvent.click(screen.getByRole('button', {name: /dashboard/i}));
 
     expect(screen.getByText('This is Dashboard.'));
-
   });
 
 });
