@@ -50,7 +50,7 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: false,
+    showCommentForm: true
   });
 
   // Reset form and confirmation states when switching posts
@@ -59,7 +59,7 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false
+      showCommentForm: true
     });
   }, [props.id]);
 
@@ -77,6 +77,7 @@ const Post = (props) => {
   // Toggle and reset the new reply form
   const toggleCommentForm = () => {
     if (!state.showCommentForm) {
+      console.log("showing comment form");
       setState({ ...state, showCommentForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showCommentForm: false });
@@ -129,7 +130,7 @@ const Post = (props) => {
       ...data // contains body, anonymous, and possibly parentID (if reply)
     };
     props.onAddComment(commentData);
-    toggleCommentForm();
+    setState({ ...state, showCommentForm: false });
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -270,7 +271,6 @@ const Post = (props) => {
       {state.showForm &&
         <>
           <EditForm
-            label={"EDIT POST"}
             id={props.id}
             title={props.title}
             author={props.author}
