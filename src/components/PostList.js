@@ -21,6 +21,7 @@ const PostList = (props) => {
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
+    onNewPost: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -155,7 +156,7 @@ const PostList = (props) => {
         <Button
           text="new post"
           styles="new-post"
-          onClick={props.onTagClear}
+          onClick={props.onNewPost}
           image={question}
         />
       </div>

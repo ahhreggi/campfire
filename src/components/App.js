@@ -114,7 +114,6 @@ const App = () => {
     request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
-        console.log(data);
       });
   };
 
@@ -268,6 +267,7 @@ const App = () => {
                 selectedTags={state.selectedTags}
                 onTagToggle={updateSelectedTags}
                 onTagClear={clearSelectedTags}
+                onNewPost={() => setActive("New")}
               />
             </div>
 

@@ -12,20 +12,20 @@ button {
   }
 
   &.new-post {
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid $navy-2;
-    background: linear-gradient($navy-5, $navy-1);
+    background: linear-gradient($navy-6, $navy-1);
     color: $white;
     // background-color: $green;
     font-size: 0.9rem;
     font-weight: 700;
-    height: 2rem;
+    height: 3rem;
     width: 50%;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
     &:hover {
-      border: 1px solid $white;
+      // border: 1px solid $white;
       background: linear-gradient($navy-7, $navy-2);
     }
   }

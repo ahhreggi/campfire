@@ -4,8 +4,8 @@ import "./Dashboard.scss";
 const Dashboard = (props) => {
 
   Dashboard.propTypes = {
-    resolved: PropTypes.number,
-    unresolved: PropTypes.number
+    resolved: PropTypes.string,
+    unresolved: PropTypes.string
   };
   return (
     <div className="Dashboard">
