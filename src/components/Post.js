@@ -34,7 +34,7 @@ const Post = (props) => {
     editable: PropTypes.bool,
     tags: PropTypes.array,
     title: PropTypes.string,
-    userID: PropTypes.number,
+    authorID: PropTypes.number,
     views: PropTypes.number,
     onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
@@ -50,7 +50,7 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: true
+    showCommentForm: false
   });
 
   // Reset form and confirmation states when switching posts
@@ -59,7 +59,7 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: true
+      showCommentForm: false
     });
   }, [props.id]);
 
@@ -107,6 +107,12 @@ const Post = (props) => {
   // Pin/unpin the post
   const togglePin = () => {
     props.onEditPost(props.id, { pinned: !props.pinned });
+  };
+
+  // Select the best answer
+  // commentID may be null
+  const editBestAnswer = (commentID) => {
+    props.onEditPost(props.id, { "best_answer": commentID === props.bestAnswer ? null : true });
   };
 
   // Save the post changes
@@ -354,7 +360,8 @@ const Post = (props) => {
             onEditComment={props.onEditComment}
             onDeleteComment={props.onDeleteComment}
             bestAnswer={props.bestAnswer}
-            postAuthorID={props.userID}
+            onEditBestAnswer={editBestAnswer}
+            postAuthorID={props.authorID}
             userName={props.userName}
           />
         </div>

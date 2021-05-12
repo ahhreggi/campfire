@@ -49,11 +49,13 @@ const CommentListItem = (props) => {
     onDeleteComment: PropTypes.func,
 
     bestAnswer: PropTypes.number,
+    onEditBestAnswer: PropTypes.func,
 
     postAuthorID: PropTypes.number,
     commentAuthorID: PropTypes.number,
 
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    userIsAuthor: PropTypes.bool
   };
 
   const [state, setState] = useState({
@@ -117,6 +119,10 @@ const CommentListItem = (props) => {
     props.onDeleteComment(props.id);
     // Hide confirmation form
     toggleConfirmation();
+  };
+
+  const setBestAnswer = () => {
+    props.onEditBestAnswer(props.id);
   };
 
   // Add a reply
@@ -287,9 +293,17 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className="label">
+                  <div className="label selected" onClick={setBestAnswer}>
                     <img src={checkmark} alt="checkmark" />
                     <span>BEST ANSWER</span>
+                  </div>
+                }
+
+                {/* Select Best Answer Label */}
+                {props.bestAnswer === null && props.userIsAuthor &&
+                  <div className="label unselected" onClick={setBestAnswer}>
+                    {/* <img src={checkmark} alt="checkmark" /> */}
+                    <span>SELECT AS BEST ANSWER</span>
                   </div>
                 }
 
@@ -497,6 +511,7 @@ const CommentListItem = (props) => {
             onDeleteComment={props.onDeleteComment}
             bestAnswer={props.bestAnswer}
             postAuthorID={props.postAuthorID}
+            userName={props.userName}
           />
         </section>
       }

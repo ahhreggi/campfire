@@ -215,6 +215,28 @@
 
         .label {
           font-weight: 700;
+          cursor: pointer;
+          user-select: none;
+
+          &.unselected {
+            filter: grayscale(20%);
+            opacity: 0.3;
+            &:hover {
+              filter: grayscale(5%);
+              opacity: 0.7;
+            }
+            &:active {
+              filter: none;
+              opacity: 1;
+            }
+          }
+
+          &.selected {
+            opacity: 0.9;
+            &:hover {
+              opacity: 1;
+            }
+          }
 
           img {
             width: 1.2rem;
@@ -222,9 +244,9 @@
           }
 
           span {
-            color: $green;
             font-size: 1.3rem;
             margin-right: 0.2rem;
+            color: $green;
           }
 
         }

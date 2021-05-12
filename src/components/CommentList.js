@@ -11,15 +11,13 @@ const CommentList = (props) => {
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     bestAnswer: PropTypes.number,
+    onEditBestAnswer: PropTypes.func,
     postAuthorID: PropTypes.number,
     commentAuthorID: PropTypes.number,
     userName: PropTypes.string
   };
 
   // Sort comments in order (most recent to oldest)
-
-  console.log(props.comments);
-
   const sortedComments = props.comments.sort((a, b) => {
     return b.id - a.id;
   });
@@ -50,9 +48,11 @@ const CommentList = (props) => {
         onEditComment={props.onEditComment}
         onDeleteComment={props.onDeleteComment}
         bestAnswer={props.bestAnswer}
+        onEditBestAnswer={props.onEditBestAnswer}
         postAuthorID={props.postAuthorID}
         commentAuthorID={comment.user_id}
         userName={props.userName}
+        userIsAuthor={comment.user_is_post_author}
       />
     );
   });

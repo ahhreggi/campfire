@@ -103,35 +103,35 @@ const App = () => {
     }
   }, [state.postID]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("COURSEDATA TRIGGERED");
-  }, [state.courseData]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("COURSEDATA TRIGGERED");
+  // }, [state.courseData]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("POSTS TRIGGERED", state.posts);
-  }, [state.posts]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("POSTS TRIGGERED", state.posts);
+  // }, [state.posts]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("POSTDATA TRIGGERED", state.postData);
-  }, [state.postData]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("POSTDATA TRIGGERED", state.postData);
+  // }, [state.postData]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("POSTID TRIGGERED", state.postID);
-  }, [state.postID]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("POSTID TRIGGERED", state.postID);
+  // }, [state.postID]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("ACTIVE TRIGGERED", state.active);
-  }, [state.active]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("ACTIVE TRIGGERED", state.active);
+  // }, [state.active]);
 
-  // Reloader
-  useEffect(() => {
-    console.log("RELOADER TRIGGERED");
-  }, [state.reloader]);
+  // // Reloader
+  // useEffect(() => {
+  //   console.log("RELOADER TRIGGERED");
+  // }, [state.reloader]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -198,9 +198,9 @@ const App = () => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
       .then((userData) => {
         setState({ ...state, user: userData, authToken: userData.token, userCourseIDs: userData.courses });
-        // redirect to page with all of the user's courses or the course page of most recent?
-        // have this api call include an array of the user's course IDs already to display in the nav/login landing
-        // e.g., userData.courses = [ { id: course_id, name: course_name }]
+      // redirect to page with all of the user's courses or the course page of most recent?
+      // have this api call include an array of the user's course IDs already to display in the nav/login landing
+      // e.g., userData.courses = [ { id: course_id, name: course_name }]
       })
       .catch((err) => console.log(err));
   };
@@ -210,7 +210,7 @@ const App = () => {
     request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
       .then((userData) => {
         setState({ ...state, user: userData, authToken: userData.token, userCourses: [] });
-        // redirect to create/join page since the user has no courses yet
+      // redirect to create/join page since the user has no courses yet
       })
       .catch((err) => console.log(err));
     // errors: user is already logged in or the email provided is taken
@@ -222,11 +222,11 @@ const App = () => {
   const joinCourse = (data) => {
     request("POST", API.JOIN, null, { accessCode: data.accessCode })
       .then((data) => {
-        // need this to give the courseID, currently gives course URL
+      // need this to give the courseID, currently gives course URL
         const courseID = parseInt(data.redirect_to.split("/")[1]);
         fetchCourseData(courseID);
-        // redirect to course page
-        // loading -> courseData becomes !== null and displays dashboard/main app
+      // redirect to course page
+      // loading -> courseData becomes !== null and displays dashboard/main app
       })
       .catch((err) => console.log(err));
   };
@@ -281,6 +281,7 @@ const App = () => {
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
+    console.log("Updating values for", Object.keys(data));
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
