@@ -9,8 +9,9 @@
   }
   .create-form {
     .EditForm {
-      border: 1px solid $blue;
+      border: 2px solid $blue;
       background-color: $navy-2;
+      border-radius: 15px;
       .Preview {
         min-height: 5rem;
       }

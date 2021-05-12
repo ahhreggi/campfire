@@ -319,7 +319,7 @@ const Post = (props) => {
           <span className="comments icon-med">
             <img src={comment} alt="comments" />
           </span>
-          Discussion {numComments > 0 && `(${numComments})`}
+          Comments {numComments > 0 && `(${numComments})`}
         </div>
 
         {/* Add Comment Form */}
