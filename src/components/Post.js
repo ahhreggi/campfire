@@ -314,18 +314,6 @@ const Post = (props) => {
 
       <hr />
 
-      {/* Add Comment Form */}
-      {state.showCommentForm &&
-        <div className="comment-form">
-          <CommentForm
-            // header={"Post a comment"}
-            label={"COMMENT PREVIEW"}
-            userName={props.userName}
-            onAddComment={addComment}
-          />
-        </div>
-      }
-
       {/* Discussion */}
       <div className="discussion">
         <div className="discussion-label">
@@ -334,16 +322,33 @@ const Post = (props) => {
           </span>
           Discussion {numComments > 0 && `(${numComments})`}
         </div>
-        <CommentList
-          comments={props.comments}
-          onLikeComment={props.onLikeComment}
-          onAddComment={addComment}
-          onEditComment={props.onEditComment}
-          onDeleteComment={props.onDeleteComment}
-          bestAnswer={props.bestAnswer}
-          postAuthorID={props.userID}
-          userName={props.userName}
-        />
+
+        {/* Add Comment Form */}
+        {state.showCommentForm &&
+          <div className="comment-form">
+            <CommentForm
+              // header={"Post a comment"}
+              label={"NEW COMMENT"}
+              userName={props.userName}
+              onAddComment={addComment}
+              onCancelComment={toggleCommentForm}
+            />
+          </div>
+        }
+
+        <div className="comment-list">
+          <CommentList
+            comments={props.comments}
+            onLikeComment={props.onLikeComment}
+            onAddComment={addComment}
+            onEditComment={props.onEditComment}
+            onDeleteComment={props.onDeleteComment}
+            bestAnswer={props.bestAnswer}
+            postAuthorID={props.userID}
+            userName={props.userName}
+          />
+        </div>
+
       </div>
 
     </div>

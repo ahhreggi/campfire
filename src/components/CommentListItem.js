@@ -252,48 +252,66 @@ const CommentListItem = (props) => {
 
         <section className="right">
 
+          {!state.showForm &&
+            <div>
+              {/* Comment Header */}
+              <header>
 
-          {/* Comment Header */}
-          <div>
-            <header>
-
-              {/* Author */}
-              <div className="comment-author">
-                {authorName}
-              </div>
-
-              {/* Best Answer Label */}
-              {isBestAnswer &&
-                <div className="label">
-                  <img src={checkmark} alt="checkmark" />
-                  <span>BEST ANSWER</span>
+                {/* Author */}
+                <div className="comment-author">
+                  {authorName}
                 </div>
-              }
 
-            </header>
-
-            {/* Comment Body */}
-            <div className="comment-body">
-
-              {/* Comment Text */}
-              <div className="text">
-                {props.body}
-              </div>
-
-              {/* Comment Endorsers */}
-              {endorsers &&
-                <div className="endorsers">
-                  <div className="icon medal">
-                    <img src={endorse} alt="endorse" />
+                {/* Best Answer Label */}
+                {isBestAnswer &&
+                  <div className="label">
+                    <img src={checkmark} alt="checkmark" />
+                    <span>BEST ANSWER</span>
                   </div>
-                  <div className="text">
-                    Endorsed by <span className="names">{endorsers}</span>
-                  </div>
+                }
+
+              </header>
+
+              {/* Comment Body */}
+              <div className="comment-body">
+
+                {/* Comment Text */}
+                <div className="text">
+                  {props.body}
                 </div>
-              }
 
+                {/* Comment Endorsers */}
+                {endorsers &&
+                  <div className="endorsers">
+                    <div className="icon medal">
+                      <img src={endorse} alt="endorse" />
+                    </div>
+                    <div className="text">
+                      Endorsed by <span className="names">{endorsers}</span>
+                    </div>
+                  </div>
+                }
+
+              </div>
             </div>
-          </div>
+          }
+
+          {/* Edit Form */}
+          {state.showForm &&
+            <>
+              <EditForm
+                label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
+                id={props.id}
+                author={props.authorFirstName + " " + props.authorLastName}
+                body={props.body}
+                anonymous={props.anonymous}
+                mode={"COMMENT"}
+                onSave={saveComment}
+                onCancel={toggleForm}
+                minHeight={"5rem"}
+              />
+            </>
+          }
 
           {/* Comment Footer */}
           <footer>
@@ -347,8 +365,8 @@ const CommentListItem = (props) => {
         <div className="editable">
 
           {/* Edit Form */}
-          {state.showForm &&
-            <>
+          {false && state.showForm &&
+            <div className="comment-edit-form">
               <hr />
               <EditForm
                 label={"EDIT PREVIEW"}
@@ -361,7 +379,7 @@ const CommentListItem = (props) => {
                 onCancel={toggleForm}
                 minHeight={"5rem"}
               />
-            </>
+            </div>
           }
 
           {/* Delete Confirmation */}
@@ -382,8 +400,9 @@ const CommentListItem = (props) => {
       {/* Add Reply Form */}
       {isParent && state.showReplyForm &&
         <div className="reply-form">
+          <hr />
           <CommentForm
-            label={"REPLY PREVIEW"}
+            label={"NEW REPLY"}
             userName={props.userName}
             onAddComment={addReply}
             onCancelComment={toggleReplyForm}
