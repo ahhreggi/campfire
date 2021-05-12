@@ -32,23 +32,23 @@ describe("Application", () => {
   });
 
   it("Applies filter to postlist when tag is clicked and resets when clear filters is clicked", async() => {
-    fireEvent.click(screen.getAllByRole('button', {name: /promises/i})[0]);
+    fireEvent.click(screen.getAllByRole("button", {name: /promises/i})[0]);
 
-    expect(screen.getByRole('button', {name: /clear filters/i})).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: /clear filters/i})).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', {name: /clear filters/i}));
+    fireEvent.click(screen.getByRole("button", {name: /clear filters/i}));
 
     expect(screen.getByText(/do I create a class/)).toBeInTheDocument();
   });
 
   it("Goes to analytics and back to dashboard when the buttons are pressed", async() => {
-    fireEvent.click(screen.getByRole('button', {name: /analytics/i}));
+    fireEvent.click(screen.getByRole("button", {name: /analytics/i}));
 
-    expect(screen.getByText('This is Analytics.'));
+    expect(screen.getByText("This is Analytics."));
     
-    fireEvent.click(screen.getByRole('button', {name: /dashboard/i}));
+    fireEvent.click(screen.getByRole("button", {name: /dashboard/i}));
 
-    expect(screen.getByText('This is Dashboard.'));
+    expect(screen.getByText("This is Dashboard."));
   });
 
 });
