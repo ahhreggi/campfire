@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -7,6 +7,7 @@ import Main from "./Main";
 import Button from "./Button";
 import Login from "./Login";
 import Register from "./Register";
+import Error404 from "./Error404";
 import "./App.scss";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
@@ -270,87 +271,96 @@ const App = () => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <Router>
-      <div className="App">
 
-        <Route path="/" exact render={(props) => (
-          <>
-            {/* Loading Message (when there is no courseData) */}
-            {state.loading &&
-              <div className="display-4 d-flex justify-content-center align-items-center h-100">
-                Loading...
-              </div>}
+    <div className="App">
 
-            {/* Course View (courseData exists) */}
-            {!state.loading && state.courseData &&
-              <>
+      <Router>
 
-                {/* Nav Bar */}
-                <Nav
-                  onClick={setActive}
-                  active={state.active}
-                  viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
-                  courseName="LHL Web Mar 1"
-                  userAvatar={state.user.avatar_id}
-                  userName={`${state.user.first_name} ${state.user.last_name}`}
-                />
+        <Switch>
 
-                <section className="app-containers">
+          <Route path="/" exact render={(props) => (
+            <>
+              {/* Loading Message (when there is no courseData) */}
+              {state.loading &&
+                  <div className="display-4 d-flex justify-content-center align-items-center h-100">
+                    Loading...
+                  </div>}
 
-                  {/* All Posts */}
-                  <div className="app-left">
-                    <PostList
+              {/* Course View (courseData exists) */}
+              {!state.loading && state.courseData &&
+                  <>
+
+                    {/* Nav Bar */}
+                    <Nav
+                      onClick={setActive}
                       active={state.active}
-                      selectedPostID={state.postID}
-                      tags={state.courseData.tags}
-                      posts={state.courseData.posts}
-                      onClick={(postID) => setActive("Post", postID)}
-                      selectedTags={state.selectedTags}
-                      onTagToggle={updateSelectedTags}
-                      onTagClear={clearSelectedTags}
-                      onNewPost={() => setActive("New Post")}
+                      viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
+                      courseName="LHL Web Mar 1"
+                      userAvatar={state.user.avatar_id}
+                      userName={`${state.user.first_name} ${state.user.last_name}`}
                     />
-                  </div>
 
-                  {/* Current View */}
-                  <div className="app-right">
-                    <Main
-                      active={state.active}
-                      userData={state.user}
-                      courseData={state.courseData}
-                      postID={state.postID}
-                      onEditBookmark={editBookmark}
-                      onAddPost={addPost}
-                      onEditPost={editPost}
-                      onDeletePost={deletePost}
-                      onLikeComment={likeComment}
-                      onEditComment={editComment}
-                      onDeleteComment={deleteComment}
-                      onTagToggle={updateSelectedTags}
-                    />
-                  </div>
+                    <section className="app-containers">
 
-                </section>
+                      {/* All Posts */}
+                      <div className="app-left">
+                        <PostList
+                          active={state.active}
+                          selectedPostID={state.postID}
+                          tags={state.courseData.tags}
+                          posts={state.courseData.posts}
+                          onClick={(postID) => setActive("Post", postID)}
+                          selectedTags={state.selectedTags}
+                          onTagToggle={updateSelectedTags}
+                          onTagClear={clearSelectedTags}
+                          onNewPost={() => setActive("New Post")}
+                        />
+                      </div>
 
-                {/* Test Controls */}
-                <div className="test-controls">
-                  test controls:
-                  <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
-                  <Button text="Analytics" onClick={() => setActive("Analytics")} />
-                  <Button text="Refresh DB" onClick={() => resetDB()} />
-                </div>
+                      {/* Current View */}
+                      <div className="app-right">
+                        <Main
+                          active={state.active}
+                          userData={state.user}
+                          courseData={state.courseData}
+                          postID={state.postID}
+                          onEditBookmark={editBookmark}
+                          onAddPost={addPost}
+                          onEditPost={editPost}
+                          onDeletePost={deletePost}
+                          onLikeComment={likeComment}
+                          onEditComment={editComment}
+                          onDeleteComment={deleteComment}
+                          onTagToggle={updateSelectedTags}
+                        />
+                      </div>
 
-              </>
-            }
-          </>
-        )} />
+                    </section>
 
-        <Route path="/login" exact component={Login} />
+                    {/* Test Controls */}
+                    <div className="test-controls">
+                      test controls:
+                      <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+                      <Button text="Analytics" onClick={() => setActive("Analytics")} />
+                      <Button text="Refresh DB" onClick={() => resetDB()} />
+                    </div>
 
-        <Route path="/register" exact component={Register} />
+                  </>
+              }
+            </>
+          )} />
 
-      </div>
-    </Router>
+          <Route path="/login" exact component={Login} />
+
+          <Route path="/register" exact component={Register} />
+
+          <Route component={Error404} />
+
+        </Switch>
+
+      </Router>
+    </div>
+
   );
 };
 
