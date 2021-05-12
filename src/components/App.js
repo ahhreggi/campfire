@@ -42,7 +42,15 @@ const API = {
 
   BOOKMARKS: "/api/bookmarks",
 
-  COMMENTS: "/api/comments"
+  COMMENTS: "/api/comments",
+
+  LOGIN: "/api/login",
+
+  REGISTER: "/api/register",
+
+  JOIN: "/api/join",
+
+  CREATE: "/api/create"
 
 };
 
@@ -178,6 +186,60 @@ const App = () => {
       });
     }
   };
+
+  // BLIND FUNCTIONS ////////////////////////////////////////////////
+
+  // wrote these with zero testing, probably broken XD
+
+  // Login/retrieve data for an existing user and redirect to the dashboard of a course
+  const fetchUserData = (data) => {
+    request("POST", API.LOGIN, null, { email: data.email, password: data.password })
+      .then((userData) => {
+        setState({ ...state, user: userData, authToken: userData.token, userCourseIDs: userData.courses });
+        // redirect to page with all of the user's courses or the course page of most recent?
+        // have this api call include an array of the user's course IDs already to display in the nav/login landing
+        // e.g., userData.courses = [ { id: course_id, name: course_name }]
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // Register a new user account
+  const registerUser = (data) => {
+    request("POST", API.REGISTER, null, { firstName = data.firstName, lastName = data.lastName, email = data.email, password = data.password })
+      .then((userData) => {
+        setState({ ...state, user: userData, authToken: userData.token, userCourses: [] });
+        // redirect to create/join page since the user has no courses yet
+      })
+      .catch((err) => console.log(err));
+      // errors: user is already logged in or the email provided is taken
+      // have the error response indicate the error so it can be displayed to the user
+  }
+
+
+  // Join an existing course via access code and redirect to it
+  const joinCourse = (data) => {
+    request("POST", API.JOIN, null, { accessCode: data.accessCode })
+      .then((data) => {
+        // need this to give the courseID, currently gives course URL
+        const courseID = parseInt(data.redirect_to.split("/")[1]);
+        fetchCourseData(courseID);
+        // redirect to course page
+        // loading -> courseData becomes !== null and displays dashboard/main app
+      })
+      .catch((err) => console.log(err));
+  }
+
+  // Create a new course and redirect to it
+  const createCourse = (data) => {
+    request("POST", API.CREATE, null, { name: data.name, description: data.description })
+      .then((data) => {
+        // need this to give the courseID, currently gives course URL
+        const courseID = parseInt(data.redirect_to.split("/")[1]);
+        fetchCourseData(courseID);
+      })
+  };
+
+  ///////////////////////////////////////////////////////////////////
 
   // Edit the user's bookmark for the given postID
   const editBookmark = (postID, bookmarked) => {
