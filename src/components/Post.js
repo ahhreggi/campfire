@@ -114,9 +114,7 @@ const Post = (props) => {
   const addComment = (data) => {
     const commentData = {
       postID: props.id,
-      body: data.body,
-      parentID: null,
-      anonymous: data.anonymous
+      ...data // contains body, anonymous, and possibly parentID (if reply)
     };
     props.onAddComment(commentData);
   };
@@ -298,15 +296,12 @@ const Post = (props) => {
       <hr />
 
       {/* Add Comment Form */}
-      {state.showCommentForm &&
-        <>
-          <hr />
-          <CommentForm
-            userName={`${props.userData.first_name} ${props.userData.last_name}`}
-            onAddComment={addComment}
-          />
-        </>
-      }
+      <div className="comment-form">
+        <CommentForm
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          onAddComment={addComment}
+        />
+      </div>
 
       {/* Discussion */}
       <div className="discussion">
@@ -319,6 +314,7 @@ const Post = (props) => {
         <CommentList
           comments={props.comments}
           onLikeComment={props.onLikeComment}
+          onAddComment={addComment}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           bestAnswer={props.bestAnswer}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
 import EditForm from "./EditForm";
+import CommentForm from "./CommentForm";
 import Confirmation from "./Confirmation";
 import CommentList from "./CommentList";
 import like from "../images/icons/heart.png";
@@ -41,6 +42,7 @@ const CommentListItem = (props) => {
 
     onLikeComment: PropTypes.func,
 
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
 
@@ -84,18 +86,29 @@ const CommentListItem = (props) => {
     props.onLikeComment(props.id, props.liked);
   };
 
-
+  // Save the comment changes
   const saveComment = (data) => {
     props.onEditComment(props.id, data);
     // Hide edit form
     toggleForm();
   };
 
+  // Delete the comment
   const deleteComment = () => {
     props.onDeleteComment(props.id);
     // Hide confirmation form
     toggleConfirmation();
   };
+
+  // Add a reply
+  const addReply = (data) => {
+    const newReplyData = {
+      body: data.body,
+      parentID: props.id,
+      anonymous: data.anonymous
+    };
+    props.onAddComment(newReplyData);
+  }
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -338,6 +351,16 @@ const CommentListItem = (props) => {
             </div>
           }
 
+        </div>
+      }
+
+      {/* Add Reply Form */}
+      {isParent &&
+        <div className="reply-form">
+          <CommentForm
+            userName={`${props.userData.first_name} ${props.userData.last_name}`}
+            onAddComment={addReply}
+          />
         </div>
       }
 
