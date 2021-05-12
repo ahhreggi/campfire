@@ -4,17 +4,22 @@ import "./Preview.scss";
 const Preview = (props) => {
 
   Preview.propTypes = {
+    label: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
     body: PropTypes.string,
     breakBody: PropTypes.bool
   };
 
+  Preview.defaultProps = {
+    label: "PREVIEW"
+  };
+
   return (
     <div className="Preview break">
 
       <div className="label">
-        PREVIEW
+        {props.label}
       </div>
 
       <div className="display">

@@ -7,6 +7,7 @@ import CommentList from "./CommentList";
 import eye from "../images/icons/eye.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
+import reply from "../images/icons/reply.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import comment from "../images/icons/comment.png";
@@ -48,7 +49,8 @@ const Post = (props) => {
 
   const [state, setState] = useState({
     showForm: false,
-    showConfirmation: false
+    showConfirmation: false,
+    showCommentForm: false,
   });
 
   // Reset form and confirmation states when switching posts
@@ -56,27 +58,37 @@ const Post = (props) => {
     setState({
       ...state,
       showForm: false,
-      showConfirmation: false
+      showConfirmation: false,
+      showCommentForm: false
     });
   }, [props.id]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Toggle and reset the post edit form
+  // Toggle and reset the comment edit form
   const toggleForm = () => {
-    if (!state.showForm && state.showConfirmation) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    if (!state.showForm) {
+      setState({ ...state, showForm: true, showConfirmation: false, showCommentForm: false });
     } else {
-      setState({ ...state, showForm: !state.showForm });
+      setState({ ...state, showForm: false });
+    }
+  };
+
+  // Toggle and reset the new reply form
+  const toggleCommentForm = () => {
+    if (!state.showCommentForm) {
+      setState({ ...state, showCommentForm: true, showConfirmation: false, showForm: false });
+    } else {
+      setState({ ...state, showCommentForm: false });
     }
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    if (!state.showConfirmation && state.showForm) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    if (!state.showConfirmation) {
+      setState({ ...state, showConfirmation: true, showForm: false, showCommentForm: false });
     } else {
-      setState({ ...state, showConfirmation: !state.showConfirmation });
+      setState({ ...state, showConfirmation: false });
     }
   };
 
@@ -117,6 +129,7 @@ const Post = (props) => {
       ...data // contains body, anonymous, and possibly parentID (if reply)
     };
     props.onAddComment(commentData);
+    toggleCommentForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -247,6 +260,12 @@ const Post = (props) => {
         <div className="controls icon-large">
           <>
             <img
+              className={"icon-large" + (state.showCommentForm ? "" : " disabled")}
+              src={reply}
+              alt="reply"
+              onClick={toggleCommentForm}
+            />
+            <img
               className={"icon-large" + (state.showForm ? "" : " disabled")}
               src={edit}
               alt="edit"
@@ -296,12 +315,16 @@ const Post = (props) => {
       <hr />
 
       {/* Add Comment Form */}
-      <div className="comment-form">
-        <CommentForm
-          userName={props.userName}
-          onAddComment={addComment}
-        />
-      </div>
+      {state.showCommentForm &&
+        <div className="comment-form">
+          <CommentForm
+            // header={"Post a comment"}
+            label={"COMMENT PREVIEW"}
+            userName={props.userName}
+            onAddComment={addComment}
+          />
+        </div>
+      }
 
       {/* Discussion */}
       <div className="discussion">

@@ -67,24 +67,28 @@ const CommentListItem = (props) => {
 
   // Toggle and reset the comment edit form
   const toggleForm = () => {
-    if (!state.showForm && state.showConfirmation) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    if (!state.showForm) {
+      setState({ ...state, showForm: true, showConfirmation: false, showReplyForm: false });
     } else {
-      setState({ ...state, showForm: !state.showForm });
+      setState({ ...state, showForm: false });
     }
   };
 
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
-    setState({ ...state, showReplyForm: !state.showReplyForm });
+    if (!state.showReplyForm) {
+      setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
+    } else {
+      setState({ ...state, showReplyForm: false });
+    }
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    if (!state.showConfirmation && state.showForm) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    if (!state.showConfirmation) {
+      setState({ ...state, showConfirmation: true, showForm: false, showReplyForm: false });
     } else {
-      setState({ ...state, showConfirmation: !state.showConfirmation });
+      setState({ ...state, showConfirmation: false });
     }
   };
 
@@ -254,7 +258,7 @@ const CommentListItem = (props) => {
             <header>
 
               {/* Author */}
-              <div className="author">
+              <div className="comment-author">
                 {authorName}
               </div>
 
@@ -306,7 +310,7 @@ const CommentListItem = (props) => {
                 {isParent &&
                   <span className="reply">
                     <img
-                      className={"icon-large" + (state.showForm ? "" : " disabled")}
+                      className={"icon-large" + (state.showReplyForm ? "" : " disabled")}
                       src={reply}
                       alt="reply"
                       onClick={toggleReplyForm}
@@ -347,6 +351,7 @@ const CommentListItem = (props) => {
             <>
               <hr />
               <EditForm
+                label={"EDIT PREVIEW"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
                 body={props.body}
@@ -354,6 +359,7 @@ const CommentListItem = (props) => {
                 mode={"COMMENT"}
                 onSave={saveComment}
                 onCancel={toggleForm}
+                minHeight={"5rem"}
               />
             </>
           }
@@ -377,8 +383,10 @@ const CommentListItem = (props) => {
       {isParent && state.showReplyForm &&
         <div className="reply-form">
           <CommentForm
+            label={"REPLY PREVIEW"}
             userName={props.userName}
             onAddComment={addReply}
+            onCancelComment={toggleReplyForm}
           />
         </div>
       }

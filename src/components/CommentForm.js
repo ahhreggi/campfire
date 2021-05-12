@@ -5,9 +5,12 @@ import "./CommentForm.scss";
 const CommentForm = (props) => {
 
   CommentForm.propTypes = {
+    header: PropTypes.string,
+    label: PropTypes.string,
     userName: PropTypes.string,
     courseData: PropTypes.object,
-    onAddComment: PropTypes.func
+    onAddComment: PropTypes.func,
+    onCancelComment: PropTypes.func
   };
 
   const createComment = (data) => {
@@ -22,18 +25,20 @@ const CommentForm = (props) => {
     <div className="CommentForm">
 
       <div className="header">
-        Create a new comment
+        {props.header}
       </div>
 
-      <hr />
+      {/* <hr /> */}
 
       <div className="create-form">
 
         <EditForm
+          label={props.label}
           author={props.userName}
           body={""}
           anonymous={false}
           onSave={createComment}
+          onCancel={props.onCancelComment}
           mode={"COMMENT"}
           minHeight={"5rem"}
         />

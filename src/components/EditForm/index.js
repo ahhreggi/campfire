@@ -11,6 +11,8 @@ const EditForm = (props) => {
 
   EditForm.propTypes = {
 
+    label: PropTypes.string,
+
     title: PropTypes.string,
     author: PropTypes.string,
     body: PropTypes.string,
@@ -137,6 +139,7 @@ const EditForm = (props) => {
     <div className="EditForm">
 
       <Preview
+        label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
         body={state.previewBody}
