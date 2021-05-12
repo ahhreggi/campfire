@@ -45,8 +45,7 @@ const Post = (props) => {
 
   const [state, setState] = useState({
     showForm: false,
-    showConfirmation: false,
-    showCommentForm: true
+    showConfirmation: false
   });
 
   // Reset form and confirmation states when switching posts
@@ -54,8 +53,7 @@ const Post = (props) => {
     setState({
       ...state,
       showForm: false,
-      showConfirmation: false,
-      showCommentForm: true
+      showConfirmation: false
     });
   }, [props.id]);
 
@@ -77,11 +75,6 @@ const Post = (props) => {
     } else {
       setState({ ...state, showConfirmation: !state.showConfirmation });
     }
-  };
-
-  // Toggle new comment form
-  const toggleCommentForm = () => {
-    setState({ ...state, showCommentForm: !state.showCommentForm });
   };
 
   const handleClick = (tag) => {
