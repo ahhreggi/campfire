@@ -25,6 +25,9 @@
 
       .name {
         color: $orange;
+        &.instructor {
+          color: $yellow;
+        }
       }
 
     }

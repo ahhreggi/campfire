@@ -7,6 +7,7 @@ const Preview = (props) => {
     label: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
+    isInstructor: PropTypes.bool,
     body: PropTypes.string,
     breakBody: PropTypes.bool
   };
@@ -26,7 +27,7 @@ const Preview = (props) => {
 
         {props.author &&
           <div className="author">
-            Posting as <span className="name">{props.author}</span>
+            Posting as <span className={`name ${props.isInstructor ? "instructor" : ""}`}>{props.author}</span>
           </div>
         }
 

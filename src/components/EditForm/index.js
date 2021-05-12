@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
@@ -25,6 +26,7 @@ const EditForm = (props) => {
 
     mode: PropTypes.string, // "POST" or "COMMENT"
 
+    isInstructor: PropTypes.bool,
     minHeight: PropTypes.string
 
   };
@@ -142,6 +144,7 @@ const EditForm = (props) => {
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
+        isInstructor={props.isInstructor}
         body={state.previewBody}
         breakBody={state.breakBody}
       />
@@ -161,10 +164,12 @@ const EditForm = (props) => {
         onChange={updatePreviewBody}
       />
 
-      <Checkbox
-        checked={state.previewAnonymous}
-        onChange={updatePreviewAnonymous}
-      />
+      {!props.isInstructor &&
+        <Checkbox
+          checked={state.previewAnonymous}
+          onChange={updatePreviewAnonymous}
+        />
+      }
 
       {props.mode === "POST" &&
         <TagForm

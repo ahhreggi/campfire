@@ -295,7 +295,7 @@ const App = () => {
 
   // Request to like a comment by ID
   const likeComment = (commentID, liked) => {
-    const url = API.COMMENTS.replace(":id", commentID) + (liked ? "/unlike" : "/like");
+    const url = API.COMMENTS + "/"  + commentID + (liked ? "/unlike" : "/like");
     request("POST", url)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
