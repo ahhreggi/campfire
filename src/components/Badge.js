@@ -1,5 +1,5 @@
-import "./Badge.scss";
 import PropTypes from "prop-types";
+import "./Badge.scss";
 
 const Badge = ({type}) => {
 

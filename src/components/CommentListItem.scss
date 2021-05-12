@@ -9,14 +9,33 @@
   padding-bottom: 1rem;
   border: 1px solid transparent;
 
-  &.pendingDelete {
+  // Delete confirmation styling
+  &.highlight-delete {
     border: 1px solid $red;
+    background-color: $navy-0;
+    &:not(.highlight-parent) {
+      background-color: $navy-1;
+    }
+  }
+
+  // Parent comment styling
+  &.highlight-parent {
+    .EditForm {
+      background-color: $navy-1;
+    }
+  }
+
+  // Child comment styling
+  &:not(.highlight-parent) {
+    .EditForm {
+      background-color: $navy-2;
+    }
   }
 
   // Instructor comment styling
-  &.isInstructor {
+  &.highlight-instructor {
 
-    &:not(.pendingDelete) {
+    &:not(.highlight-delete) {
       border: 1px solid $yellow;
     }
 
@@ -26,13 +45,22 @@
 
   }
 
+  // Post author styling
+  &.highlight-author {
+
+    &:not(.highlight-delete) {
+      border: 1px solid $white;
+    }
+
+  }
+
   // Best answer styling
-  &.isBestAnswer:not(.pendingDelete) {
+  &.highlight-best:not(.highlight-delete) {
     border: 1px solid $green;
   }
 
   // Reply styling
-  &:not(.isParent) {
+  &:not(.highlight-parent) {
     background-color: $navy-4;
     margin-top: 0;
     padding-bottom: 0.7rem;
@@ -57,6 +85,26 @@
   .top {
     display: flex;
 
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 1rem;
+
+      &.heart {
+        img {
+          width: 0.9rem;
+        }
+      }
+
+      &.medal {
+        img {
+          width: 1rem;
+          margin-top: 0.1rem;
+        }
+      }
+    }
+
     section.left {
       display: flex;
       flex-direction: column;
@@ -72,63 +120,50 @@
         }
       }
 
+      .role {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        margin: 0.2rem 0 0.5rem 0;
+        &.instructor {
+          color: $yellow;
+        }
+      }
+
       .engagements {
         display: flex;
         flex-direction: column;
-
-        .icon {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 1rem;
-
-          &.heart {
-            img {
-              width: 0.9rem;
-            }
-          }
-          &.medal {
-            img {
-              width: 1rem;
-              margin-top: 0.1rem;
-            }
-          }
-        }
-
-        .counter {
-          display: flex;
-          justify-content: center;
-          font-weight: 700;
-          width: 3rem;
-          font-size: 1.2rem;
-
-          &.active {
-            color: $green;
-          }
-
-        }
-
-        .toggle {
-          width: 1rem;
-          img {
-            width: 1rem;
-            margin-bottom: 0.15rem;
-          }
-        }
 
         .likes {
           display: flex;
           flex-wrap: nowrap;
           align-items: center;
 
+          .counter {
+            display: flex;
+            justify-content: center;
+            font-weight: 700;
+            width: 3rem;
+            font-size: 1.2rem;
+
+            &.active {
+              color: $green;
+            }
+
+          }
+
+          .toggle {
+            width: 1rem;
+
+            img {
+              width: 1rem;
+              margin-bottom: 0.15rem;
+            }
+
+          }
+
         }
 
-        .endorsements {
-          display: flex;
-          flex-wrap: nowrap;
-          align-items: center;
-
-        }
 
       }
 
@@ -139,7 +174,7 @@
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      min-height: 10rem;
+      width: 100%;
 
       header {
         display: flex;
@@ -167,8 +202,33 @@
         }
       }
 
-      .body {
+      .comment-body {
         margin-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        min-height: 6.7rem;
+
+        .text {
+          flex-grow: 1;
+        }
+
+        .endorsers {
+          margin-bottom: 0.5rem;
+          display: flex;
+          font-size: 0.8rem;
+          opacity: 0.9;
+          font-weight: 700;
+
+          .icon {
+            margin-right: 0.5rem;
+          }
+
+          .names {
+            color: $yellow;
+          }
+
+        }
+
       }
 
       footer {
@@ -176,6 +236,7 @@
         justify-content: space-between;
         border-top: 1px solid $navy-7;
         padding-top: 0.5rem;
+        height: 2.5rem;
 
         .timestamp {
           font-size: 0.8rem;
@@ -196,14 +257,6 @@
             width: 1.5rem;
           }
 
-          .edit {
-
-          }
-
-          .delete {
-
-          }
-
         }
 
       }
@@ -216,7 +269,11 @@
 
     .EditForm {
       padding: 1rem;
-      border: 1px solid $navy-6;
+      border: 1px solid $navy-7;
+    }
+
+    .confirmation-delete {
+      margin-bottom: 0.5rem;
     }
 
   }

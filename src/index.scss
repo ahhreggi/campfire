@@ -21,6 +21,22 @@ body {
     opacity: 1;
   }
 
+  .icon-small,
+  .icon-med,
+  .icon-large {
+    cursor: pointer;
+    &.disabled {
+      opacity: 0.5;
+      filter: grayscale(100);
+
+      &:hover {
+        filter: grayscale(0);
+        opacity: 0.7;
+      }
+
+    }
+  }
+
   .icon-small {
     img {
       width: 15px;

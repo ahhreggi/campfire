@@ -1,6 +1,6 @@
-import "./TagForm.scss";
-import TagList from "../TagList";
 import PropTypes from "prop-types";
+import TagList from "../TagList";
+import "./TagForm.scss";
 
 const TagForm = (props) => {
 

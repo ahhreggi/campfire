@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import "./index.scss";
 import PropTypes from "prop-types";
-
 import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
 import TagForm from "./TagForm";
 import Confirmation from "../Confirmation";
+import "./index.scss";
 
 const EditForm = (props) => {
 
@@ -52,13 +51,13 @@ const EditForm = (props) => {
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Save changes to the post or comment
   const saveEdit = () => {
-    // Gather new post data to send to the server
     const data = {
-      title: state.previewTitle,
+      title: props.mode === "POST" ? state.previewTitle : null,
       body: state.previewBody,
       anonymous: state.previewAnonymous,
-      tags: state.previewTags
+      tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
     };
     props.onSave(data);
   };
