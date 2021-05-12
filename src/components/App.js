@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -457,6 +457,13 @@ const App = () => {
                       <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
                       <Button text="Analytics" onClick={() => setActive("Analytics")} />
                       <Button text="Refresh DB" onClick={() => resetDB()} />
+
+                      <Link to="/"><Button text="Index" /></Link>
+                      <Link to="/login"><Button text="Login" /></Link>
+                      <Link to="/register"><Button text="Register" /></Link>
+                      <Link to="/create"><Button text="Create" /></Link>
+                      <Link to="/join"><Button text="Join" /></Link>
+                      <Link to="/123"><Button text="Error404" /></Link>
                     </div>
 
                   </>
