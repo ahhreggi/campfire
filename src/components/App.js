@@ -32,16 +32,13 @@ const API = {
   // GET_COURSES: "/api/courses",
   RESET: "/api/debug/reset_db",
 
-  COURSES: "/api/courses/:id", // data = { state.courseID }
+  COURSES: "/api/courses", // data = { state.courseID }
 
-  POSTS: "/api/posts/:id",
+  POSTS: "/api/posts",
 
   BOOKMARKS: "/api/bookmarks",
 
-  COMMENTS: "/api/comments/:id",
-
-  LIKE: "/api/comments/:id/like",
-  UNLIKE: "/api/comments/id/unlike"
+  COMMENTS: "/api/comments"
 
 };
 
@@ -74,7 +71,6 @@ const App = () => {
   // -- changing active postID
   useEffect(() => {
     fetchCourseData(state.courseID);
-    console.log("fetching course data");
   }, [state.courseID, state.reloader]);
 
   // Show a loading screen if courseData is null
@@ -100,7 +96,7 @@ const App = () => {
     // If a role is provided, use its token, otherwise use state.authToken
     return axios({
       method: method,
-      url: url.replace(":id", id),
+      url: url + (id ? `/${id}` : ""),
       headers: {
         "Authorization": role ? tokens[role] : state.authToken
       },
@@ -128,6 +124,13 @@ const App = () => {
         posts: data ? data.posts : null,
         loading: !data
       });
+    } else if (type === "post") {
+      setState({
+        ...state,
+        postData: data,
+        postID: data.id,
+        reloader: true
+      });
     }
   };
 
@@ -142,6 +145,22 @@ const App = () => {
       data: { postID }
     })
       .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to create a new post with the given data
+  const addPost = (data) => {
+
+    console.log("Requesting to add a new post with data:", data);
+
+    request("POST", API.POSTS, null, data)
+      .then((postData) => {
+        // Redirect to the newly created post
+        // BUG: postData is received, but courseID is null
+        // setActive("Post", postData.id, postData);
+        console.log("Post successfully added! Server response: ", postData);
+        setActive("Dashboard");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -184,15 +203,24 @@ const App = () => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
-  const setActive = (selection, postID = null) => {
-    setState({
-      ...state,
-      active: selection,
-      postID: selection === "Post" ? postID : null,
-      postData: selection === "Post" ? getPostByID(state.posts, postID) : null,
-      reloader: !state.reloader
-    });
-
+  const setActive = (selection, postID = null, postData = null) => {
+    if (selection === "Post") {
+      setState({
+        ...state,
+        active: selection,
+        postID: postID,
+        postData: postData ? postData : getPostByID(state.posts),
+        reloader: !state.reloader
+      });
+    } else {
+      setState({
+        ...state,
+        active: selection,
+        postID: null,
+        postData: null,
+        reloader: !state.reloader
+      });
+    }
   };
 
   // Update the selected tags dynamically as the user toggles them
@@ -277,9 +305,11 @@ const App = () => {
             <div className="app-right">
               <Main
                 active={state.active}
+                userData={state.user}
                 courseData={state.courseData}
                 postID={state.postID}
                 onEditBookmark={editBookmark}
+                onAddPost={addPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onLikeComment={likeComment}

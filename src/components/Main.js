@@ -8,10 +8,12 @@ import "./Main.scss";
 const Main = (props) => {
 
   Main.propTypes = {
-    active: PropTypes.string.isRequired,
-    courseData: PropTypes.object.isRequired,
+    active: PropTypes.string,
+    userData: PropTypes.object,
+    courseData: PropTypes.object,
     postID: PropTypes.number,
     onEditBookmark: PropTypes.func,
+    onAddPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
@@ -60,6 +62,7 @@ const Main = (props) => {
           userID={post.user_id}
           views={post.views}
           onEditBookmark={props.onEditBookmark}
+          onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}
@@ -70,7 +73,11 @@ const Main = (props) => {
       }
 
       {props.active === "New Post" &&
-        <PostForm />
+        <PostForm
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          courseData={props.courseData}
+          onAddPost={props.onAddPost}
+        />
       }
 
       {props.active === "Dashboard" &&

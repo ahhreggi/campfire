@@ -53,12 +53,11 @@ const EditForm = (props) => {
 
   // Save changes to the post or comment
   const saveEdit = () => {
-    // Gather new post data to send to the server
     const data = {
-      title: state.mode === "POST" ? state.previewTitle : null,
+      title: props.mode === "POST" ? state.previewTitle : null,
       body: state.previewBody,
       anonymous: state.previewAnonymous,
-      tags: state.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
+      tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
     };
     props.onSave(data);
   };
