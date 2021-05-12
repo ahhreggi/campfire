@@ -45,7 +45,8 @@ const Post = (props) => {
 
   const [state, setState] = useState({
     showForm: false,
-    showConfirmation: false
+    showConfirmation: false,
+    showCommentForm: true
   });
 
   // Reset form and confirmation states when switching posts
@@ -53,7 +54,8 @@ const Post = (props) => {
     setState({
       ...state,
       showForm: false,
-      showConfirmation: false
+      showConfirmation: false,
+      showCommentForm: true
     });
   }, [props.id]);
 
@@ -282,6 +284,25 @@ const Post = (props) => {
       }
 
       <hr />
+
+       {/* Comment Form */}
+       {state.showCommentForm &&
+        <>
+          <hr />
+          <EditForm
+            id={props.id}
+            title={props.title}
+            author={props.author}
+            body={props.body}
+            anonymous={props.anonymous}
+            tags={props.tags}
+            courseTags={props.courseTags}
+            mode={"POST"}
+            onSave={savePost}
+            onCancel={toggleForm}
+          />
+        </>
+      }
 
       {/* Discussion */}
       <div className="discussion">
