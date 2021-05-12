@@ -63,7 +63,8 @@ const CommentListItem = (props) => {
     showConfirmation: false,
     showReplyForm: false,
     showReplyList: false,
-    endorsed: props.endorsed
+    endorsed: props.endorsed,
+    commentID: props.id
   });
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -121,8 +122,9 @@ const CommentListItem = (props) => {
     toggleConfirmation();
   };
 
+  // Set the comment as the post's best answer
   const setBestAnswer = () => {
-    props.onEditBestAnswer(props.id);
+    props.onEditBestAnswer(state.commentID);
   };
 
   // Add a reply
@@ -240,6 +242,7 @@ const CommentListItem = (props) => {
 
       {/* Top-level Comment */}
       <div className="top">
+        CommentID: {props.id}
         <section className="left">
 
           {/* Avatar */}
@@ -293,7 +296,7 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className="label selected" onClick={setBestAnswer}>
+                  <div className={`label selected ${isPostAuthor ? "active" : ""}`} onClick={isPostAuthor ? setBestAnswer : null}>
                     <img src={checkmark} alt="checkmark" />
                     <span>BEST ANSWER</span>
                   </div>
@@ -510,6 +513,7 @@ const CommentListItem = (props) => {
             onEditComment={props.onEditComment}
             onDeleteComment={props.onDeleteComment}
             bestAnswer={props.bestAnswer}
+            onEditBestAnswer={props.onEditBestAnswer}
             postAuthorID={props.postAuthorID}
             userName={props.userName}
           />

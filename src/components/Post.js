@@ -77,7 +77,6 @@ const Post = (props) => {
   // Toggle and reset the new reply form
   const toggleCommentForm = () => {
     if (!state.showCommentForm) {
-      console.log("showing comment form");
       setState({ ...state, showCommentForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showCommentForm: false });
@@ -112,7 +111,7 @@ const Post = (props) => {
   // Select the best answer
   // commentID may be null
   const editBestAnswer = (commentID) => {
-    props.onEditPost(props.id, { "best_answer": commentID === props.bestAnswer ? null : true });
+    props.onEditPost(props.id, { "best_answer": commentID === props.bestAnswer ? null : commentID });
   };
 
   // Save the post changes
@@ -336,7 +335,7 @@ const Post = (props) => {
           <span className="comments">
             <img src={comment} alt="comments" />
           </span>
-          Comments {numComments > 0 && `(${numComments})`}
+          Comments {`(${numComments})`}
         </div>
 
         {/* Add Comment Form */}

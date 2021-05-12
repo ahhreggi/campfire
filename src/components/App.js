@@ -94,14 +94,14 @@ const App = () => {
   }, [state.courseData]);
 
   // If postID changes, check that the active view is "Post". If not, change to it.
-  useEffect(() => {
-    if (state.postID && state.active !== "Post") {
-      console.log("postID changed and active was not on Post. changing now...");
-      // setState({ ...state, active: "Post" });
-      // console.log(state.postID);
-      // setActive("Post", state.postID);
-    }
-  }, [state.postID]);
+  // useEffect(() => {
+  //   if (state.postID && state.active !== "Post") {
+  //     console.log("postID changed and active was not on Post. changing now...");
+  //     // setState({ ...state, active: "Post" });
+  //     // console.log(state.postID);
+  //     // setActive("Post", state.postID);
+  //   }
+  // }, [state.postID]);
 
   // // Reloader
   // useEffect(() => {
@@ -281,7 +281,7 @@ const App = () => {
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
-    console.log("Updating values for", Object.keys(data));
+    console.log("Updating post to:", JSON.stringify(data));
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
@@ -333,7 +333,7 @@ const App = () => {
         active: selection,
         postID: postID,
         postData: postData ? postData : getPostByID(state.posts, state.postID),
-        reloader: !state.reloader
+        // reloader: !state.reloader
       });
     } else {
       setState({
@@ -341,7 +341,7 @@ const App = () => {
         active: selection,
         postID: null,
         postData: null,
-        reloader: !state.reloader
+        // reloader: !state.reloader
       });
     }
   };
