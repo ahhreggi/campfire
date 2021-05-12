@@ -11,9 +11,13 @@
   border-left: 3px solid $navy-6;
   border-radius: 15px;
 
+  &.break-body {
+    word-break: break-all;
+  }
+
   // Delete confirmation styling
   &.highlight-delete {
-    border: 1px solid $red;
+    border: 2px solid $red;
     background-color: $navy-1;
     &:not(.highlight-parent) {
       background-color: $navy-1;
@@ -45,7 +49,7 @@
   &.highlight-author {
 
     &:not(.highlight-delete) {
-      border: 1px solid $white;
+      border: 2px solid $white;
     }
 
   }
@@ -245,6 +249,7 @@
         .timestamp {
           font-size: 0.8rem;
           color: $navy-8;
+          flex-wrap: nowrap;
 
           &.modified {
             font-style: italic;

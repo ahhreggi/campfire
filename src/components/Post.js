@@ -77,7 +77,6 @@ const Post = (props) => {
   // Toggle and reset the new reply form
   const toggleCommentForm = () => {
     if (!state.showCommentForm) {
-      console.log("showing COMMENT form");
       setState({ ...state, showCommentForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showCommentForm: false });

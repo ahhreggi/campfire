@@ -17,7 +17,7 @@ const Preview = (props) => {
   };
 
   return (
-    <div className="Preview break">
+    <div className={`Preview ${props.breakBody ? "break" : ""}`}>
 
       <div className="label">
         {props.label}

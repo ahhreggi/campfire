@@ -193,6 +193,9 @@ const CommentListItem = (props) => {
   // Check if the comment was ever modified
   const isModified = props.createdAt !== props.lastModified;
 
+  // Check if the comment body requires a word break
+  const breakBody = Math.max(...props.body.split(" ").map(word => word.length)) > 30;
+
   // Get the author name to display
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
 
@@ -205,6 +208,7 @@ const CommentListItem = (props) => {
   // Get a list of all endorsers
   const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
 
+
   // Get class names
   const classes = classNames({
     CommentListItem: true,
@@ -212,7 +216,8 @@ const CommentListItem = (props) => {
     "highlight-instructor": isInstructor,
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
-    "highlight-delete": state.showConfirmation
+    "highlight-delete": state.showConfirmation,
+    "break-body": breakBody
   });
 
   ///////////////////////////////////////////////////////////////////
