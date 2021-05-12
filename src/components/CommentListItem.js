@@ -130,6 +130,9 @@ const CommentListItem = (props) => {
     props.onAddComment(newReplyData);
     // Hide reply form
     toggleReplyForm();
+    if (!state.showReplyList) {
+      toggleReplyList();
+    }
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
