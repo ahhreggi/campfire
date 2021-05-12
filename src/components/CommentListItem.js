@@ -14,6 +14,7 @@ import reply from "../images/icons/reply.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
+import comment from "../images/icons/comment.png";
 import "./CommentListItem.scss";
 
 const CommentListItem = (props) => {
@@ -59,7 +60,7 @@ const CommentListItem = (props) => {
     showForm: false,
     showConfirmation: false,
     showReplyForm: false,
-    showReplies: false,
+    showReplyList: false,
     endorsed: props.endorsed
   });
 
@@ -76,6 +77,7 @@ const CommentListItem = (props) => {
 
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
+    console.log("toggling reply form");
     if (!state.showReplyForm) {
       setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
     } else {
@@ -90,6 +92,11 @@ const CommentListItem = (props) => {
     } else {
       setState({ ...state, showConfirmation: false });
     }
+  };
+
+  // Toggle reply list
+  const toggleReplyList = () => {
+    setState({ ...state, showReplyList: !state.showReplyList });
   };
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
@@ -330,16 +337,26 @@ const CommentListItem = (props) => {
             {/* Comment Edit Controls */}
             {props.editable &&
               <div className="controls">
-
                 {isParent &&
-                  <span className="reply">
-                    <img
-                      className={"icon-large" + (state.showReplyForm ? "" : " disabled")}
-                      src={reply}
-                      alt="reply"
-                      onClick={toggleReplyForm}
-                    />
-                  </span>
+                  <>
+                    <span className="comments">
+                      <img
+                        className={"icon-large" + (state.showReplyList ? "" : " disabled")}
+                        src={comment}
+                        alt="comments"
+                        onClick={toggleReplyList}
+                      />
+                      {props.replies.length}
+                    </span>
+                    <span className="reply">
+                      <img
+                        className={"icon-large" + (state.showReplyForm ? "" : " disabled")}
+                        src={reply}
+                        alt="reply"
+                        onClick={toggleReplyForm}
+                      />
+                    </span>
+                  </>
                 }
                 <span className="edit">
                   <img
@@ -415,9 +432,31 @@ const CommentListItem = (props) => {
         </div>
       }
 
-      {/* Replies */}
+      {/* Replies Toggler */}
       {isParent && props.replies.length > 0 &&
+        <>
+          <div className="discussion-label replies-label">
+            <span
+              className={`replies-toggle ${state.showReplyList ? "active" : ""}`}
+              onClick={toggleReplyList}
+            >
+              <span className="toggle-item comments icon-med">
+                <img src={comment} alt="comments" />
+              </span>
+              <span className="toggle-item">
+                {/* {state.showReplyList ? "Hide" : "Show" } Replies {props.replies.length > 0 && `(${props.replies.length})`} */}
+                Replies {props.replies.length > 0 && `(${props.replies.length})`}
+              </span>
+            </span>
+          </div>
+        </>
+      }
+
+
+      {/* Replies */}
+      {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
+
           <CommentList
             comments={props.replies}
             onLikeComment={props.onLikeComment}

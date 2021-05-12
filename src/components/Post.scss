@@ -129,6 +129,33 @@
         margin-bottom: 0.1rem;
       }
 
+      &.replies-label {
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        // margin-left: 1rem;
+        margin-left: 6.2rem;
+        img {
+          width: 1.3rem;
+        }
+        .replies-toggle {
+          user-select: none;
+          cursor: pointer;
+          .toggle-item {
+            opacity: 0.8;
+          }
+        }
+        .replies-toggle:hover,
+        .replies-toggle.active {
+          .toggle-item {
+            opacity: 1;
+          }
+
+        }
+
+
+      }
+
     }
 
   }

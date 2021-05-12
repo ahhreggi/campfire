@@ -13,7 +13,7 @@
   // Delete confirmation styling
   &.highlight-delete {
     border: 1px solid $red;
-    background-color: $navy-0;
+    background-color: $navy-1;
     &:not(.highlight-parent) {
       background-color: $navy-1;
     }
@@ -24,13 +24,6 @@
     .EditForm {
       background-color: $navy-1;
       margin-bottom: 1rem;
-    }
-  }
-
-  // Child comment styling
-  &:not(.highlight-parent) {
-    .EditForm {
-      background-color: $navy-2;
     }
   }
 
@@ -61,11 +54,14 @@
     border-left-color: $green;
   }
 
-  // Reply styling
+  // Reply/Child comment styling
   &:not(.highlight-parent) {
     background-color: $navy-4;
     margin-top: 0;
-    padding-bottom: 0.7rem;
+    padding-bottom: 0.5rem;
+    zoom: 85%;
+    border-radius: 20px;
+    border-left-width: 3px;
 
     &:not(:first-child) {
       margin-top: 0.5rem;
@@ -284,10 +280,17 @@
 
 
   }
+
+  .discussion-label {
+    .replies-toggle {
+      margin-right: 2rem;
+    }
+  }
+
+
   .replies {
     height: 100%;
-    // border-left: 0.5rem solid $navy-7;
-    padding-left: 0.5rem;
+    margin-left: 6.4rem;
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
