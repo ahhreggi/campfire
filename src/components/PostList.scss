@@ -29,12 +29,13 @@
   .label {
     font-weight: 700;
     font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.9rem;
     background: linear-gradient($navy-5, $navy-1);
     user-select: none;
     display: flex;
     justify-content: space-between;
     border: 1px solid $navy-2;
+    border-radius: 50px;
 
     &.active {
       background: linear-gradient($navy-7, $navy-2);
