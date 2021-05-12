@@ -12,19 +12,16 @@ import * as dummyData from "../../__mocks__/__dummyData";
 
 afterEach(cleanup);
 describe("PostListItem", () => {
-  const {title, body, tags, views, comments} = dummyData.dummyCourseData.posts[0];
+  const {title, body, tags} = dummyData.dummyCourseData.posts[0];
   
   it("renders without crashing", () => {
     render(<PostListItem
-      title={title}
-      body={body}
-      tags={tags}
-      views={views}
-      comments={comments.toArray}
+      title={"Test Post!"}
+      tags={[]}
     />);
-    expect(screen.getByText(/how do I create/i));
+    expect(screen.getByText("Test Post!"));
   });
-
+  
   it("Displays a promise tag when it is included in the props ", () => {
     render(<PostListItem
       title={title}
@@ -33,10 +30,44 @@ describe("PostListItem", () => {
         "id": 3,
         "name": "Promises"
       }]}
-      views={views}
-      comments={comments.toArray}
+      views={5}
+      comments={5}
     />);
     expect(screen.getByRole("button", /promise/i));
+  });
+  
+  it("correctly counts views and comments", () => {
+    render(<PostListItem
+      title={title}
+      body={body}
+      tags={tags}
+      views={5}
+      comments={10}
+    />);
+    expect(screen.getByText("5"));
+    expect(screen.getByText("10"));
+  });
+    
+  it("Displays a count of 0 when views are 0", () => {
+    render(<PostListItem
+      title={title}
+      body={body}
+      tags={tags}
+      views={0}
+      comments={1}
+    />);
+    expect(screen.getByText("0"));
+  });
+
+  it("Displays a count of 0 when comments are 0", () => {
+    render(<PostListItem
+      title={title}
+      body={body}
+      tags={tags}
+      views={1}
+      comments={0}
+    />);
+    expect(screen.getByText("0"));
   });
 
 });
