@@ -12,8 +12,9 @@ import * as dummyData from "../../__mocks__/__dummyData";
 
 afterEach(cleanup);
 describe("PostListItem", () => {
+  const {title, body, tags, views, comments} = dummyData.dummyCourseData.posts[0];
+  
   it("renders without crashing", () => {
-    const {title, body, tags, views, comments} = dummyData.dummyCourseData.posts[0];
     render(<PostListItem
       title={title}
       body={body}
@@ -22,6 +23,20 @@ describe("PostListItem", () => {
       comments={comments.toArray}
     />);
     expect(screen.getByText(/how do I create/i));
+  });
+
+  it("Displays a promise tag when it is included in the props ", () => {
+    render(<PostListItem
+      title={title}
+      body={body}
+      tags={[{
+        "id": 3,
+        "name": "Promises"
+      }]}
+      views={views}
+      comments={comments.toArray}
+    />);
+    expect(screen.getByRole("button", /promise/i));
   });
 
 });
