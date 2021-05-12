@@ -1,22 +1,40 @@
 import React from "react";
 
-import { getByText, getAllByTestId, getByAltText, getByPlaceholderText, prettyDOM, render, cleanup, waitFor, fireEvent, act, queryByText } from "@testing-library/react";
+import { getByText, getByTestId, getByAltText, getByPlaceholderText, prettyDOM, render, cleanup, waitFor, fireEvent, act, queryByText, screen } from "@testing-library/react";
 
 import App from "../App";
+
 import {jest} from "@jest/globals";
 
 // import axios from "axios";
+
+
 beforeEach(() => {
-  jest.useFakeTimers();
+  jest.useFakeTimers(); // necessary before app tests to bypass loading screen
 });
 
 afterEach(cleanup);
 
 describe("Application", () => {
   it("Renders", async() => {
-    const { getByText } = render(<App />);
+    render(<App />);
 
-    await waitFor(() => getByText("Campfire"));
+    await waitFor(() => screen.getByText("Campfire"));
+
+    expect(screen.getByText("Campfire")).toBeInTheDocument();
   });
+
+  it("Displays a post when it is clicked", async() => {
+    render(<App />);
+
+    await waitFor(() => screen.getByText("Campfire"));
+
+    await fireEvent.click(screen.getByText(/do I create a class/));
+
+    expect(screen.getByText(/keyword followed by/)).toBeInTheDocument();
+  });
+
+
+
 
 });
