@@ -295,7 +295,7 @@ const Post = (props) => {
 
       <hr />
 
-      {/* Comment Form */}
+      {/* Add Comment Form */}
       {state.showCommentForm &&
         <>
           <hr />
