@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.scss";
 import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
+import "./App.scss";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
 
@@ -26,236 +26,20 @@ let dummyUser = {
   "avatar_id": 2
 };
 
-let dummyCourseData = {
-  "id": 1,
-  "name": "JS for Beginners",
-  "description": "Introduction to core JavaScript concepts",
-  "archived": false,
-  "analytics": {
-    "user_count": "4",
-    "total_posts": "2",
-    "total_comments": "5",
-    "num_unresolved_questions": "1",
-    "num_resolved_questions": "1"
-  },
-  "secrets": {
-    "student_access_code": "111111",
-    "instructor_access_code": "222222"
-  },
-  "tags": [
-    {
-      "id": 1,
-      "name": "Callbacks"
-    },
-    {
-      "id": 2,
-      "name": "Closures"
-    },
-    {
-      "id": 3,
-      "name": "Promises"
-    },
-    {
-      "id": 4,
-      "name": "Classes"
-    },
-    {
-      "id": 5,
-      "name": "Async"
-    }
-  ],
-  "posts": [
-    {
-      "id": 2,
-      "title": "How do I create a class? 1 2 3 4 5 6 7 8 9 1 2 3 4",
-      "body": "How do I write a new class in javascript, and declare methods, variables, etc?",
-      "bookmarked": false,
-      "created_at": "2021-05-10T15:40:05.671Z",
-      "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": null,
-      "author_first_name": "Fiona",
-      "author_last_name": "Ford",
-      "author_avatar_id": 7,
-      "pinned": false,
-      "views": 0,
-      "anonymous": false,
-      "role": "student",
-      "user_id": 6,
-      "pinnable": true,
-      "editable": true,
-      "tags": [
-        {
-          "id": 4,
-          "name": "Classes"
-        }
-      ],
-      "comments": [
-        {
-          "id": 5,
-          "post_id": 2,
-          "anonymous": true,
-          "author_first_name": "Carson",
-          "author_last_name": "Cool",
-          "author_avatar_id": 4,
-          "body": "You create a class with the Class keyword followed by {}",
-          "score": 0,
-          "created_at": "2021-05-10T15:40:05.671Z",
-          "last_modified": "2021-06-10T15:40:05.671Z",
-          "liked": true,
-          "endorsed": false,
-          "role": "instructor",
-          "user_id": 3,
-          "editable": true,
-          "endorsable": true,
-          "endorsements": [],
-          "replies": []
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "title": "How do I use a promise?",
-      "body": "I am using a new library that returns a Promise object instead of a callback... how do I act on it once its done?",
-      "bookmarked": false,
-      "created_at": "2021-05-10T15:40:05.671Z",
-      "last_modified": "2021-05-10T15:40:05.671Z",
-      "best_answer": 4,
-      "author_first_name": "Edward",
-      "author_last_name": "Ecksworth",
-      "author_avatar_id": 6,
-      "pinned": false,
-      "views": 0,
-      "anonymous": false,
-      "role": "student",
-      "user_id": 5,
-      "pinnable": true,
-      "editable": true,
-      "tags": [
-        {
-          "id": 3,
-          "name": "Promises"
-        }
-      ],
-      "comments": [
-        {
-          "id": 2,
-          "post_id": 1,
-          "anonymous": false,
-          "author_first_name": "Fiona",
-          "author_last_name": "Ford",
-          "author_avatar_id": 7,
-          "body": "You can consume a promise by calling .then() on it! Be sure to use .catch() as well in case of errors.",
-          "score": 999,
-          "created_at": "2021-05-10T15:40:05.671Z",
-          "last_modified": "2021-07-10T15:40:05.671Z",
-          "liked": false,
-          "endorsed": true,
-          "role": "student",
-          "user_id": 6,
-          "editable": true,
-          "endorsable": true,
-          "endorsements": [
-            {
-              "id": 1,
-              "user_id": 3,
-              "endorser_name": "Carson Cool",
-              "comment_id": 2
-            }
-          ],
-          "replies": [
-            {
-              "id": 4,
-              "parent_id": 2,
-              "anonymous": false,
-              "author_first_name": "Edward",
-              "author_last_name": "Ecksworth",
-              "author_avatar_id": 6,
-              "body": "Thanks for this!!",
-              "score": 0,
-              "created_at": "2021-05-10T15:40:05.671Z",
-              "last_modified": "2021-06-10T15:40:05.671Z",
-              "liked": false,
-              "endorsed": true,
-              "role": "student",
-              "user_id": 5,
-              "editable": true,
-              "endorsable": true,
-              "endorsements": []
-            },
-            {
-              "id": 5,
-              "parent_id": 2,
-              "anonymous": false,
-              "author_first_name": "Edward",
-              "author_last_name": "Ecksworth",
-              "author_avatar_id": 7,
-              "body": "123123123",
-              "score": 5,
-              "created_at": "2021-05-10T15:40:05.671Z",
-              "last_modified": "2021-05-10T15:40:05.671Z",
-              "liked": true,
-              "endorsed": true,
-              "role": "student",
-              "user_id": 5,
-              "editable": true,
-              "endorsable": true,
-              "endorsements": []
-            }
-          ]
-        },
-        {
-          "id": 6,
-          "post_id": 1,
-          "anonymous": false,
-          "author_first_name": "Aaron",
-          "author_last_name": "Aldridge",
-          "author_avatar_id": 2,
-          "body": "Be sure to check out Promise.resolve and Promise.reject as well for more info.",
-          "score": 0,
-          "created_at": "2021-05-10T15:40:05.671Z",
-          "last_modified": "2021-05-10T15:40:05.671Z",
-          "liked": false,
-          "endorsed": false,
-          "role": "admin",
-          "user_id": 1,
-          "editable": true,
-          "endorsable": true,
-          "endorsements": [],
-          "replies": []
-        },
-        {
-          "id": 1,
-          "post_id": 1,
-          "anonymous": true,
-          "author_first_name": "Edward",
-          "author_last_name": "Ecksworth",
-          "author_avatar_id": 6,
-          "body": "I had the same question!",
-          "score": 0,
-          "created_at": "2021-05-10T15:40:05.671Z",
-          "last_modified": "2021-05-10T15:40:05.671Z",
-          "liked": true,
-          "endorsed": false,
-          "role": "student",
-          "user_id": 5,
-          "editable": true,
-          "endorsable": true,
-          "endorsements": [],
-          "replies": []
-        }
-      ]
-    }
-  ]
-};
-
 /////////////////////////////////////////////////////////////////////
 
 const API = {
   // GET_COURSES: "/api/courses",
-  GET_COURSE: "/api/courses/:id", // data = { state.courseID }
-  EDIT_POST: "/api/posts/:id", // data = { ...updatedData }
-  ADD_BOOKMARK: "/api/bookmarks", // data = { postID: state.postID }
-  DELETE_BOOKMARK: "/api/bookmarks" // data = { postID: state.postID }
+  RESET: "/api/debug/reset_db",
+
+  COURSES: "/api/courses", // data = { state.courseID }
+
+  POSTS: "/api/posts",
+
+  BOOKMARKS: "/api/bookmarks",
+
+  COMMENTS: "/api/comments"
+
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -275,47 +59,180 @@ const App = () => {
 
     posts: null, // all posts for the current course
 
-    selectedTags: []
+    selectedTags: [],
+
+    loading: true,
+    reloader: false // set this to !reloader when making a request without fetchCourseData and a reload is needed
   });
 
-  // Fetch data from the server on load
+  // Fetch course data when:
+  // -- selecting a new courseID
+  // -- changing active view
+  // -- changing active postID
   useEffect(() => {
-
-    console.log("API: Requesting all course data for the current course ID in state:", state.courseID);
-
-    // Get course data for the current course ID in state
     fetchCourseData(state.courseID);
+  }, [state.courseID, state.reloader]);
 
-  }, []);
+  // Show a loading screen if courseData is null
+  useEffect(() => {
+    setState({ ...state, loading: !state.courseData });
+  }, [state.courseData]);
+
+  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
+
+  const resetDB = () => {
+    console.log("Re-seeding database as admin...");
+    setState({ ...state, courseData: null });
+    request("GET", API.RESET, null, null, "admin")
+      .then(() => {
+        setTimeout(() => {
+          setActive("Dashboard");
+        }, 1000);
+      });
+  };
+
+  // Create an axios request
+  const request = async(method, url, id = null, data = null, role = null) => {
+    // If a role is provided, use its token, otherwise use state.authToken
+    return axios({
+      method: method,
+      url: url + (id ? `/${id}` : ""),
+      headers: {
+        "Authorization": role ? tokens[role] : state.authToken
+      },
+      data
+    })
+      .then(res => res.data)
+      .catch(err => console.log(err));
+  };
+
+  // Fetch course data from the server
+  const fetchCourseData = (courseID) => {
+    request("GET", API.COURSES, courseID)
+      .then(data => {
+        setAppData(data, "course");
+      });
+  };
+
+  // Set the application data
+  const setAppData = (data, type) => {
+    if (type === "course") {
+      setState({
+        ...state,
+        courseData: data,
+        postData: data ? getPostByID(data.posts, state.postID) : null,
+        posts: data ? data.posts : null,
+        loading: !data
+      });
+    } else if (type === "post") {
+      setState({
+        ...state,
+        postData: data,
+        postID: data.id,
+        reloader: true
+      });
+    }
+  };
+
+  // Edit the user's bookmark for the given postID
+  const editBookmark = (postID, bookmarked) => {
+    axios({
+      method: bookmarked ? "DELETE" : "POST",
+      url: bookmarked ? API.BOOKMARKS : API.BOOKMARKS,
+      headers: {
+        "Authorization": state.authToken
+      },
+      data: { postID }
+    })
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to create a new post with the given data
+  const addPost = (data) => {
+
+    console.log("Requesting to add a new post with data:", data);
+
+    request("POST", API.POSTS, null, data)
+      .then((postData) => {
+        // Redirect to the newly created post
+        // BUG: postData is received, but courseID is null
+        // setActive("Post", postData.id, postData);
+        console.log("Post successfully added! Server response: ", postData);
+        setActive("Dashboard");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // Request to edit a postID with the given data
+  const editPost = (postID, data) => {
+    request("PATCH", API.POSTS, postID, data)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to delete a post by ID and redirect to Dashboard
+  const deletePost = (postID) => {
+    request("DELETE", API.POSTS, postID)
+      .then(() => setActive("Dashboard"))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to like a comment by ID
+  const likeComment = (commentID, liked) => {
+    const url = API.COMMENTS.replace(":id", commentID) + (liked ? "/unlike" : "/like");
+    request("POST", url)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to edit a comment by ID with the given data
+  const editComment = (commentID, data) => {
+    request("PATCH", API.COMMENTS, commentID, data)
+      .then(() => fetchCourseData(state.courseID))
+      .catch((err) => console.log(err));
+  };
+
+  // Request to delete a comment by ID
+  const deleteComment = (commentID) => {
+    request("DELETE", API.COMMENTS, commentID)
+      .then(() => setActive("Post", state.postID))
+      .catch((err) => console.log(err));
+  };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Change the active view to "Dashboard", "Analytics", "Post" (requires postID)
-  const selectActive = (selection, postID = null) => {
-    // Get the current post data
-    const selectedPostData = getPostByID(state.posts, postID);
-    // Update state data
-    setState({
-      ...state,
-      active: selection,
-      postID: postID,
-      postData: selectedPostData
-    });
-
+  // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
+  const setActive = (selection, postID = null, postData = null) => {
+    if (selection === "Post") {
+      setState({
+        ...state,
+        active: selection,
+        postID: postID,
+        postData: postData ? postData : getPostByID(state.posts),
+        reloader: !state.reloader
+      });
+    } else {
+      setState({
+        ...state,
+        active: selection,
+        postID: null,
+        postData: null,
+        reloader: !state.reloader
+      });
+    }
   };
 
   // Update the selected tags dynamically as the user toggles them
+  // If only is set to true, only the given tag will be selected
   const updateSelectedTags = (tag, only = false) => {
-    // If only is true, select only the given tag
     if (only) {
       setState({ ...state, selectedTags: [tag] });
     } else {
       const selected = hasTag(state.selectedTags, tag.id);
-      // If the tag is already selected, unselect it
       if (selected) {
         const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
         setState({ ...state, selectedTags: updatedTags });
-        // Otherwise, select it
       } else {
         setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
       }
@@ -325,142 +242,6 @@ const App = () => {
   // Clear selected tags
   const clearSelectedTags = () => {
     setState({ ...state, selectedTags: [] });
-  };
-
-  // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
-
-  // Fetch course data from the server
-  const fetchCourseData = (courseID) => {
-
-    console.log("API: Requesting all course data for the course ID", courseID);
-    axios({
-      method: "GET",
-      url: API.GET_COURSE.replace(":id", courseID),
-      headers: {
-        "Authorization": state.authToken
-      }
-    })
-      .then((res) => {
-        const courseData = res.data;
-        setAppData(courseData, "course");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const setAppData = (data, type) => {
-
-    if (type === "course") {
-      console.log("Updating courseData, postData, and posts...");
-
-      // Updating courseData also updates state.posts and state.post
-      setState({
-        ...state,
-        courseData: data,
-        postData: getPostByID(data.posts, state.postID),
-        posts: data.posts
-      });
-
-    }
-
-  };
-
-  // Request to edit a post by ID with the given data
-  // Source: Post
-  const editPost = (postID, data) => {
-    axios({
-      method: "PATCH",
-      url: API.EDIT_POST.replace(":id", postID),
-      headers: {
-        "Authorization": state.authToken
-      },
-      data
-    })
-      .then((res) => {
-        console.log("Request successful!");
-        // Fetch updated course data to update local state
-        fetchCourseData(state.courseID);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Send a POST or DELETE request based on the current user's bookmarked value
-  const editBookmark = (postID, bookmarked) => {
-    axios({
-      method: bookmarked ? "DELETE" : "POST",
-      url: bookmarked ? API.DELETE_BOOKMARK : API.ADD_BOOKMARK,
-      headers: {
-        "Authorization": state.authToken
-      },
-      data: { postId: postID }
-    })
-      .then((res) => {
-        console.log("Request successful!");
-        // Fetch updated course data to update local state
-        fetchCourseData(state.courseID);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Request to delete a post by ID
-  const deletePost = (postID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to DELETE a post with the post ID", postID);
-
-    // MOCK: Send a delete request to the server
-    // SUCCESS: Redirect to dashboard
-    // ERROR: Return to post and display an error message
-    // Temp: Retrieve all posts except the one with postID
-    const newPosts = state.courseData.posts.filter(post => post.id !== postID);
-    const newCourseData = { ...state.courseData, posts: newPosts };
-    // Update state using the response data and redirect
-    const res = newCourseData;
-
-    if (res) {
-      setState({
-        ...state,
-        active: "Dashboard",
-        courseData: newCourseData,
-        postID: null,
-        postData: null
-      });
-    } else {
-      console.log("An error occurred while deleting the post.");
-    }
-  };
-
-  // Request to like a comment by ID
-  // Source: CommentListItem
-  const likeComment = (commentID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to LIKE a comment with the comment ID", commentID);
-
-  };
-
-  // Request to edit a comment by ID with the given data
-  // Source: CommentListItem
-  const editComment = (commentID, data) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to UPDATE a comment with the comment ID", commentID);
-    console.log("Data:", data);
-
-  };
-
-  // Request to delete a comment by ID
-  // Source: CommentListItem
-  const deleteComment = (commentID) => {
-
-    // TODO: API Request
-    console.log("API: Requesting to DELETE a comment with the comment ID", commentID);
-
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -484,18 +265,18 @@ const App = () => {
     <div className="App">
 
       {/* Loading Message (when there is no courseData) */}
-      {!state.courseData &&
+      {state.loading &&
         <div className="display-4 d-flex justify-content-center align-items-center h-100">
-          Fetching course data...
+          Loading...
         </div>}
 
       {/* Course View (courseData exists) */}
-      {state.courseData &&
+      {!state.loading && state.courseData &&
         <>
 
           {/* Nav Bar */}
           <Nav
-            onClick={selectActive}
+            onClick={setActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
             courseName="LHL Web Mar 1"
@@ -506,25 +287,29 @@ const App = () => {
           <section className="app-containers">
 
             {/* All Posts */}
-            <div className="left">
+            <div className="app-left">
               <PostList
+                active={state.active}
                 selectedPostID={state.postID}
                 tags={state.courseData.tags}
                 posts={state.courseData.posts}
-                onClick={(postID) => selectActive("Post", postID)}
+                onClick={(postID) => setActive("Post", postID)}
                 selectedTags={state.selectedTags}
                 onTagToggle={updateSelectedTags}
                 onTagClear={clearSelectedTags}
+                onNewPost={() => setActive("New Post")}
               />
             </div>
 
             {/* Current View */}
-            <div className="right">
+            <div className="app-right">
               <Main
                 active={state.active}
+                userData={state.user}
                 courseData={state.courseData}
                 postID={state.postID}
                 onEditBookmark={editBookmark}
+                onAddPost={addPost}
                 onEditPost={editPost}
                 onDeletePost={deletePost}
                 onLikeComment={likeComment}
@@ -539,8 +324,9 @@ const App = () => {
           {/* Test Controls */}
           <div className="test-controls">
             test controls:
-            <Button text="Dashboard" onClick={() => selectActive("Dashboard")} />
-            <Button text="Analytics" onClick={() => selectActive("Analytics")} />
+            <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+            <Button text="Analytics" onClick={() => setActive("Analytics")} />
+            <Button text="Refresh DB" onClick={() => resetDB()} />
           </div>
 
         </>

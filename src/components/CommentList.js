@@ -1,6 +1,6 @@
-import "./CommentList.scss";
-import CommentListItem from "./CommentListItem";
 import PropTypes from "prop-types";
+import CommentListItem from "./CommentListItem";
+import "./CommentList.scss";
 
 const CommentList = (props) => {
 

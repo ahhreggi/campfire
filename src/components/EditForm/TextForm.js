@@ -1,6 +1,6 @@
-import "./TextForm.scss";
-import TextareaAutosize from "react-autosize-textarea";
 import PropTypes from "prop-types";
+import TextareaAutosize from "react-autosize-textarea";
+import "./TextForm.scss";
 
 const TextForm = (props) => {
 

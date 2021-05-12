@@ -5,13 +5,37 @@ button {
   border: 1px solid;
   color: $white;
 
+  img {
+    width: 0.8rem;
+    margin-right: 0.2rem;
+    margin-bottom: 0.1rem;
+  }
+
+  &.new-post {
+    border-radius: 10px;
+    border: 1px solid $navy-2;
+    background: linear-gradient($navy-7, $navy-1);
+    color: $white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    height: 3rem;
+    width: 50%;
+    margin-bottom: 0.5rem;
+    opacity: 1;
+    text-transform: uppercase;
+    &:hover,
+    &.active {
+      border: 3px solid $navy-8;
+      background: linear-gradient($navy-7, $navy-2);
+    }
+  }
+
   &.form {
     font-size: 0.9rem;
     font-weight: 700;
     border-width: 2px;
     border-radius: 5px;
     width: 6rem;
-    // margin: 0.5rem;
     opacity: 0.8;
 
     &.green {

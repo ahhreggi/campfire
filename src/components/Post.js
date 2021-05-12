@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import "./Post.scss";
-import CommentList from "./CommentList";
-import TagList from "./TagList";
-import edit from "../images/icons/edit.png";
-import trash from "../images/icons/trash.png";
-import pin from "../images/icons/pin.png";
-import star from "../images/icons/star.png";
-import eye from "../images/icons/eye.png";
-import comment from "../images/icons/comment.png";
 import PropTypes from "prop-types";
 import moment from "moment";
+import TagList from "./TagList";
+import CommentList from "./CommentList";
+import eye from "../images/icons/eye.png";
+import pin from "../images/icons/pin.png";
+import star from "../images/icons/star.png";
+import edit from "../images/icons/edit.png";
+import trash from "../images/icons/trash.png";
+import comment from "../images/icons/comment.png";
+import "./Post.scss";
 
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";

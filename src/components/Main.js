@@ -1,16 +1,19 @@
-import "./Main.scss";
+import PropTypes from "prop-types";
 import Post from "./Post";
+import PostForm from "./PostForm";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
-import PropTypes from "prop-types";
+import "./Main.scss";
 
 const Main = (props) => {
 
   Main.propTypes = {
-    active: PropTypes.string.isRequired,
-    courseData: PropTypes.object.isRequired,
+    active: PropTypes.string,
+    userData: PropTypes.object,
+    courseData: PropTypes.object,
     postID: PropTypes.number,
     onEditBookmark: PropTypes.func,
+    onAddPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
@@ -31,6 +34,8 @@ const Main = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   const post = getPostByID(props.courseData.posts, props.postID);
+
+  const stats = props.courseData.analytics;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -57,6 +62,7 @@ const Main = (props) => {
           userID={post.user_id}
           views={post.views}
           onEditBookmark={props.onEditBookmark}
+          onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}
@@ -66,7 +72,20 @@ const Main = (props) => {
         />
       }
 
-      {props.active === "Dashboard" && <Dashboard />}
+      {props.active === "New Post" &&
+        <PostForm
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          courseData={props.courseData}
+          onAddPost={props.onAddPost}
+        />
+      }
+
+      {props.active === "Dashboard" &&
+        <Dashboard
+          resolved={stats.num_resolved_questions}
+          unresolved={stats.num_unresolved_questions}
+        />
+      }
 
       {props.active === "Analytics" && <Analytics />}
 

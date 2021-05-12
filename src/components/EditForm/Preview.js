@@ -1,6 +1,5 @@
-import "./Preview.scss";
 import PropTypes from "prop-types";
-
+import "./Preview.scss";
 
 const Preview = (props) => {
 
