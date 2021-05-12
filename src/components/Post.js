@@ -255,9 +255,39 @@ const Post = (props) => {
 
       </div>
 
+      {/* Edit Form */}
+      {state.showForm &&
+        <>
+          <EditForm
+            label={"EDIT POST"}
+            id={props.id}
+            title={props.title}
+            author={props.author}
+            body={props.body}
+            anonymous={props.anonymous}
+            tags={props.tags}
+            courseTags={props.courseTags}
+            mode={"POST"}
+            onSave={savePost}
+            onCancel={toggleForm}
+          />
+        </>
+      }
+
+      {/* Delete Confirmation */}
+      {state.showConfirmation &&
+        <>
+          <Confirmation
+            message={"Are you sure you would like to delete this post?"}
+            onConfirm={deletePost}
+            onCancel={toggleConfirmation}
+          />
+        </>
+      }
+
       {/* Edit Control Buttons */}
       {props.editable &&
-        <div className="controls icon-large">
+        <div className="controls post-controls icon-large">
           <>
             <img
               className={"icon-large" + (state.showCommentForm ? "" : " disabled")}
@@ -279,37 +309,6 @@ const Post = (props) => {
             />
           </>
         </div>
-      }
-
-      {/* Edit Form */}
-      {state.showForm &&
-        <>
-          <hr />
-          <EditForm
-            id={props.id}
-            title={props.title}
-            author={props.author}
-            body={props.body}
-            anonymous={props.anonymous}
-            tags={props.tags}
-            courseTags={props.courseTags}
-            mode={"POST"}
-            onSave={savePost}
-            onCancel={toggleForm}
-          />
-        </>
-      }
-
-      {/* Delete Confirmation */}
-      {state.showConfirmation &&
-        <>
-          <hr />
-          <Confirmation
-            message={"Are you sure you would like to delete this post?"}
-            onConfirm={deletePost}
-            onCancel={toggleConfirmation}
-          />
-        </>
       }
 
       <hr />

@@ -121,6 +121,8 @@ const CommentListItem = (props) => {
       anonymous: data.anonymous
     };
     props.onAddComment(newReplyData);
+    // Hide reply form
+    toggleReplyForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -400,7 +402,6 @@ const CommentListItem = (props) => {
       {/* Add Reply Form */}
       {isParent && state.showReplyForm &&
         <div className="reply-form">
-          <hr />
           <CommentForm
             label={"NEW REPLY"}
             userName={props.userName}
