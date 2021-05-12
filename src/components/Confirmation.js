@@ -31,11 +31,13 @@ const Confirmation = (props) => {
           onClick={props.onConfirm}
         />
 
-        <Button
-          text={"CANCEL"}
-          styles={"form " + cancelStyles}
-          onClick={props.onCancel}
-        />
+        {props.onCancel &&
+          <Button
+            text={"CANCEL"}
+            styles={"form " + cancelStyles}
+            onClick={props.onCancel}
+          />
+        }
 
       </div>
 

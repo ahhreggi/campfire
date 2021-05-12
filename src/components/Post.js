@@ -298,7 +298,7 @@ const Post = (props) => {
       {/* Add Comment Form */}
       <div className="comment-form">
         <CommentForm
-          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          userName={props.userName}
           onAddComment={addComment}
         />
       </div>
@@ -319,6 +319,7 @@ const Post = (props) => {
           onDeleteComment={props.onDeleteComment}
           bestAnswer={props.bestAnswer}
           postAuthorID={props.userID}
+          userName={props.userName}
         />
       </div>
 

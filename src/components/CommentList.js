@@ -12,7 +12,8 @@ const CommentList = (props) => {
     onDeleteComment: PropTypes.func,
     bestAnswer: PropTypes.number,
     postAuthorID: PropTypes.number,
-    commentAuthorID: PropTypes.number
+    commentAuthorID: PropTypes.number,
+    userName: PropTypes.string
   };
 
   const comments = props.comments.map(comment => {
@@ -43,6 +44,7 @@ const CommentList = (props) => {
         bestAnswer={props.bestAnswer}
         postAuthorID={props.postAuthorID}
         commentAuthorID={comment.user_id}
+        userName={props.userName}
       />
     );
   });

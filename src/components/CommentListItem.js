@@ -10,6 +10,7 @@ import like from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
+import reply from "../images/icons/reply.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
@@ -49,25 +50,33 @@ const CommentListItem = (props) => {
     bestAnswer: PropTypes.number,
 
     postAuthorID: PropTypes.number,
-    commentAuthorID: PropTypes.number
+    commentAuthorID: PropTypes.number,
+
+    userName: PropTypes.string
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
+    showReplyForm: false,
     showReplies: false,
     endorsed: props.endorsed
   });
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Toggle and reset the post edit form
+  // Toggle and reset the comment edit form
   const toggleForm = () => {
     if (!state.showForm && state.showConfirmation) {
       setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
     } else {
       setState({ ...state, showForm: !state.showForm });
     }
+  };
+
+  // Toggle and reset the new reply form
+  const toggleReplyForm = () => {
+    setState({ ...state, showReplyForm: !state.showReplyForm });
   };
 
   // Toggle delete confirmation form
@@ -108,7 +117,7 @@ const CommentListItem = (props) => {
       anonymous: data.anonymous
     };
     props.onAddComment(newReplyData);
-  }
+  };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -294,6 +303,16 @@ const CommentListItem = (props) => {
             {props.editable &&
               <div className="controls">
 
+                {isParent &&
+                  <span className="reply">
+                    <img
+                      className={"icon-large" + (state.showForm ? "" : " disabled")}
+                      src={reply}
+                      alt="reply"
+                      onClick={toggleReplyForm}
+                    />
+                  </span>
+                }
                 <span className="edit">
                   <img
                     className={"icon-large" + (state.showForm ? "" : " disabled")}
@@ -355,10 +374,10 @@ const CommentListItem = (props) => {
       }
 
       {/* Add Reply Form */}
-      {isParent &&
+      {isParent && state.showReplyForm &&
         <div className="reply-form">
           <CommentForm
-            userName={`${props.userData.first_name} ${props.userData.last_name}`}
+            userName={props.userName}
             onAddComment={addReply}
           />
         </div>

@@ -15,7 +15,7 @@ const Join = (props) => {
   });
 
   const handleInputChange = (event, field) => {
-    setState({ ...state, [field]: event.target.value })
+    setState({ ...state, [field]: event.target.value });
   };
 
   const handleSubmit = () => {

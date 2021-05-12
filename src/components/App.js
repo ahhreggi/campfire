@@ -207,15 +207,15 @@ const App = () => {
 
   // Register a new user account
   const registerUser = (data) => {
-    request("POST", API.REGISTER, null, { firstName = data.firstName, lastName = data.lastName, email = data.email, password = data.password })
+    request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
       .then((userData) => {
         setState({ ...state, user: userData, authToken: userData.token, userCourses: [] });
         // redirect to create/join page since the user has no courses yet
       })
       .catch((err) => console.log(err));
-      // errors: user is already logged in or the email provided is taken
-      // have the error response indicate the error so it can be displayed to the user
-  }
+    // errors: user is already logged in or the email provided is taken
+    // have the error response indicate the error so it can be displayed to the user
+  };
 
 
   // Join an existing course via access code and redirect to it
@@ -229,7 +229,7 @@ const App = () => {
         // loading -> courseData becomes !== null and displays dashboard/main app
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // Create a new course and redirect to it
   const createCourse = (data) => {
@@ -238,7 +238,7 @@ const App = () => {
         // need this to give the courseID, currently gives course URL
         const courseID = parseInt(data.redirect_to.split("/")[1]);
         fetchCourseData(courseID);
-      })
+      });
   };
 
   ///////////////////////////////////////////////////////////////////

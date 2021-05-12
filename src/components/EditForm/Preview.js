@@ -17,23 +17,27 @@ const Preview = (props) => {
         PREVIEW
       </div>
 
-      {props.author &&
-        <div className="author">
-          Posting as <span className="name">{props.author}</span>
-        </div>
-      }
+      <div className="display">
 
-      {props.title &&
-        <div className="title">
-          {props.title}
-        </div>
-      }
+        {props.author &&
+          <div className="author">
+            Posting as <span className="name">{props.author}</span>
+          </div>
+        }
 
-      {props.body &&
-        <div className="body">
-          {props.body}
-        </div>
-      }
+        {props.title &&
+          <div className="title">
+            {props.title}
+          </div>
+        }
+
+        {props.body &&
+          <div className="body">
+            {props.body}
+          </div>
+        }
+
+      </div>
 
     </div>
   );

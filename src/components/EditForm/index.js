@@ -21,8 +21,14 @@ const EditForm = (props) => {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 
-    mode: PropTypes.string // "POST" or "COMMENT"
+    mode: PropTypes.string, // "POST" or "COMMENT"
 
+    minHeight: PropTypes.string
+
+  };
+
+  EditForm.defaultProps = {
+    minHeight: "10rem"
   };
 
   const [state, setState] = useState({
@@ -60,6 +66,11 @@ const EditForm = (props) => {
       tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
     };
     props.onSave(data);
+  };
+
+  // Cancel edit
+  const cancelEdit = () => {
+    props.onCancel();
   };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -143,7 +154,7 @@ const EditForm = (props) => {
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
-        minHeight={"10rem"}
+        minHeight={props.minHeight}
         onChange={updatePreviewBody}
       />
 
@@ -165,7 +176,7 @@ const EditForm = (props) => {
 
       <Confirmation
         onConfirm={saveEdit}
-        onCancel={() => props.onCancel()}
+        onCancel={props.onCancel ? cancelEdit : null}
       />
 
     </div>

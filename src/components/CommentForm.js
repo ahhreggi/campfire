@@ -35,6 +35,7 @@ const CommentForm = (props) => {
           anonymous={false}
           onSave={createComment}
           mode={"COMMENT"}
+          minHeight={"5rem"}
         />
 
       </div>

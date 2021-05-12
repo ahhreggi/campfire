@@ -14,21 +14,27 @@
     color: $blue;
   }
 
-  .author {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+  .display {
 
-    .name {
-      color: $orange;
+    min-height: 4rem;
+
+    .author {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+
+      .name {
+        color: $orange;
+      }
+
     }
 
-  }
+    .title {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
 
-  .title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
   }
 
   .body.break {
