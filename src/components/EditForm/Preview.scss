@@ -14,14 +14,8 @@
     color: $blue;
   }
 
-  .title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
   .author {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 700;
     margin-bottom: 1rem;
 
@@ -29,6 +23,12 @@
       color: $orange;
     }
 
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .body.break {
