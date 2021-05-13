@@ -39,7 +39,7 @@
       border-left-color: $yellow;
 
       .comment-author {
-        color: $yellow; // this is fine
+        color: $yellow;
       }
 
     }
@@ -53,11 +53,16 @@
     }
 
     &.highlight-author {
-      border: 2px solid $white;
+      border-left-color: $white;
+
+      &.highlight-instructor {
+        border-color: $yellow;
+      }
+
     }
 
     &.highlight-best {
-      border-left-color: $green;
+      border: 2px solid $green;
 
       &.highlight-author {
         border-color: $green;
@@ -88,7 +93,7 @@
       border-left-color: $yellow;
 
       .comment-author {
-        color: $yellow; // this is fine
+        color: $yellow;
       }
 
     }
@@ -102,11 +107,16 @@
     }
 
     &.highlight-author {
-      border: 2px solid $white;
+      border-left-color: $white;
+
+      &.highlight-instructor {
+        border-color: $yellow;
+      }
+
     }
 
     &.highlight-best {
-      border-left-color: $green;
+      border: 2px solid $green;
 
       &.highlight-author {
         border-color: $green;

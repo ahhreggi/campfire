@@ -206,7 +206,9 @@ const CommentListItem = (props) => {
   const isStudent = props.authorRole === "student";
 
   // Check if the comment is the post author
-  const isPostAuthor = props.postAuthorID === props.commentAuthorID;
+  const isPostAuthor = props.userIsPostAuthor;
+  console.log("userIsPostAuthor", props.userIsPostAuthor);
+  console.log("bestAnswer", props.bestAnswer);
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -310,7 +312,7 @@ const CommentListItem = (props) => {
                 }
 
                 {/* Select Best Answer Label */}
-                {props.bestAnswer === null && props.userIsPostAuthor &&
+                {props.bestAnswer !== props.id && props.userIsPostAuthor &&
                   <div className="label unselected" onClick={setBestAnswer}>
                     {/* <img src={checkmark} alt="checkmark" /> */}
                     <span>SELECT AS BEST ANSWER</span>
