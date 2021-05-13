@@ -1,3 +1,5 @@
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
@@ -17,10 +19,17 @@ const Main = (props) => {
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
+
+  // const [state, setState] = useState({
+  //   mainActive: props.active
+  // });
+
+  // console.log(props.active, state.mainActive, props.postID);
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -59,16 +68,18 @@ const Main = (props) => {
           editable={post.editable}
           tags={post.tags}
           title={post.title}
-          userID={post.user_id}
+          authorID={post.user_id}
           views={post.views}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}
+          onAddComment={props.onAddComment}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
         />
       }
 

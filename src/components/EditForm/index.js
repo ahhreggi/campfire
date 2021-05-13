@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import Preview from "./Preview";
 import TextForm from "./TextForm";
 import Checkbox from "./Checkbox";
@@ -11,6 +12,8 @@ const EditForm = (props) => {
 
   EditForm.propTypes = {
 
+    label: PropTypes.string,
+
     title: PropTypes.string,
     author: PropTypes.string,
     body: PropTypes.string,
@@ -21,8 +24,15 @@ const EditForm = (props) => {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
 
-    mode: PropTypes.string // "POST" or "COMMENT"
+    mode: PropTypes.string, // "POST" or "COMMENT"
 
+    isInstructor: PropTypes.bool,
+    minHeight: PropTypes.string
+
+  };
+
+  EditForm.defaultProps = {
+    minHeight: "10rem"
   };
 
   const [state, setState] = useState({
@@ -62,17 +72,20 @@ const EditForm = (props) => {
     props.onSave(data);
   };
 
+  // Cancel edit
+  const cancelEdit = () => {
+    props.onCancel();
+  };
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
   const updatePreviewTitle = (event) => {
-    console.log(event.target.value);
     setState({ ...state, previewTitle: event.target.value });
   };
 
   // Update the preview body dynamically as the user types
   const updatePreviewBody = (event) => {
-    console.log(event.target.value);
     setState({ ...state, previewBody: event.target.value });
   };
 
@@ -128,8 +141,10 @@ const EditForm = (props) => {
     <div className="EditForm">
 
       <Preview
+        label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
+        isInstructor={props.isInstructor}
         body={state.previewBody}
         breakBody={state.breakBody}
       />
@@ -145,14 +160,16 @@ const EditForm = (props) => {
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
-        minHeight={"10rem"}
+        minHeight={props.minHeight}
         onChange={updatePreviewBody}
       />
 
-      <Checkbox
-        checked={state.previewAnonymous}
-        onChange={updatePreviewAnonymous}
-      />
+      {!props.isInstructor &&
+        <Checkbox
+          checked={state.previewAnonymous}
+          onChange={updatePreviewAnonymous}
+        />
+      }
 
       {props.mode === "POST" &&
         <TagForm
@@ -167,7 +184,8 @@ const EditForm = (props) => {
 
       <Confirmation
         onConfirm={saveEdit}
-        onCancel={() => props.onCancel()}
+        onCancel={props.onCancel ? cancelEdit : null}
+        useSubmit={props.label && !props.label.includes("EDIT")}
       />
 
     </div>

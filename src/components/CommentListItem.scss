@@ -7,79 +7,143 @@
   margin-top: 1rem;
   padding: 1rem;
   padding-bottom: 1rem;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
+  border-left: 2px solid $navy-6;
+  border-radius: 15px;
+  word-break: initial;
 
-  // Delete confirmation styling
-  &.highlight-delete {
-    border: 1px solid $red;
-    background-color: $navy-0;
-    &:not(.highlight-parent) {
-      background-color: $navy-1;
-    }
+  &:last-child {
+    margin-bottom: 1rem;
+  }
+
+  img,
+  .counter,
+  .comment-author,
+  .role {
+    user-select: none;
+  }
+
+  &.break-body {
+    word-break: break-all;
   }
 
   // Parent comment styling
   &.highlight-parent {
+
     .EditForm {
       background-color: $navy-1;
+      margin-bottom: 1rem;
     }
+
+    &.highlight-instructor {
+      border-left-color: $yellow;
+
+      .comment-author {
+        color: $yellow;
+      }
+
+    }
+
+    &.highlight-student {
+
+      .comment-author {
+        color: $white;
+      }
+
+    }
+
+    &.highlight-author {
+      border-left-color: $white;
+
+      &.highlight-instructor {
+        border-left-color: $yellow;
+      }
+
+    }
+
+    &.highlight-best {
+      border: 2px solid $green;
+
+      &.highlight-author {
+        border-color: $green;
+      }
+
+    }
+
+    &.highlight-delete {
+      border: 2px solid $red;
+      background-color: $navy-0;
+    }
+
   }
 
   // Child comment styling
   &:not(.highlight-parent) {
-    .EditForm {
-      background-color: $navy-2;
-    }
-  }
-
-  // Instructor comment styling
-  &.highlight-instructor {
-
-    &:not(.highlight-delete) {
-      border: 1px solid $yellow;
-    }
-
-    .author {
-      color: $yellow;
-    }
-
-  }
-
-  // Post author styling
-  &.highlight-author {
-
-    &:not(.highlight-delete) {
-      border: 1px solid $white;
-    }
-
-  }
-
-  // Best answer styling
-  &.highlight-best:not(.highlight-delete) {
-    border: 1px solid $green;
-  }
-
-  // Reply styling
-  &:not(.highlight-parent) {
     background-color: $navy-4;
     margin-top: 0;
-    padding-bottom: 0.7rem;
+    padding-bottom: 0.5rem;
+    border-radius: 20px;
+    border-left-width: 3px;
 
     &:not(:first-child) {
       margin-top: 0.5rem;
+    }
+
+    &.highlight-instructor {
+      border-left-color: $yellow;
+
+      .comment-author {
+        color: $yellow;
+      }
+
+    }
+
+    &.highlight-student {
+
+      .comment-author {
+        color: $white;
+      }
+
+    }
+
+    &.highlight-author {
+      border-left-color: $white;
+
+      &.highlight-instructor {
+        border-color: $yellow;
+      }
+
+    }
+
+    &.highlight-best {
+      border: 2px solid $green;
+
+      &.highlight-author {
+        border-color: $green;
+      }
+
+    }
+
+    &.highlight-delete {
+      border: 2px solid $red;
+      background-color: $navy-1;
     }
 
   }
 
   // Hover styling
   .toggle {
+
     img {
       opacity: 0.7;
+
       &:hover {
         opacity: 1;
         cursor: pointer;
       }
+
     }
+
   }
 
   .top {
@@ -92,32 +156,44 @@
       width: 1rem;
 
       &.heart {
+
         img {
           width: 0.9rem;
         }
+
+        img.not-liked {
+          // opacity: 0.7;
+          filter: grayscale(50%);
+        }
+
       }
 
       &.medal {
+
         img {
           width: 1rem;
           margin-top: 0.1rem;
         }
+
       }
+
     }
 
     section.left {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 6rem;
+      min-width: 5.3rem;
       height: 100%;
       margin-right: 1rem;
 
       .avatar {
         margin: 0.2rem 0 0.3rem 0;
+
         img {
           width: 5rem;
         }
+
       }
 
       .role {
@@ -125,9 +201,11 @@
         text-transform: uppercase;
         font-size: 0.8rem;
         margin: 0.2rem 0 0.5rem 0;
+
         &.instructor {
           color: $yellow;
         }
+
       }
 
       .engagements {
@@ -180,14 +258,44 @@
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-between;
+        align-items: center;
         height: 2rem;
+        min-width: 28rem;
+        padding-bottom: 0.9rem;
 
-        .author {
+        .comment-author {
           font-weight: 700;
           font-size: 0.9rem;
+
+          img.author-badge {
+            width: 0.8rem;
+            margin-left: 0.5rem;
+            margin-bottom: 0.2rem;
+          }
+
         }
+
         .label {
           font-weight: 700;
+          user-select: none;
+
+          &.active {
+            cursor: pointer;
+          }
+
+          &.unselected {
+            filter: grayscale(100%);
+            opacity: 0.3;
+            &:hover {
+              filter: grayscale(30%);
+              opacity: 0.5;
+              cursor: pointer;
+            }
+          }
+
+          &.selected {
+            opacity: 1;
+          }
 
           img {
             width: 1.2rem;
@@ -195,25 +303,30 @@
           }
 
           span {
-            color: $green;
             font-size: 1.3rem;
             margin-right: 0.2rem;
+            color: $green;
           }
+
         }
+
       }
 
       .comment-body {
         margin-top: 0.5rem;
         display: flex;
         flex-direction: column;
-        min-height: 6.7rem;
+        min-height: 6.8rem;
 
         .text {
           flex-grow: 1;
+          // margin-bottom: 1rem;
+
         }
 
         .endorsers {
-          margin-bottom: 0.5rem;
+          // margin-bottom: 0rem;
+          margin-top: 1rem;
           display: flex;
           font-size: 0.8rem;
           opacity: 0.9;
@@ -236,28 +349,18 @@
         justify-content: space-between;
         border-top: 1px solid $navy-7;
         padding-top: 0.5rem;
-        height: 2.5rem;
+        min-height: 2.5rem;
 
         .timestamp {
           font-size: 0.8rem;
           color: $navy-8;
 
-          &.modified {
+          .modified {
             font-style: italic;
           }
 
         }
 
-        .controls {
-          display: flex;
-          flex-wrap: nowrap;
-          justify-content: space-between;
-
-          img {
-            width: 1.5rem;
-          }
-
-        }
 
       }
 
@@ -265,26 +368,38 @@
 
   }
 
-  .editable {
+  .controls {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
 
-    .EditForm {
-      padding: 1rem;
-      border: 1px solid $navy-7;
+    img {
+      width: 1.5rem;
     }
+
+    .edit {
+      margin-left: 0.2rem;
+    }
+
+  }
+
+  .editable {
 
     .confirmation-delete {
       margin-bottom: 0.5rem;
     }
 
+
   }
 
   .replies {
     height: 100%;
-    border-left: 0.5rem solid $navy-7;
-    padding-left: 0.5rem;
+    margin-left: 6.4rem;
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+
   }
 
 }

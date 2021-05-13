@@ -3,6 +3,10 @@
 
 @import "~bootstrap/scss/bootstrap";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background-color: $navy-0;
@@ -12,8 +16,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
 
+  a {
+    text-decoration: none;
+  }
+
   button {
     user-select: none;
+    outline: none;
   }
 
   hr {
@@ -25,6 +34,7 @@ body {
   .icon-med,
   .icon-large {
     cursor: pointer;
+
     &.disabled {
       opacity: 0.5;
       filter: grayscale(100);

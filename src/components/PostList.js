@@ -45,7 +45,6 @@ const PostList = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   const toggleList = (category) => {
-    console.log("toggling", category);
     if (category === "filters") {
       setState({ ...state, showFilters: !state.showFilters });
     } else if (category === "pinned") {
@@ -105,6 +104,13 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
+  // // Sort posts from newest to oldest
+  const sortByID = (posts) => {
+    return posts.sort((a, b) => {
+      return b.id - a.id;
+    });
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Return true if the given tagID is in tags
@@ -140,12 +146,17 @@ const PostList = (props) => {
     }
   }
 
-  // Sort the pinned posts by bookmark status
-  const sortedPinnedPosts = sortByBookmarked(pinned);
+  // Sort the posts by descending ID
+  const descPinned = sortByID(pinned);
+  const descBookmarked = sortByID(bookmarked);
+  const descUnpinned = sortByID(unpinned);
 
-  const pinnedPosts = generatePostListItems(sortedPinnedPosts);
-  const bookmarkedPosts = generatePostListItems(bookmarked);
-  const unpinnedPosts = generatePostListItems(unpinned);
+  // Sort the pinned posts by bookmark status
+  const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
+
+  const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
+  const bookmarkedPosts = generatePostListItems(descBookmarked);
+  const unpinnedPosts = generatePostListItems(descUnpinned);
 
   ///////////////////////////////////////////////////////////////////
 
