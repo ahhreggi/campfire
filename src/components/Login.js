@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
@@ -19,7 +20,8 @@ const Login = (props) => {
     setState({ ...state, [field]: event.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const data = { ...state };
     props.onSubmit(data);
   };

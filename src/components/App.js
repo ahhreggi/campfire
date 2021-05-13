@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -64,8 +64,8 @@ const App = () => {
     userData: null, // fetchUserData
     userCourses: null, // fetchUserCourses
 
-    active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
-    role: "owner",
+    active: "Loading", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
+    role: null,
 
     courseID: null,
     courseData: null, // all data for the current courseID
@@ -89,9 +89,9 @@ const App = () => {
     setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
   };
 
-  useEffect(() => {
-    setActive("Dashboard");
-  }, [state.role]);
+  // useEffect(() => {
+  //   setActive("Dashboard");
+  // }, [state.role]);
 
   /////////////////
 
@@ -105,9 +105,9 @@ const App = () => {
   // }, [state.courseID, state.active, state.reloader]);
 
   // Show a loading screen if courseData is null
-  useEffect(() => {
-    setState({ ...state, loading: !state.courseData });
-  }, [state.courseData]);
+  // useEffect(() => {
+  //   setState({ ...state, loading: !state.courseData });
+  // }, [state.courseData]);
 
   // If postID changes, check that the active view is "Post". If not, change to it.
   // useEffect(() => {
@@ -199,7 +199,6 @@ const App = () => {
     request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
-        // console.log(data);
       });
   };
 
@@ -232,12 +231,12 @@ const App = () => {
     console.log("userData:", state.userData);
     // If user data is valid, fetch all of the user's courses
     if (state.userData) {
-      console.log("Logged in! Fetching your courses...");
+      console.log("You are now logged in! Fetching your courses...");
       fetchUserCourses();
 
       // If user data changes to null, go to login/home
     } else {
-      console.log("Logged out!");
+      console.log("You are now logged out!");
     }
 
   }, [state.userData]);
@@ -268,8 +267,13 @@ const App = () => {
           // Login failed
         } else {
           console.log("❌ fetchUserData failed!");
+          redirectTo("/failed");
         }
       });
+  };
+
+  const redirectTo = (path) => {
+    window.location.href = window.location.protocol + "//" + window.location.host + path;
   };
 
   // Fetch all of the current user's courses
@@ -283,12 +287,16 @@ const App = () => {
           // Set userCourses in state
           setAppData(userCourses, "userCourses");
 
+          // // Redirect to "/"
+          redirectTo("/register");
+
           // Display the user's dashboard with all of their courses
           // --> Done via useEffect (userCourses goes from null -> array)
 
         // User courses not retrieved
         } else {
           console.log("❌ fetchUserCourses failed!");
+
         }
       });
   };
@@ -484,16 +492,18 @@ const App = () => {
         <Switch>
 
           <Route path="/" exact render={() => (
+            // !state.userData ? <Redirect to={{}}
             <>
               {/* Loading Message (when there is no courseData) */}
-              {state.loading &&
+              {state.active === "Loading" &&
                   <div className="display-4 d-flex justify-content-center align-items-center h-100">
                     Loading...
                   </div>
               }
 
               {/* One Course View (courseData exists, user is logged in) */}
-              {!state.loading && state.courseData && state.userData &&
+              {/* {!state.loading && state.courseData && state.userCourses && state.user */}
+              {state.userData && state.userCourses && state.courseData &&
                   <>
 
                     {/* Nav Bar */}
