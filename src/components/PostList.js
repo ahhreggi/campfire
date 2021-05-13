@@ -31,7 +31,7 @@ const PostList = (props) => {
     showPinned: true,
     showBookmarked: true,
     showPosts: true,
-    showSearch: true,
+    showSearch: false,
     searchText: ""
   });
 
@@ -55,6 +55,11 @@ const PostList = (props) => {
     } else {
       setState({ ...state, showSearch: false, searchText: "" });
     }
+  };
+
+  const updateSearchText = (event) => {
+    setState({ ...state, searchText: event.target.value });
+    console.log(event.target.value);
   };
 
   const toggleList = (category) => {
@@ -208,7 +213,14 @@ const PostList = (props) => {
 
       {state.showSearch &&
         <div className="search-bar">
-          search bar here
+          {/* <TextForm
+            text={state.searchText}
+            onChange={updateSearchText}
+          /> */}
+          <input className="search-bar"
+            value={state.searchText}
+            onChange={updateSearchText}
+          />
         </div>
       }
 
