@@ -37,13 +37,13 @@ const Login = (props) => {
 
         <TextForm
           label={"E-mail"}
-          text={""}
+          text={state.email}
           onChange={(event) => handleInputChange(event, "email")}
         />
 
         <TextForm
           label={"Password"}
-          text={""}
+          text={state.password}
           onChange={(event) => handleInputChange(event, "password")}
         />
       </div>

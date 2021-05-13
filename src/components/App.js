@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -61,9 +61,11 @@ const API = {
 const App = () => {
 
   const [state, setState] = useState({
-    user: dummyUser, // current user
+    userID: null,
+    userData: null, // current user
+
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
-    authToken: tokens.owner,
+    authToken: null,
     role: "owner",
 
     courseID: 1,
@@ -162,18 +164,33 @@ const App = () => {
 
   // Create an axios request
   const request = async(method, url, id = null, data = null, role = null) => {
+
     // If a role is provided, use its token, otherwise use state.authToken
-    console.log(method, url + (id ? `/${id}` : ""));
+    const params = (method + " " + url + (id ? `/${id}` : ""));
+    const token = role ? role : state.authToken;
+    console.log("-".repeat(50));
+    console.log("🔥", params);
+    console.log("🔥 STATE TOKEN:", token);
+    if (data) {
+      console.log("🔥 DATA SENT:", data);
+    }
+
     return axios({
       method: method,
       url: url + (id ? `/${id}` : ""),
       headers: {
-        "Authorization": role ? tokens[role] : state.authToken
+        "Authorization": token
       },
       data
     })
-      .then(res => res.data)
-      .catch(err => console.log(err));
+      .then(res => {
+        console.log("✔️ SERVER RESPONSE:", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log("❌ SERVER RESPONSE:");
+        console.error(err);
+      });
   };
 
   // Fetch course data from the server
@@ -181,7 +198,7 @@ const App = () => {
     request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
-        console.log(data);
+        // console.log(data);
       });
   };
 
@@ -202,24 +219,43 @@ const App = () => {
         postID: data.id,
         reloader: !state.reloader
       });
+    } else if (type === "user") {
+      setState({
+        ...state,
+        userData: data
+      });
     }
   };
 
-  // BLIND FUNCTIONS ////////////////////////////////////////////////
-
-  // wrote these with zero testing, probably broken XD
-
   // Login/retrieve data for an existing user and redirect to the dashboard of a course
+  // redirect to page with all of the user's courses or the course page of most recent?
+  // have this api call include an array of the user's course IDs already to display in the nav/login landing
+  // e.g., userData.courses = [ { id: course_id, name: course_name }]
   const fetchUserData = (data) => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
-      .then((userData) => {
-        setState({ ...state, user: userData, authToken: userData.token, userCourseIDs: userData.courses });
-      // redirect to page with all of the user's courses or the course page of most recent?
-      // have this api call include an array of the user's course IDs already to display in the nav/login landing
-      // e.g., userData.courses = [ { id: course_id, name: course_name }]
-      })
-      .catch((err) => console.log(err));
+      .then((data) => {
+        if (data) {
+          // console.log("success", data);
+        } else {
+          // console.log("failed");
+        }
+        // setAppData(data, "user");
+        // console.log("login successful");
+        // console.log(data);
+      });
+
+    // axios({
+    //   method: "POST",
+    //   url: API.LOGIN,
+    //   data: data
+    // })
+    //   .then(res => console.log("success data", res))
+    //   .catch(err => console.log(err));
   };
+
+  useEffect(() => {
+    // console.log("userData changed to", state.userData);
+  }, [state.userData]);
 
   // Register a new user account
   const registerUser = (data) => {
@@ -417,10 +453,11 @@ const App = () => {
               {state.loading &&
                   <div className="display-4 d-flex justify-content-center align-items-center h-100">
                     Loading...
-                  </div>}
+                  </div>
+              }
 
-              {/* Course View (courseData exists) */}
-              {!state.loading && state.courseData &&
+              {/* One Course View (courseData exists, user is logged in) */}
+              {!state.loading && state.courseData && state.userData &&
                   <>
 
                     {/* Nav Bar */}
@@ -429,8 +466,8 @@ const App = () => {
                       active={state.active}
                       viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
                       courseName="LHL Web Mar 1"
-                      userAvatar={state.user.avatar_id}
-                      userName={`${state.user.first_name} ${state.user.last_name}`}
+                      userAvatar={state.userData.avatarID}
+                      userName={`${state.userData.firstName} ${state.userData.lastName}`}
                     />
 
                     <section className="app-containers">
@@ -454,7 +491,7 @@ const App = () => {
                       <div className="app-right">
                         <Main
                           active={state.active}
-                          userData={state.user}
+                          userData={state.userData}
                           courseData={state.courseData}
                           postID={state.postID}
                           onEditBookmark={editBookmark}
