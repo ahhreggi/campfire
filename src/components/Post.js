@@ -332,12 +332,14 @@ const Post = (props) => {
       {/* Discussion */}
       <div className="discussion">
 
-        <div className="discussion-label">
-          <span className="comments">
-            <img src={comment} alt="comments" />
-          </span>
-          Discussions {`(${numComments})`}
-        </div>
+        {props.comments.length > 0 &&
+          <div className="discussion-label">
+            <span className="comments">
+              <img src={comment} alt="comments" />
+            </span>
+            Discussions {`(${numComments})`}
+          </div>
+        }
 
         {/* Comment List */}
         <div className="comment-list">
@@ -354,19 +356,27 @@ const Post = (props) => {
           />
         </div>
 
-        {/* No Comments Message */}
-        {!props.comments.length && !state.showCommentForm &&
-          <div className="no-comments">
-            There&apos;s nothing here yet. <span onClick={toggleCommentForm}>Start a discussion.</span>
+        {/* New Comment Button */}
+        {true &&
+          <div
+            className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
+            onClick={toggleCommentForm}
+          >
+            <img
+              src={reply}
+              alt="reply"
+              onClick={toggleCommentForm}
+            />
+            <span>Start a new discussion</span>
           </div>
         }
 
         {/* New Discussion */}
-        {props.comments.length > 0 && !state.showCommentForm &&
+        {/* {props.comments.length > 0 && !state.showCommentForm &&
           <div className="no-comments">
             <span onClick={toggleCommentForm}>NEW DISCUSSION</span>
           </div>
-        }
+        } */}
 
         {/* Add Comment Form */}
         {state.showCommentForm &&

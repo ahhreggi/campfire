@@ -58,7 +58,7 @@
     flex-wrap: wrap;
     align-items: center;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .post-subheader {
@@ -128,12 +128,12 @@
   .discussion {
 
     .discussion-label {
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       font-weight: 700;
       user-select: none;
 
       img {
-        width: 1.6rem;
+        width: 2.3rem;
         cursor: initial;
         margin-right: 0.5rem;
       }
@@ -207,17 +207,28 @@
 
     }
 
-    .no-comments {
-      margin-top: 2rem;
-      font-size: 1.2rem;
+    .start-discussion {
+      margin-top: 1rem;
+      font-size: 1.5rem;
       user-select: none;
+      cursor: pointer;
+      width: fit-content;
+      opacity: 0.9;
+      &:hover,
+      &.active {
+        opacity: 1;
+        img {
+          filter: none;
+        }
+      }
+      img {
+        width: 1.7rem;
+        transform: scaleX(-1);
+        margin-right: 0.5rem;
+        filter: brightness(0) invert(100);
+      }
       span {
         font-weight: 700;
-        color: $blue;
-        cursor: pointer;
-        &:hover {
-          color: $blue;
-        }
       }
     }
 

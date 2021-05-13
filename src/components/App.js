@@ -457,7 +457,7 @@ const App = () => {
                     </section>
 
                     {/* Test Controls */}
-                    <div className="test-controls">
+                    <div className="test-controls mt-4">
                       test controls:
                       <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
                       <Button text="Analytics" onClick={() => setActive("Analytics")} />
