@@ -61,8 +61,8 @@ const API = {
 const App = () => {
 
   const [state, setState] = useState({
-    userID: null,
-    userData: null, // current user
+    userData: null, // fetchUserData
+    userCourses: null, // fetchUserCourses
 
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
     role: "owner",
@@ -99,10 +99,10 @@ const App = () => {
   // -- selecting a new courseID
   // -- changing active view
   // -- changing active postID
-  useEffect(() => {
-    console.log("fetching course data");
-    fetchCourseData(state.courseID);
-  }, [state.courseID, state.active, state.reloader]);
+  // useEffect(() => {
+  // console.log("fetching course data");
+  // fetchCourseData(state.courseID);
+  // }, [state.courseID, state.active, state.reloader]);
 
   // Show a loading screen if courseData is null
   useEffect(() => {
@@ -220,30 +220,75 @@ const App = () => {
         postID: data.id,
         reloader: !state.reloader
       });
-    } else if (type === "login") {
+    } else if (type === "userData") {
       setState({ ...state, userData: data });
+    } else if (type === "userCourses") {
+      setState({ ...state, userCourses: data });
     }
   };
 
-  // Testing purposes
+  // Detect userData changes
   useEffect(() => {
-    console.log("userData changed to", state.userData);
+    console.log("userData:", state.userData);
+    // If user data is valid, fetch all of the user's courses
+    if (state.userData) {
+      console.log("Logged in! Fetching your courses...");
+      fetchUserCourses();
+
+      // If user data changes to null, go to login/home
+    } else {
+      console.log("Logged out!");
+    }
+
   }, [state.userData]);
+
+  // Detect userCourses changes
+  useEffect(() => {
+    console.log("userCourses:", state.userCourses);
+  }, [state.userCourses]);
 
   // Login/retrieve data for an existing user and redirect to the dashboard of a course
   // redirect to page with all of the user's courses or the course page of most recent?
   // have this api call include an array of the user's course IDs already to display in the nav/login landing
   // e.g., userData.courses = [ { id: course_id, name: course_name }]
+
   const fetchUserData = (data) => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
       .then((data) => {
+
         // Login successful
         if (data) {
-          console.log("Login successful :)");
-          setAppData(data, "login");
+
+          // Set userData in state
+          setAppData(data, "userData");
+
+          // Fetch all of the user's courses
+          // --> Done via useEffect (userData goes from null -> object)
+
           // Login failed
         } else {
-          console.log("Login failed :(");
+          console.log("❌ fetchUserData failed!");
+        }
+      });
+  };
+
+  // Fetch all of the current user's courses
+  const fetchUserCourses = () => {
+    request("GET", API.COURSES)
+      .then((userCourses) => {
+
+        // User courses retrieved
+        if (userCourses) {
+
+          // Set userCourses in state
+          setAppData(userCourses, "userCourses");
+
+          // Display the user's dashboard with all of their courses
+          // --> Done via useEffect (userCourses goes from null -> array)
+
+        // User courses not retrieved
+        } else {
+          console.log("❌ fetchUserCourses failed!");
         }
       });
   };
