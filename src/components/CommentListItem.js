@@ -58,18 +58,27 @@ const CommentListItem = (props) => {
     userIsPostAuthor: PropTypes.bool,
     userIsCommentAuthor: PropTypes.bool,
 
-    refBestAnswer: PropTypes.object
+    refBestAnswer: PropTypes.object,
+
+    onToggleCollapse: PropTypes.func,
+    uncollapsed: PropTypes.array
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
     showReplyForm: false,
-    showReplyList: props.replies && props.replies.length > 0 && props.replies.length < 3,
+    showReplyList: false,
     endorsed: props.endorsed,
-    commentID: props.id
+    commentID: props.id,
+    uncollapsed: props.uncollapsed // Watch for post uncollapsed state changes
   });
 
+  // Whenever the reply list is toggled, update Post state via props.onToggleCollapse
+  // This only pertains to a parent comment
+  useEffect(() => {
+    props.onToggleCollapse(props.id);
+  }, [state.showReplyList]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -232,6 +241,8 @@ const CommentListItem = (props) => {
 
   return (
     <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
+
+      COMMENT ID: {props.id}
 
       {/* Top-level Comment */}
       <div className="top">
@@ -485,6 +496,8 @@ const CommentListItem = (props) => {
             userIsPostAuthor={props.userIsPostAuthor}
             userIsCommentAuthor={props.userIsCommentAuthor}
             refBestAnswer={props.refBestAnswer}
+            onToggleCollapse={props.onToggleCollapse}
+            uncollapsed={props.uncollapsed}
           />
         </section>
       }
