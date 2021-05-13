@@ -7,6 +7,8 @@ import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
 
+import DevData from "./DevData";
+
 const Main = (props) => {
 
   Main.propTypes = {
@@ -51,6 +53,11 @@ const Main = (props) => {
   return (
     <div className="Main">
 
+      {/* TEMPORARY */}
+      {props.active === "Dashboard" &&
+        <DevData name={"Dashboard"} data={props} />
+      }
+
       {props.active === "Post" &&
         <Post
           id={post.id}
@@ -68,7 +75,7 @@ const Main = (props) => {
           editable={post.editable}
           tags={post.tags}
           title={post.title}
-          authorID={post.user_id}
+          authorID={post.author_id}
           views={post.views}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}

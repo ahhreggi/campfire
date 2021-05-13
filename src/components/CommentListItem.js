@@ -482,7 +482,7 @@ const CommentListItem = (props) => {
       {/* Replies */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
-
+          replies:
           <CommentList
             comments={props.replies}
             onLikeComment={props.onLikeComment}
