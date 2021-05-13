@@ -77,12 +77,14 @@ const Post = (props) => {
 
   // Reset states when switching posts
   useEffect(() => {
+    const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
+    console.log("From Post", uncollapsed);
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
       showCommentForm: false,
-      uncollapsed: []
+      uncollapsed: [uncollapsed]
     });
   }, [props.id]);
 

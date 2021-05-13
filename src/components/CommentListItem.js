@@ -61,22 +61,25 @@ const CommentListItem = (props) => {
     refBestAnswer: PropTypes.object,
 
     onToggleCollapse: PropTypes.func,
-    uncollapsed: PropTypes.array
+    uncollapsed: PropTypes.array,
+
+    showReplyList: PropTypes.bool
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
     showReplyForm: false,
-    showReplyList: false,
+    showReplyList: props.showReplyList, // props.uncollapsed.includes(props.id),
     endorsed: props.endorsed,
     commentID: props.id,
-    uncollapsed: props.uncollapsed // Watch for post uncollapsed state changes
+    // uncollapsed: props.uncollapsed // Watch for post uncollapsed state changes
   });
 
-  // When uncollapsed changes, update showReplyForm in state
+  // When uncollapsed changes, update showReplyList in state
   useEffect(() => {
-    if (isParent && !state.showReplyForm && props.uncollapsed.includes(props.id)) {
+    console.log("->", props.showReplyList);
+    if (!state.showReplyList && props.uncollapsed.includes(props.id)) {
       setState({ showReplyList: true });
     }
   }, [props.uncollapsed]);

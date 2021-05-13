@@ -23,13 +23,12 @@ const CommentList = (props) => {
 
   // Watch for post uncollapsed state changes
   const [state, setState] = useState({
-    comments: props.comments,
     uncollapsed: props.uncollapsed
   });
 
-  // When uncollapsed changes, update comments in state
+  // When uncollapsed changes, update state
   useEffect(() => {
-    setState({ comments: props.comments, uncollapsed: props.uncollapsed });
+    setState({ uncollapsed: props.uncollapsed });
   }, [props.uncollapsed]);
 
   // Sort an array of comments
@@ -82,6 +81,7 @@ const CommentList = (props) => {
           refBestAnswer={props.refBestAnswer}
           onToggleCollapse={props.onToggleCollapse}
           uncollapsed={state.uncollapsed}
+          showReplyList={state.uncollapsed.includes(comment.id)}
         />
       );
     });
