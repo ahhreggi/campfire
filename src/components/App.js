@@ -63,7 +63,7 @@ const App = () => {
   const [state, setState] = useState({
     user: dummyUser, // current user
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
-    authToken: tokens.admin,
+    authToken: tokens.owner,
 
     courseID: 1,
     courseData: null, // all data for the current courseID
@@ -167,6 +167,7 @@ const App = () => {
     request("GET", API.COURSES, courseID)
       .then(data => {
         setAppData(data, "course");
+        console.log(data);
       });
   };
 
@@ -457,7 +458,7 @@ const App = () => {
                     </section>
 
                     {/* Test Controls */}
-                    <div className="test-controls mt-4">
+                    <div className="test-controls mt-2">
                       test controls:
                       <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
                       <Button text="Analytics" onClick={() => setActive("Analytics")} />

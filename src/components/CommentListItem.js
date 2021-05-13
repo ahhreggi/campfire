@@ -56,7 +56,9 @@ const CommentListItem = (props) => {
 
     userName: PropTypes.string,
     userIsPostAuthor: PropTypes.bool,
-    userIsCommentAuthor: PropTypes.bool
+    userIsCommentAuthor: PropTypes.bool,
+
+    refBestAnswer: PropTypes.object
   };
 
   const [state, setState] = useState({
@@ -220,7 +222,7 @@ const CommentListItem = (props) => {
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
 
 
   // Get class names
@@ -238,7 +240,7 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={classes}>
+    <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
 
       {/* Top-level Comment */}
       <div className="top">
@@ -509,6 +511,7 @@ const CommentListItem = (props) => {
             userName={props.userName}
             userIsPostAuthor={props.userIsPostAuthor}
             userIsCommentAuthor={props.userIsCommentAuthor}
+            refBestAnswer={props.refBestAnswer}
           />
         </section>
       }

@@ -227,11 +227,12 @@
           filter: none;
         }
       }
+
       img {
         width: 1.7rem;
         transform: scaleX(-1);
         margin-right: 0.5rem;
-        filter: brightness(0) invert(100);
+        filter: brightness(0) invert(100%);
       }
       span {
         font-weight: 700;

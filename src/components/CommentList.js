@@ -14,7 +14,8 @@ const CommentList = (props) => {
     onEditBestAnswer: PropTypes.func,
     postAuthorID: PropTypes.number,
     commentAuthorID: PropTypes.number,
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    refBestAnswer: PropTypes.object
   };
 
   // Sort an array of comments
@@ -63,6 +64,7 @@ const CommentList = (props) => {
         userName={props.userName}
         userIsPostAuthor={comment.user_is_post_author}
         userIsCommentAuthor={comment.user_is_comment_author}
+        refBestAnswer={props.refBestAnswer}
       />
     );
   });

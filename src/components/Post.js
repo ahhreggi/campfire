@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import TagList from "./TagList";
@@ -50,8 +50,7 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: false,
-    showCommentList: true
+    showCommentForm: false
   });
 
   // Reset form and confirmation states when switching posts
@@ -60,8 +59,7 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false,
-      showCommentList: true
+      showCommentForm: false
     });
   }, [props.id]);
 
@@ -92,10 +90,6 @@ const Post = (props) => {
     } else {
       setState({ ...state, showConfirmation: false });
     }
-  };
-
-  const toggleCommentList = () => {
-    setState({ ...state, showCommentList: !state.showCommentList });
   };
 
   const handleClick = (tag) => {
@@ -141,7 +135,7 @@ const Post = (props) => {
       ...data // contains body, anonymous, and possibly parentID (if reply)
     };
     props.onAddComment(commentData);
-    setState({ ...state, showCommentForm: false, showCommentList: true });
+    setState({ ...state, showCommentForm: false });
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -208,10 +202,31 @@ const Post = (props) => {
   // const tagLimit = 5;
   // const limitReached = state.previewTags.length === tagLimit;
 
-  const myRef = useRef(null);
-  const executeScroll = () => myRef.current.scrollIntoView();
-  const goPls = () => {
-    executeScroll();
+  const options = { behavior: "smooth" };
+
+  const refCommentForm = useRef();
+  const scrollToCommentForm = () => {
+    setTimeout(() => {
+      refCommentForm.current.scrollIntoView(options);
+    }, 100);
+  };
+
+  const refBestAnswer = useRef();
+  const scrollToBestAnswer = () => {
+    refBestAnswer.current.scrollIntoView(options);
+  };
+
+  // For the first Start a new discussion toggle
+  const commentFormScrollHandler = () => {
+    // If the comment list is open, always just scroll to the form
+    if (state.showCommentForm) {
+      scrollToCommentForm();
+      // Otherwise, open the form first then scroll down
+    } else {
+      toggleCommentForm();
+      scrollToCommentForm();
+    }
+
   };
 
   ///////////////////////////////////////////////////////////////////
@@ -219,14 +234,12 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <button onClick={goPls}>go</button>
-
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
         <header className="status">
 
           {/* Resolution Status */}
-          <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
+          <div onClick={() => scrollToBestAnswer()} className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
             {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
           </div>
 
@@ -319,12 +332,12 @@ const Post = (props) => {
       {props.editable &&
         <div className="controls post-controls icon-large">
           <>
-            <img
+            {/* <img
               className={"icon-large" + (state.showCommentForm ? "" : " disabled")}
               src={reply}
               alt="reply"
-              onClick={toggleCommentForm}
-            />
+              onClick={state.showCommentForm ? () => scrollToCommentForm() : toggleCommentForm}
+            /> */}
             <img
               className={"icon-large" + (state.showForm ? "" : " disabled")}
               src={edit}
@@ -349,7 +362,6 @@ const Post = (props) => {
         {props.comments.length >= 0 &&
           <div
             className={`discussion-label ${!props.comments.length ? "empty" : ""}`}
-            onClick={toggleCommentList}
           >
             <span className="comments">
               <img src={comment} alt="comments" />
@@ -359,51 +371,51 @@ const Post = (props) => {
         }
 
         {/* First Start Discussion Button */}
-        {props.comments.length > 0 &&
+        {props.comments.length > 1 &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
-            onClick={toggleCommentForm}
+            onClick={commentFormScrollHandler}
           >
             <img
               src={reply}
               alt="reply"
-              onClick={toggleCommentForm}
-            />
-            <span>Start a new discussion (TODO: make this scroll to the bottom)</span>
-          </div>
-        }
-
-        {/* Comment List */}
-        {state.showCommentList &&
-          <div className="comment-list">
-            <CommentList
-              comments={props.comments}
-              onLikeComment={props.onLikeComment}
-              onAddComment={addComment}
-              onEditComment={props.onEditComment}
-              onDeleteComment={props.onDeleteComment}
-              bestAnswer={props.bestAnswer}
-              onEditBestAnswer={editBestAnswer}
-              postAuthorID={props.authorID}
-              userName={props.userName}
-            />
-          </div>
-        }
-
-        {/* Secondary Start Discussion Button */}
-        {state.showCommentList &&
-          <div
-            className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
-            onClick={toggleCommentForm}
-          >
-            <img
-              src={reply}
-              alt="reply"
-              onClick={toggleCommentForm}
+              // onClick={toggleCommentForm}
             />
             <span>Start a new discussion</span>
           </div>
         }
+
+        {/* Comment List */}
+        <div className="comment-list">
+          <CommentList
+            comments={props.comments}
+            onLikeComment={props.onLikeComment}
+            onAddComment={addComment}
+            onEditComment={props.onEditComment}
+            onDeleteComment={props.onDeleteComment}
+            bestAnswer={props.bestAnswer}
+            onEditBestAnswer={editBestAnswer}
+            postAuthorID={props.authorID}
+            userName={props.userName}
+            refBestAnswer={refBestAnswer}
+          />
+        </div>
+
+
+        {/* Secondary Start Discussion Button */}
+
+        <div
+          className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
+          onClick={toggleCommentForm}
+        >
+          <img
+            src={reply}
+            alt="reply"
+            onClick={toggleCommentForm}
+          />
+          <span>Start a new discussion</span>
+        </div>
+
 
         {/* New Discussion */}
         {/* {props.comments.length > 0 && !state.showCommentForm &&
@@ -424,9 +436,11 @@ const Post = (props) => {
           </div>
         }
 
-        <div ref={myRef}>Element to scroll to</div>
+
 
       </div>
+
+      <div ref={refCommentForm}></div>
 
     </div>
   );
