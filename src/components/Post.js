@@ -8,6 +8,8 @@ import eye from "../images/icons/eye.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
 import reply from "../images/icons/reply.png";
+import arrow from "../images/icons/green-arrow.png";
+import cross from "../images/icons/cross.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import comment from "../images/icons/comment.png";
@@ -63,6 +65,13 @@ const Post = (props) => {
     });
   }, [props.id]);
 
+  // If the comment form is opened, scroll to it
+  useEffect(() => {
+    if (state.showCommentForm) {
+      scrollToCommentForm();
+    }
+  }, [state.showCommentForm]);
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Toggle and reset the comment edit form
@@ -95,6 +104,32 @@ const Post = (props) => {
   const handleClick = (tag) => {
     props.onTagToggle(tag, true);
   };
+
+  // SCROLL HANDLERS ////////////////////////////////////////////////
+
+  // Scroll to comment form
+  const refCommentForm = useRef();
+  const scrollToCommentForm = () => {
+    setTimeout(() => {
+      refCommentForm.current.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  };
+
+  // Scroll to best answer
+  const refBestAnswer = useRef();
+  const scrollToBestAnswer = () => {
+    refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // New comment toggle handler
+  const commentFormScrollHandler = () => {
+    if (!state.showCommentForm) {
+      toggleCommentForm();
+    }
+    scrollToCommentForm();
+  };
+
+  ///////////////////////////////////////////////////////////////////
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -170,18 +205,6 @@ const Post = (props) => {
     }
   };
 
-  // Return a formatted relative timestamp based on if it was modified
-  // Wednesday, May 12th, 2021 @ 5:35pm (edited a minute ago)
-  const getTimestamp = (timestamp, isModified) => {
-    let result = formatTimestamp(timestamp);
-    if (isModified) {
-      result += isModified ? ` (edited ${formatTimestamp(props.lastModified, true)})` : "";
-    } else {
-      result += ` (${formatTimestamp(timestamp, true)})`;
-    }
-    return result;
-  };
-
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -197,37 +220,20 @@ const Post = (props) => {
   const timestamp = formatTimestamp(props.lastModified);
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
-  // Check if limit is reached
-  // TODO: Store tagList in an .env along with other global app variables
-  // const tagLimit = 5;
-  // const limitReached = state.previewTags.length === tagLimit;
-
-  const options = { behavior: "smooth" };
-
-  const refCommentForm = useRef();
-  const scrollToCommentForm = () => {
-    setTimeout(() => {
-      refCommentForm.current.scrollIntoView(options);
-    }, 100);
-  };
-
-  const refBestAnswer = useRef();
-  const scrollToBestAnswer = () => {
-    refBestAnswer.current.scrollIntoView(options);
-  };
-
-  // For the first Start a new discussion toggle
-  const commentFormScrollHandler = () => {
-    // If the comment list is open, always just scroll to the form
-    if (state.showCommentForm) {
-      scrollToCommentForm();
-      // Otherwise, open the form first then scroll down
-    } else {
-      toggleCommentForm();
-      scrollToCommentForm();
+  // Get the best answer
+  let best;
+  for (const comment of props.comments) {
+    if (props.bestAnswer === comment.id) {
+      best = comment;
+      break;
     }
-
-  };
+    for (const reply of comment.replies) {
+      if (props.bestAnswer === comment.id) {
+        best = reply;
+        break;
+      }
+    }
+  }
 
   ///////////////////////////////////////////////////////////////////
 
@@ -236,10 +242,33 @@ const Post = (props) => {
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
+        {props.bestAnswer &&
+          <>
+            <div className="message">
+
+              <div>
+                This question has been answered.
+              </div>
+
+              <div className="link" onClick={() => scrollToBestAnswer()}>
+                <img src={arrow} className="arrow" />
+                <span>VIEW BEST ANSWER</span>
+              </div>
+
+              <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                <img src={cross} className="cross" />
+                <span>MARK AS UNRESOLVED</span>
+              </div>
+
+            </div>
+            <hr />
+          </>
+        }
+
         <header className="status">
 
           {/* Resolution Status */}
-          <div onClick={() => scrollToBestAnswer()} className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
+          <div className={`resolution ${props.bestAnswer ? "resolved" : "unresolved"}`}>
             {props.bestAnswer ? "RESOLVED" : "UNRESOLVED" }
           </div>
 
@@ -333,12 +362,6 @@ const Post = (props) => {
         <div className="controls post-controls icon-large">
           <>
             <img
-              className={"icon-large" + (state.showCommentForm ? "" : " disabled")}
-              src={reply}
-              alt="reply"
-              onClick={commentFormScrollHandler}
-            />
-            <img
               className={"icon-large" + (state.showForm ? "" : " disabled")}
               src={edit}
               alt="edit"
@@ -380,7 +403,7 @@ const Post = (props) => {
               src={reply}
               alt="reply"
             />
-            <span>Start a new discussion</span>
+            <span>START A NEW DISCUSSION</span>
           </div>
         }
 
@@ -402,7 +425,6 @@ const Post = (props) => {
 
 
         {/* Secondary Start Discussion Button */}
-
         <div
           className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
           onClick={toggleCommentForm}
@@ -412,7 +434,7 @@ const Post = (props) => {
             alt="reply"
             onClick={toggleCommentForm}
           />
-          <span>Start a new discussion</span>
+          <span>START A NEW DISCUSSION</span>
         </div>
 
         {/* Add Comment Form */}

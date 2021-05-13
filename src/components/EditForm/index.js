@@ -185,6 +185,7 @@ const EditForm = (props) => {
       <Confirmation
         onConfirm={saveEdit}
         onCancel={props.onCancel ? cancelEdit : null}
+        useSubmit={props.label && !props.label.includes("EDIT")}
       />
 
     </div>

@@ -181,19 +181,6 @@ const CommentListItem = (props) => {
     }
   };
 
-  // Return a formatted relative timestamp based on if it was modified
-  // Wednesday, May 12th, 2021 @ 5:35pm (edited a minute ago)
-  const getTimestamp = (timestamp, isModified) => {
-    let result = formatTimestamp(timestamp);
-    if (isModified) {
-      result += isModified ? ` (edited ${formatTimestamp(props.lastModified, true)})` : "";
-    } else {
-      result += ` (${formatTimestamp(timestamp, true)})`;
-    }
-    return result;
-  };
-
-
   // VARIABLES //////////////////////////////////////////////////////
 
   // Check if the comment is a parent
@@ -205,10 +192,8 @@ const CommentListItem = (props) => {
   // Check if the comment is by a student
   const isStudent = props.authorRole === "student";
 
-  // Check if the comment is the post author
-  const isPostAuthor = props.userIsPostAuthor;
-  console.log("userIsPostAuthor", props.userIsPostAuthor);
-  console.log("bestAnswer", props.bestAnswer);
+  // Check if the comment is by the post author
+  const isPostAuthor = props.commentAuthorID === props.postAuthorID;
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -268,7 +253,11 @@ const CommentListItem = (props) => {
             {/* Likes */}
             <div className="likes">
               <span className="icon heart">
-                <img src={like} alt="like" />
+                <img
+                  className={!props.liked ? "not-liked" : ""}
+                  src={like}
+                  alt="like"
+                />
               </span>
               <span className={`counter ${props.liked && "active"}`}>
                 {props.score}
@@ -290,6 +279,7 @@ const CommentListItem = (props) => {
 
           {!state.showForm &&
             <div>
+
               {/* Comment Header */}
               <header>
 
@@ -305,7 +295,7 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className={`label selected ${isPostAuthor ? "active" : ""}`} onClick={isPostAuthor ? setBestAnswer : null}>
+                  <div className={`label selected ${props.userIsPostAuthor ? "active" : ""}`} onClick={props.userIsPostAuthor ? setBestAnswer : null}>
                     <img src={checkmark} alt="checkmark" />
                     <span>BEST ANSWER</span>
                   </div>
@@ -314,7 +304,6 @@ const CommentListItem = (props) => {
                 {/* Select Best Answer Label */}
                 {props.bestAnswer !== props.id && props.userIsPostAuthor &&
                   <div className="label unselected" onClick={setBestAnswer}>
-                    {/* <img src={checkmark} alt="checkmark" /> */}
                     <span>SELECT AS BEST ANSWER</span>
                   </div>
                 }
@@ -374,27 +363,6 @@ const CommentListItem = (props) => {
             {/* Comment Edit Controls */}
             {props.editable &&
               <div className="controls">
-                {/* {isParent &&
-                  <>
-                    <span className="comments">
-                      <img
-                        className={"icon-large" + (state.showReplyList ? "" : " disabled")}
-                        src={comment}
-                        alt="comments"
-                        onClick={toggleReplyList}
-                      />
-                      {props.replies.length}
-                    </span>
-                    <span className="reply">
-                      <img
-                        className={"icon-large" + (state.showReplyForm ? "" : " disabled")}
-                        src={reply}
-                        alt="reply"
-                        onClick={toggleReplyForm}
-                      />
-                    </span>
-                  </>
-                } */}
                 <span className="edit">
                   <img
                     className={"icon-large" + (state.showForm ? "" : " disabled")}
@@ -464,14 +432,13 @@ const CommentListItem = (props) => {
             <span className="reply-controls">
 
               {/* Add Reply Button */}
-              {/* {true && */}
               {!state.showReplyList &&
                 <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
                   <img
                     src={reply}
                     alt="reply"
                   />
-                  Reply
+                  <span>REPLY</span>
                 </span>
               }
 
@@ -534,7 +501,7 @@ const CommentListItem = (props) => {
                   src={reply}
                   alt="reply"
                 />
-                Reply
+                REPLY
               </span>
 
               {/* Show/Hide Replies */}

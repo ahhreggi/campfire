@@ -29,7 +29,7 @@ const CommentList = (props) => {
 
   // Sort comments in order (most recent to oldest)
   // const sortedComments = sortComments(props.comments, true); // most recent -> oldest
-  const sortedComments = sortComments(props.comments, false); // oldest -> most recent
+  let sortedComments = sortComments(props.comments, false); // oldest -> most recent
 
   const comments = sortedComments.map(comment => {
 

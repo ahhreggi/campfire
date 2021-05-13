@@ -13,6 +13,58 @@
     opacity: 0.5;
   }
 
+  .message {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: 2px solid $green;
+    padding: 1rem;
+    img {
+      margin-right: 0.5rem;
+    }
+
+    .link {
+      margin-bottom: 0.2rem;
+      margin-left: 1.1rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      img.arrow {
+        width: 1rem;
+      }
+      span {
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+      &:hover {
+        color: $green;
+        img {
+          filter: none;
+        }
+      }
+    }
+    .unresolve {
+      margin-bottom: 0.2rem;
+      margin-left: 1rem;
+      cursor: pointer;
+      img.cross {
+        width: 0.85rem;
+        margin-top: 0.1rem;
+      }
+      span {
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+      &:hover {
+        color: $red;
+        img {
+          filter: none;
+        }
+      }
+    }
+  }
+
   header.status {
     display: flex;
     justify-content: space-between;
@@ -30,6 +82,7 @@
       &.unresolved {
         color: $red
       }
+
 
     }
 
@@ -129,14 +182,15 @@
 
     .discussion-label {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 900;
       user-select: none;
+
       &.empty {
         opacity: 0.5;
       }
 
       img {
-        width: 2.3rem;
+        width: 1.95rem;
         cursor: initial;
         margin-right: 0.5rem;
       }
@@ -144,6 +198,7 @@
       &.replies-label {
         font-size: 1rem;
         margin-left: 6.3rem;
+        text-transform: uppercase;
 
         .reply-controls {
           display: flex;
@@ -154,7 +209,7 @@
         }
 
         img {
-          width: 1.3rem;
+          width: 1.2rem;
           user-select: none;
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
@@ -215,28 +270,32 @@
 
     .start-discussion {
       margin-top: 1rem;
-      font-size: 1.5rem;
       user-select: none;
       cursor: pointer;
       width: fit-content;
       opacity: 0.9;
+
       &:hover,
       &.active {
         opacity: 1;
+
         img {
           filter: none;
         }
+
       }
 
       img {
         width: 1.7rem;
         transform: scaleX(-1);
         margin-right: 0.5rem;
-        filter: brightness(0) invert(100%);
       }
+
       span {
-        font-weight: 700;
+        font-weight: 900;
+        font-size: 1rem;
       }
+
     }
 
   }
