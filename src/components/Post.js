@@ -336,28 +336,10 @@ const Post = (props) => {
           <span className="comments">
             <img src={comment} alt="comments" />
           </span>
-          Comments {`(${numComments})`}
+          Discussions {`(${numComments})`}
         </div>
 
-        {/* Add Comment Form */}
-        {state.showCommentForm &&
-          <div className="comment-form">
-            <CommentForm
-              label={"NEW COMMENT"}
-              userName={props.userName}
-              onAddComment={addComment}
-              onCancelComment={toggleCommentForm}
-            />
-          </div>
-        }
-
-        {/* No Comments Message */}
-        {!props.comments.length && !state.showCommentForm &&
-          <div className="no-comments">
-            There&apos;s nothing here yet. <span onClick={toggleCommentForm}>Start a discussion</span>.
-          </div>
-        }
-
+        {/* Comment List */}
         <div className="comment-list">
           <CommentList
             comments={props.comments}
@@ -371,6 +353,32 @@ const Post = (props) => {
             userName={props.userName}
           />
         </div>
+
+        {/* No Comments Message */}
+        {!props.comments.length && !state.showCommentForm &&
+          <div className="no-comments">
+            There&apos;s nothing here yet. <span onClick={toggleCommentForm}>Start a discussion.</span>
+          </div>
+        }
+
+        {/* New Discussion */}
+        {props.comments.length > 0 && !state.showCommentForm &&
+          <div className="no-comments">
+            <span onClick={toggleCommentForm}>NEW DISCUSSION</span>
+          </div>
+        }
+
+        {/* Add Comment Form */}
+        {state.showCommentForm &&
+          <div className="comment-form">
+            <CommentForm
+              label={"NEW COMMENT"}
+              userName={props.userName}
+              onAddComment={addComment}
+              onCancelComment={toggleCommentForm}
+            />
+          </div>
+        }
 
       </div>
 

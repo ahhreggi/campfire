@@ -17,10 +17,18 @@ const CommentList = (props) => {
     userName: PropTypes.string
   };
 
+  // Sort an array of comments
+  const sortComments = (comments, byMostRecent = true) => {
+    if (byMostRecent) {
+      return comments.sort((a, b) => b.id - a.id);
+    } else {
+      return comments.sort((a, b) => a.id - b.id);
+    }
+  };
+
   // Sort comments in order (most recent to oldest)
-  const sortedComments = props.comments.sort((a, b) => {
-    return b.id - a.id;
-  });
+  // const sortedComments = sortComments(props.comments, true); // most recent -> oldest
+  const sortedComments = sortComments(props.comments, false); // oldest -> most recent
 
   const comments = sortedComments.map(comment => {
     return (

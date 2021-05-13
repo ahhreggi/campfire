@@ -319,10 +319,9 @@ const App = () => {
 
   // Request to delete a comment by ID
   const deleteComment = (commentID) => {
-    console.log("deleting comment", commentID);
     request("DELETE", API.COMMENTS, commentID)
       .then((res) => {
-        // setActive("Post", state.postID)
+        setActive("Post", state.postID);
         console.log(res);
       })
       .catch((err) => console.log(err));
@@ -338,7 +337,7 @@ const App = () => {
         active: selection,
         postID: postID,
         postData: postData ? postData : getPostByID(state.posts, state.postID),
-        // reloader: !state.reloader
+        reloader: !state.reloader // need this for deleting comments
       });
     } else {
       setState({
