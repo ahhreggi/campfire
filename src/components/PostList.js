@@ -173,45 +173,49 @@ const PostList = (props) => {
         />
       </div>
 
+      <hr />
+
       {/* Filters */}
-      <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
-        <div>
-          <img src={filter} alt="filter" />
-          FILTERS
+      <div className="filters">
+        <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
+          <div>
+            <img className="gear" src={filter} alt="filter" />
+            FILTERS
+          </div>
+          <div className="arrows">
+            {state.showFilters && <img src={up} alt="up" />}
+            {!state.showFilters && <img src={down} alt="down" />}
+          </div>
         </div>
-        <div className="arrows">
-          {state.showFilters && <img src={up} alt="up" />}
-          {!state.showFilters && <img src={down} alt="down" />}
-        </div>
+        {state.showFilters &&
+          <div className="tags">
+            <TagList
+              tags={props.tags}
+              selectedTags={props.selectedTags}
+              onClick={props.onTagToggle}
+              styles={"tag filter"}
+            />
+            {props.selectedTags.length > 0 &&
+              <>
+                <hr />
+                <div className="tag-clear">
+                  <Button
+                    text="clear filters"
+                    styles="tag clear"
+                    onClick={props.onTagClear}
+                  />
+                </div>
+              </>
+            }
+          </div>
+        }
       </div>
-      {state.showFilters &&
-        <div className="tags">
-          <TagList
-            tags={props.tags}
-            selectedTags={props.selectedTags}
-            onClick={props.onTagToggle}
-            styles={"tag filter"}
-          />
-          {props.selectedTags.length > 0 &&
-            <>
-              <hr />
-              <div className="tag-clear">
-                <Button
-                  text="clear filters"
-                  styles="tag clear"
-                  onClick={props.onTagClear}
-                />
-              </div>
-            </>
-          }
-        </div>
-      }
 
       <div className="posts">
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${state.showPinned && "active"} ${!pinnedPosts.length && "empty"}`} onClick={() => toggleList("pinned")}>
+          <div className={`label ${state.showPinned ? "active" : ""} ${!pinnedPosts.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
             <div>
               <img src={pin} alt="pin" />
               PINNED
@@ -230,7 +234,7 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${state.showBookmarked && "active"} ${!bookmarkedPosts.length && "empty"}`} onClick={() => toggleList("bookmarked")}>
+          <div className={`label ${state.showBookmarked ? "active" : ""} ${!bookmarkedPosts.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
             <div>
               <img src={star} alt="bookmark" />
               BOOKMARKED
@@ -249,7 +253,7 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${state.showPosts && "active"} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
+          <div className={`label ${state.showPosts ? "active" : ""} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
             <div>
               <img src={question} alt="question" />
               POSTS

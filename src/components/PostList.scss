@@ -3,53 +3,93 @@
 .PostList {
   height: 100%;
   border-radius: 10px 0 0 10px;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   background-color: $navy-2;
   overflow-x: hidden;
   overflow-y: scroll;
   width: 20rem;
   @include custom-scrollbar;
 
-  .tags {
-    padding: 0.2rem;
-    margin-left: 0.2rem;
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
-    hr {
-      margin: 0.5rem 0;
+  hr {
+    margin: 0;
+  }
+
+  .filters,
+  .pinned,
+  .bookmarked,
+  .unpinned {
+    // border: 1px solid white;
+    padding: 0;
+  }
+
+  .PostListItem {
+    border-radius: 0;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    &:last-child {
+      border-radius: 0 0 10px 10px;
     }
-    .tag-clear {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      margin-bottom: 0.3rem;
+  }
+
+
+  .filters {
+    .tags {
+      border: 3px solid $navy-6;
+      border-radius: 0 0 10px 10px;
+      padding: 0.5rem;
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+      hr {
+        margin: 0.5rem 0;
+      }
+      .tag-clear {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 0.3rem;
+      }
     }
   }
 
   .label {
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin: 0.1rem 0;
+    font-weight: 900;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
     padding: 0.2rem 0.7rem 0.2rem 0.9rem;
-    // background: linear-gradient($navy-6, $navy-2);
-    background-color: $navy-4;
     user-select: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid $navy-2;
     border-radius: 10px;
-    height: 2rem;
+    height: 2.5rem;
+    border: 3px solid $navy-1;
+    background-color: $navy-1;
 
-    &.active {
-      // background: linear-gradient($navy-7, $navy-2);
-      background-color: $navy-5;
+    img {
+      width: 0.9rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.2rem;
+      &.gear {
+        margin-bottom: 0rem;
+      }
     }
 
     &:hover {
-      background-color: $navy-6;
-      &:not(.active) {
-        background-color: $navy-5;
+      border: 3px solid $navy-0;
+      background-color: $navy-0;
+    }
+
+    &.active {
+      border: 3px solid $navy-0;
+      background-color: $navy-0;
+      border-radius: 10px 10px 0 0;
+      &:hover {
+        border: 3px solid $navy-0;
+        background-color: $navy-0;
+      }
+      &:active {
+        border: 3px solid $navy-0;
+        background-color: $navy-0;
       }
     }
 
@@ -66,16 +106,15 @@
       }
     }
 
-    img {
-      width: 0.8rem;
-      margin-right: 0.5rem;
-      margin-bottom: 0.2rem;
-    }
-
     &.empty {
-      opacity: 0.6;
-      // background: linear-gradient($navy-5, $navy-1);
+      opacity: 0.5;
+      border: 3px solid $navy-1;
       background-color: $navy-1;
+      border-radius: 10px;
+      &:hover {
+        border: 3px solid $navy-1;
+        background-color: $navy-1;
+      }
     }
 
     .arrows {
