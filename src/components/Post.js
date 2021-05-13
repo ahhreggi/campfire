@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import TagList from "./TagList";
@@ -50,7 +50,8 @@ const Post = (props) => {
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: false
+    showCommentForm: false,
+    showCommentList: true
   });
 
   // Reset form and confirmation states when switching posts
@@ -59,7 +60,8 @@ const Post = (props) => {
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false
+      showCommentForm: false,
+      showCommentList: true
     });
   }, [props.id]);
 
@@ -90,6 +92,10 @@ const Post = (props) => {
     } else {
       setState({ ...state, showConfirmation: false });
     }
+  };
+
+  const toggleCommentList = () => {
+    setState({ ...state, showCommentList: !state.showCommentList });
   };
 
   const handleClick = (tag) => {
@@ -135,7 +141,7 @@ const Post = (props) => {
       ...data // contains body, anonymous, and possibly parentID (if reply)
     };
     props.onAddComment(commentData);
-    setState({ ...state, showCommentForm: false });
+    setState({ ...state, showCommentForm: false, showCommentList: true });
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -202,10 +208,18 @@ const Post = (props) => {
   // const tagLimit = 5;
   // const limitReached = state.previewTags.length === tagLimit;
 
+  const myRef = useRef(null);
+  const executeScroll = () => myRef.current.scrollIntoView();
+  const goPls = () => {
+    executeScroll();
+  };
+
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Post">
+
+      <button onClick={goPls}>go</button>
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
@@ -333,7 +347,10 @@ const Post = (props) => {
       <div className="discussion">
 
         {props.comments.length >= 0 &&
-          <div className={`discussion-label ${!props.comments.length ? "empty" : ""}`}>
+          <div
+            className={`discussion-label ${!props.comments.length ? "empty" : ""}`}
+            onClick={toggleCommentList}
+          >
             <span className="comments">
               <img src={comment} alt="comments" />
             </span>
@@ -341,8 +358,8 @@ const Post = (props) => {
           </div>
         }
 
-        {/* Start Discussion Button */}
-        {props.comments.length > 2 &&
+        {/* First Start Discussion Button */}
+        {props.comments.length > 0 &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
             onClick={toggleCommentForm}
@@ -357,22 +374,24 @@ const Post = (props) => {
         }
 
         {/* Comment List */}
-        <div className="comment-list">
-          <CommentList
-            comments={props.comments}
-            onLikeComment={props.onLikeComment}
-            onAddComment={addComment}
-            onEditComment={props.onEditComment}
-            onDeleteComment={props.onDeleteComment}
-            bestAnswer={props.bestAnswer}
-            onEditBestAnswer={editBestAnswer}
-            postAuthorID={props.authorID}
-            userName={props.userName}
-          />
-        </div>
+        {state.showCommentList &&
+          <div className="comment-list">
+            <CommentList
+              comments={props.comments}
+              onLikeComment={props.onLikeComment}
+              onAddComment={addComment}
+              onEditComment={props.onEditComment}
+              onDeleteComment={props.onDeleteComment}
+              bestAnswer={props.bestAnswer}
+              onEditBestAnswer={editBestAnswer}
+              postAuthorID={props.authorID}
+              userName={props.userName}
+            />
+          </div>
+        }
 
-        {/* Start Discussion Button */}
-        {true &&
+        {/* Secondary Start Discussion Button */}
+        {state.showCommentList &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
             onClick={toggleCommentForm}
@@ -404,6 +423,8 @@ const Post = (props) => {
             />
           </div>
         }
+
+        <div ref={myRef}>Element to scroll to</div>
 
       </div>
 
