@@ -70,7 +70,12 @@ const Post = (props) => {
   // When scrolling to the best answer, update state.uncollapse to include just the bestAnswer id
 
   // Collapse/uncollapse a parent comment
-  const toggleCollapse = (commentID) => {
+  const toggleCollapse = (commentID, parentID) => {
+
+    if (parentID) {
+      return;
+    }
+
     const isCollapsed = !state.uncollapsed.includes(commentID);
 
     // If the comment is currently collapsed, uncollapse it
@@ -173,13 +178,37 @@ const Post = (props) => {
   // Scroll to best answer
   const refBestAnswer = useRef();
   const scrollToBestAnswer = () => {
+
+    // Get the ID of the top-level comment in which the best answer is found
+
+    let bestAnswerParentID = getBestAnswerParentID();
+
     // Uncollapse parent element of best answer only
-    setState({ ...state, uncollapsed: [ props.bestAnswer ]});
-    // This should re-render comment list
-    // Scroll to best answer
-    setTimeout(() => {
-      refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+    setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
+    // // This should re-render CommentList and CommentListItem
+    // // Scroll to best answer
+    // setTimeout(() => {
+    //   refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
+    // }, 1000);
+  };
+
+  // Get the parent ID of the best answer of the post
+  const getBestAnswerParentID = () => {
+
+    // First check the parent itself
+    for (const parent of props.comments) {
+      if (parent.id === props.bestAnswer) {
+        return parent.id;
+      }
+      // Then check its children
+      for (const child of parent.replies) {
+        // If it's found, return the ID of the parent comment
+        if (child.id === props.bestAnswer) {
+          return parent.id;
+        }
+      }
+    }
+
   };
 
   // New comment toggle handler

@@ -74,11 +74,16 @@ const CommentListItem = (props) => {
     uncollapsed: props.uncollapsed // Watch for post uncollapsed state changes
   });
 
-  // Whenever the reply list is toggled, update Post state via props.onToggleCollapse
-  // This only pertains to a parent comment
+  // When uncollapsed changes, update showReplyForm in state
   useEffect(() => {
-    props.onToggleCollapse(props.id);
-  }, [state.showReplyList]);
+    if (isParent && props.uncollapsed.length) {
+      if (!state.showReplyForm && props.uncollapsed.includes(props.id)) {
+        console.log(props.uncollapsed);
+        console.log(`Comment ID ${props.id} now uncollapsing.`);
+        setState({ showReplyList: true });
+      }
+    }
+  }, [props.uncollapsed]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 

@@ -23,8 +23,15 @@ const CommentList = (props) => {
 
   // Watch for post uncollapsed state changes
   const [state, setState] = useState({
+    comments: props.comments,
     uncollapsed: props.uncollapsed
   });
+
+  // When uncollapsed changes, update comments in state
+  useEffect(() => {
+    // console.log("CommentList detected uncollapsed changed to", props.uncollapsed);
+    setState({ comments: props.comments, uncollapsed: props.uncollapsed });
+  }, [props.uncollapsed]);
 
   // Sort an array of comments
   const sortComments = (comments, byMostRecent = true) => {
