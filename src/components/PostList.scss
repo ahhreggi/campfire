@@ -30,16 +30,27 @@
     font-weight: 700;
     font-size: 0.8rem;
     margin: 0.1rem 0;
-    padding: 0.2rem 0.9rem;
-    background: linear-gradient($navy-6, $navy-2);
+    padding: 0.2rem 0.7rem 0.2rem 0.9rem;
+    // background: linear-gradient($navy-6, $navy-2);
+    background-color: $navy-4;
     user-select: none;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border: 1px solid $navy-2;
     border-radius: 10px;
+    height: 2rem;
 
     &.active {
-      background: linear-gradient($navy-7, $navy-2);
+      // background: linear-gradient($navy-7, $navy-2);
+      background-color: $navy-5;
+    }
+
+    &:hover {
+      background-color: $navy-6;
+      &:not(.active) {
+        background-color: $navy-5;
+      }
     }
 
     &:not(.empty) {
@@ -47,8 +58,6 @@
     }
 
     &:hover:not(.empty):not(.active) {
-      background: linear-gradient($navy-7, $navy-2);
-      // border: 1px solid white;
       .arrows {
         img {
           filter: invert(85%);
@@ -65,7 +74,8 @@
 
     &.empty {
       opacity: 0.6;
-      background: linear-gradient($navy-5, $navy-1);
+      // background: linear-gradient($navy-5, $navy-1);
+      background-color: $navy-1;
     }
 
     .arrows {
