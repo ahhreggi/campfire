@@ -17,7 +17,6 @@ const CommentList = (props) => {
     commentAuthorID: PropTypes.number,
     userName: PropTypes.string,
     refBestAnswer: PropTypes.object,
-    onToggleCollapse: PropTypes.func,
     uncollapsed: PropTypes.array
   };
 
@@ -79,7 +78,6 @@ const CommentList = (props) => {
           userIsPostAuthor={comment.user_is_post_author}
           userIsCommentAuthor={comment.user_is_comment_author}
           refBestAnswer={props.refBestAnswer}
-          onToggleCollapse={props.onToggleCollapse}
           uncollapsed={state.uncollapsed}
           showReplyList={state.uncollapsed.includes(comment.id)}
         />

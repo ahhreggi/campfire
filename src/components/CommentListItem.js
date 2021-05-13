@@ -60,7 +60,6 @@ const CommentListItem = (props) => {
 
     refBestAnswer: PropTypes.object,
 
-    onToggleCollapse: PropTypes.func,
     uncollapsed: PropTypes.array,
 
     showReplyList: PropTypes.bool
@@ -72,13 +71,11 @@ const CommentListItem = (props) => {
     showReplyForm: false,
     showReplyList: props.showReplyList, // props.uncollapsed.includes(props.id),
     endorsed: props.endorsed,
-    commentID: props.id,
-    // uncollapsed: props.uncollapsed // Watch for post uncollapsed state changes
+    commentID: props.id
   });
 
   // When uncollapsed changes, update showReplyList in state
   useEffect(() => {
-    console.log("->", props.showReplyList);
     if (!state.showReplyList && props.uncollapsed.includes(props.id)) {
       setState({ showReplyList: true });
     }
@@ -498,7 +495,6 @@ const CommentListItem = (props) => {
             userIsPostAuthor={props.userIsPostAuthor}
             userIsCommentAuthor={props.userIsCommentAuthor}
             refBestAnswer={props.refBestAnswer}
-            onToggleCollapse={props.onToggleCollapse}
             uncollapsed={props.uncollapsed}
           />
         </section>

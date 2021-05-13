@@ -56,25 +56,6 @@ const Post = (props) => {
     uncollapsed: [] // TODO: Set this to have the best answer parent ID by default
   });
 
-  // Collapse/uncollapse a parent comment
-  const toggleCollapse = (commentID, parentID) => {
-
-    if (parentID) {
-      return;
-    }
-
-    const isCollapsed = !state.uncollapsed.includes(commentID);
-
-    // If the comment is currently collapsed, uncollapse it
-    if (isCollapsed) {
-      setState({ ...state, uncollapsed: [ ...state.uncollapsed, commentID ]});
-      // Otherwise, collapse it (remove from uncollapsed list)
-    } else {
-      const newUncollapsed = state.uncollapsed.filter(id => id !== commentID);
-      setState({ ...state, uncollapsed: newUncollapsed });
-    }
-  };
-
   // Reset states when switching posts
   useEffect(() => {
     const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
@@ -473,7 +454,6 @@ const Post = (props) => {
             postAuthorID={props.authorID}
             userName={props.userName}
             refBestAnswer={refBestAnswer}
-            onToggleCollapse={toggleCollapse}
             uncollapsed={state.uncollapsed}
           />
         </div>
