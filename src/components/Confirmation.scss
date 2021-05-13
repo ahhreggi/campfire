@@ -14,8 +14,13 @@
 
   .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 13.5rem;
+
+    :nth-child(2) {
+      margin-left: 1rem;
+    }
+
   }
 
 }

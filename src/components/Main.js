@@ -1,25 +1,35 @@
-import "./Main.scss";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Post from "./Post";
+import PostForm from "./PostForm";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
-import PropTypes from "prop-types";
+import "./Main.scss";
 
 const Main = (props) => {
 
   Main.propTypes = {
-    active: PropTypes.string.isRequired,
-    courseData: PropTypes.object.isRequired,
+    active: PropTypes.string,
+    userData: PropTypes.object,
+    courseData: PropTypes.object,
     postID: PropTypes.number,
-    onPinPost: PropTypes.func,
-    onBookmarkPost: PropTypes.func,
+    onEditBookmark: PropTypes.func,
+    onAddPost: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
     onLikeComment: PropTypes.func,
-    onEndorseComment: PropTypes.func,
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func
   };
+
+  // const [state, setState] = useState({
+  //   mainActive: props.active
+  // });
+
+  // console.log(props.active, state.mainActive, props.postID);
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
@@ -33,6 +43,8 @@ const Main = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   const post = getPostByID(props.courseData.posts, props.postID);
+
+  const stats = props.courseData.analytics;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -56,21 +68,35 @@ const Main = (props) => {
           editable={post.editable}
           tags={post.tags}
           title={post.title}
-          userID={post.user_id}
+          authorID={post.user_id}
           views={post.views}
-          onPinPost={props.onPinPost}
-          onBookmarkPost={props.onBookmarkPost}
+          onEditBookmark={props.onEditBookmark}
+          onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
           onDeletePost={props.onDeletePost}
           onLikeComment={props.onLikeComment}
-          onEndorseComment={props.onEndorseComment}
+          onAddComment={props.onAddComment}
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
         />
       }
 
-      {props.active === "Dashboard" && <Dashboard />}
+      {props.active === "New Post" &&
+        <PostForm
+          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          courseData={props.courseData}
+          onAddPost={props.onAddPost}
+        />
+      }
+
+      {props.active === "Dashboard" &&
+        <Dashboard
+          resolved={stats.num_resolved_questions}
+          unresolved={stats.num_unresolved_questions}
+        />
+      }
 
       {props.active === "Analytics" && <Analytics />}
 

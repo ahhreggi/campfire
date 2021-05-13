@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import "./PostList.scss";
-import Button from "./Button";
-import TagList from "./TagList";
+import PropTypes from "prop-types";
 import PostListItem from "./PostListItem";
+import TagList from "./TagList";
+import Button from "./Button";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
+import question from "../images/icons/paper.png";
 import up from "../images/icons/up-arrow.png";
 import down from "../images/icons/down-arrow.png";
-import question from "../images/icons/paper.png";
-import PropTypes from "prop-types";
+import "./PostList.scss";
 
 const PostList = (props) => {
 
   PostList.propTypes = {
+    active: PropTypes.string,
     selectedPostID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
@@ -21,6 +22,7 @@ const PostList = (props) => {
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
+    onNewPost: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -43,7 +45,6 @@ const PostList = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   const toggleList = (category) => {
-    console.log("toggling", category);
     if (category === "filters") {
       setState({ ...state, showFilters: !state.showFilters });
     } else if (category === "pinned") {
@@ -103,6 +104,13 @@ const PostList = (props) => {
     return bookmarked.concat(other);
   };
 
+  // // Sort posts from newest to oldest
+  const sortByID = (posts) => {
+    return posts.sort((a, b) => {
+      return b.id - a.id;
+    });
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Return true if the given tagID is in tags
@@ -138,17 +146,32 @@ const PostList = (props) => {
     }
   }
 
-  // Sort the pinned posts by bookmark status
-  const sortedPinnedPosts = sortByBookmarked(pinned);
+  // Sort the posts by descending ID
+  const descPinned = sortByID(pinned);
+  const descBookmarked = sortByID(bookmarked);
+  const descUnpinned = sortByID(unpinned);
 
-  const pinnedPosts = generatePostListItems(sortedPinnedPosts);
-  const bookmarkedPosts = generatePostListItems(bookmarked);
-  const unpinnedPosts = generatePostListItems(unpinned);
+  // Sort the pinned posts by bookmark status
+  const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
+
+  const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
+  const bookmarkedPosts = generatePostListItems(descBookmarked);
+  const unpinnedPosts = generatePostListItems(descUnpinned);
 
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="PostList">
+
+      {/* New Post Button */}
+      <div className="newPost">
+        <Button
+          text="new post"
+          styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
+          onClick={props.onNewPost}
+          image={question}
+        />
+      </div>
 
       {/* Filters */}
       <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>

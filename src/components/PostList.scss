@@ -2,7 +2,7 @@
 
 .PostList {
   height: 100%;
-  // border: 1px solid $white;
+  border-radius: 10px 0 0 10px;
   padding: 0.5rem 0.5rem 0 0.5rem;
   background-color: $navy-2;
   overflow-x: hidden;
@@ -29,22 +29,26 @@
   .label {
     font-weight: 700;
     font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
-    background: linear-gradient($navy-5, $navy-1);
+    margin: 0.1rem 0;
+    padding: 0.2rem 0.9rem;
+    background: linear-gradient($navy-6, $navy-2);
     user-select: none;
     display: flex;
     justify-content: space-between;
+    border: 1px solid $navy-2;
+    border-radius: 10px;
 
     &.active {
-      background: linear-gradient($navy-6, $navy-1);
+      background: linear-gradient($navy-7, $navy-2);
     }
 
     &:not(.empty) {
       cursor: pointer;
     }
 
-    &:hover:not(.empty) {
-      background: linear-gradient($navy-6, $navy-1);
+    &:hover:not(.empty):not(.active) {
+      background: linear-gradient($navy-7, $navy-2);
+      // border: 1px solid white;
       .arrows {
         img {
           filter: invert(85%);

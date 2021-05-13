@@ -14,19 +14,28 @@
     color: $blue;
   }
 
-  .title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
+  .display {
 
-  .author {
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+    min-height: 4rem;
 
-    .name {
-      color: $orange;
+    .author {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+
+      .name {
+        color: $orange;
+        &.instructor {
+          color: $yellow;
+        }
+      }
+
+    }
+
+    .title {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
   }
