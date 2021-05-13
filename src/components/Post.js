@@ -341,6 +341,21 @@ const Post = (props) => {
           </div>
         }
 
+        {/* Start Discussion Button */}
+        {props.comments.length > 2 &&
+          <div
+            className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
+            onClick={toggleCommentForm}
+          >
+            <img
+              src={reply}
+              alt="reply"
+              onClick={toggleCommentForm}
+            />
+            <span>Start a new discussion</span>
+          </div>
+        }
+
         {/* Comment List */}
         <div className="comment-list">
           <CommentList
@@ -356,7 +371,7 @@ const Post = (props) => {
           />
         </div>
 
-        {/* New Comment Button */}
+        {/* Start Discussion Button */}
         {true &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
