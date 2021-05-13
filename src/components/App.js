@@ -290,7 +290,7 @@ const App = () => {
           reloader: !state.reloader
         });
       })
-      .catch((err) => {
+      .catch(() => {
         console.log("An error occurred. Check that the form is complete!");
       });
   };
@@ -411,7 +411,7 @@ const App = () => {
 
         <Switch>
 
-          <Route path="/" exact render={(props) => (
+          <Route path="/" exact render={() => (
             <>
               {/* Loading Message (when there is no courseData) */}
               {state.loading &&
@@ -496,25 +496,25 @@ const App = () => {
             </>
           )} />
 
-          <Route path="/login" exact render={(props) => (
+          <Route path="/login" exact render={() => (
             <Login
               onSubmit={fetchUserData}
             />
           )} />
 
-          <Route path="/register" exact render={(props) => (
+          <Route path="/register" exact render={() => (
             <Register
               onSubmit={registerUser}
             />
           )} />
 
-          <Route path="/create" exact render={(props) => (
+          <Route path="/create" exact render={() => (
             <Create
               onSubmit={createCourse}
             />
           )} />
 
-          <Route path="/join" exact render={(props) => (
+          <Route path="/join" exact render={() => (
             <Join
               onSubmit={joinCourse}
             />

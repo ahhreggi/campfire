@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import TagList from "./TagList";
@@ -53,21 +53,8 @@ const Post = (props) => {
     showForm: false,
     showConfirmation: false,
     showCommentForm: false,
-    uncollapsed: [] //props.comments.map(comment => comment.id)
+    uncollapsed: [] // TODO: Set this to have the best answer parent ID by default
   });
-
-  useEffect(() => {
-    console.log("Uncollapsed changed to:", state.uncollapsed);
-  }, [state.uncollapsed]);
-
-  // Post needs to keep track of all collapsed/uncollapsed comment IDs
-  // By default, collapse all
-
-  // A collapse handler (toggleCollapse) will update state.uncollapsed whenever a reply list is toggled
-  // When state.uncollapsed changes, a CommentListItem should be re-rendered
-  // This means CommentList > CommentListItem should have state.uncollapsed in state !!!
-
-  // When scrolling to the best answer, update state.uncollapse to include just the bestAnswer id
 
   // Collapse/uncollapse a parent comment
   const toggleCollapse = (commentID, parentID) => {
@@ -88,40 +75,14 @@ const Post = (props) => {
     }
   };
 
-  // Check if a parent comment should show its reply list by default
-  const showReplyListByDefault = (comment, bestAnswer) => {
-
-    // If it is the best answer, true
-    if (comment.id === bestAnswer) {
-      return true;
-      // Otherwise, check its replies for the best answer
-    } else {
-      // For each reply of the parent comment
-      for (const reply of comment.replies) {
-        // If it is the best answer, true
-        if (reply.id === bestAnswer) {
-          return true;
-        }
-      }
-
-      // If no best answer is found, check the number of replies and uncollapse if 0 < x < 3
-      const numReplies = comment.replies.length;
-      if (0 < numReplies && numReplies < 3) {
-        return true;
-      }
-
-    }
-
-    return false;
-  };
-
-  // Reset form and confirmation states when switching posts
+  // Reset states when switching posts
   useEffect(() => {
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false
+      showCommentForm: false,
+      uncollapsed: []
     });
   }, [props.id]);
 
