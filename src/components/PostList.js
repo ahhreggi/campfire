@@ -46,15 +46,27 @@ const PostList = (props) => {
     });
   }, [props.selectedTags]);
 
+  // If searchText exists, ensure that showfilters is true
+  useEffect(() => {
+    if (state.searchText && !state.showFilters) {
+      setState({ ...state, showFilters: true });
+    }
+  }, [state.searchText]);
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   const toggleSearch = () => {
     console.log("toggling search bar");
     if (!state.showSearch) {
-      setState({ ...state, showSearch: true, searchText: "" });
+      setState({ ...state, showSearch: true, showFilters: true, searchText: "" });
     } else {
       setState({ ...state, showSearch: false, searchText: "" });
     }
+  };
+
+  const clearFilters = () => {
+    props.onTagClear();
+    setState({ ...state, searchText: "" });
   };
 
   const updateSearchText = (event) => {
@@ -211,20 +223,15 @@ const PostList = (props) => {
         </div>
       </div>
 
+      {/* Search Bar */}
       {state.showSearch &&
         <div className="search-bar">
-          {/* <TextForm
-            text={state.searchText}
-            onChange={updateSearchText}
-          /> */}
           <input className="search-bar"
             value={state.searchText}
             onChange={updateSearchText}
           />
         </div>
       }
-
-      <hr />
 
       {/* Filters */}
       <div className="filters">
@@ -246,14 +253,14 @@ const PostList = (props) => {
               onClick={props.onTagToggle}
               styles={"tag filter"}
             />
-            {props.selectedTags.length > 0 &&
+            {(props.selectedTags.length > 0 || state.searchText) &&
               <>
                 <hr />
                 <div className="tag-clear">
                   <Button
                     text="clear filters"
                     styles="tag clear"
-                    onClick={props.onTagClear}
+                    onClick={clearFilters}
                   />
                 </div>
               </>
@@ -261,6 +268,8 @@ const PostList = (props) => {
           </div>
         }
       </div>
+
+      <hr />
 
       <div className="posts">
 
