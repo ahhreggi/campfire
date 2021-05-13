@@ -242,7 +242,6 @@ const CommentListItem = (props) => {
 
       {/* Top-level Comment */}
       <div className="top">
-        CommentID: {props.id}
         <section className="left">
 
           {/* Avatar */}

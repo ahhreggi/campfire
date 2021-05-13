@@ -331,6 +331,7 @@ const Post = (props) => {
 
       {/* Discussion */}
       <div className="discussion">
+
         <div className="discussion-label">
           <span className="comments">
             <img src={comment} alt="comments" />
@@ -342,12 +343,18 @@ const Post = (props) => {
         {state.showCommentForm &&
           <div className="comment-form">
             <CommentForm
-              // header={"Post a comment"}
               label={"NEW COMMENT"}
               userName={props.userName}
               onAddComment={addComment}
               onCancelComment={toggleCommentForm}
             />
+          </div>
+        }
+
+        {/* No Comments Message */}
+        {!props.comments.length && !state.showCommentForm &&
+          <div className="no-comments">
+            There&apos;s nothing here yet. <span onClick={toggleCommentForm}>Start a discussion</span>.
           </div>
         }
 

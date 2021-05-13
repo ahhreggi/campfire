@@ -149,6 +149,7 @@ const App = () => {
   // Create an axios request
   const request = async(method, url, id = null, data = null, role = null) => {
     // If a role is provided, use its token, otherwise use state.authToken
+    console.log(method, url + (id ? `/${id}` : ""));
     return axios({
       method: method,
       url: url + (id ? `/${id}` : ""),
@@ -318,8 +319,12 @@ const App = () => {
 
   // Request to delete a comment by ID
   const deleteComment = (commentID) => {
+    console.log("deleting comment", commentID);
     request("DELETE", API.COMMENTS, commentID)
-      .then(() => setActive("Post", state.postID))
+      .then((res) => {
+        // setActive("Post", state.postID)
+        console.log(res);
+      })
       .catch((err) => console.log(err));
   };
 
