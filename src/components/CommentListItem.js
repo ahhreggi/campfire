@@ -76,12 +76,10 @@ const CommentListItem = (props) => {
 
   // When uncollapsed changes, update showReplyForm in state
   useEffect(() => {
-    if (isParent && props.uncollapsed.length) {
-      if (!state.showReplyForm && props.uncollapsed.includes(props.id)) {
-        console.log(props.uncollapsed);
-        console.log(`Comment ID ${props.id} now uncollapsing.`);
-        setState({ showReplyList: true });
-      }
+    if (isParent && !state.showReplyForm && props.uncollapsed.includes(props.id)) {
+      console.log(props.uncollapsed);
+      console.log(`Comment ID ${props.id} now uncollapsing.`);
+      setState({ showReplyList: true });
     }
   }, [props.uncollapsed]);
 
