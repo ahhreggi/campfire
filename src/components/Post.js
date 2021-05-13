@@ -484,7 +484,7 @@ const Post = (props) => {
         }
 
         {/* First Start Discussion Button */}
-        {props.comments.length > 1 &&
+        {(props.comments.length > 0) &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
             onClick={commentFormScrollHandler}
