@@ -77,8 +77,6 @@ const CommentListItem = (props) => {
   // When uncollapsed changes, update showReplyForm in state
   useEffect(() => {
     if (isParent && !state.showReplyForm && props.uncollapsed.includes(props.id)) {
-      console.log(props.uncollapsed);
-      console.log(`Comment ID ${props.id} now uncollapsing.`);
       setState({ showReplyList: true });
     }
   }, [props.uncollapsed]);
@@ -244,8 +242,6 @@ const CommentListItem = (props) => {
 
   return (
     <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
-
-      COMMENT ID: {props.id}
 
       {/* Top-level Comment */}
       <div className="top">

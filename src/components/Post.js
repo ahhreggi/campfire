@@ -172,7 +172,7 @@ const Post = (props) => {
   const scrollToCommentForm = () => {
     setTimeout(() => {
       refCommentForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+    }, 100);
   };
 
   // Scroll to best answer
@@ -187,9 +187,9 @@ const Post = (props) => {
     setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
     // // This should re-render CommentList and CommentListItem
     // // Scroll to best answer
-    // setTimeout(() => {
-    //   refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
-    // }, 1000);
+    setTimeout(() => {
+      refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   // Get the parent ID of the best answer of the post

@@ -29,7 +29,6 @@ const CommentList = (props) => {
 
   // When uncollapsed changes, update comments in state
   useEffect(() => {
-    // console.log("CommentList detected uncollapsed changed to", props.uncollapsed);
     setState({ comments: props.comments, uncollapsed: props.uncollapsed });
   }, [props.uncollapsed]);
 
