@@ -9,6 +9,8 @@ const TextForm = (props) => {
     text: PropTypes.string,
     minHeight: PropTypes.string,
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    refs: PropTypes.object,
   };
 
   return (
@@ -24,6 +26,8 @@ const TextForm = (props) => {
         style={{ "minHeight": props.minHeight }}
         value={props.text}
         onChange={(event) => props.onChange(event)}
+        onKeyDown={props.onKeyDown}
+        ref={props.refs}
       />
 
     </div>

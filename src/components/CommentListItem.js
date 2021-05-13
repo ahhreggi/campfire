@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
@@ -315,7 +316,7 @@ const CommentListItem = (props) => {
 
                 {/* Comment Text */}
                 <div className="text">
-                  {props.body}
+                  <ReactMarkdown>{props.body}</ReactMarkdown>
                 </div>
 
                 {/* Comment Endorsers */}

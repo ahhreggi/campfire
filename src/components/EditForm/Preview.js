@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import ReactMarkdown from "react-markdown";
 import "./Preview.scss";
 
 const Preview = (props) => {
@@ -39,7 +40,7 @@ const Preview = (props) => {
 
         {props.body &&
           <div className="body">
-            {props.body}
+            <ReactMarkdown>{props.body}</ReactMarkdown>
           </div>
         }
 

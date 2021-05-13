@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import usePrevious from "../../hooks/usePrevious";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Preview from "./Preview";
@@ -41,8 +42,14 @@ const EditForm = (props) => {
     previewAuthor: props.author,
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
-    breakBody: false
+    breakBody: false,
+    selectionStart: null,
   });
+
+  // Setup reference to text area to facilitate tab support
+  const textArea = useRef(null);
+  // Store a reference to the previous body to check when a new tab is inserted
+  const prevBody = usePrevious(state.previewBody);
 
   // Update previewAuthor when toggling previewAnonymous
   useEffect(() => {
@@ -52,11 +59,20 @@ const EditForm = (props) => {
     });
   }, [state.previewAnonymous]);
 
-  // Update breakBody when updating previewTitle or previewBody
   useEffect(() => {
+    // Update breakBody when updating previewTitle or previewBody
     const checkTitle = getLongestWordLength(state.previewTitle) > 30;
     const checkBody = getLongestWordLength(state.previewBody) > 30;
     setState({ ...state, breakBody: checkTitle || checkBody });
+
+    // If a tab was inserted, update cursor location
+    if (
+      prevBody &&
+      state.previewBody.match(/[\t]/g)?.length > prevBody.match(/[\t]/g)?.length
+    ) {
+      textArea.current.selectionStart = textArea.current.selectionEnd =
+        state.selectionStart + 1;
+    }
   }, [state.previewBody]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
@@ -103,7 +119,28 @@ const EditForm = (props) => {
       setState({ ...state, previewTags: updatedTags });
       // Otherwise, select it
     } else {
-      setState({ ...state, previewTags: [ ...state.previewTags, tag ] });
+      setState({ ...state, previewTags: [...state.previewTags, tag] });
+    }
+  };
+
+  // When tab is pressed, keep textarea in focus and insert a tab into the body
+  const insertTab = (event) => {
+    // 'event.keyCode' will return the key code as a number: Tab = '9'
+    if (event.keyCode === 9) {
+      // Prevent the default action to not lose focus when tab
+      event.preventDefault();
+
+      // Get the cursor position
+      const { selectionStart, selectionEnd } = event.target;
+      // update the state
+      setState((prev) => ({
+        ...prev,
+        previewBody:
+          prev.previewBody.substring(0, selectionStart) +
+          "\t" +
+          prev.previewBody.substring(selectionEnd),
+        selectionStart: selectionStart,
+      }));
     }
   };
 
@@ -162,6 +199,8 @@ const EditForm = (props) => {
         text={state.previewBody}
         minHeight={props.minHeight}
         onChange={updatePreviewBody}
+        onKeyDown={insertTab}
+        refs={textArea}
       />
 
       {!props.isInstructor &&
