@@ -11,8 +11,8 @@ const Login = (props) => {
   };
 
   const [state, setState] = useState({
-    email: null,
-    password: null
+    email: "hello1@campfire.ca",
+    password: "campfire"
   });
 
   const handleInputChange = (event, field) => {

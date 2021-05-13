@@ -65,10 +65,9 @@ const App = () => {
     userData: null, // current user
 
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
-    authToken: null,
     role: "owner",
 
-    courseID: 1,
+    courseID: null,
     courseData: null, // all data for the current courseID
 
     postID: null, // a post ID or null if viewing dashboard/analytics,
@@ -84,9 +83,10 @@ const App = () => {
 
   //////////////////
 
+  // Testing purposes
   const setRole = (role) => {
     console.log("Setting auth token to", role);
-    setState({ ...state, authToken: tokens[role], role: role });
+    setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
   };
 
   useEffect(() => {
@@ -165,9 +165,10 @@ const App = () => {
   // Create an axios request
   const request = async(method, url, id = null, data = null, role = null) => {
 
-    // If a role is provided, use its token, otherwise use state.authToken
+    // If a role is provided, use its token, otherwise use state.userData.token
     const params = (method + " " + url + (id ? `/${id}` : ""));
-    const token = role ? role : state.authToken;
+    const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
+
     console.log("-".repeat(50));
     console.log("🔥", params);
     console.log("🔥 STATE TOKEN:", token);
@@ -219,13 +220,15 @@ const App = () => {
         postID: data.id,
         reloader: !state.reloader
       });
-    } else if (type === "user") {
-      setState({
-        ...state,
-        userData: data
-      });
+    } else if (type === "login") {
+      setState({ ...state, userData: data });
     }
   };
+
+  // Testing purposes
+  useEffect(() => {
+    console.log("userData changed to", state.userData);
+  }, [state.userData]);
 
   // Login/retrieve data for an existing user and redirect to the dashboard of a course
   // redirect to page with all of the user's courses or the course page of most recent?
@@ -234,34 +237,22 @@ const App = () => {
   const fetchUserData = (data) => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
       .then((data) => {
+        // Login successful
         if (data) {
-          // console.log("success", data);
+          console.log("Login successful :)");
+          setAppData(data, "login");
+          // Login failed
         } else {
-          // console.log("failed");
+          console.log("Login failed :(");
         }
-        // setAppData(data, "user");
-        // console.log("login successful");
-        // console.log(data);
       });
-
-    // axios({
-    //   method: "POST",
-    //   url: API.LOGIN,
-    //   data: data
-    // })
-    //   .then(res => console.log("success data", res))
-    //   .catch(err => console.log(err));
   };
-
-  useEffect(() => {
-    // console.log("userData changed to", state.userData);
-  }, [state.userData]);
 
   // Register a new user account
   const registerUser = (data) => {
     request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
       .then((userData) => {
-        setState({ ...state, user: userData, authToken: userData.token, userCourses: [] });
+        // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
       // redirect to create/join page since the user has no courses yet
       })
       .catch((err) => console.log(err));
@@ -301,7 +292,7 @@ const App = () => {
       method: bookmarked ? "DELETE" : "POST",
       url: bookmarked ? API.BOOKMARKS : API.BOOKMARKS,
       headers: {
-        "Authorization": state.authToken
+        "Authorization": state.userData.token
       },
       data: { postID }
     })
