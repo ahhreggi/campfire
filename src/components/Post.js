@@ -17,6 +17,7 @@ import "./Post.scss";
 
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
+import ReactMarkdown from "react-markdown";
 
 const Post = (props) => {
 
@@ -323,7 +324,7 @@ const Post = (props) => {
 
         {/* Post Body */}
         <div className={`post-body ${state.breakBody && "break"}`}>
-          {props.body}
+          <ReactMarkdown>{props.body}</ReactMarkdown>
         </div>
 
       </div>
