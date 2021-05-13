@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import removeMarkdown from "remove-markdown";
 import Badge from "./Badge";
 import TagList from "./TagList";
 import star from "../images/icons/star.png";
@@ -96,7 +97,7 @@ const PostListItem = (props) => {
 
       {/* Post Body Snippet */}
       <div className="summary text-truncate">
-        {props.body}
+        {removeMarkdown(props.body)}
       </div>
 
       <footer>
