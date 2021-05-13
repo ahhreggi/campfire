@@ -188,7 +188,7 @@ const PostList = (props) => {
           </div>
         </div>
         {state.showFilters &&
-          <div className="tags">
+          <div className={`tags ${props.selectedTags.length > 0 ? "filtering" : ""}`}>
             <TagList
               tags={props.tags}
               selectedTags={props.selectedTags}

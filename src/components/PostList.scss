@@ -48,6 +48,9 @@
         flex-direction: column;
         margin-bottom: 0.3rem;
       }
+      &.filtering {
+        border-color: $navy-8;
+      }
     }
   }
 
