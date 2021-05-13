@@ -332,8 +332,8 @@ const Post = (props) => {
       {/* Discussion */}
       <div className="discussion">
 
-        {props.comments.length > 0 &&
-          <div className="discussion-label">
+        {props.comments.length >= 0 &&
+          <div className={`discussion-label ${!props.comments.length ? "empty" : ""}`}>
             <span className="comments">
               <img src={comment} alt="comments" />
             </span>
@@ -352,7 +352,7 @@ const Post = (props) => {
               alt="reply"
               onClick={toggleCommentForm}
             />
-            <span>Start a new discussion</span>
+            <span>Start a new discussion (TODO: make this scroll to the bottom)</span>
           </div>
         }
 

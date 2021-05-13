@@ -449,13 +449,14 @@ const CommentListItem = (props) => {
         </div>
       }
 
-      {/* Replies Toggler */}
+      {/* First Reply Toggler */}
       {isParent && !state.showConfirmation &&
         <>
           <div className="discussion-label replies-label">
             <span className="reply-controls">
 
               {/* Add Reply Button */}
+              {/* {true && */}
               {!state.showReplyList &&
                 <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
                   <img
@@ -480,7 +481,7 @@ const CommentListItem = (props) => {
               }
 
               {/* No Replies */}
-              {!props.replies.length &&
+              {!props.replies.length && !state.showReplyList &&
                 <div className="replies-absent">
                   <span className="toggle-item comments">
                     <img src={comment} alt="comments" />
@@ -492,19 +493,6 @@ const CommentListItem = (props) => {
           </div>
         </>
       }
-
-      {/* Add Reply Form */}
-      {isParent && state.showReplyForm &&
-        <div className="reply-form">
-          <CommentForm
-            label={"NEW REPLY"}
-            userName={props.userName}
-            onAddComment={addReply}
-            onCancelComment={toggleReplyForm}
-          />
-        </div>
-      }
-
 
       {/* Replies */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
@@ -525,14 +513,14 @@ const CommentListItem = (props) => {
         </section>
       }
 
-      {/* Secondary Replies Toggler */}
+      {/* Secondary Reply Form Toggler */}
       {isParent && !state.showConfirmation && state.showReplyList &&
         <>
           <div className="discussion-label replies-label">
-            <span className="reply-controls">
+            <span className="reply-controls reply-second">
 
               {/* Add Reply Button */}
-              <span className={`reply reply-second ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+              <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
                 <img
                   src={reply}
                   alt="reply"
@@ -540,18 +528,32 @@ const CommentListItem = (props) => {
                 Reply
               </span>
 
-              {/* No Replies */}
-              {!props.replies.length &&
-                <div className="replies-absent">
+              {/* Show/Hide Replies */}
+              {props.replies.length > 1 &&
+                <div className={`replies-present reply-second ${state.showReplyList ? "replies-active" : ""}`} onClick={toggleReplyList}>
                   <span className="toggle-item comments">
                     <img src={comment} alt="comments" />
                   </span>
-                  <span className="toggle-item no-replies">No replies</span>
+                  <span className="toggle-item">
+                    {state.showReplyList ? "Hide" : "Show" } Replies {props.replies.length > 0 && `(${props.replies.length})`}
+                  </span>
                 </div>
               }
             </span>
           </div>
         </>
+      }
+
+      {/* Add Reply Form */}
+      {isParent && state.showReplyForm &&
+        <div className="reply-form">
+          <CommentForm
+            label={"NEW REPLY"}
+            userName={props.userName}
+            onAddComment={addReply}
+            onCancelComment={toggleReplyForm}
+          />
+        </div>
       }
 
     </div>

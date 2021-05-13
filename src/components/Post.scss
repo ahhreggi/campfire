@@ -131,6 +131,9 @@
       font-size: 1.5rem;
       font-weight: 700;
       user-select: none;
+      &.empty {
+        opacity: 0.5;
+      }
 
       img {
         width: 2.3rem;
@@ -145,6 +148,9 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
+          &.reply-second {
+            // padding-top: 1rem;
+          }
         }
 
         img {
@@ -181,13 +187,9 @@
         }
 
         .reply {
-          margin-right: 1rem;
           cursor: pointer;
           opacity: 0.9;
-
-          &.reply-second {
-            margin-top: 1rem;
-          }
+          margin-right: 1rem;
 
           img {
             filter: brightness(0) invert(100);
