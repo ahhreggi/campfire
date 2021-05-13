@@ -31,6 +31,7 @@ const CommentList = (props) => {
   const sortedComments = sortComments(props.comments, false); // oldest -> most recent
 
   const comments = sortedComments.map(comment => {
+
     return (
       <CommentListItem
         key={comment.id}
@@ -60,7 +61,8 @@ const CommentList = (props) => {
         postAuthorID={props.postAuthorID}
         commentAuthorID={comment.user_id}
         userName={props.userName}
-        userIsAuthor={comment.user_is_post_author}
+        userIsPostAuthor={comment.user_is_post_author}
+        userIsCommentAuthor={comment.user_is_comment_author}
       />
     );
   });

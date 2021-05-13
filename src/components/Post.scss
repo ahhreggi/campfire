@@ -2,6 +2,8 @@
 
 .Post {
 
+  min-width: none;
+
   .EditForm {
     border: 1px solid $navy-6;
     padding: 1rem;
@@ -62,6 +64,7 @@
   .post-subheader {
     font-size: 0.8rem;
     margin: 0.5rem 0;
+    // width: 40rem;
 
     .author {
       font-weight: 700;
@@ -155,6 +158,11 @@
         .replies-present {
           cursor: pointer;
           opacity: 0.9;
+          // color: $orange;
+
+          &.replies-active {
+            color: $white;
+          }
 
           &:hover,
           &.replies-active {
@@ -169,7 +177,7 @@
         }
 
         .replies-absent {
-          opacity: 0.2;
+          opacity: 0.5;
         }
 
         .reply {

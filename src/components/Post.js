@@ -372,7 +372,7 @@ const Post = (props) => {
         {state.showCommentForm &&
           <div className="comment-form">
             <CommentForm
-              label={"NEW COMMENT"}
+              label={"NEW DISCUSSION"}
               userName={props.userName}
               onAddComment={addComment}
               onCancelComment={toggleCommentForm}

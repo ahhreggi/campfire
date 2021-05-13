@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
@@ -55,17 +55,19 @@ const CommentListItem = (props) => {
     commentAuthorID: PropTypes.number,
 
     userName: PropTypes.string,
-    userIsAuthor: PropTypes.bool
+    userIsPostAuthor: PropTypes.bool,
+    userIsCommentAuthor: PropTypes.bool
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
     showReplyForm: false,
-    showReplyList: false,
+    showReplyList: props.replies && props.replies.length > 0 && props.replies.length < 3,
     endorsed: props.endorsed,
     commentID: props.id
   });
+
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -207,9 +209,6 @@ const CommentListItem = (props) => {
   // Check if the comment was ever modified
   const isModified = props.createdAt !== props.lastModified;
 
-  // Check if the comment body requires a word break
-  const breakBody = Math.max(...props.body.split(" ").map(word => word.length)) > 30;
-
   // Get the author name to display
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
 
@@ -232,7 +231,8 @@ const CommentListItem = (props) => {
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
     "highlight-delete": state.showConfirmation,
-    "break-body": breakBody
+    "highlight-user": props.userIsCommentAuthor,
+    "break-body": Math.max(...props.body.split(" ").map(word => word.length)) > 100
   });
 
   ///////////////////////////////////////////////////////////////////
@@ -289,7 +289,9 @@ const CommentListItem = (props) => {
                 <div className="comment-author">
                   {authorName}
                   {isPostAuthor &&
-                    <img className="author-badge" src={edit} alt="author" />
+                    <>
+                      <img className="author-badge" src={edit} alt="author" />
+                    </>
                   }
                 </div>
 
@@ -302,7 +304,7 @@ const CommentListItem = (props) => {
                 }
 
                 {/* Select Best Answer Label */}
-                {props.bestAnswer === null && props.userIsAuthor &&
+                {props.bestAnswer === null && props.userIsPostAuthor &&
                   <div className="label unselected" onClick={setBestAnswer}>
                     {/* <img src={checkmark} alt="checkmark" /> */}
                     <span>SELECT AS BEST ANSWER</span>
@@ -515,6 +517,8 @@ const CommentListItem = (props) => {
             onEditBestAnswer={props.onEditBestAnswer}
             postAuthorID={props.postAuthorID}
             userName={props.userName}
+            userIsPostAuthor={props.userIsPostAuthor}
+            userIsCommentAuthor={props.userIsCommentAuthor}
           />
         </section>
       }
