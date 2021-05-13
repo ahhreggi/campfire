@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 // Temporary props data display for dev testing
 // Usage: <DevData name="ComponentName" data={props} />
+// props can also just be any object
 const DevData = (props) => {
   DevData.propTypes = {
     name: PropTypes.string, // name of the component

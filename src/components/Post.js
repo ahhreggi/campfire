@@ -18,6 +18,8 @@ import "./Post.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 
+import DevData from "./DevData";
+
 const Post = (props) => {
 
   Post.propTypes = {
@@ -273,6 +275,8 @@ const Post = (props) => {
 
   return (
     <div className="Post">
+
+      <DevData name={"Post"} data={props} />
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
