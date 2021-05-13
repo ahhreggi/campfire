@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PostListItem from "./PostListItem";
 import TagList from "./TagList";
 import Button from "./Button";
+import glass from "../images/icons/search.png";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
@@ -29,12 +30,15 @@ const PostList = (props) => {
     showFilters: true,
     showPinned: true,
     showBookmarked: true,
-    showPosts: true
+    showPosts: true,
+    showSearch: true,
+    searchText: ""
   });
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
     setState({
+      ...state,
       showFilters: true,
       showPinned: true,
       showBookmarked: true,
@@ -43,6 +47,15 @@ const PostList = (props) => {
   }, [props.selectedTags]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const toggleSearch = () => {
+    console.log("toggling search bar");
+    if (!state.showSearch) {
+      setState({ ...state, showSearch: true, searchText: "" });
+    } else {
+      setState({ ...state, showSearch: false, searchText: "" });
+    }
+  };
 
   const toggleList = (category) => {
     if (category === "filters") {
@@ -160,18 +173,44 @@ const PostList = (props) => {
 
   ///////////////////////////////////////////////////////////////////
 
+
+  // TextForm.propTypes = {
+  //   label: PropTypes.string,
+  //   text: PropTypes.string,
+  //   minHeight: PropTypes.string,
+  //   onChange: PropTypes.func,
+  // };
+
   return (
     <div className="PostList">
 
-      {/* New Post Button */}
-      <div className="newPost">
-        <Button
-          text="new post"
-          styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
-          onClick={props.onNewPost}
-          image={question}
-        />
+      <div className="post-list-buttons">
+        {/* New Post Button */}
+        <div className="newPost">
+          <Button
+            text="new post"
+            styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
+            onClick={props.onNewPost}
+            image={question}
+          />
+        </div>
+
+        {/* Search Button */}
+        <div className="search">
+          <Button
+            text="search"
+            styles={`search ${state.showSearch ? "active" : ""}`}
+            onClick={toggleSearch}
+            image={glass}
+          />
+        </div>
       </div>
+
+      {state.showSearch &&
+        <div className="search-bar">
+          search bar here
+        </div>
+      }
 
       <hr />
 

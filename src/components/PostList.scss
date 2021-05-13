@@ -10,6 +10,19 @@
   width: 20rem;
   @include custom-scrollbar;
 
+  .post-list-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+
+    .search.active {
+      background-color: $navy-0;
+      border-color: $navy-0;
+    }
+
+  }
+
   hr {
     margin: 0;
   }
@@ -114,6 +127,9 @@
       border: 3px solid $navy-1;
       background-color: $navy-1;
       border-radius: 10px;
+      img {
+        filter: grayscale(50%);
+      }
       &:hover {
         border: 3px solid $navy-1;
         background-color: $navy-1;
