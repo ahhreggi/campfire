@@ -202,6 +202,9 @@ const CommentListItem = (props) => {
   // Check if the comment is by an instructor
   const isInstructor = props.authorRole !== "student";
 
+  // Check if the comment is by a student
+  const isStudent = props.authorRole === "student";
+
   // Check if the comment is the post author
   const isPostAuthor = props.postAuthorID === props.commentAuthorID;
 
@@ -230,6 +233,7 @@ const CommentListItem = (props) => {
     CommentListItem: true,
     "highlight-parent": isParent,
     "highlight-instructor": isInstructor,
+    "highlight-student": isStudent,
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
     "highlight-delete": state.showConfirmation,

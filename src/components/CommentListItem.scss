@@ -27,17 +27,6 @@
     word-break: break-all;
   }
 
-  // Delete confirmation styling
-  &.highlight-delete {
-    border: 2px solid $red;
-    background-color: $navy-1;
-
-    &:not(.highlight-parent) {
-      background-color: $navy-1;
-    }
-
-  }
-
   // Parent comment styling
   &.highlight-parent {
 
@@ -46,14 +35,44 @@
       margin-bottom: 1rem;
     }
 
-    // Parent comment & belongs to user
-    &.highlight-user {
-      // border-right: 3px solid $navy-5;
+    &.highlight-instructor {
+      border-left-color: $yellow;
+
+      .comment-author {
+        color: $yellow; // this is fine
+      }
+
+    }
+
+    &.highlight-student {
+
+      .comment-author {
+        color: $white;
+      }
+
+    }
+
+    &.highlight-author {
+      border: 2px solid $white;
+    }
+
+    &.highlight-best {
+      border-left-color: $green;
+
+      &.highlight-author {
+        border-color: $green;
+      }
+
+    }
+
+    &.highlight-delete {
+      border: 2px solid $red;
+      background-color: $navy-0;
     }
 
   }
 
-  // Reply/Child comment styling
+  // Child comment styling
   &:not(.highlight-parent) {
     background-color: $navy-4;
     margin-top: 0;
@@ -65,41 +84,41 @@
       margin-top: 0.5rem;
     }
 
-    // Child comment & belongs to user
-    &.highlight-user {
-      // border-right: 3px solid $navy-5;
-    }
-
-  }
-
-  // Instructor comment styling
-  &.highlight-instructor {
-
-    &:not(.highlight-delete) {
+    &.highlight-instructor {
       border-left-color: $yellow;
+
+      .comment-author {
+        color: $yellow; // this is fine
+      }
+
     }
 
-    .comment-author {
-      color: $yellow;
+    &.highlight-student {
+
+      .comment-author {
+        color: $white;
+      }
+
     }
 
-  }
-
-  // Post author styling
-  &.highlight-author {
-
-    &:not(.highlight-delete) {
+    &.highlight-author {
       border: 2px solid $white;
     }
 
-  }
+    &.highlight-best {
+      border-left-color: $green;
 
-  // Best answer styling
-  &.highlight-best:not(.highlight-delete) {
-    border-left-color: $green;
-    &.highlight-author {
-      border-color: $green;
+      &.highlight-author {
+        border-color: $green;
+      }
+
     }
+
+    &.highlight-delete {
+      border: 2px solid $red;
+      background-color: $navy-1;
+    }
+
   }
 
   // Hover styling
