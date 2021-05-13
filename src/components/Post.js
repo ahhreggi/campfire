@@ -332,12 +332,12 @@ const Post = (props) => {
       {props.editable &&
         <div className="controls post-controls icon-large">
           <>
-            {/* <img
+            <img
               className={"icon-large" + (state.showCommentForm ? "" : " disabled")}
               src={reply}
               alt="reply"
-              onClick={state.showCommentForm ? () => scrollToCommentForm() : toggleCommentForm}
-            /> */}
+              onClick={commentFormScrollHandler}
+            />
             <img
               className={"icon-large" + (state.showForm ? "" : " disabled")}
               src={edit}
@@ -379,7 +379,6 @@ const Post = (props) => {
             <img
               src={reply}
               alt="reply"
-              // onClick={toggleCommentForm}
             />
             <span>Start a new discussion</span>
           </div>
@@ -416,14 +415,6 @@ const Post = (props) => {
           <span>Start a new discussion</span>
         </div>
 
-
-        {/* New Discussion */}
-        {/* {props.comments.length > 0 && !state.showCommentForm &&
-          <div className="no-comments">
-            <span onClick={toggleCommentForm}>NEW DISCUSSION</span>
-          </div>
-        } */}
-
         {/* Add Comment Form */}
         {state.showCommentForm &&
           <div className="comment-form">
@@ -435,8 +426,6 @@ const Post = (props) => {
             />
           </div>
         }
-
-
 
       </div>
 

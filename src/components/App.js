@@ -64,6 +64,7 @@ const App = () => {
     user: dummyUser, // current user
     active: "Dashboard", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
     authToken: tokens.owner,
+    role: "owner",
 
     courseID: 1,
     courseData: null, // all data for the current courseID
@@ -78,6 +79,19 @@ const App = () => {
     loading: true,
     reloader: false // set this to !reloader when making a request without fetchCourseData and a reload is needed
   });
+
+  //////////////////
+
+  const setRole = (role) => {
+    console.log("Setting auth token to", role);
+    setState({ ...state, authToken: tokens[role], role: role });
+  };
+
+  useEffect(() => {
+    setActive("Dashboard");
+  }, [state.role]);
+
+  /////////////////
 
   // Fetch course data when:
   // -- selecting a new courseID
@@ -463,6 +477,11 @@ const App = () => {
                       <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
                       <Button text="Analytics" onClick={() => setActive("Analytics")} />
                       <Button text="Refresh DB" onClick={() => resetDB()} />
+                      <Button text="admin" onClick={() => setRole("admin")} />
+                      <Button text="owner" onClick={() => setRole("owner")} />
+                      <Button text="instructor" onClick={() => setRole("instructor")} />
+                      <Button text="student" onClick={() => setRole("student")} />
+                      current role: {state.role}
 
                       <Link to="/"><Button text="Index" /></Link>
                       <Link to="/login"><Button text="Login" /></Link>
