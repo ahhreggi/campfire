@@ -185,6 +185,10 @@
           cursor: pointer;
           opacity: 0.9;
 
+          &.reply-second {
+            margin-top: 1rem;
+          }
+
           img {
             filter: brightness(0) invert(100);
             opacity: 0.8;

@@ -454,15 +454,17 @@ const CommentListItem = (props) => {
         <>
           <div className="discussion-label replies-label">
             <span className="reply-controls">
+
               {/* Add Reply Button */}
-              <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
-                <img
-                  // className={"icon-large" + (state.showReplyForm ? "" : " disabled")}
-                  src={reply}
-                  alt="reply"
-                />
-                Reply
-              </span>
+              {!state.showReplyList &&
+                <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+                  <img
+                    src={reply}
+                    alt="reply"
+                  />
+                  Reply
+                </span>
+              }
 
               {/* Show/Hide Replies */}
               {props.replies.length > 0 &&
@@ -521,6 +523,35 @@ const CommentListItem = (props) => {
             userIsCommentAuthor={props.userIsCommentAuthor}
           />
         </section>
+      }
+
+      {/* Secondary Replies Toggler */}
+      {isParent && !state.showConfirmation && state.showReplyList &&
+        <>
+          <div className="discussion-label replies-label">
+            <span className="reply-controls">
+
+              {/* Add Reply Button */}
+              <span className={`reply reply-second ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+                <img
+                  src={reply}
+                  alt="reply"
+                />
+                Reply
+              </span>
+
+              {/* No Replies */}
+              {!props.replies.length &&
+                <div className="replies-absent">
+                  <span className="toggle-item comments">
+                    <img src={comment} alt="comments" />
+                  </span>
+                  <span className="toggle-item no-replies">No replies</span>
+                </div>
+              }
+            </span>
+          </div>
+        </>
       }
 
     </div>
