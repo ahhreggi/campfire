@@ -244,7 +244,7 @@ const Post = (props) => {
 
         {props.bestAnswer &&
           <>
-            <div className="message">
+            <div className="resolution-message">
 
               <div>
                 This question has been answered.
