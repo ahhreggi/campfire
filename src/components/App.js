@@ -557,7 +557,7 @@ const App = () => {
       {state.active === "Create" &&
         <Create
           userData={state.userData}
-          onCreateCourse={createCourse}
+          onSubmit={createCourse}
           errors={state.errors}
           onRedirect={setActive}
 
@@ -569,7 +569,7 @@ const App = () => {
       {state.active === "Join" &&
         <Join
           userData={state.userData}
-          onJoinCourse={joinCourse}
+          onSubmit={joinCourse}
           errors={state.errors}
           onRedirect={setActive}
 

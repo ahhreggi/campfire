@@ -1,30 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
 import "./Join.scss";
 
+import DevData from "./DevData";
+
 const Join = (props) => {
 
   Join.propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    errors: PropTypes.array,
+    onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
-    accessCode: null
+    accessCode: "",
+    errors: props.errors
   });
 
+  useEffect(() => {
+    setState({ ...state, errors: props.errors });
+  }, [props.errors]);
+
   const handleInputChange = (event, field) => {
-    setState({ ...state, [field]: event.target.value });
+    setState({ ...state, [field]: event.target.value, errors: null });
   };
 
   const handleSubmit = () => {
-    const data = { ...state };
+    const data = {
+      accessCode: state.accessCode
+    };
     props.onSubmit(data);
   };
 
   return (
     <div className="Join">
+
+      <DevData name="Join" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
@@ -35,7 +48,7 @@ const Join = (props) => {
       <div className="form-fields">
         <TextForm
           label={"Course Access Code"}
-          text={""}
+          text={state.accessCode}
           onChange={(event) => handleInputChange(event, "accessCode")}
         />
 
@@ -47,6 +60,22 @@ const Join = (props) => {
           text="Join"
           styles="submit join"
           onClick={handleSubmit}
+        />
+      </div>
+
+      {/* Create Button */}
+      <div className="create-link">
+        <Button
+          text="Go to Create"
+          onClick={() => props.onRedirect("Create")}
+        />
+      </div>
+
+      {/* Home Button */}
+      <div className="home-link">
+        <Button
+          text="Go to Home"
+          onClick={() => props.onRedirect("Home")}
         />
       </div>
 
