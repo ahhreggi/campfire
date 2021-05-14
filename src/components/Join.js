@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom";
-import { useNavigate } from "@reach/router";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -9,10 +7,10 @@ import Button from "./Button";
 import Login from "./Login";
 import Home from "./Home";
 import DevData from "./DevData";
-import Register from "./Register";
-import Create from "./Create";
-import Join from "./Join";
-import Error404 from "./Error404";
+// import Register from "./Register";
+// import Create from "./Create";
+// import Join from "./Join";
+// import Error404 from "./Error404";
 import "./App.scss";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
@@ -25,14 +23,6 @@ let tokens = {
   "instructor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjIwNzQ4MjAxfQ.EMzIvNQTDvgf1hKo0-z-LMs2qpmXDuGcu6sPlRz2RkQ",
   // student in course 1:
   "student": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNjIwNzQ4MTcwfQ.rZKQEy9cvl5byYNji8_k4MFtYEQG_XtLsCU7kiEaxOk"
-};
-
-let dummyUser = {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNzQ3MjI4fQ.i1gNBhXeJNrnWhlLqngOYqloLPe3HkkGKMp30EfbFgY",
-  "first_name": "Reggi",
-  "last_name": "Sirilan",
-  "email": "rs@rs.ca",
-  "avatar_id": 2
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -96,10 +86,10 @@ const App = () => {
   //////////////////
 
   // Testing purposes
-  const setRole = (role) => {
-    console.log("Setting auth token to", role);
-    setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
-  };
+  // const setRole = (role) => {
+  //   console.log("Setting auth token to", role);
+  //   setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
+  // };
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -121,7 +111,7 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-    console.log("-".repeat(50));
+    console.log("-".repeat(30));
     console.log("🔥", params);
     console.log("🔥 STATE TOKEN:", token);
     if (data) {
@@ -255,7 +245,6 @@ const App = () => {
   useEffect(() => {
     // Nothing to do here.. user can pick a course or join/create
     // If the user has no courses, their only options are to join/create
-    console.log("userCourses:", state.userCourses);
   }, [state.userCourses]);
 
   // Fetch course data from the server once a user selects one from the Home view
@@ -309,40 +298,40 @@ const App = () => {
 
 
   // Register a new user account
-  const registerUser = (data) => {
-    request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
-      .then((userData) => {
-        // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
-      // redirect to create/join page since the user has no courses yet
-      })
-      .catch((err) => console.log(err));
-    // errors: user is already logged in or the email provided is taken
-    // have the error response indicate the error so it can be displayed to the user
-  };
+  // const registerUser = (data) => {
+  //   request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
+  //     .then((userData) => {
+  //       // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
+  //     // redirect to create/join page since the user has no courses yet
+  //     })
+  //     .catch((err) => console.log(err));
+  //   // errors: user is already logged in or the email provided is taken
+  //   // have the error response indicate the error so it can be displayed to the user
+  // };
 
 
-  // Join an existing course via access code and redirect to it
-  const joinCourse = (data) => {
-    request("POST", API.JOIN, null, { accessCode: data.accessCode })
-      .then((data) => {
-      // need this to give the courseID, currently gives course URL
-        const courseID = parseInt(data.redirect_to.split("/")[1]);
-        fetchCourseData(courseID);
-      // redirect to course page
-      // loading -> courseData becomes !== null and displays dashboard/main app
-      })
-      .catch((err) => console.log(err));
-  };
+  // // Join an existing course via access code and redirect to it
+  // const joinCourse = (data) => {
+  //   request("POST", API.JOIN, null, { accessCode: data.accessCode })
+  //     .then((data) => {
+  //     // need this to give the courseID, currently gives course URL
+  //       const courseID = parseInt(data.redirect_to.split("/")[1]);
+  //       fetchCourseData(courseID);
+  //     // redirect to course page
+  //     // loading -> courseData becomes !== null and displays dashboard/main app
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  // Create a new course and redirect to it
-  const createCourse = (data) => {
-    request("POST", API.CREATE, null, { name: data.name, description: data.description })
-      .then((data) => {
-        // need this to give the courseID, currently gives course URL
-        const courseID = parseInt(data.redirect_to.split("/")[1]);
-        fetchCourseData(courseID);
-      });
-  };
+  // // Create a new course and redirect to it
+  // const createCourse = (data) => {
+  //   request("POST", API.CREATE, null, { name: data.name, description: data.description })
+  //     .then((data) => {
+  //       // need this to give the courseID, currently gives course URL
+  //       const courseID = parseInt(data.redirect_to.split("/")[1]);
+  //       fetchCourseData(courseID);
+  //     });
+  // };
 
   ///////////////////////////////////////////////////////////////////
 
