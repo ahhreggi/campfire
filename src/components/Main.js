@@ -1,11 +1,13 @@
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { useState, useEffect } from "react";
+// import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+// import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
+
+import DevData from "./DevData";
 
 const Main = (props) => {
 
@@ -51,6 +53,11 @@ const Main = (props) => {
   return (
     <div className="Main">
 
+      {/* TEMPORARY */}
+      {props.active === "Dashboard" &&
+        <DevData name={"Main"} props={props} />
+      }
+
       {props.active === "Post" &&
         <Post
           id={post.id}
@@ -68,7 +75,7 @@ const Main = (props) => {
           editable={post.editable}
           tags={post.tags}
           title={post.title}
-          authorID={post.user_id}
+          authorID={post.author_id}
           views={post.views}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}
@@ -79,13 +86,14 @@ const Main = (props) => {
           onEditComment={props.onEditComment}
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
-          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          userName={`${props.userData.firstName} ${props.userData.lastName}`}
+          userID={props.userData.userID}
         />
       }
 
       {props.active === "New Post" &&
         <PostForm
-          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          userName={`${props.userData.firstName} ${props.userData.lastName}`}
           courseData={props.courseData}
           onAddPost={props.onAddPost}
         />
