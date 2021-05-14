@@ -30,6 +30,7 @@ const PostListItem = (props) => {
     selected: props.selectedPostID === props.id
   });
 
+  // When the the selected post changes, update selectedPostID to update styling
   useEffect(() => {
     setState({
       selected: props.selectedPostID === props.id
@@ -84,9 +85,6 @@ const PostListItem = (props) => {
         {state.selected ? "yes" : "no"}
         {/* Post Title */}
         <div className="header-left">
-          {/* {props.pinned &&
-            <img className="pin" src={pin} alt="pin" />
-          } */}
           {props.bookmarked &&
             <img className="bookmark" src={star} alt="bookmark" />
           }

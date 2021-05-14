@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PostListItem from "./PostListItem";
 
@@ -6,25 +5,11 @@ const PostListCategory = (props) => {
   PostListCategory.propTypes = {
     posts: PropTypes.array,
     onClick: PropTypes.func,
-    postID: PropTypes.number
-  };
-
-  const [state, setState] = useState({
-    postID: props.postID,
-  });
-
-  useEffect(() => {
-    setState({ postID: props.postID });
-    // console.log("Cat:", props.postID);
-  }, [props.postID]);
-
-  const selectPost = (postID) => {
-    setState({ postID: postID });
-    props.onClick(postID);
+    selectedPostID: PropTypes.number
   };
 
   // Create the PostListCategoryItems
-  const categoryItems = props.posts.map(post => {
+  const items = props.posts.map(post => {
     // Get the total number of comments + replies of a post
     const numComments = post.comments
       .map(comment => 1 + comment.replies.length)
@@ -47,15 +32,15 @@ const PostListCategory = (props) => {
         comments={numComments}
         showStudentBadge={showStudentBadge}
         showInstructorBadge={showInstructorBadge}
-        onClick={selectPost}
-        selectedPostID={state.postID}
+        onClick={props.onClick}
+        selectedPostID={props.selectedPostID}
       />
     );
   });
 
   return (
     <div className="PostListCategory list">
-      {categoryItems}
+      {items}
     </div>
   );
 };

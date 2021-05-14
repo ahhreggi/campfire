@@ -17,10 +17,10 @@ const PostList = (props) => {
 
   PostList.propTypes = {
     active: PropTypes.string,
-    postID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func,
+    selectedPostID: PropTypes.number,
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
@@ -39,21 +39,8 @@ const PostList = (props) => {
     pinned: [],
     bookmarked: [],
     unpinned: [],
-    postID: props.postID,
     posts: props.posts
   });
-
-  useEffect(() => {
-    processPosts(props.posts, state.selectedTags, state.searchText);
-    console.log("Changed postID in PostList state to", props.postID);
-    setState({ ...state, postID: props.postID });
-  }, [props.postID, state.postID]);
-
-  useEffect(() => {
-    console.log("state.posts changed!");
-  }, [state.posts]);
-
-
 
   // Process posts into categories whenever:
   // - The course's posts change (a post is modified, added, or deleted)
@@ -134,7 +121,6 @@ const PostList = (props) => {
   };
 
   const onSelectPost = (postID) => {
-    setState({ ...state, postID: postID });
     props.onClick(postID);
   };
 
@@ -355,7 +341,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.pinned}
               onClick={onSelectPost}
-              postID={state.postID}
+              selectedPostID={props.selectedPostID}
             />
           }
         </div>
@@ -376,7 +362,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.bookmarked}
               onClick={onSelectPost}
-              postID={state.postID}
+              selectedPostID={props.selectedPostID}
             />
           }
         </div>
@@ -397,7 +383,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.unpinned}
               onClick={onSelectPost}
-              postID={state.postID}
+              selectedPostID={props.selectedPostID}
             />
           }
         </div>

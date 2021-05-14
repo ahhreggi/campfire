@@ -82,10 +82,10 @@ const App = () => {
   // Show a loading screen if active is null for some reason
   useEffect(() => {
     // console.log("APP: active changed to", state.active);
-    if (state.active === "Delete Post") {
+    if (state.active === "Dashboard") {
       if (state.courseData) {
         // setActive("Dashboard");
-        fetchCourseData(state.courseID, null, null, "Dashboard");
+        fetchCourseData(state.courseID, null, null);
       }
     } else {
       setState({ ...state, loading: false });
@@ -495,7 +495,7 @@ const App = () => {
       .then(() => {
         // fetchCourseData(state.courseID);
         // setActive("Dashboard");
-        setState({ ...state, active: "Delete Post", postID: null, postData: null });
+        setState({ ...state, active: "Dashboard", postID: null, postData: null });
         // fetchCourseData(state.courseID);
       })
       .catch((err) => console.log(err));
@@ -597,8 +597,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log("App posts changed!");
-  }, [state.posts]);
+    console.log("App postID changed to", state.postID);
+  }, [state.postID]);
 
   ///////////////////////////////////////////////////////////////////
 
@@ -694,10 +694,10 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
-                  postID={state.postID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}
+                  selectedPostID={state.postID}
                   selectedTags={state.selectedTags}
                   onTagToggle={updateSelectedTags}
                   onTagClear={clearSelectedTags}
