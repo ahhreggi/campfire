@@ -55,7 +55,7 @@ const CommentListItem = (props) => {
     commentAuthorID: PropTypes.number,
 
     userName: PropTypes.string,
-    userID: PropTypes.userID,
+    userID: PropTypes.number,
 
     refBestAnswer: PropTypes.object,
 
@@ -246,8 +246,6 @@ const CommentListItem = (props) => {
 
   return (
     <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
-
-      {userIsPostAuthor ? "yea" : "no"}
 
       {/* Top-level Comment */}
       <div className="top">

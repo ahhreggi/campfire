@@ -412,6 +412,19 @@ const App = () => {
       });
   };
 
+  // VIEW A POST ////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User's first unique visit to a post updates its view count
+
+  const viewPost = (postID) => {
+    request("POST", API.POSTS, postID + "/view");
+    // TODO: Add a "viewed" property to each post so I know to update it locally in state
+    // Also a way to check if the post had any new activity since the user last visited would be cool (marked as unread)
+    // If views stored a timestamp, or updated the timestamp each time, you could compare that timestamp to
+    // the most recent comment's timestamp of the post
+  };
+
   // CREATE A POST //////////////////////////////////////////////////
 
   // BASIC USER ROUTE
@@ -556,6 +569,8 @@ const App = () => {
         reloader: !state.reloader, // need this for deleting comments
         errors: null
       });
+      // Record the user's first unique visit
+      viewPost(postID);
     } else {
       setState({
         ...state,
