@@ -43,7 +43,7 @@ const Register = (props) => {
       const length = string.trim().length;
       return length > 0 && length <= limit;
     } else if (field === "name") {
-      return /^[a-zA-Z\s]+$/.test(string.trim());
+      return !!(string.match("^[\\sa-zA-Z'-]*$"));
     } else if (field === "email") {
       const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regex.test(string.trim());

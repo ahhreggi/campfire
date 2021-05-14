@@ -8,13 +8,13 @@ const Home = (props) => {
   Home.propTypes = {
     userData: PropTypes.object,
     userCourses: PropTypes.array,
-    onClickCourse: PropTypes.func,
+    onClick: PropTypes.func,
     onRedirect: PropTypes.func
   };
 
   // Fetch data for a course by ID and go to its page
   const selectCourse = (courseID) => {
-    props.onClickCourse(courseID);
+    props.onClick(courseID);
   };
 
   const userCourses = props.userCourses.map(course => {
@@ -29,8 +29,8 @@ const Home = (props) => {
   });
   return (
     <div className="Home">
-      <DevData name="Home" props={props} />
 
+      <DevData name="Home" props={props} />
 
       <div>
         Welcome back, {props.userData.firstName + " " + props.userData.lastName}!
@@ -57,6 +57,7 @@ const Home = (props) => {
           onClick={() => props.onRedirect("Join")}
         />
       </div>
+
     </div>
   );
 };

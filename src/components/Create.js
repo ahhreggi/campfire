@@ -4,6 +4,8 @@ import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
 import "./Create.scss";
 
+import DevData from "./DevData";
+
 const Create = (props) => {
 
   Create.propTypes = {

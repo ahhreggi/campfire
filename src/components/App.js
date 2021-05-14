@@ -546,7 +546,7 @@ const App = () => {
         <Home
           userData={state.userData}
           userCourses={state.userCourses}
-          onClickCourse={fetchCourseData}
+          onClick={fetchCourseData}
           onRedirect={setActive}
 
           // props={state}
