@@ -92,7 +92,7 @@ const Main = (props) => {
 
       {props.active === "New Post" &&
         <PostForm
-          userName={`${props.userData.first_name} ${props.userData.last_name}`}
+          userName={`${props.userData.firstName} ${props.userData.lastName}`}
           courseData={props.courseData}
           onAddPost={props.onAddPost}
         />
