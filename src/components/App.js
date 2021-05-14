@@ -116,12 +116,14 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-    console.log("-".repeat(30));
-    console.log("🔥", params);
-    console.log("🔥 STATE TOKEN:", token);
+
+    console.log("\n".repeat(10));
+    console.log("🌐", params);
+    console.log("🔑 STATE TOKEN:", token);
     if (data) {
-      console.log("🔥 DATA SENT:", data);
+      console.log("📝 DATA SENT:", data);
     }
+    console.log("\n".repeat(2));
 
     return axios({
       method: method,
