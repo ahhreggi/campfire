@@ -79,16 +79,18 @@ const App = () => {
 
   });
 
-  // Show a loading screen if active is null
+  // Show a loading screen if active is null for some reason
   useEffect(() => {
     if (state.active === null) {
-      setState({ ...state, loading: true });
+      setTimeout(() => {
+        setState({ ...state, loading: true });
+      }, 1000);
     } else {
       setState({ ...state, loading: false });
     }
   }, [state.active]);
 
-  //////////////////
+  // TESTING ////////////////////////////////////////////////////////
 
   // Testing purposes
   // const setRole = (role) => {
@@ -100,12 +102,12 @@ const App = () => {
 
   const resetDB = () => {
     console.log("Re-seeding database as admin...");
-    setState({ ...state, courseData: null });
+    setState({});
     request("GET", API.RESET, null, null, "admin")
       .then(() => {
         setTimeout(() => {
-          setActive("Dashboard");
-        }, 1000);
+          setActive("Login");
+        }, 2000);
       });
   };
 
@@ -290,21 +292,33 @@ const App = () => {
   };
 
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
-  // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses;
+  // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
   useEffect(() => {
     if (state.courseData) {
-
-      // If coming from the Create or Join page, fetch the user's courses again
-      if (state.active === "Create" || state.active === "Join") {
-        fetchUserCourses();
-      }
 
       // Redirect to Dashboard if coming from the Home, Create, or Join page
       const origins = ["Home", "Create", "Join"];
       if (origins.includes(state.active)) {
-        setState({ ...state, active: "Dashboard" });
+        // If coming from the Create or Join page, add the new course data to userCourses
+        let userCourses = [ ...state.userCourses ];
+        if (state.active === "Create" || state.active === "Join") {
+          console.log("hey das a new course!!");
+          const isNewCourse = state.userCourses.filter(course => course.id === state.courseData.id).length < 1;
+          if (isNewCourse) {
+            const newCourse = {
+              "id": state.courseData.id,
+              "name": state.courseData.name,
+              "created_at": state.courseData.created_at,
+              "archived": state.courseData.archived,
+              "role": state.courseData.role
+            };
+            userCourses = [ ...state.userCourses, newCourse ];
+          }
+        }
+        setState({ ...state, userCourses: userCourses, active: "Dashboard" });
       }
     }
+
   }, [state.courseData]); // state.courseID?
 
   // COURSE CREATION ////////////////////////////////////////////////
