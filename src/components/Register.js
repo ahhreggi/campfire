@@ -23,62 +23,58 @@ const Register = (props) => {
     errors: props.errors
   });
 
+  // SIDE EFFECTS ///////////////////////////////////////////////////
+
   useEffect(() => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
+
+  // STATE HANDLERS /////////////////////////////////////////////////
 
   const handleInputChange = (event, field) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  const isValidLength = (string, limit = 250) => {
-    const length = string.trim().length;
-    return length > 0 && length <= limit;
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Check if a string is valid for the given field
+  const isValid = (string, field, limit = 250) => {
+    if (field === "length") {
+      const length = string.trim().length;
+      return length > 0 && length <= limit;
+    } else if (field === "name") {
+      return /^[a-zA-Z\s]+$/.test(string.trim());
+    } else if (field === "email") {
+      const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regex.test(string.trim());
+    }
   };
 
-  const isValidName = (string) => {
-    return /^[a-zA-Z\s]+$/.test(string.trim());
-  };
+  // REQUEST HANDLERS ///////////////////////////////////////////////
 
-  const isValidEmail = (string) => {
-    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(string.trim());
-  };
-
+  // Validate registration fields prior to submitting the data
   const handleSubmit = () => {
-    // Check that the fields are valid!
     const errors = [];
-
-    // 1: No fields may be empty
     if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
       errors.push("Please complete all fields!");
-    // 2: Password and passwordConf must be the same
     } else if (state.password !== state.passwordConf) {
       errors.push("Passwords do not match!");
-      // 3: Fields must be 1-250 characters
-    } else if (!isValidLength(state.firstName)) {
+    } else if (!isValid(state.firstName, "length")) {
       errors.push("First name is too long!");
-    } else if (!isValidLength(state.lastName)) {
-      errors.push("First name is too long!");
-    } else if (!isValidLength(state.email)) {
+    } else if (!isValid(state.lastName, "length")) {
+      errors.push("Last name is too long!");
+    } else if (!isValid(state.email, "length")) {
       errors.push("Email is too long!");
-    } else if (!isValidLength(state.password)) {
+    } else if (!isValid(state.password, "length")) {
       errors.push("Password is too long!");
-
-      // Check for invalid characters in the name
-    } else if (!isValidName(state.firstName) || !isValidName(state.lastName)) {
+    } else if (!isValid(state.firstName, "name") || !isValid(state.lastName, "name")) {
       errors.push("First and last name may only include letters and spaces.");
-
-      // Check for invalid email format
-    } else if (!isValidEmail(state.email)) {
+    } else if (!isValid(state.email, "email")) {
       errors.push("Please enter a valid email");
     }
-
-    // If there are any errors, display them to the user
+    // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
       setState({ ...state, errors: errors });
-
-      // Otherwise, sanitize the data and submit the form
     } else {
       const data = {
         firstName: state.firstName.trim(),
@@ -89,6 +85,8 @@ const Register = (props) => {
       props.onSubmit(data);
     }
   };
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Register">
