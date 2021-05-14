@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
+import remarkHighlight from "remark-highlight.js";
 import "./Preview.scss";
+import "../../styles/syntaxHighlighting.scss";
 
 const Preview = (props) => {
 
@@ -40,7 +42,7 @@ const Preview = (props) => {
 
         {props.body &&
           <div className="body">
-            <ReactMarkdown>{props.body}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
           </div>
         }
 
