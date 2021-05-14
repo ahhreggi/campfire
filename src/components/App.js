@@ -157,6 +157,7 @@ const App = () => {
   //   loading: false,
   //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
+  // Set the application data
   const setAppData = (data, type) => {
     if (type === "post") {
       setState({
@@ -180,76 +181,81 @@ const App = () => {
     }
   };
 
-  // Login/retrieve data for an existing user and redirect to the dashboard of a course
-  // redirect to page with all of the user's courses or the course page of most recent?
-  // have this api call include an array of the user's course IDs already to display in the nav/login landing
-  // e.g., userData.courses = [ { id: course_id, name: course_name }]
+  // USER REGISTRATION //////////////////////////////////////////////
 
+  // VALIDATION
+  // - Data is validated on the front-end except for email
+  // - Attempting to register with an existing email displays an error
+
+  // BASIC USER ROUTE
+  // - User enters a first/last name, email, and password
+  // - Data is sent to the server and the new user data is returned
+  // - State is updated (userData)
+  // - SIDE EFFECT: User courses are fetched from the server (fetchUserCourses)
+  // - State is updated (userCourses)
+  // - User is redirected to Home
+
+  // Register a new user account
+  // Potential errors: email already in use
+  const registerUser = (data) => {
+    request("POST", API.REGISTER, null, data)
+      .then((userData) => {
+        if (userData) {
+          setAppData(userData, "userData");
+        } else {
+          console.log("❌ registerUser failed!");
+          setState({ ...state, errors: ["Email already in use!"] });
+        }
+      });
+  };
+
+  // USER LOGIN /////////////////////////////////////////////////////
+
+  // VALIDATION
+  // - Attempting to login with invalid credentials displays an error
+
+  // BASIC USER ROUTE
+  // - User enters an email and password (active ~> Login)
+  // - User data is fetched from the server
+  // - State is updated (userData)
+  // - SIDE EFFECT 1: User courses are fetched from the server
+  // - State is updated (userCourses)
+  // - User is redirected to Home, where their courses are displayed
+
+  // Fetch existing user data
+  // Potential errors: user credentials are invalid
   const fetchUserData = (data) => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
       .then((userData) => {
-
-        // Login successful
         if (userData) {
-
-          // Set userData in state
           setAppData(userData, "userData");
-
-          // Clear Login errors!
-
-          // Fetch all of the user's courses (active -> Home)
-          // --> Done via useEffect (userData goes from null -> object)
-
-          // Login failed
         } else {
           console.log("❌ fetchUserData failed!");
-
-          // Add an error to state
           setState({ ...state, errors: ["Invalid username/password!"] });
         }
       });
   };
 
-  // Detect userData changes
+  // SIDE EFFECT 1: User courses are fetched from the server if userData exists
   useEffect(() => {
-    // console.log("userData:", state.userData);
-    // If user data is valid, fetch all of the user's courses
-    // Maybe check that state.active was previously Login?
     if (state.userData) {
       fetchUserCourses();
-
-      // No user data
     }
-
   }, [state.userData]);
 
-  // Fetch all of the current user's courses
+  // Fetch current user's courses
   const fetchUserCourses = () => {
     request("GET", API.COURSES)
       .then((userCourses) => {
-
-        // User courses retrieved
         if (userCourses) {
-
-          // Set userCourses in state, active to Home
           setAppData(userCourses, "userCourses");
-
-          // Display the user's dashboard with all of their courses
-          // --> Done via useEffect (userCourses goes from null -> array)
-
-        // Failed to retrieve user courses
         } else {
           console.log("❌ fetchUserCourses failed!");
-
         }
       });
   };
 
-  // Detect userCourses changes
-  useEffect(() => {
-    // Nothing to do here.. user can pick a course or join/create
-    // If the user has no courses, their only options are to join/create
-  }, [state.userCourses]);
+  // COURSE SELECTION ///////////////////////////////////////////////
 
   // Fetch course data from the server once a user selects one from the Home view
   // This is also runs in general whenever the course gets updated from within the single-course view!
@@ -299,42 +305,6 @@ const App = () => {
     // TODO
   }, [state.courseID]);
 
-
-
-  // Register a new user account
-  const registerUser = (data) => {
-    request("POST", API.REGISTER, null, data)
-      .then((userData) => {
-
-        // Registration successful
-        if (userData) {
-
-          // Set userData in state
-          setAppData(userData, "userData");
-
-          // Clear Register errors!
-
-          // fetchUserCourses will automatically be run when userData is changed but there'll be nothing
-
-          // No courses to fetch! (active: Register -> Home)
-
-          // Registration failed
-        } else {
-          console.log("❌ fetchUserData failed!");
-
-          // Add an error to state
-          // Only possible error is that the e-mail is taken
-          // Invalid fields are handled within React/Register component
-          setState({ ...state, errors: ["E-mail already in use!"] });
-        }
-
-
-      // since the user has no courses, tell them to join/create, maybe render a special home page idk
-      })
-      .catch((err) => console.log(err));
-    // errors: user is already logged in or the email provided is taken
-    // have the error response indicate the error so it can be displayed to the user
-  };
 
 
   // // Join an existing course via access code and redirect to it
