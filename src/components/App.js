@@ -174,7 +174,15 @@ const App = () => {
     } else if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
-      setState({ ...state, userCourses: data, active: "Home" });
+      let active = state.active;
+      if (state.active === "Login") {
+        active = "Home";
+      } else if (state.active === "Create") {
+        active = "Dashboard";
+      } else if (state.active === "Join") {
+        active = "Dashboard";
+      }
+      setState({ ...state, userCourses: data, active: active });
     } else if (type === "courseData") {
       setState({
         ...state,
@@ -282,8 +290,17 @@ const App = () => {
   };
 
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
+  // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses;
   useEffect(() => {
     if (state.courseData) {
+
+      // If coming from the Create page, fetch the user's courses again
+      if (state.active === "Create") {
+        const isCourseNew = state.userCourses.filter(course => course.id === state.courseData.id).length < 1;
+        console.log("Is this course new?", isCourseNew ? "yes" : "no");
+        fetchUserCourses();
+      }
+
       // Redirect to Dashboard if coming from the Home, Create, or Join page
       const origins = ["Home", "Create", "Join"];
       if (origins.includes(state.active)) {
@@ -299,6 +316,7 @@ const App = () => {
   // - Data is sent to the server and the new course data is returned
   // - State is updated (courseID, courseData)
   // - SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
+  // - SIDE EFFECT 4: User courses are fetched from the server if active changes from "Create" to "Dashboard"
 
   // Create a new course and redirect to it
   const createCourse = (data) => {
