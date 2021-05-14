@@ -34,8 +34,18 @@ const PostList = (props) => {
     showPosts: true,
     showSearch: false,
     searchText: "",
-    selectedPostID: props.selectedPostID
+    selectedTags: props.selectedTags,
+    selectedPostID: props.selectedPostID,
+    pinned: [],
+    bookmarked: [],
+    unpinned: [],
+    posts: props.posts
   });
+
+  // Process posts into categories whenever searchText changes
+  useEffect(() => {
+    processPosts();
+  }, [state.searchText, state.selectedTags]);
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
@@ -44,14 +54,10 @@ const PostList = (props) => {
       showFilters: true,
       showPinned: true,
       showBookmarked: true,
-      showPosts: true
+      showPosts: true,
+      selectedTags: props.selectedTags
     });
   }, [props.selectedTags]);
-
-  // Update posts whenever searchText changes
-  useEffect(() => {
-
-  });
 
   // If searchText exists, ensure that showfilters is true
   useEffect(() => {
@@ -61,6 +67,58 @@ const PostList = (props) => {
   }, [state.searchText]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  // STEPS: Filter by tags & search text, then categorize in state
+
+  // All in one post list processor
+  const processPosts = () => {
+    console.log("processing posts");
+    console.log(state.selectedTags);
+    const filteredByTags = filterPostsByTags(state.posts, state.selectedTags);
+    const filteredBySearchText = filterPostsBySearchText(filteredByTags, state.searchText);
+    categorizePosts(filteredBySearchText);
+    // categorizePosts(props.posts);
+  };
+
+  const categorizePosts = (posts) => {
+    // Categorize posts as pinned or unpinned
+    // Priority: pinned > bookmarked > default
+    const pinned = [];
+    const bookmarked = [];
+    const unpinned = [];
+
+    for (const post of posts) {
+      if (post.pinned) {
+        pinned.push(post);
+      } else if (post.bookmarked) {
+        bookmarked.push(post);
+      } else {
+        unpinned.push(post);
+      }
+    }
+
+    // Sort the posts by descending ID
+    const descPinned = sortByID(pinned);
+    const descBookmarked = sortByID(bookmarked);
+    const descUnpinned = sortByID(unpinned);
+
+    // Sort the pinned posts by bookmark status
+    const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
+
+    // Update state
+    setState({
+      ...state,
+      pinned: bookmarkedPinnedPosts,
+      bookmarked: descBookmarked,
+      unpinned: descUnpinned
+    });
+
+  };
+
+  const toggleTag = (tagID) => {
+    console.log("hey");
+    props.onTagToggle(tagID);
+  };
 
   const onSelectPost = (postID) => {
     setState({ ...state, selectedPostID: postID });
@@ -117,6 +175,21 @@ const PostList = (props) => {
     return false;
   };
 
+  // Filter posts by the given array of tags
+  // If no tags are selected, all posts will be returned
+  const filterPostsByTags = (posts, tags = []) => {
+    const filteredPosts = !tags.length ? posts : posts.filter(post => {
+      // Check if each post has at least one of the selected tags
+      for (const tag of post.tags) {
+        if (hasTag(tags, tag.id)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    return filteredPosts;
+  };
+
   // Filter posts by the given search text
   // To qualify, a post must:
   // - Contain searchText within its title or body
@@ -138,37 +211,6 @@ const PostList = (props) => {
     });
   };
 
-  // Create PostListItem components with the given array of posts
-  // const generatePostListItems = (posts) => {
-  //   return posts.map(post => {
-  //     // Get the total number of comments + replies of a post
-  //     const numComments = post.comments
-  //       .map(comment => 1 + comment.replies.length)
-  //       .reduce((a, b) => a + b, 0);
-  //     // Check if a student has commented on the post
-  //     const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
-  //     // Check if an instructor has commented on the post
-  //     const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
-  //     return (
-  //       <PostListItem
-  //         key={post.id}
-  //         id={post.id}
-  //         title={post.title}
-  //         body={post.body}
-  //         pinned={post.pinned}
-  //         bookmarked={post.bookmarked}
-  //         bestAnswer={post.best_answer}
-  //         tags={post.tags}
-  //         views={post.views}
-  //         comments={numComments}
-  //         showStudentBadge={showStudentBadge}
-  //         showInstructorBadge={showInstructorBadge}
-  //         onClick={props.onClick}
-  //         selected={props.selectedPostID === post.id}
-  //       />
-  //     );
-  //   });
-  // };
 
   // Move all bookmarked posts to the front of the given posts array
   const sortByBookmarked = (posts) => {
@@ -198,48 +240,6 @@ const PostList = (props) => {
   };
 
   // VARIABLES //////////////////////////////////////////////////////
-
-  // If no tags are selected, use all posts, otherwise filter by selected tags
-  const filteredPosts = !props.selectedTags.length ? props.posts : props.posts.filter(post => {
-    // Check if each post has at least one of the selected tags
-    for (const tag of post.tags) {
-      if (hasTag(props.selectedTags, tag.id)) {
-        return true;
-      }
-    }
-    return false;
-  });
-
-  // Categorize posts as pinned or unpinned
-  // Priority: pinned > bookmarked > default
-  const pinned = [];
-  const bookmarked = [];
-  const unpinned = [];
-
-  for (const post of filteredPosts) {
-    if (post.pinned) {
-      pinned.push(post);
-    } else if (post.bookmarked) {
-      bookmarked.push(post);
-    } else {
-      unpinned.push(post);
-    }
-  }
-
-  // Sort the posts by descending ID
-  const descPinned = sortByID(pinned);
-  const descBookmarked = sortByID(bookmarked);
-  const descUnpinned = sortByID(unpinned);
-
-  // Sort the pinned posts by bookmark status
-  const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
-
-  // const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
-  // const bookmarkedPosts = generatePostListItems(descBookmarked);
-  // const unpinnedPosts = generatePostListItems(descUnpinned);
-  const pinnedPosts = bookmarkedPinnedPosts;
-  const bookmarkedPosts = descBookmarked;
-  const unpinnedPosts = descUnpinned;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -303,7 +303,7 @@ const PostList = (props) => {
             <TagList
               tags={props.tags}
               selectedTags={props.selectedTags}
-              onClick={props.onTagToggle}
+              onClick={toggleTag}
               styles={"tag filter"}
             />
             {(props.selectedTags.length > 0 || state.searchText) &&
@@ -328,19 +328,19 @@ const PostList = (props) => {
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${state.showPinned ? "active" : ""} ${!pinnedPosts.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
+          <div className={`label ${state.showPinned ? "active" : ""} ${!state.pinned.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
             <div>
               <img src={pin} alt="pin" />
               PINNED
             </div>
             <div className="arrows">
-              {pinnedPosts.length > 0 && state.showPinned && <img src={up} alt="up" />}
-              {pinnedPosts.length > 0 && !state.showPinned && <img src={down} alt="down" />}
+              {state.pinned.length > 0 && state.showPinned && <img src={up} alt="up" />}
+              {state.pinned.length > 0 && !state.showPinned && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showPinned &&
             <PostListCategory
-              posts={[]}
+              posts={state.pinned}
               onClick={onSelectPost}
               selectedPostID={state.selectedPostID}
             />
@@ -349,19 +349,19 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${state.showBookmarked ? "active" : ""} ${!bookmarkedPosts.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
+          <div className={`label ${state.showBookmarked ? "active" : ""} ${!state.bookmarked.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
             <div>
               <img src={star} alt="bookmark" />
               BOOKMARKED
             </div>
             <div className="arrows">
-              {bookmarkedPosts.length > 0 && state.showBookmarked && <img src={up} alt="up" />}
-              {bookmarkedPosts.length > 0 && !state.showBookmarked && <img src={down} alt="down" />}
+              {state.bookmarked.length > 0 && state.showBookmarked && <img src={up} alt="up" />}
+              {state.bookmarked.length > 0 && !state.showBookmarked && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showBookmarked &&
             <PostListCategory
-              posts={[]}
+              posts={state.bookmarked}
               onClick={onSelectPost}
               selectedPostID={state.selectedPostID}
             />
@@ -370,19 +370,19 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${state.showPosts ? "active" : ""} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
+          <div className={`label ${state.showPosts ? "active" : ""} ${!state.unpinned.length && "empty"}`} onClick={() => toggleList("posts")}>
             <div>
               <img src={question} alt="question" />
               POSTS
             </div>
             <div className="arrows">
-              {unpinnedPosts.length > 0 && state.showPosts && <img src={up} alt="up" />}
-              {unpinnedPosts.length > 0 && !state.showPosts && <img src={down} alt="down" />}
+              {state.unpinned.length > 0 && state.showPosts && <img src={up} alt="up" />}
+              {state.unpinned.length > 0 && !state.showPosts && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showPosts &&
             <PostListCategory
-              posts={[]}
+              posts={state.unpinned}
               onClick={onSelectPost}
               selectedPostID={state.selectedPostID}
             />
