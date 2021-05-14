@@ -165,13 +165,13 @@ const App = () => {
   //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
   // Set the application data
-  const setAppData = (data, type, postID = state.postID) => {
-    if (type === "post") { // may not be in use
+  const setAppData = (data, type, newPostID = null) => {
+    if (type === "postData") { // may not be in use
       setState({
         ...state,
         postData: data,
         postID: data.id,
-        reloader: !state.reloader
+        // reloader: !state.reloader
       });
     } else if (type === "userData") { // in use
       setState({ ...state, userData: data, errors: null });
@@ -185,17 +185,30 @@ const App = () => {
         active = "Dashboard";
       }
       setState({ ...state, userCourses: data, active: active });
+    // } else if (type === "courseData" && mode === "create") {
+    //   setState({
+    //     ...state,
+    //     courseData: data,
+    //     posts: data.posts
+    //   });
     } else if (type === "courseData") { // in use
+      // If a postID is provided, use it
+      const postID = newPostID ? newPostID : state.postID;
       setState({
         ...state,
         courseID: data.id,
         courseData: data,
-        // postID: postID,
+        postID: postID,
         // postData: data ? getPostByID(data.posts, state.postID) : null,
         posts: data ? data.posts : null
       });
     }
   };
+
+  useEffect(() => {
+    console.log("hey coursedata changed and the active view is", state.active);
+
+  }, [state.courseData]);
 
   // USER REGISTRATION //////////////////////////////////////////////
 
@@ -280,13 +293,13 @@ const App = () => {
   // - SIDE EFFECT 2: Active state is updated to redirect the user to the Dashboard
 
   // Fetch course data from the server
-  const fetchCourseData = (courseID) => {
+  const fetchCourseData = (courseID, newPostID = null) => {
     request("GET", API.COURSES, courseID)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+          setAppData(courseData, "courseData", newPostID);
         } else {
-          console.log("❌ fetchUserCourses failed!");
+          console.log("❌ fetchCourseData failed!");
         }
       });
   };
@@ -481,18 +494,16 @@ const App = () => {
           //     "userID": 1
           // }
 
+          // 1: On submit, fetch course data
+          const newPostID = postData.id;
+          // console.log(postID);
+          fetchCourseData(state.courseData.id, newPostID);
 
-          // Update state to contain the new post ID
-          setState({ ...state, postID: postData.id });
-          // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
-          // // Reload course data
-          // setState({
-          //   ...state,
-          //   postID: postData.id,
-          //   postData: postData,
-          //   posts: { ...state.posts, postData },
-          //   // reloader: !state.reloader
-          // });
+          // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
+          // Once api is updated, you can just set app data using the server response (postData).. for now:
+
+
+          // setAppData(newPostData, "postData");
 
         }
       })
@@ -501,13 +512,23 @@ const App = () => {
       });
   };
 
-  // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
-  // Can also just check if the active view is "New Post" to indicate that new course data should be fetched
+  // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
   useEffect(() => {
-    if (state.postID && state.active === "New Post") {
-      fetchCourseData();
+    if (state.postID && state.postData === null & state.active === "New Post") {
+      const newPostData = getPostByID(state.courseData.posts, state.postID);
+      setAppData(newPostData, "postData");
+      // SIDE EFFECT 7: If postData changes and the active view is "New Post", change it to "Post"
     }
   }, [state.postID]);
+
+  // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
+  useEffect(() => {
+    if (state.postData && state.postID && state.active === "New Post") {
+      setActive("Post", state.postID);
+    }
+  }, [state.postData]);
+
+
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
