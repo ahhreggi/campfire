@@ -17,7 +17,7 @@ const PostList = (props) => {
 
   PostList.propTypes = {
     active: PropTypes.string,
-    selectedPostID: PropTypes.number,
+    postID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func,
@@ -36,23 +36,24 @@ const PostList = (props) => {
     showSearch: false,
     searchText: "",
     selectedTags: props.selectedTags,
-    selectedPostID: props.selectedPostID,
     pinned: [],
     bookmarked: [],
     unpinned: [],
+    postID: props.postID,
     posts: props.posts
   });
 
-  // useEffect(() => {
-  //   console.log("PostList: posts changed to", props.posts);
-  //   processPosts(props.posts, state.selectedTags, state.searchText);
-  // }, [props.posts]);
+  useEffect(() => {
+    processPosts(props.posts, state.selectedTags, state.searchText);
+    console.log("Changed postID in PostList state to", props.postID);
+    setState({ ...state, postID: props.postID });
+  }, [props.postID, state.postID]);
 
-  // useEffect(() => {
-  //   console.log("PostList: active changed to", state.active);
-  //   setState({ ...state, active: props.active });
-  //   processPosts(props.posts, state.selectedTags, state.searchText);
-  // }, [props.active]);
+  useEffect(() => {
+    console.log("state.posts changed!");
+  }, [state.posts]);
+
+
 
   // Process posts into categories whenever:
   // - The course's posts change (a post is modified, added, or deleted)
@@ -86,7 +87,6 @@ const PostList = (props) => {
 
   // All in one post list processor
   const processPosts = (posts, selectedTags, searchText) => {
-    console.log("PostList: processing posts");
     const filteredByTags = filterPostsByTags(posts, selectedTags);
     const filteredBySearchText = filterPostsBySearchText(filteredByTags, searchText);
     categorizePosts(filteredBySearchText);
@@ -134,7 +134,7 @@ const PostList = (props) => {
   };
 
   const onSelectPost = (postID) => {
-    setState({ ...state, selectedPostID: postID });
+    setState({ ...state, postID: postID });
     props.onClick(postID);
   };
 
@@ -355,7 +355,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.pinned}
               onClick={onSelectPost}
-              selectedPostID={state.selectedPostID}
+              postID={state.postID}
             />
           }
         </div>
@@ -376,7 +376,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.bookmarked}
               onClick={onSelectPost}
-              selectedPostID={state.selectedPostID}
+              postID={state.postID}
             />
           }
         </div>
@@ -397,7 +397,7 @@ const PostList = (props) => {
             <PostListCategory
               posts={state.unpinned}
               onClick={onSelectPost}
-              selectedPostID={state.selectedPostID}
+              postID={state.postID}
             />
           }
         </div>

@@ -81,11 +81,12 @@ const App = () => {
 
   // Show a loading screen if active is null for some reason
   useEffect(() => {
-    console.log("APP: active changed to", state.active);
-    if (state.active === null) {
-      setTimeout(() => {
-        setState({ ...state, loading: true });
-      }, 1000);
+    // console.log("APP: active changed to", state.active);
+    if (state.active === "Delete Post") {
+      if (state.courseData) {
+        // setActive("Dashboard");
+        fetchCourseData(state.courseID, null, null, "Dashboard");
+      }
     } else {
       setState({ ...state, loading: false });
     }
@@ -120,13 +121,13 @@ const App = () => {
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
 
-    console.log("\n".repeat(10));
-    console.log("🌐", params);
-    console.log("🔑 STATE TOKEN:", token);
-    if (data) {
-      console.log("📝 DATA SENT:", data);
-    }
-    console.log("\n".repeat(2));
+    // console.log("\n".repeat(10));
+    // console.log("🌐", params);
+    // console.log("🔑 STATE TOKEN:", token);
+    // if (data) {
+    //   console.log("📝 DATA SENT:", data);
+    // }
+    // console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -137,7 +138,7 @@ const App = () => {
       data
     })
       .then(res => {
-        console.log("✔️ SERVER RESPONSE:", res.data);
+        // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
       .catch(err => {
@@ -166,7 +167,7 @@ const App = () => {
   //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
   // Set the application data
-  const setAppData = (data, type, newPostID = null, newPostData = null) => {
+  const setAppData = (data, type, newPostID, newPostData, newActive) => {
     if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
@@ -181,15 +182,17 @@ const App = () => {
       setState({ ...state, userCourses: data, active: active });
     } else if (type === "courseData") {
       // If new values for postID and postData are provided, use them
-      const postID = newPostID ? newPostID : state.postID;
-      const postData = newPostData ? newPostData : state.postData;
+      const postID = newPostID !== undefined ? newPostID : state.postID;
+      const postData = newPostData !== undefined ? newPostData : state.postData;
+      const active = newActive !== undefined ? newActive : state.active;
       setState({
         ...state,
         courseID: data.id,
         courseData: data,
         postID: postID,
         postData: postData,
-        posts: data ? data.posts : null
+        posts: data ? data.posts : null,
+        active: active
       });
     }
   };
@@ -277,11 +280,11 @@ const App = () => {
   // - SIDE EFFECT 2: Active state is updated to redirect the user to the Dashboard
 
   // Fetch course data from the server
-  const fetchCourseData = (courseID, newPostID = null) => {
+  const fetchCourseData = (courseID, newPostID, newPostData, newActive) => {
     request("GET", API.COURSES, courseID)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData", newPostID);
+          setAppData(courseData, "courseData", newPostID, newPostData, newActive);
         } else {
           console.log("❌ fetchCourseData failed!");
         }
@@ -291,7 +294,7 @@ const App = () => {
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
   // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
   useEffect(() => {
-    console.log("courseData changed and the active view is", state.active);
+    // console.log("courseData changed and the active view is", state.active);
     if (state.courseData) {
 
       // Redirect to Dashboard if coming from the Home, Create, or Join page
@@ -485,10 +488,16 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  // Request to delete a post by ID and redirect to Dashboard
+  // Request to delete a post by ID, then redirect to Dashboard
+  // SIDE EFFECT 8: When redirecting to the dashboard, fetch updated course data
   const deletePost = (postID) => {
     request("DELETE", API.POSTS, postID)
-      .then(() => setActive("Dashboard"))
+      .then(() => {
+        // fetchCourseData(state.courseID);
+        // setActive("Dashboard");
+        setState({ ...state, active: "Delete Post", postID: null, postData: null });
+        // fetchCourseData(state.courseID);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -587,6 +596,10 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("App posts changed!");
+  }, [state.posts]);
+
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -681,7 +694,7 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
-                  selectedPostID={state.postID}
+                  postID={state.postID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}

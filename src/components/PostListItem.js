@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Badge from "./Badge";
@@ -22,8 +23,18 @@ const PostListItem = (props) => {
     showStudentBadge: PropTypes.bool,
     showInstructorBadge: PropTypes.bool,
     onClick: PropTypes.func,
-    selected: PropTypes.bool
+    selectedPostID: PropTypes.number
   };
+
+  const [state, setState] = useState({
+    selected: props.selectedPostID === props.id
+  });
+
+  useEffect(() => {
+    setState({
+      selected: props.selectedPostID === props.id
+    });
+  }, [props.selectedPostID]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -58,7 +69,7 @@ const PostListItem = (props) => {
     PostListItem: true,
     pinned: props.pinned,
     bookmarked: props.bookmarked,
-    selected: props.selected
+    selected: state.selected
   });
 
   ///////////////////////////////////////////////////////////////////
@@ -70,7 +81,7 @@ const PostListItem = (props) => {
     >
 
       <header>
-
+        {state.selected ? "yes" : "no"}
         {/* Post Title */}
         <div className="header-left">
           {/* {props.pinned &&
