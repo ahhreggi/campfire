@@ -56,21 +56,30 @@ const CommentListItem = (props) => {
     commentAuthorID: PropTypes.number,
 
     userName: PropTypes.string,
-    userIsPostAuthor: PropTypes.bool,
-    userIsCommentAuthor: PropTypes.bool,
+    userID: PropTypes.number,
 
-    refBestAnswer: PropTypes.object
+    refBestAnswer: PropTypes.object,
+
+    uncollapsed: PropTypes.array,
+
+    showReplyList: PropTypes.bool
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
     showReplyForm: false,
-    showReplyList: props.replies && props.replies.length > 0 && props.replies.length < 3,
+    showReplyList: props.showReplyList, // props.uncollapsed.includes(props.id),
     endorsed: props.endorsed,
     commentID: props.id
   });
 
+  // When uncollapsed changes, update showReplyList in state
+  useEffect(() => {
+    if (!state.showReplyList && props.uncollapsed.includes(props.id)) {
+      setState({ showReplyList: true });
+    }
+  }, [props.uncollapsed]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -215,6 +224,11 @@ const CommentListItem = (props) => {
   // Get a list of all endorsers
   const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
 
+  // Check if the comment is by the current user
+  const userIsCommentAuthor = props.userID === props.commentAuthorID;
+
+  // Check if the post is by the current user
+  const userIsPostAuthor = props.userID === props.postAuthorID;
 
   // Get class names
   const classes = classNames({
@@ -225,7 +239,7 @@ const CommentListItem = (props) => {
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
     "highlight-delete": state.showConfirmation,
-    "highlight-user": props.userIsCommentAuthor,
+    "highlight-user": userIsCommentAuthor,
     "break-body": Math.max(...props.body.split(" ").map(word => word.length)) > 100
   });
 
@@ -296,14 +310,14 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className={`label selected ${props.userIsPostAuthor ? "active" : ""}`} onClick={props.userIsPostAuthor ? setBestAnswer : null}>
+                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor ? setBestAnswer : null}>
                     <img src={checkmark} alt="checkmark" />
                     <span>BEST ANSWER</span>
                   </div>
                 }
 
                 {/* Select Best Answer Label */}
-                {props.bestAnswer !== props.id && props.userIsPostAuthor &&
+                {props.bestAnswer !== props.id && userIsPostAuthor &&
                   <div className="label unselected" onClick={setBestAnswer}>
                     <span>SELECT AS BEST ANSWER</span>
                   </div>
@@ -473,7 +487,6 @@ const CommentListItem = (props) => {
       {/* Replies */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
-
           <CommentList
             comments={props.replies}
             onLikeComment={props.onLikeComment}
@@ -483,9 +496,9 @@ const CommentListItem = (props) => {
             onEditBestAnswer={props.onEditBestAnswer}
             postAuthorID={props.postAuthorID}
             userName={props.userName}
-            userIsPostAuthor={props.userIsPostAuthor}
-            userIsCommentAuthor={props.userIsCommentAuthor}
+            userID={props.userID}
             refBestAnswer={props.refBestAnswer}
+            uncollapsed={props.uncollapsed}
           />
         </section>
       }
