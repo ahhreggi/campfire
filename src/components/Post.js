@@ -293,10 +293,12 @@ const Post = (props) => {
                 <span>VIEW BEST ANSWER</span>
               </div>
 
-              <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
-                <img src={cross} className="cross" />
-                <span>MARK AS UNRESOLVED</span>
-              </div>
+              {props.authorID === props.userID &&
+                <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                  <img src={cross} className="cross" />
+                  <span>MARK AS UNRESOLVED</span>
+                </div>
+              }
 
             </div>
             <hr />
