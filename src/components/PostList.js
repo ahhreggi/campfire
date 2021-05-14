@@ -23,7 +23,7 @@ const PostList = (props) => {
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
-    onNewPost: PropTypes.func
+    onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -84,6 +84,10 @@ const PostList = (props) => {
     } else if (category === "posts") {
       setState({ ...state, showPosts: !state.showPosts });
     }
+  };
+
+  const toggleNewPost = () => {
+    props.onRedirect(props.active === "New Post" ? "Dashboard" : "New Post");
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -207,7 +211,7 @@ const PostList = (props) => {
           <Button
             text="new post"
             styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
-            onClick={props.onNewPost}
+            onClick={toggleNewPost}
             image={question}
           />
         </div>

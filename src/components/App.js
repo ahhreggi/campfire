@@ -741,7 +741,7 @@ const App = () => {
                   selectedTags={state.selectedTags}
                   onTagToggle={updateSelectedTags}
                   onTagClear={clearSelectedTags}
-                  onNewPost={() => setActive("New Post")}
+                  onRedirect={setActive}
                 />
               }
             </div>
