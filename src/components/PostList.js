@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import PostListItem from "./PostListItem";
 import TagList from "./TagList";
 import Button from "./Button";
 import PostListCategory from "./PostListCategory";

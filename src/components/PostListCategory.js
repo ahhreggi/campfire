@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import PostListItem from "./PostListItem";
+import PostListCategoryItem from "./PostListCategoryItem";
 
 const PostListCategory = (props) => {
   PostListCategory.propTypes = {
@@ -19,7 +19,7 @@ const PostListCategory = (props) => {
     // Check if an instructor has commented on the post
     const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
     return (
-      <PostListItem
+      <PostListCategoryItem
         key={post.id}
         id={post.id}
         title={post.title}

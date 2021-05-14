@@ -6,11 +6,11 @@ import TagList from "./TagList";
 import star from "../images/icons/star.png";
 import comment from "../images/icons/comment.png";
 import eye from "../images/icons/eye.png";
-import "./PostListItem.scss";
+import "./PostListCategoryItem.scss";
 
-const PostListItem = (props) => {
+const PostListCategoryItem = (props) => {
 
-  PostListItem.propTypes = {
+  PostListCategoryItem.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     body: PropTypes.string,
@@ -67,7 +67,7 @@ const PostListItem = (props) => {
 
   // Get class names
   const classes = classNames({
-    PostListItem: true,
+    PostListCategoryItem: true,
     pinned: props.pinned,
     bookmarked: props.bookmarked,
     selected: state.selected
@@ -139,4 +139,4 @@ const PostListItem = (props) => {
   );
 };
 
-export default PostListItem;
+export default PostListCategoryItem;
