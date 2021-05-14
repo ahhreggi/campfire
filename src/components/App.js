@@ -4,9 +4,13 @@ import Nav from "./Nav";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
-import Login from "./Login";
+
 import Register from "./Register";
+import Login from "./Login";
 import Home from "./Home";
+import Create from "./Create";
+import Join from "./Join";
+
 import DevData from "./DevData";
 // import Create from "./Create";
 // import Join from "./Join";
@@ -298,20 +302,24 @@ const App = () => {
   // Create a new course and redirect to it
   const createCourse = (data) => {
     request("POST", API.CREATE, null, data)
-      .then((data) => {
-        // TODO: Return the courseData object instead of the current redirect_to url
+      .then((courseData) => {
+        if (courseData) {
 
-        // TEMP FIX:
-        // Parse and retrieve the ID from the response body
-        const courseID = parseInt(data.redirect_to.split("/")[2]);
-        // State is updated (courseID)
-        setState({ ...state, courseID: courseID });
-        // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-        fetchCourseData(courseID);
-        // State is updated (courseData)
-        // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
+          // TODO: Return the courseData object instead of the current redirect_to url
 
+          // TEMP FIX:
+          // Parse and retrieve the ID from the response body
+          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
+          // State is updated (courseID)
+          setState({ ...state, courseID: courseID });
+          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
+          fetchCourseData(courseID);
+          // State is updated (courseData)
+          // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
 
+        } else {
+          console.log("❌ createCourse failed!");
+        }
       });
   };
 
@@ -323,19 +331,37 @@ const App = () => {
     }
   }, [state.courseID]);
 
+  // COURSE ENROLLMENT //////////////////////////////////////////////
 
-  // // Join an existing course via access code and redirect to it
-  // const joinCourse = (data) => {
-  //   request("POST", API.JOIN, null, { accessCode: data.accessCode })
-  //     .then((data) => {
-  //     // need this to give the courseID, currently gives course URL
-  //       const courseID = parseInt(data.redirect_to.split("/")[1]);
-  //       fetchCourseData(courseID);
-  //     // redirect to course page
-  //     // loading -> courseData becomes !== null and displays dashboard/main app
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  // BASIC USER ROUTE
+  // - User enters a course access code via the Join page
+  // - Data is sent to the server and the new course data is returned
+  // - State is updated (courseID, courseData)
+  // - SIDE EFFECT 2: Active state is updated to redirect the user from Join to the Dashboard if courseData exists
+
+  // // Join an existing course via instructor or student access code and redirect to it
+  const joinCourse = (data) => {
+    request("POST", API.JOIN, null, data)
+      .then((courseData) => {
+        if (courseData) {
+
+          // TODO: Return the courseData object instead of the current redirect_to url
+
+          // TEMP FIX:
+          // Parse and retrieve the ID from the response body
+          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
+          // State is updated (courseID)
+          setState({ ...state, courseID: courseID });
+          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
+          fetchCourseData(courseID);
+          // State is updated (courseData)
+          // SIDE EFFECT 2: Active state is updated to redirect the user from Join to the Dashboard if courseData exists
+
+        } else {
+          console.log("❌ joinCourse failed!");
+        }
+      });
+  };
 
   ///////////////////////////////////////////////////////////////////
 
@@ -497,20 +523,22 @@ const App = () => {
       {/* Login page */}
       {state.active === "Login" &&
         <Login
-          // props={state}
           onSubmit={fetchUserData}
           errors={state.errors}
           onRedirect={setActive}
+
+          // props={state}
         />
       }
 
       {/* Login page */}
       {state.active === "Register" &&
         <Register
-          // props={state}
           onSubmit={registerUser}
           errors={state.errors}
           onRedirect={setActive}
+
+          // props={state}
         />
       }
 
@@ -521,11 +549,35 @@ const App = () => {
           userCourses={state.userCourses}
           onClickCourse={fetchCourseData}
           onCreateCourse={createCourse}
-          // onJoinCourse={joinCourse}
+          onJoinCourse={joinCourse}
           errors={state.errors}
           onRedirect={setActive}
 
-          props={state}
+          // props={state}
+        />
+      }
+
+      {/* Create page */}
+      {state.active === "Create" &&
+        <Create
+          userData={state.userData}
+          onCreateCourse={createCourse}
+          errors={state.errors}
+          onRedirect={setActive}
+
+          // props={state}
+        />
+      }
+
+      {/* Join page */}
+      {state.active === "Join" &&
+        <Join
+          userData={state.userData}
+          onJoinCourse={joinCourse}
+          errors={state.errors}
+          onRedirect={setActive}
+
+          // props={state}
         />
       }
 
