@@ -43,22 +43,23 @@ const PostList = (props) => {
     posts: props.posts
   });
 
-  useEffect(() => {
-    console.log("posts changed to", props.posts);
-    processPosts(props.posts, state.selectedTags, state.searchText);
-  }, [props.posts]);
+  // useEffect(() => {
+  //   console.log("PostList: posts changed to", props.posts);
+  //   processPosts(props.posts, state.selectedTags, state.searchText);
+  // }, [props.posts]);
 
-  useEffect(() => {
-    console.log("active changed to", state.active);
-    setState({ ...state, active: props.active });
-    processPosts(props.posts, state.selectedTags, state.searchText);
-  }, [props.active]);
+  // useEffect(() => {
+  //   console.log("PostList: active changed to", state.active);
+  //   setState({ ...state, active: props.active });
+  //   processPosts(props.posts, state.selectedTags, state.searchText);
+  // }, [props.active]);
 
-  // Process posts into categories whenever searchText or selectedTags change
+  // Process posts into categories whenever:
+  // - The course's posts change (a post is modified, added, or deleted)
+  // -
   useEffect(() => {
-    console.log("processing");
     processPosts(props.posts, state.selectedTags, state.searchText);
-  }, [state.posts, state.searchText, state.selectedTags]);
+  }, [props.posts, props.active, state.searchText, state.selectedTags]);
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
@@ -85,7 +86,7 @@ const PostList = (props) => {
 
   // All in one post list processor
   const processPosts = (posts, selectedTags, searchText) => {
-    console.log("processing posts");
+    console.log("PostList: processing posts");
     const filteredByTags = filterPostsByTags(posts, selectedTags);
     const filteredBySearchText = filterPostsBySearchText(filteredByTags, searchText);
     categorizePosts(filteredBySearchText);

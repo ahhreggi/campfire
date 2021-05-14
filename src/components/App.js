@@ -81,6 +81,7 @@ const App = () => {
 
   // Show a loading screen if active is null for some reason
   useEffect(() => {
+    console.log("APP: active changed to", state.active);
     if (state.active === null) {
       setTimeout(() => {
         setState({ ...state, loading: true });
@@ -165,14 +166,16 @@ const App = () => {
   //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
   // Set the application data
-  const setAppData = (data, type, newPostID = null) => {
+  const setAppData = (data, type, newPostID = null, newPostData = null) => {
     if (type === "postData") { // may not be in use
-      setState({
-        ...state,
-        postData: data,
-        postID: data.id,
-        // reloader: !state.reloader
-      });
+      // console.log("Setting postData in state to", data);
+      console.log("this shouldn't be seen");
+      // setState({
+      //   ...state,
+      //   postData: data,
+      //   postID: data.id,
+      //   // reloader: !state.reloader
+      // });
     } else if (type === "userData") { // in use
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") { // in use
@@ -194,21 +197,17 @@ const App = () => {
     } else if (type === "courseData") { // in use
       // If a postID is provided, use it
       const postID = newPostID ? newPostID : state.postID;
+      const postData = newPostData ? newPostData : state.postData;
       setState({
         ...state,
         courseID: data.id,
         courseData: data,
         postID: postID,
-        // postData: data ? getPostByID(data.posts, state.postID) : null,
+        postData: postData,
         posts: data ? data.posts : null
       });
     }
   };
-
-  useEffect(() => {
-    console.log("hey coursedata changed and the active view is", state.active);
-
-  }, [state.courseData]);
 
   // USER REGISTRATION //////////////////////////////////////////////
 
@@ -307,6 +306,7 @@ const App = () => {
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
   // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
   useEffect(() => {
+    console.log("hey coursedata changed and the active view is", state.active);
     if (state.courseData) {
 
       // Redirect to Dashboard if coming from the Home, Create, or Join page
@@ -329,6 +329,8 @@ const App = () => {
           }
         }
         setState({ ...state, userCourses: userCourses, active: "Dashboard" });
+      } else if (state.active === "New Post") {
+        console.log("You should probably redirect to the newly created post now.");
       }
     }
 
@@ -451,53 +453,30 @@ const App = () => {
   const addPost = (data) => {
 
     request("POST", API.POSTS, null, data)
-      .then((postData) => {
+      .then((data) => {
+        const postData = data[0];
 
         if (postData) {
 
-          // BUG: When creating a new post, server responds with
-          //   {
-          //     "id":18,
-          //     "user_id":1,
-          //     "course_id":1,
-          //     "title":"qwerty",
-          //     "body":"qwerty",
-          //     "created_at":"2021-05-14T08:39:14.711Z",
-          //     "last_modified":"2021-05-14T08:39:14.711Z",
-          //     "best_answer":null,
-          //     "anonymous":false,
-          //     "active":true,
-          //     "pinned":false,
-          //     "views":0
-          //  }
+          console.log(postData);
+          // setAppData(postData, "postData");
 
-          // Expected response:
-          //   {
-          //     "id": 16,
-          //     "courseTags": [],
-          //     "anonymous": false,
-          //     "author": "Ginger May",
-          //     "bestAnswer": null,
-          //     "body": "asd",
-          //     "pinned": false,
-          //     "bookmarked": false,
-          //     "comments": [],
-          //     "createdAt": "2021-05-14T08:36:37.545Z",
-          //     "lastModified": "2021-05-14T08:36:37.545Z",
-          //     "pinnable": true,
-          //     "editable": true,
-          //     "tags": [],
-          //     "title": "asd",
-          //     "authorID": 1,
-          //     "views": 0,
-          //     "userName": "Ginger May",
-          //     "userID": 1
-          // }
+          // Update courseData locally in state with the new postData
+          const newCourseData = {
+            ...state.courseData,
+            posts: [
+              ...state.posts,
+              postData
+            ]
+          };
+          // Update courseData, and provide a new postID and postData
+          setAppData(newCourseData, "courseData", postData.id, postData);
 
-          // 1: On submit, fetch course data
-          const newPostID = postData.id;
-          // console.log(postID);
-          fetchCourseData(state.courseData.id, newPostID);
+
+          // // 1: On submit, fetch course data
+          // const newPostID = postData.id;
+          // console.log(postData);
+          // fetchCourseData(state.courseData.id, newPostID);
 
           // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
           // Once api is updated, you can just set app data using the server response (postData).. for now:
