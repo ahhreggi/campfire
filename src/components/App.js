@@ -73,7 +73,6 @@ const App = () => {
     selectedTags: [],
 
     loading: false,
-    reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
     errors: null // key = active, value = array of messages, e.g. { "Login": ["Invalid username/password"] }
 
@@ -146,25 +145,6 @@ const App = () => {
         console.error(err);
       });
   };
-
-  // Set the application data
-  //   userData: null, // fetchUserData
-  //   userCourses: null, // fetchUserCourses
-
-  //   active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
-
-  //   courseID: null,
-  //   courseData: null, // all data for the current courseID
-
-  //   postID: null, // a post ID or null if viewing dashboard/analytics,
-  //   postData: null, // post data for the current post ID or null if viewing dashboard/analytics
-
-  //   posts: null, // all posts for the current course
-
-  //   selectedTags: [],
-
-  //   loading: false,
-  //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
   // Set the application data
   const setAppData = (data, type, newPostID, newPostData, newActive) => {
@@ -437,14 +417,10 @@ const App = () => {
 
   // Request to create a new post with the given data
   const addPost = (data) => {
-
     request("POST", API.POSTS, null, data)
       .then((data) => {
         const postData = data[0];
-
         if (postData) {
-
-          // Update courseData locally in state with the new postData
           const newCourseData = {
             ...state.courseData,
             posts: [
@@ -452,24 +428,15 @@ const App = () => {
               postData
             ]
           };
-          // Update courseData, and provide a new postID and postData
+          // Update courseData, and provide the new postID and postData to allow redirecting
           setAppData(newCourseData, "courseData", postData.id, postData);
+          // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
         }
       })
       .catch(() => {
         console.log("An error occurred. Check that the form is complete!");
       });
   };
-
-  // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
-  // useEffect(() => {
-  //   if (state.postID && state.postData === null & state.active === "New Post") {
-  //     console.log("this is running");
-  //     const newPostData = getPostByID(state.courseData.posts, state.postID);
-  //     setAppData(newPostData, "postData");
-  //     // SIDE EFFECT 7: If postData changes and the active view is "New Post", change it to "Post"
-  //   }
-  // }, [state.postID]);
 
   // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
   useEffect(() => {
@@ -478,25 +445,18 @@ const App = () => {
     }
   }, [state.postData]);
 
-
-
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
-    console.log("Updating post to:", JSON.stringify(data));
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
   };
 
   // Request to delete a post by ID, then redirect to Dashboard
-  // SIDE EFFECT 8: When redirecting to the dashboard, fetch updated course data
   const deletePost = (postID) => {
     request("DELETE", API.POSTS, postID)
       .then(() => {
-        // fetchCourseData(state.courseID);
-        // setActive("Dashboard");
-        setState({ ...state, active: "Dashboard", postID: null, postData: null });
-        // fetchCourseData(state.courseID);
+        setActive("Dashboard");
       })
       .catch((err) => console.log(err));
   };
@@ -543,7 +503,6 @@ const App = () => {
         active: selection,
         postID: postID,
         postData: postData ? postData : getPostByID(state.posts, state.postID),
-        reloader: !state.reloader, // need this for deleting comments
         errors: null
       });
       // Record the user's first unique visit
@@ -554,7 +513,6 @@ const App = () => {
         active: selection,
         postID: null,
         postData: null,
-        // reloader: !state.reloader
         errors: null
       });
     }

@@ -44,7 +44,7 @@ const PostList = (props) => {
 
   // Process posts into categories whenever:
   // - The course's posts change (a post is modified, added, or deleted)
-  // -
+  // - Search or tag filters change
   useEffect(() => {
     processPosts(props.posts, state.selectedTags, state.searchText);
   }, [props.posts, props.active, state.searchText, state.selectedTags]);
