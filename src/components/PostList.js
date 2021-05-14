@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PostListItem from "./PostListItem";
 import TagList from "./TagList";
 import Button from "./Button";
+import PostListCategory from "./PostListCategory";
 import glass from "../images/icons/search.png";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
@@ -45,6 +46,11 @@ const PostList = (props) => {
       showPosts: true
     });
   }, [props.selectedTags]);
+
+  // Update posts whenever searchText changes
+  useEffect(() => {
+
+  });
 
   // If searchText exists, ensure that showfilters is true
   useEffect(() => {
@@ -91,6 +97,40 @@ const PostList = (props) => {
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
+
+  // Return true if the given comment contains searchText within its body or replies
+  const commentContainsText = (comment, searchText) => {
+    if (comment.body.includes(searchText)) {
+      return true;
+    }
+    for (const reply of comment.replies) {
+      if (reply.body.includes(searchText)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Filter posts by the given search text
+  // To qualify, a post must:
+  // - Contain searchText within its title or body
+  // - Contain searchText within any of its comments and their replies
+  const filterPostsBySearchText = (posts, searchText) => {
+    return posts.filter(post => {
+      // Check the post title and body
+      if (post.title.includes(searchText) || post.body.includes(searchText)) {
+        return true;
+        // Check the post's comments and their replies
+      } else {
+        for (const comment of post.comments) {
+          if (commentContainsText(comment, searchText)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+  };
 
   // Create PostListItem components with the given array of posts
   const generatePostListItems = (posts) => {
@@ -145,13 +185,13 @@ const PostList = (props) => {
     });
   };
 
-  // VARIABLES //////////////////////////////////////////////////////
-
   // Return true if the given tagID is in tags
   // TODO: Move to helper file (also in Post)
   const hasTag = (tags, tagID) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
+
+  // VARIABLES //////////////////////////////////////////////////////
 
   // If no tags are selected, use all posts, otherwise filter by selected tags
   const filteredPosts = !props.selectedTags.length ? props.posts : props.posts.filter(post => {
@@ -290,9 +330,7 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showPinned &&
-            <div className="list">
-              {pinnedPosts}
-            </div>
+            <PostListCategory posts={pinnedPosts} />
           }
         </div>
 
@@ -309,9 +347,7 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showBookmarked &&
-            <div className="list">
-              {bookmarkedPosts}
-            </div>
+            <PostListCategory posts={bookmarkedPosts} />
           }
         </div>
 
@@ -328,9 +364,7 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showPosts &&
-            <div className="list">
-              {unpinnedPosts}
-            </div>
+            <PostListCategory posts={unpinnedPosts} />
           }
         </div>
       </div>
