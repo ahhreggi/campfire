@@ -55,7 +55,7 @@ const Main = (props) => {
 
       {/* TEMPORARY */}
       {props.active === "Dashboard" &&
-        <DevData name={"Main"} data={props} />
+        <DevData name={"Main"} props={props} />
       }
 
       {props.active === "Post" &&

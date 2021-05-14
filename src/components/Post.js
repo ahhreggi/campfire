@@ -276,7 +276,7 @@ const Post = (props) => {
   return (
     <div className="Post">
 
-      <DevData name={"Post"} data={props} />
+      <DevData name={"Post"} props={props} />
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 

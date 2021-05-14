@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom";
+import { useNavigate } from "@reach/router";
 import axios from "axios";
 import Nav from "./Nav";
 import PostList from "./PostList";
@@ -65,7 +66,7 @@ const App = () => {
     userData: null, // fetchUserData
     userCourses: null, // fetchUserCourses
 
-    active: "Loading", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard
+    active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
     role: null,
 
     courseID: null,
@@ -78,9 +79,42 @@ const App = () => {
 
     selectedTags: [],
 
-    loading: true,
-    reloader: false // set this to !reloader when making a request without fetchCourseData and a reload is needed
+    loading: false,
+    reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
+
   });
+
+  // Show a loading screen if active is null
+  useEffect(() => {
+    if (state.active === null) {
+      setState({ ...state, loading: true });
+    } else {
+      setState({ ...state, loading: false });
+    }
+  }, [state.active]);
+
+  // Detect userData changes
+  useEffect(() => {
+    console.log("userData:", state.userData);
+    // If user data is valid, fetch all of the user's courses
+    if (state.userData) {
+      console.log("You are now logged in! Fetching your courses...");
+      fetchUserCourses();
+
+      // If user data changes to null, go to login/home
+    } else {
+      console.log("You are now logged out!");
+    }
+
+  }, [state.userData]);
+
+  // Detect userCourses changes
+  useEffect(() => {
+    console.log("userCourses:", state.userCourses);
+    // if (state.userCourses) {
+    //   redirectTo("/hello");
+    // }
+  }, [state.userCourses]);
 
   //////////////////
 
@@ -204,48 +238,30 @@ const App = () => {
   };
 
   // Set the application data
-  const setAppData = (data, type) => {
+  const setAppData = (data, type, active = null) => {
     if (type === "course") {
       setState({
         ...state,
         courseData: data,
         postData: data ? getPostByID(data.posts, state.postID) : null,
         posts: data ? data.posts : null,
-        loading: !data
+        loading: !data,
+        active: active !== null ? active : state.active
       });
     } else if (type === "post") {
       setState({
         ...state,
         postData: data,
         postID: data.id,
-        reloader: !state.reloader
+        reloader: !state.reloader,
+        active: active !== null ? active : state.active
       });
     } else if (type === "userData") {
       setState({ ...state, userData: data });
     } else if (type === "userCourses") {
-      setState({ ...state, userCourses: data });
+      setState({ ...state, userCourses: data, active: "Home" });
     }
   };
-
-  // Detect userData changes
-  useEffect(() => {
-    console.log("userData:", state.userData);
-    // If user data is valid, fetch all of the user's courses
-    if (state.userData) {
-      console.log("You are now logged in! Fetching your courses...");
-      fetchUserCourses();
-
-      // If user data changes to null, go to login/home
-    } else {
-      console.log("You are now logged out!");
-    }
-
-  }, [state.userData]);
-
-  // Detect userCourses changes
-  // useEffect(() => {
-  //   console.log("userCourses:", state.userCourses);
-  // }, [state.userCourses]);
 
   // Login/retrieve data for an existing user and redirect to the dashboard of a course
   // redirect to page with all of the user's courses or the course page of most recent?
@@ -268,7 +284,6 @@ const App = () => {
           // Login failed
         } else {
           console.log("❌ fetchUserData failed!");
-          redirectTo("/failed");
         }
       });
   };
@@ -276,6 +291,10 @@ const App = () => {
   const redirectTo = (path) => {
     window.location.href = window.location.protocol + "//" + window.location.host + path;
   };
+
+  // const redirectTo = (path) => {
+  //   navigate(path, { replace: true });
+  // };
 
   // Fetch all of the current user's courses
   const fetchUserCourses = () => {
@@ -486,11 +505,26 @@ const App = () => {
 
   return (
 
-    <Router>
-      <div className="App">
+    <div className="App">
 
-        {/* Nav Bar (requires userData, userCourses, courseData) */}
-        {state.userData && state.userCourses && state.courseData &&
+      {state.active === "Login" &&
+        <Login
+          props={state}
+          onSubmit={fetchUserData}
+        />
+      }
+
+      {state.active === "Home" &&
+        <Home
+          userData={state.userData}
+          userCourses={state.userCourses}
+
+          props={state}
+        />
+      }
+
+      {/* Nav Bar (requires userData, userCourses, courseData) */}
+      {state.userData && state.userCourses && state.courseData &&
           <Nav
             onClick={setActive}
             active={state.active}
@@ -499,93 +533,88 @@ const App = () => {
             userAvatar={state.userData.avatarID}
             userName={`${state.userData.firstName} ${state.userData.lastName}`}
           />
+      }
+
+      <>
+        {/* Loading Message (when active is null) */}
+        {state.loading &&
+          <div className="display-4 d-flex justify-content-center align-items-center h-100">
+            Loading...
+          </div>
         }
 
-        <Switch>
-
-          <Route path="/" exact render={(props) => (
-
-            <>
-              {/* Loading Message (when there is no courseData) */}
-              {state.active === "Loading" &&
-                  <div className="display-4 d-flex justify-content-center align-items-center h-100">
-                    Loading...
-                  </div>
-              }
-
-              {/* Logged in view (userData exists) */}
-              {state.userData && state.userCourses && state.courseData &&
-                  <>
+        {/* Logged in view (userData exists) */}
+        {state.userData && state.userCourses && state.courseData &&
+          <>
 
 
-                    <section className="app-containers">
+            <section className="app-containers">
 
-                      {/* All Posts */}
-                      <div className="app-left">
+              {/* All Posts */}
+              <div className="app-left">
 
-                        {/* PostList is shown only if the user has a course selected */}
-                        {state.courseData &&
-                          <PostList
-                            active={state.active}
-                            selectedPostID={state.postID}
-                            tags={state.courseData.tags}
-                            posts={state.courseData.posts}
-                            onClick={(postID) => setActive("Post", postID)}
-                            selectedTags={state.selectedTags}
-                            onTagToggle={updateSelectedTags}
-                            onTagClear={clearSelectedTags}
-                            onNewPost={() => setActive("New Post")}
-                          />
-                        }
-                      </div>
+                {/* PostList is shown only if the user has a course selected */}
+                {state.courseData &&
+                  <PostList
+                    active={state.active}
+                    selectedPostID={state.postID}
+                    tags={state.courseData.tags}
+                    posts={state.courseData.posts}
+                    onClick={(postID) => setActive("Post", postID)}
+                    selectedTags={state.selectedTags}
+                    onTagToggle={updateSelectedTags}
+                    onTagClear={clearSelectedTags}
+                    onNewPost={() => setActive("New Post")}
+                  />
+                }
+              </div>
 
-                      {/* Current View */}
-                      <div className="app-right">
-                        <Main
-                          active={state.active}
-                          userData={state.userData}
-                          courseData={state.courseData}
-                          postID={state.postID}
-                          onEditBookmark={editBookmark}
-                          onAddPost={addPost}
-                          onEditPost={editPost}
-                          onDeletePost={deletePost}
-                          onAddComment={addComment}
-                          onLikeComment={likeComment}
-                          onEditComment={editComment}
-                          onDeleteComment={deleteComment}
-                          onTagToggle={updateSelectedTags}
-                        />
-                      </div>
+              {/* Current View */}
+              <div className="app-right">
+                <Main
+                  active={state.active}
+                  userData={state.userData}
+                  courseData={state.courseData}
+                  postID={state.postID}
+                  onEditBookmark={editBookmark}
+                  onAddPost={addPost}
+                  onEditPost={editPost}
+                  onDeletePost={deletePost}
+                  onAddComment={addComment}
+                  onLikeComment={likeComment}
+                  onEditComment={editComment}
+                  onDeleteComment={deleteComment}
+                  onTagToggle={updateSelectedTags}
+                />
+              </div>
 
-                    </section>
+            </section>
 
-                    {/* Test Controls */}
-                    <div className="test-controls mt-2">
-                      test controls:
-                      <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
-                      <Button text="Analytics" onClick={() => setActive("Analytics")} />
-                      <Button text="Refresh DB" onClick={() => resetDB()} />
-                      <Button text="admin" onClick={() => setRole("admin")} />
-                      <Button text="owner" onClick={() => setRole("owner")} />
-                      <Button text="instructor" onClick={() => setRole("instructor")} />
-                      <Button text="student" onClick={() => setRole("student")} />
-                      current role: {state.role}
+            {/* Test Controls */}
+            <div className="test-controls mt-2">
+              test controls:
+              <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+              <Button text="Analytics" onClick={() => setActive("Analytics")} />
+              <Button text="Refresh DB" onClick={() => resetDB()} />
+              <Button text="admin" onClick={() => setRole("admin")} />
+              <Button text="owner" onClick={() => setRole("owner")} />
+              <Button text="instructor" onClick={() => setRole("instructor")} />
+              <Button text="student" onClick={() => setRole("student")} />
+              current role: {state.role}
 
-                      <Link to="/"><Button text="Index" /></Link>
-                      <Link to="/login"><Button text="Login" /></Link>
-                      <Link to="/register"><Button text="Register" /></Link>
-                      <Link to="/create"><Button text="Create" /></Link>
-                      <Link to="/join"><Button text="Join" /></Link>
-                      <Link to="/123"><Button text="Error404" /></Link>
-                    </div>
+              {/* <Link to="/"><Button text="Index" /></Link>
+              <Link to="/login"><Button text="Login" /></Link>
+              <Link to="/register"><Button text="Register" /></Link>
+              <Link to="/create"><Button text="Create" /></Link>
+              <Link to="/join"><Button text="Join" /></Link>
+              <Link to="/123"><Button text="Error404" /></Link> */}
+            </div>
 
-                  </>
-              }
-            </>
-          )} />
+          </>
+        }
+      </>
 
-          <Route path="/home" render={() => {
+      {/* <Route path="/home" render={() => {
             <Home
 
             />;
@@ -619,11 +648,11 @@ const App = () => {
 
           <Route component={Error404} />
 
-        </Switch>
+        </Switch> */}
 
-      </div>
+    </div>
 
-    </Router>
+  // </Router>
   );
 };
 

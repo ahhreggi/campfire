@@ -32,7 +32,7 @@ const Login = (props) => {
   return (
     <div className="Login">
 
-      <DevData name="Login" data={props} />
+      <DevData name="Login" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
@@ -65,7 +65,7 @@ const Login = (props) => {
       </div>
 
       {/* TEST */}
-      <Link to="/register">Register</Link>
+      {/* <Link to="/register">Register</Link> */}
 
     </div>
   );
