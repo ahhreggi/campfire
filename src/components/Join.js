@@ -28,9 +28,10 @@ const Join = (props) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  // Check if a code contains only letters and numbers
+  // Check if a code contains only letters and numbers?
   const isValidAccessCode = (code) => {
-    return !!(code).match("^[a-zA-Z0-9]+$");
+    return true;
+    // return !!(code).match("^[a-zA-Z0-9]+$");
   };
 
   // Validate input field prior to submitting the data
