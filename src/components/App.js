@@ -294,10 +294,8 @@ const App = () => {
   useEffect(() => {
     if (state.courseData) {
 
-      // If coming from the Create page, fetch the user's courses again
-      if (state.active === "Create") {
-        const isCourseNew = state.userCourses.filter(course => course.id === state.courseData.id).length < 1;
-        console.log("Is this course new?", isCourseNew ? "yes" : "no");
+      // If coming from the Create or Join page, fetch the user's courses again
+      if (state.active === "Create" || state.active === "Join") {
         fetchUserCourses();
       }
 
