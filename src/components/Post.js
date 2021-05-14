@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import TagList from "./TagList";
@@ -18,6 +18,8 @@ import "./Post.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 import ReactMarkdown from "react-markdown";
+
+import DevData from "./DevData";
 
 const Post = (props) => {
 
@@ -47,22 +49,26 @@ const Post = (props) => {
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func,
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    userID: PropTypes.number
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showCommentForm: false
+    showCommentForm: false,
+    uncollapsed: [] // TODO: Set this to have the best answer parent ID by default
   });
 
-  // Reset form and confirmation states when switching posts
+  // Reset states when switching posts
   useEffect(() => {
+    const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
-      showCommentForm: false
+      showCommentForm: false,
+      uncollapsed: [uncollapsed]
     });
   }, [props.id]);
 
@@ -113,13 +119,43 @@ const Post = (props) => {
   const scrollToCommentForm = () => {
     setTimeout(() => {
       refCommentForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+    }, 100);
   };
 
   // Scroll to best answer
   const refBestAnswer = useRef();
   const scrollToBestAnswer = () => {
-    refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
+
+    // Get the ID of the top-level comment in which the best answer is found
+
+    let bestAnswerParentID = getBestAnswerParentID();
+
+    // Uncollapse parent element of best answer only
+    setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
+    // // This should re-render CommentList and CommentListItem
+    // // Scroll to best answer
+    setTimeout(() => {
+      refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  // Get the parent ID of the best answer of the post
+  const getBestAnswerParentID = () => {
+
+    // First check the parent itself
+    for (const parent of props.comments) {
+      if (parent.id === props.bestAnswer) {
+        return parent.id;
+      }
+      // Then check its children
+      for (const child of parent.replies) {
+        // If it's found, return the ID of the parent comment
+        if (child.id === props.bestAnswer) {
+          return parent.id;
+        }
+      }
+    }
+
   };
 
   // New comment toggle handler
@@ -222,30 +258,32 @@ const Post = (props) => {
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Get the best answer
-  let best;
-  for (const comment of props.comments) {
-    if (props.bestAnswer === comment.id) {
-      best = comment;
-      break;
-    }
-    for (const reply of comment.replies) {
-      if (props.bestAnswer === comment.id) {
-        best = reply;
-        break;
-      }
-    }
-  }
+  // let best;
+  // for (const comment of props.comments) {
+  //   if (props.bestAnswer === comment.id) {
+  //     best = comment;
+  //     break;
+  //   }
+  //   for (const reply of comment.replies) {
+  //     if (props.bestAnswer === comment.id) {
+  //       best = reply;
+  //       break;
+  //     }
+  //   }
+  // }
 
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Post">
 
+      <DevData name={"Post"} props={props} />
+
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
         {props.bestAnswer &&
           <>
-            <div className="message">
+            <div className="resolution-message">
 
               <div>
                 This question has been answered.
@@ -256,10 +294,12 @@ const Post = (props) => {
                 <span>VIEW BEST ANSWER</span>
               </div>
 
-              <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
-                <img src={cross} className="cross" />
-                <span>MARK AS UNRESOLVED</span>
-              </div>
+              {props.authorID === props.userID &&
+                <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                  <img src={cross} className="cross" />
+                  <span>MARK AS UNRESOLVED</span>
+                </div>
+              }
 
             </div>
             <hr />
@@ -395,7 +435,7 @@ const Post = (props) => {
         }
 
         {/* First Start Discussion Button */}
-        {props.comments.length > 1 &&
+        {(props.comments.length > 0) &&
           <div
             className={`start-discussion ${state.showCommentForm ? "active" : ""}`}
             onClick={commentFormScrollHandler}
@@ -420,7 +460,9 @@ const Post = (props) => {
             onEditBestAnswer={editBestAnswer}
             postAuthorID={props.authorID}
             userName={props.userName}
+            userID={props.userID}
             refBestAnswer={refBestAnswer}
+            uncollapsed={state.uncollapsed}
           />
         </div>
 

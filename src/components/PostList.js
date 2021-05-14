@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PostListItem from "./PostListItem";
 import TagList from "./TagList";
 import Button from "./Button";
+import glass from "../images/icons/search.png";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
@@ -22,19 +23,22 @@ const PostList = (props) => {
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
-    onNewPost: PropTypes.func
+    onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
     showFilters: true,
     showPinned: true,
     showBookmarked: true,
-    showPosts: true
+    showPosts: true,
+    showSearch: false,
+    searchText: ""
   });
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
     setState({
+      ...state,
       showFilters: true,
       showPinned: true,
       showBookmarked: true,
@@ -42,7 +46,33 @@ const PostList = (props) => {
     });
   }, [props.selectedTags]);
 
+  // If searchText exists, ensure that showfilters is true
+  useEffect(() => {
+    if (state.searchText && !state.showFilters) {
+      setState({ ...state, showFilters: true });
+    }
+  }, [state.searchText]);
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const toggleSearch = () => {
+    console.log("toggling search bar");
+    if (!state.showSearch) {
+      setState({ ...state, showSearch: true, showFilters: true, searchText: "" });
+    } else {
+      setState({ ...state, showSearch: false, searchText: "" });
+    }
+  };
+
+  const clearFilters = () => {
+    props.onTagClear();
+    setState({ ...state, searchText: "" });
+  };
+
+  const updateSearchText = (event) => {
+    setState({ ...state, searchText: event.target.value });
+    console.log(event.target.value);
+  };
 
   const toggleList = (category) => {
     if (category === "filters") {
@@ -54,6 +84,10 @@ const PostList = (props) => {
     } else if (category === "posts") {
       setState({ ...state, showPosts: !state.showPosts });
     }
+  };
+
+  const toggleNewPost = () => {
+    props.onRedirect(props.active === "New Post" ? "Dashboard" : "New Post");
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -160,58 +194,92 @@ const PostList = (props) => {
 
   ///////////////////////////////////////////////////////////////////
 
+
+  // TextForm.propTypes = {
+  //   label: PropTypes.string,
+  //   text: PropTypes.string,
+  //   minHeight: PropTypes.string,
+  //   onChange: PropTypes.func,
+  // };
+
   return (
     <div className="PostList">
 
-      {/* New Post Button */}
-      <div className="newPost">
-        <Button
-          text="new post"
-          styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
-          onClick={props.onNewPost}
-          image={question}
-        />
+      <div className="post-list-buttons">
+        {/* New Post Button */}
+        <div className="newPost">
+          <Button
+            text="new post"
+            styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
+            onClick={toggleNewPost}
+            image={question}
+          />
+        </div>
+
+        {/* Search Button */}
+        <div className="search">
+          <Button
+            text="search"
+            styles={`search ${state.showSearch ? "active" : ""}`}
+            onClick={toggleSearch}
+            image={glass}
+          />
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
-        <div>
-          <img src={filter} alt="filter" />
-          FILTERS
-        </div>
-        <div className="arrows">
-          {state.showFilters && <img src={up} alt="up" />}
-          {!state.showFilters && <img src={down} alt="down" />}
-        </div>
-      </div>
-      {state.showFilters &&
-        <div className="tags">
-          <TagList
-            tags={props.tags}
-            selectedTags={props.selectedTags}
-            onClick={props.onTagToggle}
-            styles={"tag filter"}
+      {/* Search Bar */}
+      {state.showSearch &&
+        <div className="search-bar">
+          <input className="search-bar"
+            value={state.searchText}
+            onChange={updateSearchText}
           />
-          {props.selectedTags.length > 0 &&
-            <>
-              <hr />
-              <div className="tag-clear">
-                <Button
-                  text="clear filters"
-                  styles="tag clear"
-                  onClick={props.onTagClear}
-                />
-              </div>
-            </>
-          }
         </div>
       }
+
+      {/* Filters */}
+      <div className="filters">
+        <div className={`label ${state.showFilters && "active"}`} onClick={() => toggleList("filters")}>
+          <div>
+            <img className="gear" src={filter} alt="filter" />
+            FILTERS
+          </div>
+          <div className="arrows">
+            {state.showFilters && <img src={up} alt="up" />}
+            {!state.showFilters && <img src={down} alt="down" />}
+          </div>
+        </div>
+        {state.showFilters &&
+          <div className={`tags ${props.selectedTags.length > 0 ? "filtering" : ""}`}>
+            <TagList
+              tags={props.tags}
+              selectedTags={props.selectedTags}
+              onClick={props.onTagToggle}
+              styles={"tag filter"}
+            />
+            {(props.selectedTags.length > 0 || state.searchText) &&
+              <>
+                <hr />
+                <div className="tag-clear">
+                  <Button
+                    text="clear filters"
+                    styles="tag clear"
+                    onClick={clearFilters}
+                  />
+                </div>
+              </>
+            }
+          </div>
+        }
+      </div>
+
+      <hr />
 
       <div className="posts">
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${state.showPinned && "active"} ${!pinnedPosts.length && "empty"}`} onClick={() => toggleList("pinned")}>
+          <div className={`label ${state.showPinned ? "active" : ""} ${!pinnedPosts.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
             <div>
               <img src={pin} alt="pin" />
               PINNED
@@ -230,7 +298,7 @@ const PostList = (props) => {
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${state.showBookmarked && "active"} ${!bookmarkedPosts.length && "empty"}`} onClick={() => toggleList("bookmarked")}>
+          <div className={`label ${state.showBookmarked ? "active" : ""} ${!bookmarkedPosts.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
             <div>
               <img src={star} alt="bookmark" />
               BOOKMARKED
@@ -249,7 +317,7 @@ const PostList = (props) => {
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${state.showPosts && "active"} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
+          <div className={`label ${state.showPosts ? "active" : ""} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
             <div>
               <img src={question} alt="question" />
               POSTS

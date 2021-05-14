@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import "./Error404.scss";
 
-const Error404 = (props) => {
+const Error404 = () => {
   return (
     <div>
       Error 404 Page

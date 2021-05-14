@@ -2,12 +2,15 @@ import PropTypes from "prop-types";
 import EditForm from "./EditForm";
 import "./PostForm.scss";
 
+import DevData from "./DevData";
+
 const PostForm = (props) => {
 
   PostForm.propTypes = {
     userName: PropTypes.string,
     courseData: PropTypes.object,
-    onAddPost: PropTypes.func
+    onAddPost: PropTypes.func,
+    onRedirect: PropTypes.func
   };
 
   const createPost = (data) => {
@@ -20,6 +23,8 @@ const PostForm = (props) => {
 
   return (
     <div className="PostForm">
+
+      <DevData name="PostForm" props={props} />
 
       <div className="header">
         Create a new post
@@ -37,7 +42,7 @@ const PostForm = (props) => {
           tags={[]}
           courseTags={props.courseData.tags}
           onSave={createPost}
-          onCancel={() => console.log("cancelled!")}
+          onCancel={() => props.onRedirect("Dashboard")}
           mode={"POST"}
         />
 
