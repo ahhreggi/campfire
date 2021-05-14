@@ -520,6 +520,10 @@ const App = () => {
           userData={state.userData}
           userCourses={state.userCourses}
           onClickCourse={fetchCourseData}
+          onCreateCourse={createCourse}
+          // onJoinCourse={joinCourse}
+          errors={state.errors}
+          onRedirect={setActive}
 
           props={state}
         />
