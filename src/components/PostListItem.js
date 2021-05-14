@@ -82,7 +82,7 @@ const PostListItem = (props) => {
     >
 
       <header>
-        {state.selected ? "yes" : "no"}
+
         {/* Post Title */}
         <div className="header-left">
           {props.bookmarked &&
