@@ -1,14 +1,21 @@
-import * as dummyData from "./dummyData";
+'use strict';
+
+const axios = jest.createMockFromModule('axios');
+
+import * as dummyData from "./__dummyData";
 
 export default {
-  default: { baseURL: ""},
+  __esModule: true,
+  default: jest.fn(() => Promise.resolve()),
   get: jest.fn(url => {
-    if (url === "/api/days") {
+    if (url === "/api/courses/1") {
       return Promise.resolve({
         status: 200,
         statusText: "OK",
-        data: data
+        data: dummyData.dummyCourseData
       });
+    } else {
+      console.log("oops");
     }
 
   }),
@@ -31,6 +38,20 @@ export default {
       });
     }
 
-  }),
+  })
+};
 
-}
+
+const API = {
+  // GET_COURSES: "/api/courses",
+  RESET: "/api/debug/reset_db",
+
+  COURSES: "/api/courses", // data = { state.courseID }
+
+  POSTS: "/api/posts",
+
+  BOOKMARKS: "/api/bookmarks",
+
+  COMMENTS: "/api/comments"
+
+};

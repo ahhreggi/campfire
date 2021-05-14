@@ -6,15 +6,24 @@ import App from "../App";
 
 import {jest} from "@jest/globals";
 
-// import axios from "axios";
+import axios from "axios";
 
+jest.unmock("axios");
+axios.defaults.baseURL = "http://localhost:3030/"
+
+import * as dummyData from "../../__mocks__/__dummyData";
 
 beforeEach(async() => {
   jest.useFakeTimers(); // necessary before app tests to bypass loading screen
+  
+  
+  // axios.get = jest.fn().mockResolvedValueOnce(dummyData.dummyCourseData)
 
-  render(<App />);
+  render(<App courseId={2}/>);
   // waits for loading screen to finish
   await waitFor(() => screen.getByText("Campfire"));
+
+
 });
 
 afterEach(cleanup);
