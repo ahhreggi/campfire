@@ -577,16 +577,15 @@ const App = () => {
       {/* Test Controls */}
       <div className="test-controls mt-2">
         test controls:
-        <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
-        <Button text="Analytics" onClick={() => setActive("Analytics")} />
         <Button text="Refresh DB" onClick={() => resetDB()} />
+        {/* these may be broken lol
         <Button text="admin" onClick={() => setRole("admin")} />
         <Button text="owner" onClick={() => setRole("owner")} />
         <Button text="instructor" onClick={() => setRole("instructor")} />
-        <Button text="student" onClick={() => setRole("student")} />
-        current role: {state.role}
+        <Button text="student" onClick={() => setRole("student")} /> */}
+        {/* current role: {state.role} */}
       </div>
-      <DevData name="App (state)" props={state} />
+      <DevData name="App" props={state} label={"State"} />
     </div>
 
 

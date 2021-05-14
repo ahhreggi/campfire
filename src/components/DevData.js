@@ -6,11 +6,15 @@ import PropTypes from "prop-types";
 const DevData = (props) => {
   DevData.propTypes = {
     name: PropTypes.string, // name of the component
-    props: PropTypes.object // the entire "props" object of that component
+    props: PropTypes.object, // the entire "props" object of that component
+    label: PropTypes.string // a label to use instead of "props" (optional)
+  };
+  DevData.defaultProps = {
+    label: "Props"
   };
   return (
     <div className="DevData">
-      Props data for <span>{props.name}</span>:
+      {props.label} data for <span>{props.name}</span>:
       <textarea value={JSON.stringify(props.props, null, 4)} readOnly />
     </div>
   );

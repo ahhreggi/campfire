@@ -35,6 +35,7 @@ body {
       color: $green;
       font-family: $font-code;
       font-size: 12px;
+      outline: none;
       @include custom-scrollbar;
     }
     span {
