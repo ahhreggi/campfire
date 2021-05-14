@@ -167,18 +167,9 @@ const App = () => {
 
   // Set the application data
   const setAppData = (data, type, newPostID = null, newPostData = null) => {
-    if (type === "postData") { // may not be in use
-      // console.log("Setting postData in state to", data);
-      console.log("this shouldn't be seen");
-      // setState({
-      //   ...state,
-      //   postData: data,
-      //   postID: data.id,
-      //   // reloader: !state.reloader
-      // });
-    } else if (type === "userData") { // in use
+    if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
-    } else if (type === "userCourses") { // in use
+    } else if (type === "userCourses") {
       let active = state.active;
       if (state.active === "Login") {
         active = "Home";
@@ -188,14 +179,8 @@ const App = () => {
         active = "Dashboard";
       }
       setState({ ...state, userCourses: data, active: active });
-    // } else if (type === "courseData" && mode === "create") {
-    //   setState({
-    //     ...state,
-    //     courseData: data,
-    //     posts: data.posts
-    //   });
-    } else if (type === "courseData") { // in use
-      // If a postID is provided, use it
+    } else if (type === "courseData") {
+      // If new values for postID and postData are provided, use them
       const postID = newPostID ? newPostID : state.postID;
       const postData = newPostData ? newPostData : state.postData;
       setState({
@@ -306,7 +291,7 @@ const App = () => {
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
   // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
   useEffect(() => {
-    console.log("hey coursedata changed and the active view is", state.active);
+    console.log("courseData changed and the active view is", state.active);
     if (state.courseData) {
 
       // Redirect to Dashboard if coming from the Home, Create, or Join page
@@ -329,8 +314,6 @@ const App = () => {
           }
         }
         setState({ ...state, userCourses: userCourses, active: "Dashboard" });
-      } else if (state.active === "New Post") {
-        console.log("You should probably redirect to the newly created post now.");
       }
     }
 
@@ -458,9 +441,6 @@ const App = () => {
 
         if (postData) {
 
-          console.log(postData);
-          // setAppData(postData, "postData");
-
           // Update courseData locally in state with the new postData
           const newCourseData = {
             ...state.courseData,
@@ -471,19 +451,6 @@ const App = () => {
           };
           // Update courseData, and provide a new postID and postData
           setAppData(newCourseData, "courseData", postData.id, postData);
-
-
-          // // 1: On submit, fetch course data
-          // const newPostID = postData.id;
-          // console.log(postData);
-          // fetchCourseData(state.courseData.id, newPostID);
-
-          // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
-          // Once api is updated, you can just set app data using the server response (postData).. for now:
-
-
-          // setAppData(newPostData, "postData");
-
         }
       })
       .catch(() => {
@@ -492,13 +459,14 @@ const App = () => {
   };
 
   // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), update postData
-  useEffect(() => {
-    if (state.postID && state.postData === null & state.active === "New Post") {
-      const newPostData = getPostByID(state.courseData.posts, state.postID);
-      setAppData(newPostData, "postData");
-      // SIDE EFFECT 7: If postData changes and the active view is "New Post", change it to "Post"
-    }
-  }, [state.postID]);
+  // useEffect(() => {
+  //   if (state.postID && state.postData === null & state.active === "New Post") {
+  //     console.log("this is running");
+  //     const newPostData = getPostByID(state.courseData.posts, state.postID);
+  //     setAppData(newPostData, "postData");
+  //     // SIDE EFFECT 7: If postData changes and the active view is "New Post", change it to "Post"
+  //   }
+  // }, [state.postID]);
 
   // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
   useEffect(() => {
@@ -750,18 +718,18 @@ const App = () => {
         </>
       }
 
-      {/* Test Controls */}
-      <div className="test-controls mt-2">
-        test controls:
-        <Button text="Refresh DB" onClick={() => resetDB()} />
-        {/* these may be broken lol
-        <Button text="admin" onClick={() => setRole("admin")} />
-        <Button text="owner" onClick={() => setRole("owner")} />
-        <Button text="instructor" onClick={() => setRole("instructor")} />
-        <Button text="student" onClick={() => setRole("student")} /> */}
-        {/* current role: {state.role} */}
+      {/* See index.scss */}
+      <div className="dev-tools">
+        {/* Test Controls */}
+        <div className="test-controls mt-2">
+          test controls:
+          <Button text="Refresh DB" onClick={() => resetDB()} />
+        </div>
+        {/* Dev Data Display */}
+        <DevData name="App" props={state} label={"State"} />
       </div>
-      <DevData name="App" props={state} label={"State"} />
+
+
     </div>
 
 

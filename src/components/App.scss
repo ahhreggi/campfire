@@ -5,13 +5,8 @@
   background: linear-gradient($navy-1, $navy-0);
   border-radius: 10px;
   margin: 1rem;
-  // overflow: hidden; // put this back after testing!
+  overflow: hidden;
   height: 96vh;
-
-  // TESTING /////////
-  overflow: scroll;
-  @include custom-scrollbar;
-  ////////////////////
 
   section.app-containers {
     display: flex;
