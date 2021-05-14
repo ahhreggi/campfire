@@ -5,6 +5,8 @@ import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
 import "./Login.scss";
 
+import DevData from "./DevData";
+
 const Login = (props) => {
 
   Login.propTypes = {
@@ -24,10 +26,13 @@ const Login = (props) => {
     event.preventDefault();
     const data = { ...state };
     props.onSubmit(data);
+
   };
 
   return (
     <div className="Login">
+
+      <DevData name="Login" data={props} />
 
       {/* Page Title */}
       <div className="page-title">
@@ -58,6 +63,9 @@ const Login = (props) => {
           onClick={handleSubmit}
         />
       </div>
+
+      {/* TEST */}
+      <Link to="/register">Register</Link>
 
     </div>
   );

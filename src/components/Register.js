@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
 import "./Register.scss";
+
+import DevData from "./DevData";
 
 const Register = (props) => {
 
@@ -28,6 +31,8 @@ const Register = (props) => {
 
   return (
     <div className="Register">
+
+      <DevData name="Register" data={props} />
 
       {/* Page Title */}
       <div className="page-title">
@@ -69,6 +74,8 @@ const Register = (props) => {
           onClick={handleSubmit}
         />
       </div>
+
+      <Link to="/login">Login</Link>
 
     </div>
   );

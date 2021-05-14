@@ -6,6 +6,7 @@ import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
 import Login from "./Login";
+import Home from "./Home";
 import Register from "./Register";
 import Create from "./Create";
 import Join from "./Join";
@@ -242,9 +243,9 @@ const App = () => {
   }, [state.userData]);
 
   // Detect userCourses changes
-  useEffect(() => {
-    console.log("userCourses:", state.userCourses);
-  }, [state.userCourses]);
+  // useEffect(() => {
+  //   console.log("userCourses:", state.userCourses);
+  // }, [state.userCourses]);
 
   // Login/retrieve data for an existing user and redirect to the dashboard of a course
   // redirect to page with all of the user's courses or the course page of most recent?
@@ -288,7 +289,7 @@ const App = () => {
           setAppData(userCourses, "userCourses");
 
           // // Redirect to "/"
-          redirectTo("/register");
+          // redirectTo("/");
 
           // Display the user's dashboard with all of their courses
           // --> Done via useEffect (userCourses goes from null -> array)
@@ -485,14 +486,25 @@ const App = () => {
 
   return (
 
-    <div className="App">
+    <Router>
+      <div className="App">
 
-      <Router>
+        {/* Nav Bar (requires userData, userCourses, courseData) */}
+        {state.userData && state.userCourses && state.courseData &&
+          <Nav
+            onClick={setActive}
+            active={state.active}
+            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
+            courseName="Some Course Name"
+            userAvatar={state.userData.avatarID}
+            userName={`${state.userData.firstName} ${state.userData.lastName}`}
+          />
+        }
 
         <Switch>
 
-          <Route path="/" exact render={() => (
-            // !state.userData ? <Redirect to={{}}
+          <Route path="/" exact render={(props) => (
+
             <>
               {/* Loading Message (when there is no courseData) */}
               {state.active === "Loading" &&
@@ -501,36 +513,30 @@ const App = () => {
                   </div>
               }
 
-              {/* One Course View (courseData exists, user is logged in) */}
-              {/* {!state.loading && state.courseData && state.userCourses && state.user */}
+              {/* Logged in view (userData exists) */}
               {state.userData && state.userCourses && state.courseData &&
                   <>
 
-                    {/* Nav Bar */}
-                    <Nav
-                      onClick={setActive}
-                      active={state.active}
-                      viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
-                      courseName="LHL Web Mar 1"
-                      userAvatar={state.userData.avatarID}
-                      userName={`${state.userData.firstName} ${state.userData.lastName}`}
-                    />
 
                     <section className="app-containers">
 
                       {/* All Posts */}
                       <div className="app-left">
-                        <PostList
-                          active={state.active}
-                          selectedPostID={state.postID}
-                          tags={state.courseData.tags}
-                          posts={state.courseData.posts}
-                          onClick={(postID) => setActive("Post", postID)}
-                          selectedTags={state.selectedTags}
-                          onTagToggle={updateSelectedTags}
-                          onTagClear={clearSelectedTags}
-                          onNewPost={() => setActive("New Post")}
-                        />
+
+                        {/* PostList is shown only if the user has a course selected */}
+                        {state.courseData &&
+                          <PostList
+                            active={state.active}
+                            selectedPostID={state.postID}
+                            tags={state.courseData.tags}
+                            posts={state.courseData.posts}
+                            onClick={(postID) => setActive("Post", postID)}
+                            selectedTags={state.selectedTags}
+                            onTagToggle={updateSelectedTags}
+                            onTagClear={clearSelectedTags}
+                            onNewPost={() => setActive("New Post")}
+                          />
+                        }
                       </div>
 
                       {/* Current View */}
@@ -579,14 +585,22 @@ const App = () => {
             </>
           )} />
 
+          <Route path="/home" render={() => {
+            <Home
+
+            />;
+          }} />
+
           <Route path="/login" exact render={() => (
             <Login
+              data={state}
               onSubmit={fetchUserData}
             />
           )} />
 
           <Route path="/register" exact render={() => (
             <Register
+              data={state}
               onSubmit={registerUser}
             />
           )} />
@@ -607,9 +621,9 @@ const App = () => {
 
         </Switch>
 
-      </Router>
-    </div>
+      </div>
 
+    </Router>
   );
 };
 
