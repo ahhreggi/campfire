@@ -65,12 +65,13 @@ const EditForm = (props) => {
     setState({ ...state, breakBody: checkTitle || checkBody });
 
     // If a tab was inserted, update cursor location
-    if (
-      prevBody &&
-      state.previewBody.match(/[\t]/g)?.length > prevBody.match(/[\t]/g)?.length
-    ) {
-      textArea.current.selectionStart = textArea.current.selectionEnd =
-        state.selectionStart + 1;
+    if (prevBody) {
+      const prevTabCount = prevBody.match(/[\t]/g)?.length || 0;
+      const newTabCount = state.previewBody.match(/[\t]/g)?.length;
+      if (newTabCount > prevTabCount) {
+        textArea.current.selectionStart = textArea.current.selectionEnd =
+          state.selectionStart + 1;
+      }
     }
   }, [state.previewBody]);
 
