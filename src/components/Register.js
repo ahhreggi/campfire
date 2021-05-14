@@ -80,7 +80,7 @@ const Register = (props) => {
         firstName: state.firstName.trim(),
         lastName: state.lastName.trim(),
         email: state.email.trim().toLowerCase(),
-        password: state.password // keep password as is
+        password: state.password
       };
       props.onSubmit(data);
     }
@@ -91,7 +91,7 @@ const Register = (props) => {
   return (
     <div className="Register">
 
-      <DevData name="Register" data={props} />
+      <DevData name="Register" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
