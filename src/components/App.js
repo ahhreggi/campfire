@@ -395,26 +395,34 @@ const App = () => {
       });
   };
 
-  ///////////////////////////////////////////////////////////////////
+  // BOOKMARKS //////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User selects a course from the post list
+  // - User presses the star icon to toggle the bookmark status of the post
+  // - State is updated (courseID, courseData)
+  // - The post is immediately moved to the appropriate category within the post list
 
   // Edit the user's bookmark for the given postID
   const editBookmark = (postID, bookmarked) => {
-    axios({
-      method: bookmarked ? "DELETE" : "POST",
-      url: bookmarked ? API.BOOKMARKS : API.BOOKMARKS,
-      headers: {
-        "Authorization": state.userData.token
-      },
-      data: { postID }
-    })
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+    const method = bookmarked ? "DELETE" : "POST";
+    request(method, API.BOOKMARKS, null, { postID })
+      .then(() => {
+        fetchCourseData(state.courseID);
+      });
   };
+
+  // CREATE A POST //////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User presses the New Post button in the post list
+  // - User enters new post information via the New Post page
+  // - Data is sent to the server and the new post data is returned
+  // - State is updated (courseID, courseData)
+  // - SIDE EFFECT 5: Active state is updated to redirect the user from New Post to the new Post if postData exists
 
   // Request to create a new post with the given data
   const addPost = (data) => {
-
-    console.log("Requesting to add a new post with data:", data);
 
     request("POST", API.POSTS, null, data)
       .then((postData) => {
