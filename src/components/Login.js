@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
@@ -9,23 +9,31 @@ import DevData from "./DevData";
 const Login = (props) => {
 
   Login.propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    errors: PropTypes.array,
+    onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
-    email: "hello1@campfire.ca",
-    password: "campfire"
+    email: "hello1@campfire.ca", // should be null by default
+    password: "campfire", // should be null by default
+    errors: props.errors
   });
 
+  useEffect(() => {
+    setState({ ...state, errors: props.errors });
+  }, [props.errors]);
+
   const handleInputChange = (event, field) => {
-    setState({ ...state, [field]: event.target.value });
+    setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = { ...state };
+  const handleSubmit = () => {
+    const data = {
+      email: state.email,
+      password: state.password
+    };
     props.onSubmit(data);
-
   };
 
   return (
@@ -37,6 +45,13 @@ const Login = (props) => {
       <div className="page-title">
         Login Page
       </div>
+
+      {/* Errors */}
+      {state.errors && state.errors.length > 0 &&
+        <div className="errors">
+          {state.errors.join("")}
+        </div>
+      }
 
       {/* Form Fields */}
       <div className="form-fields">
@@ -63,8 +78,15 @@ const Login = (props) => {
         />
       </div>
 
-      {/* TEST */}
-      {/* <Link to="/register">Register</Link> */}
+      {/* Register Button */}
+      <div className="register-link">
+        <Button
+          text="Go to Register"
+          onClick={() => props.onRedirect("Register")}
+        />
+      </div>
+
+
 
     </div>
   );

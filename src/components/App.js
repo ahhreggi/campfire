@@ -5,9 +5,9 @@ import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
 import Login from "./Login";
+import Register from "./Register";
 import Home from "./Home";
 import DevData from "./DevData";
-// import Register from "./Register";
 // import Create from "./Create";
 // import Join from "./Join";
 // import Error404 from "./Error404";
@@ -71,6 +71,8 @@ const App = () => {
 
     loading: false,
     reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
+
+    errors: null // key = active, value = array of messages, e.g. { "Login": ["Invalid username/password"] }
 
   });
 
@@ -164,7 +166,7 @@ const App = () => {
         reloader: !state.reloader
       });
     } else if (type === "userData") {
-      setState({ ...state, userData: data });
+      setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
       setState({ ...state, userCourses: data, active: "Home" });
     } else if (type === "courseData") {
@@ -193,28 +195,30 @@ const App = () => {
           // Set userData in state
           setAppData(userData, "userData");
 
+          // Clear Login errors!
+
           // Fetch all of the user's courses (active -> Home)
           // --> Done via useEffect (userData goes from null -> object)
 
           // Login failed
         } else {
           console.log("❌ fetchUserData failed!");
+
+          // Add an error to state
+          setState({ ...state, errors: ["Invalid username/password!"] });
         }
       });
   };
 
   // Detect userData changes
   useEffect(() => {
-    console.log("userData:", state.userData);
+    // console.log("userData:", state.userData);
     // If user data is valid, fetch all of the user's courses
     // Maybe check that state.active was previously Login?
     if (state.userData) {
-      console.log("You are now logged in! Fetching your courses...");
       fetchUserCourses();
 
       // No user data
-    } else {
-      console.log("You are now logged out!");
     }
 
   }, [state.userData]);
@@ -298,16 +302,17 @@ const App = () => {
 
 
   // Register a new user account
-  // const registerUser = (data) => {
-  //   request("POST", API.REGISTER, null, { firstName: data.firstName, lastName: data.lastName, email: data.email, password: data.password })
-  //     .then((userData) => {
-  //       // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
-  //     // redirect to create/join page since the user has no courses yet
-  //     })
-  //     .catch((err) => console.log(err));
-  //   // errors: user is already logged in or the email provided is taken
-  //   // have the error response indicate the error so it can be displayed to the user
-  // };
+  const registerUser = (data) => {
+    request("POST", API.REGISTER, null, data)
+      .then((userData) => {
+        console.log(userData);
+        // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
+      // redirect to create/join page since the user has no courses yet
+      })
+      .catch((err) => console.log(err));
+    // errors: user is already logged in or the email provided is taken
+    // have the error response indicate the error so it can be displayed to the user
+  };
 
 
   // // Join an existing course via access code and redirect to it
@@ -493,8 +498,20 @@ const App = () => {
       {/* Login page */}
       {state.active === "Login" &&
         <Login
-          props={state}
+          // props={state}
           onSubmit={fetchUserData}
+          errors={state.errors}
+          onRedirect={setActive}
+        />
+      }
+
+      {/* Login page */}
+      {state.active === "Register" &&
+        <Register
+          // props={state}
+          onSubmit={registerUser}
+          errors={state.errors}
+          onRedirect={setActive}
         />
       }
 
