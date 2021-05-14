@@ -31,18 +31,62 @@ const Register = (props) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
+  const isValidLength = (string, limit = 250) => {
+    const length = string.trim().length;
+    return length > 0 && length <= limit;
+  };
+
+  const isValidName = (string) => {
+    return /^[a-zA-Z\s]+$/.test(string.trim());
+  };
+
+  const isValidEmail = (string) => {
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(string.trim());
+  };
+
   const handleSubmit = () => {
-    // Check that the password and passwordConf are the same
-    if (state.password === state.passwordConf) {
+    // Check that the fields are valid!
+    const errors = [];
+
+    // 1: No fields may be empty
+    if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
+      errors.push("Please complete all fields!");
+    // 2: Password and passwordConf must be the same
+    } else if (state.password !== state.passwordConf) {
+      errors.push("Passwords do not match!");
+      // 3: Fields must be 1-250 characters
+    } else if (!isValidLength(state.firstName)) {
+      errors.push("First name is too long!");
+    } else if (!isValidLength(state.lastName)) {
+      errors.push("First name is too long!");
+    } else if (!isValidLength(state.email)) {
+      errors.push("Email is too long!");
+    } else if (!isValidLength(state.password)) {
+      errors.push("Password is too long!");
+
+      // Check for invalid characters in the name
+    } else if (!isValidName(state.firstName) || !isValidName(state.lastName)) {
+      errors.push("First and last name may only include letters and spaces.");
+
+      // Check for invalid email format
+    } else if (!isValidEmail(state.email)) {
+      errors.push("Please enter a valid email");
+    }
+
+    // If there are any errors, display them to the user
+    if (errors.length) {
+      setState({ ...state, errors: errors });
+
+      // Otherwise, sanitize the data and submit the form
+    } else {
       const data = {
-        firstName: state.firstName,
-        lastName: state.lastName,
-        email: state.email,
-        password: state.password
+        firstName: state.firstName.trim(),
+        lastName: state.lastName.trim(),
+        email: state.email.trim().toLowerCase(),
+        password: state.password // keep password as is
       };
       props.onSubmit(data);
-    } else {
-      setState({ ...state, errors: ["Passwords do not match!"] });
     }
   };
 

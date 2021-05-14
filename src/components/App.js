@@ -305,9 +305,31 @@ const App = () => {
   const registerUser = (data) => {
     request("POST", API.REGISTER, null, data)
       .then((userData) => {
-        console.log(userData);
-        // setState({ ...state, user: userData, token: userData.token, userCourses: [] });
-      // redirect to create/join page since the user has no courses yet
+
+        // Registration successful
+        if (userData) {
+
+          // Set userData in state
+          setAppData(userData, "userData");
+
+          // Clear Register errors!
+
+          // fetchUserCourses will automatically be run when userData is changed but there'll be nothing
+
+          // No courses to fetch! (active: Register -> Home)
+
+          // Registration failed
+        } else {
+          console.log("❌ fetchUserData failed!");
+
+          // Add an error to state
+          // Only possible error is that the e-mail is taken
+          // Invalid fields are handled within React/Register component
+          setState({ ...state, errors: ["E-mail already in use!"] });
+        }
+
+
+      // since the user has no courses, tell them to join/create, maybe render a special home page idk
       })
       .catch((err) => console.log(err));
     // errors: user is already logged in or the email provided is taken
