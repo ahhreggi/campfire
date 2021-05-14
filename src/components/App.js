@@ -180,7 +180,7 @@ const App = () => {
     } else if (type === "courseData") {
       setState({
         ...state,
-        active: "Dashboard",
+        courseID: data.id,
         courseData: data,
         postData: data ? getPostByID(data.posts, state.postID) : null,
         posts: data ? data.posts : null
@@ -203,7 +203,7 @@ const App = () => {
           // Set userData in state
           setAppData(userData, "userData");
 
-          // Fetch all of the user's courses
+          // Fetch all of the user's courses (active -> Home)
           // --> Done via useEffect (userData goes from null -> object)
 
           // Login failed
@@ -217,6 +217,7 @@ const App = () => {
   useEffect(() => {
     console.log("userData:", state.userData);
     // If user data is valid, fetch all of the user's courses
+    // Maybe check that state.active was previously Login?
     if (state.userData) {
       console.log("You are now logged in! Fetching your courses...");
       fetchUserCourses();
@@ -236,7 +237,7 @@ const App = () => {
         // User courses retrieved
         if (userCourses) {
 
-          // Set userCourses in state
+          // Set userCourses in state, active to Home
           setAppData(userCourses, "userCourses");
 
           // Display the user's dashboard with all of their courses
@@ -252,10 +253,13 @@ const App = () => {
 
   // Detect userCourses changes
   useEffect(() => {
+    // Nothing to do here.. user can pick a course or join/create
+    // If the user has no courses, their only options are to join/create
     console.log("userCourses:", state.userCourses);
   }, [state.userCourses]);
 
-  // Fetch course data from the server
+  // Fetch course data from the server once a user selects one from the Home view
+  // This is also runs in general whenever the course gets updated from within the single-course view!
   const fetchCourseData = (courseID) => {
     request("GET", API.COURSES, courseID)
       .then((courseData) => {
@@ -267,7 +271,7 @@ const App = () => {
           setAppData(courseData, "courseData");
 
           // Display the course page
-          // --> Done via useEffect (courseData goes from null -> object)
+          // --> Done via useEffect (when courseData goes from null -> object, change active view to Dashboard)
 
           // Failed to retrieve course data
         } else {
@@ -280,12 +284,21 @@ const App = () => {
 
   // Detect courseData changes
   useEffect(() => {
-    console.log("courseData:", state.courseData);
+    // If courseData changes while the active view is Home, change it to dashboard
+    // If the active view is not Dashboard (meaning the user selected a course from within the course or another course), keep it as is
+    // Use another useEffect to reload courseData in those cases (when courseData.id changes for example)
+    // This is so that courseData does not cause the user to leave a post if all they were doing was updating it or something
+
+    // If courseData changes to a valid object
     if (state.courseData) {
 
-      //
+      // If the current active view is Home, switch to Dashboard
+      if (state.active === "Home") {
+        setState({ ...state, active: "Dashboard" });
+      }
 
     }
+
   }, [state.courseData]);
 
 
@@ -558,22 +571,21 @@ const App = () => {
 
           </section>
 
-          {/* Test Controls */}
-          <div className="test-controls mt-2">
-            test controls:
-            <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
-            <Button text="Analytics" onClick={() => setActive("Analytics")} />
-            <Button text="Refresh DB" onClick={() => resetDB()} />
-            <Button text="admin" onClick={() => setRole("admin")} />
-            <Button text="owner" onClick={() => setRole("owner")} />
-            <Button text="instructor" onClick={() => setRole("instructor")} />
-            <Button text="student" onClick={() => setRole("student")} />
-            current role: {state.role}
-          </div>
-
         </>
       }
 
+      {/* Test Controls */}
+      <div className="test-controls mt-2">
+        test controls:
+        <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+        <Button text="Analytics" onClick={() => setActive("Analytics")} />
+        <Button text="Refresh DB" onClick={() => resetDB()} />
+        <Button text="admin" onClick={() => setRole("admin")} />
+        <Button text="owner" onClick={() => setRole("owner")} />
+        <Button text="instructor" onClick={() => setRole("instructor")} />
+        <Button text="student" onClick={() => setRole("student")} />
+        current role: {state.role}
+      </div>
       <DevData name="App (state)" props={state} />
     </div>
 
