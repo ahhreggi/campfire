@@ -24,7 +24,8 @@ const Main = (props) => {
     onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
-    onTagToggle: PropTypes.func
+    onTagToggle: PropTypes.func,
+    onRedirect: PropTypes.func
   };
 
   // const [state, setState] = useState({
@@ -96,6 +97,7 @@ const Main = (props) => {
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
           courseData={props.courseData}
           onAddPost={props.onAddPost}
+          onRedirect={props.onRedirect}
         />
       }
 

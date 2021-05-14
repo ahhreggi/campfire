@@ -762,6 +762,7 @@ const App = () => {
                 onEditComment={editComment}
                 onDeleteComment={deleteComment}
                 onTagToggle={updateSelectedTags}
+                onRedirect={setActive}
               />
             </div>
 
