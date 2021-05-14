@@ -8,6 +8,7 @@ import Main from "./Main";
 import Button from "./Button";
 import Login from "./Login";
 import Home from "./Home";
+import DevData from "./DevData";
 import Register from "./Register";
 import Create from "./Create";
 import Join from "./Join";
@@ -67,7 +68,6 @@ const App = () => {
     userCourses: null, // fetchUserCourses
 
     active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
-    role: null,
 
     courseID: null,
     courseData: null, // all data for the current courseID
@@ -93,29 +93,6 @@ const App = () => {
     }
   }, [state.active]);
 
-  // Detect userData changes
-  useEffect(() => {
-    console.log("userData:", state.userData);
-    // If user data is valid, fetch all of the user's courses
-    if (state.userData) {
-      console.log("You are now logged in! Fetching your courses...");
-      fetchUserCourses();
-
-      // If user data changes to null, go to login/home
-    } else {
-      console.log("You are now logged out!");
-    }
-
-  }, [state.userData]);
-
-  // Detect userCourses changes
-  useEffect(() => {
-    console.log("userCourses:", state.userCourses);
-    // if (state.userCourses) {
-    //   redirectTo("/hello");
-    // }
-  }, [state.userCourses]);
-
   //////////////////
 
   // Testing purposes
@@ -123,66 +100,6 @@ const App = () => {
     console.log("Setting auth token to", role);
     setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
   };
-
-  // useEffect(() => {
-  //   setActive("Dashboard");
-  // }, [state.role]);
-
-  /////////////////
-
-  // Fetch course data when:
-  // -- selecting a new courseID
-  // -- changing active view
-  // -- changing active postID
-  // useEffect(() => {
-  // console.log("fetching course data");
-  // fetchCourseData(state.courseID);
-  // }, [state.courseID, state.active, state.reloader]);
-
-  // Show a loading screen if courseData is null
-  // useEffect(() => {
-  //   setState({ ...state, loading: !state.courseData });
-  // }, [state.courseData]);
-
-  // If postID changes, check that the active view is "Post". If not, change to it.
-  // useEffect(() => {
-  //   if (state.postID && state.active !== "Post") {
-  //     console.log("postID changed and active was not on Post. changing now...");
-  //     // setState({ ...state, active: "Post" });
-  //     // console.log(state.postID);
-  //     // setActive("Post", state.postID);
-  //   }
-  // }, [state.postID]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("COURSEDATA TRIGGERED");
-  // }, [state.courseData]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("POSTS TRIGGERED", state.posts);
-  // }, [state.posts]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("POSTDATA TRIGGERED", state.postData);
-  // }, [state.postData]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("POSTID TRIGGERED", state.postID);
-  // }, [state.postID]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("ACTIVE TRIGGERED", state.active);
-  // }, [state.active]);
-
-  // // Reloader
-  // useEffect(() => {
-  //   console.log("RELOADER TRIGGERED");
-  // }, [state.reloader]);
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
@@ -229,37 +146,45 @@ const App = () => {
       });
   };
 
-  // Fetch course data from the server
-  const fetchCourseData = (courseID) => {
-    request("GET", API.COURSES, courseID)
-      .then(data => {
-        setAppData(data, "course");
-      });
-  };
-
   // Set the application data
-  const setAppData = (data, type, active = null) => {
-    if (type === "course") {
-      setState({
-        ...state,
-        courseData: data,
-        postData: data ? getPostByID(data.posts, state.postID) : null,
-        posts: data ? data.posts : null,
-        loading: !data,
-        active: active !== null ? active : state.active
-      });
-    } else if (type === "post") {
+  //   userData: null, // fetchUserData
+  //   userCourses: null, // fetchUserCourses
+
+  //   active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
+
+  //   courseID: null,
+  //   courseData: null, // all data for the current courseID
+
+  //   postID: null, // a post ID or null if viewing dashboard/analytics,
+  //   postData: null, // post data for the current post ID or null if viewing dashboard/analytics
+
+  //   posts: null, // all posts for the current course
+
+  //   selectedTags: [],
+
+  //   loading: false,
+  //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
+
+  const setAppData = (data, type) => {
+    if (type === "post") {
       setState({
         ...state,
         postData: data,
         postID: data.id,
-        reloader: !state.reloader,
-        active: active !== null ? active : state.active
+        reloader: !state.reloader
       });
     } else if (type === "userData") {
       setState({ ...state, userData: data });
     } else if (type === "userCourses") {
       setState({ ...state, userCourses: data, active: "Home" });
+    } else if (type === "courseData") {
+      setState({
+        ...state,
+        active: "Dashboard",
+        courseData: data,
+        postData: data ? getPostByID(data.posts, state.postID) : null,
+        posts: data ? data.posts : null
+      });
     }
   };
 
@@ -270,13 +195,13 @@ const App = () => {
 
   const fetchUserData = (data) => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
-      .then((data) => {
+      .then((userData) => {
 
         // Login successful
-        if (data) {
+        if (userData) {
 
           // Set userData in state
-          setAppData(data, "userData");
+          setAppData(userData, "userData");
 
           // Fetch all of the user's courses
           // --> Done via useEffect (userData goes from null -> object)
@@ -288,13 +213,20 @@ const App = () => {
       });
   };
 
-  const redirectTo = (path) => {
-    window.location.href = window.location.protocol + "//" + window.location.host + path;
-  };
+  // Detect userData changes
+  useEffect(() => {
+    console.log("userData:", state.userData);
+    // If user data is valid, fetch all of the user's courses
+    if (state.userData) {
+      console.log("You are now logged in! Fetching your courses...");
+      fetchUserCourses();
 
-  // const redirectTo = (path) => {
-  //   navigate(path, { replace: true });
-  // };
+      // No user data
+    } else {
+      console.log("You are now logged out!");
+    }
+
+  }, [state.userData]);
 
   // Fetch all of the current user's courses
   const fetchUserCourses = () => {
@@ -307,19 +239,56 @@ const App = () => {
           // Set userCourses in state
           setAppData(userCourses, "userCourses");
 
-          // // Redirect to "/"
-          // redirectTo("/");
-
           // Display the user's dashboard with all of their courses
           // --> Done via useEffect (userCourses goes from null -> array)
 
-        // User courses not retrieved
+        // Failed to retrieve user courses
         } else {
           console.log("❌ fetchUserCourses failed!");
 
         }
       });
   };
+
+  // Detect userCourses changes
+  useEffect(() => {
+    console.log("userCourses:", state.userCourses);
+  }, [state.userCourses]);
+
+  // Fetch course data from the server
+  const fetchCourseData = (courseID) => {
+    request("GET", API.COURSES, courseID)
+      .then((courseData) => {
+
+        // User selected course retrieved
+        if (courseData) {
+
+          // Set courseData in state
+          setAppData(courseData, "courseData");
+
+          // Display the course page
+          // --> Done via useEffect (courseData goes from null -> object)
+
+          // Failed to retrieve course data
+        } else {
+          console.log("❌ fetchUserCourses failed!");
+
+        }
+
+      });
+  };
+
+  // Detect courseData changes
+  useEffect(() => {
+    console.log("courseData:", state.courseData);
+    if (state.courseData) {
+
+      //
+
+    }
+  }, [state.courseData]);
+
+
 
   // Register a new user account
   const registerUser = (data) => {
@@ -507,6 +476,14 @@ const App = () => {
 
     <div className="App">
 
+      {/* Loading Message (when active is null) */}
+      {state.loading &&
+        <div className="display-4 d-flex justify-content-center align-items-center h-100">
+          Loading...
+        </div>
+      }
+
+      {/* Login page */}
       {state.active === "Login" &&
         <Login
           props={state}
@@ -514,145 +491,93 @@ const App = () => {
         />
       }
 
+      {/* Show all user courses */}
       {state.active === "Home" &&
         <Home
           userData={state.userData}
           userCourses={state.userCourses}
+          onClickCourse={fetchCourseData}
 
           props={state}
         />
       }
 
-      {/* Nav Bar (requires userData, userCourses, courseData) */}
+      {/* Single course view */}
       {state.userData && state.userCourses && state.courseData &&
+        <>
+
+          {/* Nav Bar (requires userData, userCourses, courseData) */}
           <Nav
             onClick={setActive}
             active={state.active}
             viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
-            courseName="Some Course Name"
+            courseName={state.courseData.name}
             userAvatar={state.userData.avatarID}
             userName={`${state.userData.firstName} ${state.userData.lastName}`}
           />
-      }
 
-      <>
-        {/* Loading Message (when active is null) */}
-        {state.loading &&
-          <div className="display-4 d-flex justify-content-center align-items-center h-100">
-            Loading...
-          </div>
-        }
+          <section className="app-containers">
 
-        {/* Logged in view (userData exists) */}
-        {state.userData && state.userCourses && state.courseData &&
-          <>
+            {/* All Posts */}
+            <div className="app-left">
 
-
-            <section className="app-containers">
-
-              {/* All Posts */}
-              <div className="app-left">
-
-                {/* PostList is shown only if the user has a course selected */}
-                {state.courseData &&
-                  <PostList
-                    active={state.active}
-                    selectedPostID={state.postID}
-                    tags={state.courseData.tags}
-                    posts={state.courseData.posts}
-                    onClick={(postID) => setActive("Post", postID)}
-                    selectedTags={state.selectedTags}
-                    onTagToggle={updateSelectedTags}
-                    onTagClear={clearSelectedTags}
-                    onNewPost={() => setActive("New Post")}
-                  />
-                }
-              </div>
-
-              {/* Current View */}
-              <div className="app-right">
-                <Main
+              {/* PostList is shown only if the user has a course selected */}
+              {state.courseData &&
+                <PostList
                   active={state.active}
-                  userData={state.userData}
-                  courseData={state.courseData}
-                  postID={state.postID}
-                  onEditBookmark={editBookmark}
-                  onAddPost={addPost}
-                  onEditPost={editPost}
-                  onDeletePost={deletePost}
-                  onAddComment={addComment}
-                  onLikeComment={likeComment}
-                  onEditComment={editComment}
-                  onDeleteComment={deleteComment}
+                  selectedPostID={state.postID}
+                  tags={state.courseData.tags}
+                  posts={state.courseData.posts}
+                  onClick={(postID) => setActive("Post", postID)}
+                  selectedTags={state.selectedTags}
                   onTagToggle={updateSelectedTags}
+                  onTagClear={clearSelectedTags}
+                  onNewPost={() => setActive("New Post")}
                 />
-              </div>
-
-            </section>
-
-            {/* Test Controls */}
-            <div className="test-controls mt-2">
-              test controls:
-              <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
-              <Button text="Analytics" onClick={() => setActive("Analytics")} />
-              <Button text="Refresh DB" onClick={() => resetDB()} />
-              <Button text="admin" onClick={() => setRole("admin")} />
-              <Button text="owner" onClick={() => setRole("owner")} />
-              <Button text="instructor" onClick={() => setRole("instructor")} />
-              <Button text="student" onClick={() => setRole("student")} />
-              current role: {state.role}
-
-              {/* <Link to="/"><Button text="Index" /></Link>
-              <Link to="/login"><Button text="Login" /></Link>
-              <Link to="/register"><Button text="Register" /></Link>
-              <Link to="/create"><Button text="Create" /></Link>
-              <Link to="/join"><Button text="Join" /></Link>
-              <Link to="/123"><Button text="Error404" /></Link> */}
+              }
             </div>
 
-          </>
-        }
-      </>
+            {/* Current View */}
+            <div className="app-right">
+              <Main
+                active={state.active}
+                userData={state.userData}
+                courseData={state.courseData}
+                postID={state.postID}
+                onEditBookmark={editBookmark}
+                onAddPost={addPost}
+                onEditPost={editPost}
+                onDeletePost={deletePost}
+                onAddComment={addComment}
+                onLikeComment={likeComment}
+                onEditComment={editComment}
+                onDeleteComment={deleteComment}
+                onTagToggle={updateSelectedTags}
+              />
+            </div>
 
-      {/* <Route path="/home" render={() => {
-            <Home
+          </section>
 
-            />;
-          }} />
+          {/* Test Controls */}
+          <div className="test-controls mt-2">
+            test controls:
+            <Button text="Dashboard" onClick={() => setActive("Dashboard")} />
+            <Button text="Analytics" onClick={() => setActive("Analytics")} />
+            <Button text="Refresh DB" onClick={() => resetDB()} />
+            <Button text="admin" onClick={() => setRole("admin")} />
+            <Button text="owner" onClick={() => setRole("owner")} />
+            <Button text="instructor" onClick={() => setRole("instructor")} />
+            <Button text="student" onClick={() => setRole("student")} />
+            current role: {state.role}
+          </div>
 
-          <Route path="/login" exact render={() => (
-            <Login
-              data={state}
-              onSubmit={fetchUserData}
-            />
-          )} />
+        </>
+      }
 
-          <Route path="/register" exact render={() => (
-            <Register
-              data={state}
-              onSubmit={registerUser}
-            />
-          )} />
-
-          <Route path="/create" exact render={() => (
-            <Create
-              onSubmit={createCourse}
-            />
-          )} />
-
-          <Route path="/join" exact render={() => (
-            <Join
-              onSubmit={joinCourse}
-            />
-          )} />
-
-          <Route component={Error404} />
-
-        </Switch> */}
-
+      <DevData name="App (state)" props={state} />
     </div>
 
-  // </Router>
+
   );
 };
 

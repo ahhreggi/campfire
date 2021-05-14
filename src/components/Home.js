@@ -10,11 +10,16 @@ const Home = (props) => {
     onClickCourse: PropTypes.func
   };
 
+  // Fetch data for a course by ID and go to its page
+  const selectCourse = (courseID) => {
+    props.onClickCourse(courseID);
+  };
+
   const userCourses = props.userCourses.map(course => {
     return (
       <div
         key={course.id}
-        onClick={props.onClickCourse}
+        onClick={() => selectCourse(course.id)}
       >
         {course.id}---{course.name}---{course.role}
       </div>
