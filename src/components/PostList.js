@@ -28,6 +28,7 @@ const PostList = (props) => {
   };
 
   const [state, setState] = useState({
+    active: props.active,
     showFilters: true,
     showPinned: true,
     showBookmarked: true,
@@ -42,10 +43,22 @@ const PostList = (props) => {
     posts: props.posts
   });
 
-  // Process posts into categories whenever searchText changes
   useEffect(() => {
-    processPosts();
-  }, [state.searchText, state.selectedTags]);
+    console.log("posts changed to", props.posts);
+    processPosts(props.posts, state.selectedTags, state.searchText);
+  }, [props.posts]);
+
+  useEffect(() => {
+    console.log("active changed to", state.active);
+    setState({ ...state, active: props.active });
+    processPosts(props.posts, state.selectedTags, state.searchText);
+  }, [props.active]);
+
+  // Process posts into categories whenever searchText or selectedTags change
+  useEffect(() => {
+    console.log("processing");
+    processPosts(props.posts, state.selectedTags, state.searchText);
+  }, [state.posts, state.searchText, state.selectedTags]);
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
@@ -71,11 +84,10 @@ const PostList = (props) => {
   // STEPS: Filter by tags & search text, then categorize in state
 
   // All in one post list processor
-  const processPosts = () => {
+  const processPosts = (posts, selectedTags, searchText) => {
     console.log("processing posts");
-    console.log(state.selectedTags);
-    const filteredByTags = filterPostsByTags(state.posts, state.selectedTags);
-    const filteredBySearchText = filterPostsBySearchText(filteredByTags, state.searchText);
+    const filteredByTags = filterPostsByTags(posts, selectedTags);
+    const filteredBySearchText = filterPostsBySearchText(filteredByTags, searchText);
     categorizePosts(filteredBySearchText);
     // categorizePosts(props.posts);
   };

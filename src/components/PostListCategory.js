@@ -45,7 +45,6 @@ const PostListCategory = (props) => {
 
   return (
     <div className="PostListCategory list">
-      hey
       {categoryItems}
     </div>
   );
