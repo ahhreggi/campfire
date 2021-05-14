@@ -33,7 +33,8 @@ const PostList = (props) => {
     showBookmarked: true,
     showPosts: true,
     showSearch: false,
-    searchText: ""
+    searchText: "",
+    selectedPostID: props.selectedPostID
   });
 
   // Uncollapse categories when selecting a filter
@@ -60,6 +61,11 @@ const PostList = (props) => {
   }, [state.searchText]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const onSelectPost = (postID) => {
+    setState({ ...state, selectedPostID: postID });
+    props.onClick(postID);
+  };
 
   const toggleSearch = () => {
     console.log("toggling search bar");
@@ -133,36 +139,36 @@ const PostList = (props) => {
   };
 
   // Create PostListItem components with the given array of posts
-  const generatePostListItems = (posts) => {
-    return posts.map(post => {
-      // Get the total number of comments + replies of a post
-      const numComments = post.comments
-        .map(comment => 1 + comment.replies.length)
-        .reduce((a, b) => a + b, 0);
-      // Check if a student has commented on the post
-      const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
-      // Check if an instructor has commented on the post
-      const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
-      return (
-        <PostListItem
-          key={post.id}
-          id={post.id}
-          title={post.title}
-          body={post.body}
-          pinned={post.pinned}
-          bookmarked={post.bookmarked}
-          bestAnswer={post.best_answer}
-          tags={post.tags}
-          views={post.views}
-          comments={numComments}
-          showStudentBadge={showStudentBadge}
-          showInstructorBadge={showInstructorBadge}
-          onClick={props.onClick}
-          selected={props.selectedPostID === post.id}
-        />
-      );
-    });
-  };
+  // const generatePostListItems = (posts) => {
+  //   return posts.map(post => {
+  //     // Get the total number of comments + replies of a post
+  //     const numComments = post.comments
+  //       .map(comment => 1 + comment.replies.length)
+  //       .reduce((a, b) => a + b, 0);
+  //     // Check if a student has commented on the post
+  //     const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
+  //     // Check if an instructor has commented on the post
+  //     const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
+  //     return (
+  //       <PostListItem
+  //         key={post.id}
+  //         id={post.id}
+  //         title={post.title}
+  //         body={post.body}
+  //         pinned={post.pinned}
+  //         bookmarked={post.bookmarked}
+  //         bestAnswer={post.best_answer}
+  //         tags={post.tags}
+  //         views={post.views}
+  //         comments={numComments}
+  //         showStudentBadge={showStudentBadge}
+  //         showInstructorBadge={showInstructorBadge}
+  //         onClick={props.onClick}
+  //         selected={props.selectedPostID === post.id}
+  //       />
+  //     );
+  //   });
+  // };
 
   // Move all bookmarked posts to the front of the given posts array
   const sortByBookmarked = (posts) => {
@@ -228,9 +234,12 @@ const PostList = (props) => {
   // Sort the pinned posts by bookmark status
   const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
 
-  const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
-  const bookmarkedPosts = generatePostListItems(descBookmarked);
-  const unpinnedPosts = generatePostListItems(descUnpinned);
+  // const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
+  // const bookmarkedPosts = generatePostListItems(descBookmarked);
+  // const unpinnedPosts = generatePostListItems(descUnpinned);
+  const pinnedPosts = bookmarkedPinnedPosts;
+  const bookmarkedPosts = descBookmarked;
+  const unpinnedPosts = descUnpinned;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -330,7 +339,11 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showPinned &&
-            <PostListCategory posts={pinnedPosts} />
+            <PostListCategory
+              posts={[]}
+              onClick={onSelectPost}
+              selectedPostID={state.selectedPostID}
+            />
           }
         </div>
 
@@ -347,7 +360,11 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showBookmarked &&
-            <PostListCategory posts={bookmarkedPosts} />
+            <PostListCategory
+              posts={[]}
+              onClick={onSelectPost}
+              selectedPostID={state.selectedPostID}
+            />
           }
         </div>
 
@@ -364,7 +381,11 @@ const PostList = (props) => {
             </div>
           </div>
           {state.showPosts &&
-            <PostListCategory posts={unpinnedPosts} />
+            <PostListCategory
+              posts={[]}
+              onClick={onSelectPost}
+              selectedPostID={state.selectedPostID}
+            />
           }
         </div>
       </div>
