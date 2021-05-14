@@ -40,6 +40,10 @@ const Nav = (props) => {
           <span className="user-name">{props.userName}</span>
         </div>
 
+        <div>
+          <a href="/">Logout</a>
+        </div>
+
       </section>
     </div>
   );

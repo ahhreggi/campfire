@@ -13,7 +13,7 @@
     opacity: 0.5;
   }
 
-  .message {
+  .resolution-message {
     font-weight: 700;
     font-size: 1.2rem;
     border-radius: 15px;
@@ -21,6 +21,7 @@
     align-items: center;
     border: 2px solid $green;
     padding: 1rem;
+
     img {
       margin-right: 0.5rem;
     }
@@ -48,21 +49,28 @@
       margin-bottom: 0.2rem;
       margin-left: 1rem;
       cursor: pointer;
+
       img.cross {
         width: 0.85rem;
         margin-top: 0.1rem;
       }
+
       span {
         font-size: 0.9rem;
         font-weight: 900;
       }
+
       &:hover {
         color: $red;
+
         img {
           filter: none;
         }
+
       }
+
     }
+
   }
 
   header.status {
@@ -117,7 +125,6 @@
   .post-subheader {
     font-size: 0.8rem;
     margin: 0.5rem 0;
-    // width: 40rem;
 
     .author {
       font-weight: 700;
@@ -203,9 +210,7 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
-          &.reply-second {
-            // padding-top: 1rem;
-          }
+
         }
 
         img {
@@ -214,12 +219,13 @@
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
           opacity: 0.9;
+
         }
 
         .replies-present {
           cursor: pointer;
           opacity: 0.9;
-          // color: $blue;
+
 
           &.replies-active {
             color: $white;
@@ -289,6 +295,7 @@
         width: 1.7rem;
         transform: scaleX(-1);
         margin-right: 0.5rem;
+        filter: brightness(0) invert(100);
       }
 
       span {
