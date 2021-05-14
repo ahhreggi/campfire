@@ -358,6 +358,7 @@ const App = () => {
 
         } else {
           console.log("❌ joinCourse failed!");
+          setState({ ...state, errors: ["Invalid access code!"] });
         }
       });
   };
@@ -457,7 +458,8 @@ const App = () => {
         active: selection,
         postID: postID,
         postData: postData ? postData : getPostByID(state.posts, state.postID),
-        reloader: !state.reloader // need this for deleting comments
+        reloader: !state.reloader, // need this for deleting comments
+        errors: null
       });
     } else {
       setState({
@@ -466,6 +468,7 @@ const App = () => {
         postID: null,
         postData: null,
         // reloader: !state.reloader
+        errors: null
       });
     }
   };

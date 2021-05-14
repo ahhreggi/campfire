@@ -63,6 +63,13 @@ const Join = (props) => {
         Join Page
       </div>
 
+      {/* Errors */}
+      {state.errors && state.errors.length > 0 &&
+        <div className="errors">
+          {state.errors.join("")}
+        </div>
+      }
+
       {/* Form Fields */}
       <div className="form-fields">
         <TextForm

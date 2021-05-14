@@ -43,9 +43,11 @@ const Create = (props) => {
       errors.push("Please complete all fields!");
     } else if (!isValid(state.name, "length", 24)) {
       errors.push("Title is too long!");
-    } else if (!isValid(state.description, length)) {
+    } else if (!isValid(state.description, "length")) {
       errors.push("Description is too long!");
     }
+
+    console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
       setState({ ...state, errors: errors });
@@ -67,6 +69,13 @@ const Create = (props) => {
       <div className="page-title">
         Create Page
       </div>
+
+      {/* Errors */}
+      {state.errors && state.errors.length > 0 &&
+        <div className="errors">
+          {state.errors.join("")}
+        </div>
+      }
 
       {/* Form Fields */}
       <div className="form-fields">
