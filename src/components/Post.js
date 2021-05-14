@@ -48,7 +48,8 @@ const Post = (props) => {
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func,
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    userID: PropTypes.number
   };
 
   const [state, setState] = useState({
@@ -456,6 +457,7 @@ const Post = (props) => {
             onEditBestAnswer={editBestAnswer}
             postAuthorID={props.authorID}
             userName={props.userName}
+            userID={props.userID}
             refBestAnswer={refBestAnswer}
             uncollapsed={state.uncollapsed}
           />

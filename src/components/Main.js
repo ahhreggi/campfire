@@ -87,6 +87,7 @@ const Main = (props) => {
           onDeleteComment={props.onDeleteComment}
           onTagToggle={props.onTagToggle}
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
+          userID={props.userData.userID}
         />
       }
 
