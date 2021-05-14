@@ -175,6 +175,7 @@ const App = () => {
         ...state,
         courseID: data.id,
         courseData: data,
+        // Update post data if any are currently in state
         postData: data ? getPostByID(data.posts, state.postID) : null,
         posts: data ? data.posts : null
       });
@@ -193,7 +194,7 @@ const App = () => {
   // - State is updated (userData)
   // - SIDE EFFECT: User courses are fetched from the server (fetchUserCourses)
   // - State is updated (userCourses)
-  // - User is redirected to Home
+  // - User is redirected to Home, where their courses would be displayed
 
   // Register a new user account
   // Potential errors: email already in use
@@ -215,9 +216,9 @@ const App = () => {
   // - Attempting to login with invalid credentials displays an error
 
   // BASIC USER ROUTE
-  // - User enters an email and password (active ~> Login)
+  // - User enters an email and password via the Login page
   // - User data is fetched from the server
-  // - State is updated (userData)
+  // - State is updated (userData, active: "Home")
   // - SIDE EFFECT 1: User courses are fetched from the server
   // - State is updated (userCourses)
   // - User is redirected to Home, where their courses are displayed
@@ -243,7 +244,7 @@ const App = () => {
     }
   }, [state.userData]);
 
-  // Fetch current user's courses
+  // Fetch the current user's courses
   const fetchUserCourses = () => {
     request("GET", API.COURSES)
       .then((userCourses) => {
@@ -257,54 +258,70 @@ const App = () => {
 
   // COURSE SELECTION ///////////////////////////////////////////////
 
-  // Fetch course data from the server once a user selects one from the Home view
-  // This is also runs in general whenever the course gets updated from within the single-course view!
+  // BASIC USER ROUTE
+  // - User clicks a course they are enrolled in on the Home page (after login/registration)
+  // - Course data is fetched from the server
+  // - State is updated (courseID, courseData)
+  // - SIDE EFFECT 2: Active state is updated to redirect the user to the Dashboard
+
+  // Fetch course data from the server
   const fetchCourseData = (courseID) => {
     request("GET", API.COURSES, courseID)
       .then((courseData) => {
-
-        // User selected course retrieved
         if (courseData) {
-
-          // Set courseData in state
           setAppData(courseData, "courseData");
-
-          // Display the course page
-          // --> Done via useEffect (when courseData goes from null -> object, change active view to Dashboard)
-
-          // Failed to retrieve course data
         } else {
           console.log("❌ fetchUserCourses failed!");
-
         }
+      });
+  };
+
+  // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
+  useEffect(() => {
+    if (state.courseData) {
+      // Redirect to Dashboard if coming from the Home, Create, or Join page
+      const origins = ["Home", "Create", "Join"];
+      if (origins.includes(state.active)) {
+        setState({ ...state, active: "Dashboard" });
+      }
+    }
+  }, [state.courseData]); // state.courseID?
+
+  // COURSE CREATION ////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User enters new course information via the Create page
+  // - Data is sent to the server and the new course data is returned
+  // - State is updated (courseID, courseData)
+  // - SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
+
+  // Create a new course and redirect to it
+  const createCourse = (data) => {
+    request("POST", API.CREATE, null, data)
+      .then((data) => {
+        // TODO: Return the courseData object instead of the current redirect_to url
+
+        // TEMP FIX:
+        // Parse and retrieve the ID from the response body
+        const courseID = parseInt(data.redirect_to.split("/")[2]);
+        // State is updated (courseID)
+        setState({ ...state, courseID: courseID });
+        // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
+        fetchCourseData(courseID);
+        // State is updated (courseData)
+        // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
+
 
       });
   };
 
-  // Detect courseData changes
+  // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
   useEffect(() => {
-    // If courseData changes while the active view is Home, change it to dashboard
-    // If the active view is not Dashboard (meaning the user selected a course from within the course or another course), keep it as is
-    // Use another useEffect to reload courseData in those cases (when courseData.id changes for example)
-    // This is so that courseData does not cause the user to leave a post if all they were doing was updating it or something
-
-    // If courseData changes to a valid object
-    if (state.courseData) {
-
-      // If the current active view is Home, switch to Dashboard
-      if (state.active === "Home") {
-        setState({ ...state, active: "Dashboard" });
-      }
-
+    if (state.courseID && !state.courseData) {
+      fetchCourseData(state.courseID);
+      // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
     }
-
-  }, [state.courseData]);
-
-  // Detect courseID changes
-  useEffect(() => {
-    // TODO
   }, [state.courseID]);
-
 
 
   // // Join an existing course via access code and redirect to it
@@ -318,16 +335,6 @@ const App = () => {
   //     // loading -> courseData becomes !== null and displays dashboard/main app
   //     })
   //     .catch((err) => console.log(err));
-  // };
-
-  // // Create a new course and redirect to it
-  // const createCourse = (data) => {
-  //   request("POST", API.CREATE, null, { name: data.name, description: data.description })
-  //     .then((data) => {
-  //       // need this to give the courseID, currently gives course URL
-  //       const courseID = parseInt(data.redirect_to.split("/")[1]);
-  //       fetchCourseData(courseID);
-  //     });
   // };
 
   ///////////////////////////////////////////////////////////////////
