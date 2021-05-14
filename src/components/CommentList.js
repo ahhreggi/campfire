@@ -14,7 +14,6 @@ const CommentList = (props) => {
     bestAnswer: PropTypes.number,
     onEditBestAnswer: PropTypes.func,
     postAuthorID: PropTypes.number,
-    commentAuthorID: PropTypes.number,
     userName: PropTypes.string,
     userID: PropTypes.number,
     refBestAnswer: PropTypes.object,
@@ -76,8 +75,7 @@ const CommentList = (props) => {
           postAuthorID={props.postAuthorID}
           commentAuthorID={comment.author_id}
           userName={props.userName}
-          userIsPostAuthor={props.userID === props.postAuthorID}
-          userIsCommentAuthor={props.userID === props.commentAuthorID}
+          userID={props.userID}
           refBestAnswer={props.refBestAnswer}
           uncollapsed={state.uncollapsed}
           showReplyList={state.uncollapsed.includes(comment.id)}

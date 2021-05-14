@@ -165,17 +165,17 @@ const App = () => {
   //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
   // Set the application data
-  const setAppData = (data, type) => {
-    if (type === "post") {
+  const setAppData = (data, type, postID = state.postID) => {
+    if (type === "post") { // may not be in use
       setState({
         ...state,
         postData: data,
         postID: data.id,
         reloader: !state.reloader
       });
-    } else if (type === "userData") {
+    } else if (type === "userData") { // in use
       setState({ ...state, userData: data, errors: null });
-    } else if (type === "userCourses") {
+    } else if (type === "userCourses") { // in use
       let active = state.active;
       if (state.active === "Login") {
         active = "Home";
@@ -185,13 +185,13 @@ const App = () => {
         active = "Dashboard";
       }
       setState({ ...state, userCourses: data, active: active });
-    } else if (type === "courseData") {
+    } else if (type === "courseData") { // in use
       setState({
         ...state,
         courseID: data.id,
         courseData: data,
-        // Update post data if any are currently in state
-        postData: data ? getPostByID(data.posts, state.postID) : null,
+        // postID: postID,
+        // postData: data ? getPostByID(data.posts, state.postID) : null,
         posts: data ? data.posts : null
       });
     }
@@ -426,20 +426,75 @@ const App = () => {
 
     request("POST", API.POSTS, null, data)
       .then((postData) => {
-        // Update state to contain the new post data
-        // Reload course data
-        setState({
-          ...state,
-          postID: postData.id,
-          postData: postData,
-          posts: { ...state.posts, postData },
-          reloader: !state.reloader
-        });
+
+        if (postData) {
+
+          // BUG: When creating a new post, server responds with
+          //   {
+          //     "id":18,
+          //     "user_id":1,
+          //     "course_id":1,
+          //     "title":"qwerty",
+          //     "body":"qwerty",
+          //     "created_at":"2021-05-14T08:39:14.711Z",
+          //     "last_modified":"2021-05-14T08:39:14.711Z",
+          //     "best_answer":null,
+          //     "anonymous":false,
+          //     "active":true,
+          //     "pinned":false,
+          //     "views":0
+          //  }
+
+          // Expected response:
+          //   {
+          //     "id": 16,
+          //     "courseTags": [],
+          //     "anonymous": false,
+          //     "author": "Ginger May",
+          //     "bestAnswer": null,
+          //     "body": "asd",
+          //     "pinned": false,
+          //     "bookmarked": false,
+          //     "comments": [],
+          //     "createdAt": "2021-05-14T08:36:37.545Z",
+          //     "lastModified": "2021-05-14T08:36:37.545Z",
+          //     "pinnable": true,
+          //     "editable": true,
+          //     "tags": [],
+          //     "title": "asd",
+          //     "authorID": 1,
+          //     "views": 0,
+          //     "userName": "Ginger May",
+          //     "userID": 1
+          // }
+
+
+          // Update state to contain the new post ID
+          setState({ ...state, postID: postData.id });
+          // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
+          // // Reload course data
+          // setState({
+          //   ...state,
+          //   postID: postData.id,
+          //   postData: postData,
+          //   posts: { ...state.posts, postData },
+          //   // reloader: !state.reloader
+          // });
+
+        }
       })
       .catch(() => {
         console.log("An error occurred. Check that the form is complete!");
       });
   };
+
+  // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
+  // Can also just check if the active view is "New Post" to indicate that new course data should be fetched
+  useEffect(() => {
+    if (state.postID && state.active === "New Post") {
+      fetchCourseData();
+    }
+  }, [state.postID]);
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
@@ -645,7 +700,7 @@ const App = () => {
                   active={state.active}
                   selectedPostID={state.postID}
                   tags={state.courseData.tags}
-                  posts={state.courseData.posts}
+                  posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}
                   selectedTags={state.selectedTags}
                   onTagToggle={updateSelectedTags}
