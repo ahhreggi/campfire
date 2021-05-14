@@ -301,6 +301,11 @@ const App = () => {
 
   }, [state.courseData]);
 
+  // Detect courseID changes
+  useEffect(() => {
+    // TODO
+  }, [state.courseID]);
+
 
 
   // Register a new user account
