@@ -12,9 +12,8 @@ import Create from "./Create";
 import Join from "./Join";
 
 import DevData from "./DevData";
-// import Create from "./Create";
-// import Join from "./Join";
 // import Error404 from "./Error404";
+
 import "./App.scss";
 
 // TEMPORARY DUMMY DATA /////////////////////////////////////////////
@@ -32,10 +31,10 @@ let tokens = {
 /////////////////////////////////////////////////////////////////////
 
 const API = {
-  // GET_COURSES: "/api/courses",
+
   RESET: "/api/debug/reset_db",
 
-  COURSES: "/api/courses", // data = { state.courseID }
+  COURSES: "/api/courses",
 
   POSTS: "/api/posts",
 
@@ -339,7 +338,7 @@ const App = () => {
   // - State is updated (courseID, courseData)
   // - SIDE EFFECT 2: Active state is updated to redirect the user from Join to the Dashboard if courseData exists
 
-  // // Join an existing course via instructor or student access code and redirect to it
+  // Join an existing course via instructor or student access code and redirect to it
   const joinCourse = (data) => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
@@ -548,9 +547,6 @@ const App = () => {
           userData={state.userData}
           userCourses={state.userCourses}
           onClickCourse={fetchCourseData}
-          onCreateCourse={createCourse}
-          onJoinCourse={joinCourse}
-          errors={state.errors}
           onRedirect={setActive}
 
           // props={state}

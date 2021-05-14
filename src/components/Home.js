@@ -1,5 +1,6 @@
 import "./Home.scss";
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 import DevData from "./DevData";
 
@@ -7,7 +8,8 @@ const Home = (props) => {
   Home.propTypes = {
     userData: PropTypes.object,
     userCourses: PropTypes.array,
-    onClickCourse: PropTypes.func
+    onClickCourse: PropTypes.func,
+    onRedirect: PropTypes.func
   };
 
   // Fetch data for a course by ID and go to its page
@@ -38,6 +40,22 @@ const Home = (props) => {
       </div>
       <div>
         {userCourses}
+      </div>
+
+      {/* Create Button */}
+      <div className="create-link">
+        <Button
+          text="Go to Create"
+          onClick={() => props.onRedirect("Create")}
+        />
+      </div>
+
+      {/* Join Button */}
+      <div className="join-link">
+        <Button
+          text="Go to Join"
+          onClick={() => props.onRedirect("Join")}
+        />
       </div>
     </div>
   );
