@@ -96,10 +96,17 @@ const Register = (props) => {
       <div className="panel">
 
         {/* Campfire */}
-        <div className="page-title">
-          Campfire
-          <img className="glow" src="./images/campfire.png" alt="Campfire" />
-        </div>
+        <a
+          className="header"
+          href="https://github.com/ahhreggi/campfire"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="page-title">
+            Campfire
+            <img className="glow" src="./images/campfire.png" alt="Campfire" />
+          </div>
+        </a>
 
         <form>
 
