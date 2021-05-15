@@ -210,7 +210,13 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
-
+          height: 1.5rem;
+          // align-items: center;
+          &.first {
+            img {
+              padding-bottom: 0.1rem;
+            }
+          }
         }
 
         img {
@@ -219,7 +225,6 @@
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
           opacity: 0.9;
-
         }
 
         .replies-present {

@@ -65,6 +65,18 @@ body {
   }
   ///////////////////////////////////////////////////////////////////
 
+  .ref {
+    // border: 1px solid red;
+    position: relative;
+    bottom: 33vh;
+    &.top {
+      bottom: 8vh;
+    }
+    &.best {
+      bottom: 4vh;
+    }
+  }
+
   a {
     text-decoration: none;
   }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
@@ -94,6 +94,9 @@ const CommentListItem = (props) => {
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
     if (!state.showReplyForm) {
+      if (!state.showReplyForm) {
+        scrollToReplyForm();
+      }
       setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showReplyForm: false });
@@ -111,6 +114,9 @@ const CommentListItem = (props) => {
 
   // Toggle reply list
   const toggleReplyList = () => {
+    if (state.showReplyList & state.replies && state.replies.length > 1) {
+      // scrollToCommentTop();
+    }
     setState({ ...state, showReplyList: !state.showReplyList });
   };
 
@@ -150,6 +156,7 @@ const CommentListItem = (props) => {
     props.onAddComment(newReplyData);
     // Hide reply form
     setState({ ...state, showReplyForm: false, showReplyList: true });
+    scrollToReplyForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -242,10 +249,29 @@ const CommentListItem = (props) => {
     "break-body": Math.max(...props.body.split(" ").map(word => word.length)) > 100
   });
 
+  // Scroll to reply form
+  const refReplyForm = useRef();
+  const scrollToReplyForm = () => {
+    setTimeout(() => {
+      refReplyForm.current.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const refCommentTop = useRef();
+  // When closing reply list, scroll to comment top
+  const scrollToCommentTop = () => {
+    setTimeout(() => {
+      refCommentTop.current.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
+    <div className={classes}>
+
+      <div className="ref top" ref={refCommentTop}></div>
+      <div className="ref best" ref={isBestAnswer ? props.refBestAnswer : null}></div>
 
       {/* Top-level Comment */}
       <div className="top">
@@ -443,11 +469,14 @@ const CommentListItem = (props) => {
       {isParent && !state.showConfirmation &&
         <>
           <div className="discussion-label replies-label">
-            <span className="reply-controls">
+            <span className="reply-controls first">
 
               {/* Add Reply Button */}
-              {!state.showReplyList &&
-                <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+              {true &&
+                <span
+                  className={`reply ${state.showReplyForm ? "reply-active" : ""}`}
+                  onClick={state.showReplyList && state.showReplyForm ? () => scrollToReplyForm() : toggleReplyForm}
+                >
                   <img
                     src={reply}
                     alt="reply"
@@ -533,16 +562,19 @@ const CommentListItem = (props) => {
         </>
       }
 
+      <div className="ref" ref={refReplyForm}></div>
       {/* Add Reply Form */}
       {isParent && state.showReplyForm &&
-        <div className="reply-form">
-          <CommentForm
-            label={"NEW REPLY"}
-            userName={props.userName}
-            onAddComment={addReply}
-            onCancelComment={toggleReplyForm}
-          />
-        </div>
+        <>
+          <div className="reply-form">
+            <CommentForm
+              label={"NEW REPLY"}
+              userName={props.userName}
+              onAddComment={addReply}
+              onCancelComment={toggleReplyForm}
+            />
+          </div>
+        </>
       }
 
     </div>
