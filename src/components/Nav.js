@@ -12,11 +12,27 @@ const Nav = (props) => {
     userName: PropTypes.string
   };
 
+  // Return true if active is a view that requires courseData
+  const hasCourseData = (active) => {
+    const valid = ["Dashboard", "Analytics", "Post", "New Post"];
+    return valid.includes(active);
+  };
+
+  // Click the logo redirects to the Home if the current view doesn't have courseData in state
+  // Otherwise, it redirects to Dashboard
+  const handleLogoClick = () => {
+    if (!hasCourseData(props.active)) {
+      props.onClick("Home");
+    } else {
+      props.onClick("Dashboard");
+    }
+  };
+
   return (
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onClick("Dashboard")}>
+      <section className="app-nav left" onClick={() => handleLogoClick()}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
