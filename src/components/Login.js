@@ -15,8 +15,10 @@ const Login = (props) => {
   };
 
   const [state, setState] = useState({
-    email: "",
-    password: "",
+    // email: "",
+    // password: "",
+    email: "hello5@campfire.ca",
+    password: "campfire",
     errors: props.errors
   });
 
@@ -25,7 +27,6 @@ const Login = (props) => {
   }, [props.errors]);
 
   const handleInputChange = (event, field) => {
-    console.log("hey");
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
@@ -43,6 +44,7 @@ const Login = (props) => {
       <DevData name="Login" props={props} />
 
       <div className="panel">
+
         {/* Campfire */}
         <div className="page-title">
           Campfire
@@ -67,14 +69,9 @@ const Login = (props) => {
           />
 
           {/* Errors */}
-
           <div className="errors">
             {state.errors && state.errors.join("")}
           </div>
-
-          {/* <div className="errors">
-            Invalid username/password
-          </div> */}
 
           {/* Submit */}
           <div className="submit">
@@ -99,41 +96,6 @@ const Login = (props) => {
           </div>
         </div>
       </div>
-
-      {/* Form Fields */}
-      {/* <div className="form-fields">
-
-        <TextForm
-          label={"E-mail"}
-          text={state.email}
-          onChange={(event) => handleInputChange(event, "email")}
-        />
-
-        <TextForm
-          label={"Password"}
-          text={state.password}
-          onChange={(event) => handleInputChange(event, "password")}
-        />
-      </div> */}
-
-      {/* Submit Button */}
-      {/* <div className="submit">
-        <Button
-          text="Login"
-          styles="submit login"
-          onClick={handleSubmit}
-        />
-      </div> */}
-
-      {/* Register Button */}
-      {/* <div className="register-link">
-        <Button
-          text="Go to Register"
-          onClick={() => props.onRedirect("Register")}
-        />
-      </div> */}
-
-
 
     </div>
   );
