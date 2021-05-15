@@ -107,8 +107,8 @@ const App = () => {
     request("GET", API.RESET, null, null, "admin")
       .then(() => {
         setTimeout(() => {
-          setActive("Login");
-        }, 2000);
+          window.location.href = "/";
+        }, 1000);
       });
   };
 
@@ -282,7 +282,6 @@ const App = () => {
         // If coming from the Create or Join page, add the new course data to userCourses
         let userCourses = [ ...state.userCourses ];
         if (state.active === "Create" || state.active === "Join") {
-          console.log("hey das a new course!!");
           const isNewCourse = state.userCourses.filter(course => course.id === state.courseData.id).length < 1;
           if (isNewCourse) {
             const newCourse = {
@@ -525,16 +524,23 @@ const App = () => {
   // Update the selected tags dynamically as the user toggles them
   // If only is set to true, only the given tag will be selected
   const updateSelectedTags = (tag, only = false) => {
-    console.log(tag.name);
-    if (only) {
-      setState({ ...state, selectedTags: [tag] });
+    let target;
+    if (tag === "resolved") {
+      target = { id: -1, name: "RESOLVED" };
+    } else if (tag === "unresolved") {
+      target = { id: -2, name: "UNRESOLVED" };
     } else {
-      const selected = hasTag(state.selectedTags, tag.id);
+      target = tag;
+    }
+    if (only) {
+      setState({ ...state, selectedTags: [target] });
+    } else {
+      const selected = hasTag(state.selectedTags, target.id);
       if (selected) {
-        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== target.id);
         setState({ ...state, selectedTags: updatedTags });
       } else {
-        const updatedTags = [ ...state.selectedTags, tag];
+        const updatedTags = [ ...state.selectedTags, target];
         setState({ ...state, selectedTags: updatedTags });
       }
     }
@@ -559,10 +565,6 @@ const App = () => {
       return posts.filter(post => post.id === postID)[0];
     }
   };
-
-  useEffect(() => {
-    console.log("App postID changed to", state.postID);
-  }, [state.postID]);
 
   ///////////////////////////////////////////////////////////////////
 

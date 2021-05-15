@@ -60,7 +60,7 @@ const PostList = (props) => {
     });
   }, [props.selectedTags]);
 
-  // If searchText exists, ensure that showfilters is true
+  // If searchText exists, ensure that showFilters is true
   useEffect(() => {
     if (state.searchText && !state.showFilters) {
       setState({ ...state, showFilters: true });

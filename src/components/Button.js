@@ -20,7 +20,6 @@ const Button = (props) => {
   } else if (props.id === -2) {
     styles += " unresolved";
   }
-  console.log(styles);
 
   return (
     <button
