@@ -460,6 +460,7 @@ const Post = (props) => {
             userRole={props.userRole}
             refBestAnswer={refBestAnswer}
             uncollapsed={state.uncollapsed}
+            type={"comments"}
           />
         </div>
 

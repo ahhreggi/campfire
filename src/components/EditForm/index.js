@@ -149,7 +149,7 @@ const EditForm = (props) => {
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
-        isInstructor={props.role !== "student"}
+        isInstructor={props.isInstructor}
         body={state.previewBody}
         breakBody={state.breakBody}
       />

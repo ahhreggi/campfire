@@ -40,6 +40,7 @@ const CommentForm = (props) => {
           onCancel={props.onCancelComment}
           mode={"COMMENT"}
           minHeight={"5rem"}
+          isInstructor={props.userRole !== "student"}
         />
 
       </div>

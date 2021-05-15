@@ -198,6 +198,25 @@ const CommentListItem = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
+  //   {/* { ANONYMOUS CURRENT USER COMMENT EXAMPLE
+  //       "id": 1,
+  //              excluded: parent_id: null -> signifies it's a comment not a reply
+  //       "post_id": 1,
+  //       "anonymous": true,
+  //       "author_avatar_id": 1,
+  //       "body": "I had the same question!",
+  //       "score": 0,
+  //       "created_at": "2021-05-15T17:58:39.671Z",
+  //       "last_modified": "2021-05-15T17:58:39.671Z",
+  //       "endorsed": false,
+  //       "role": "student",
+  //       "editable": false,
+  //       "endorsable": false,
+  //       "liked": false,
+  //       "endorsements": [],
+  //       "replies": []
+  // } */}
+
   // Check if the comment is a parent
   const isParent = !props.parentID;
 
@@ -376,7 +395,7 @@ const CommentListItem = (props) => {
                 label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
-                isInstructor={userIsInstructor}
+                isInstructor={props.authorRole !== "student"}
                 body={props.body}
                 anonymous={props.anonymous}
                 mode={"COMMENT"}
@@ -509,6 +528,24 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
+      {/* { REPLY
+            "id": 4,
+            "parent_id": 2,
+            "anonymous": false,
+            "author_first_name": "Gresham",
+            "author_last_name": "Barlow",
+            "author_avatar_id": 10,
+            "body": "Thanks for this!!",
+            "score": 0,
+            "created_at": "2021-05-15T17:58:39.671Z",
+            "last_modified": "2021-05-15T17:58:39.671Z",
+            "role": "student",
+            "user_id": 9,
+            "editable": false,
+            "endorsable": false,
+            "liked": false,
+            "endorsements": []
+      } */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
           <CommentList
@@ -523,6 +560,7 @@ const CommentListItem = (props) => {
             userID={props.userID}
             refBestAnswer={props.refBestAnswer}
             uncollapsed={props.uncollapsed}
+            type={"replies"}
           />
         </section>
       }
