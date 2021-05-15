@@ -10,7 +10,13 @@ const Button = (props) => {
     styles: PropTypes.string,
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
-    image: PropTypes.string
+    image: PropTypes.string,
+    type: PropTypes.string
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.onClick();
   };
 
   // If the button is a resolved/unresolved tag, add special styles
@@ -23,8 +29,10 @@ const Button = (props) => {
 
   return (
     <button
+      type={props.type}
       className={`${styles}`}
-      onClick={props.onClick}
+      onSubmit={(e) => handleSubmit(e)}
+      onClick={(e) => handleSubmit(e)}
       disabled={props.disabled}
     >
       {props.image &&

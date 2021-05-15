@@ -1,5 +1,130 @@
 @import "../styles/global.scss";
 
 .Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 
+  .panel {
+    box-shadow: -3px -3px 5px $navy-4, 3px 3px 5px $navy-0;
+    height: 35rem;
+    width: 24rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    padding: 1rem;
+
+
+    .page-title {
+      font-family: $font-title;
+      font-weight: bold;
+      font-size: 2.7rem;
+      margin-left: 0rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.5s;
+      animation: glow 2s infinite alternate;
+      margin-top: 2rem;
+      margin-bottom: 6rem;
+      user-select: none;
+
+      @keyframes glow {
+        from {
+          color: $white;
+          filter: drop-shadow(0px 0px 0px $orange);
+          text-shadow: 0px 0px 0px $orange;
+        }
+        to {
+          color: rgb(255, 226, 188);
+          filter: drop-shadow(0px 0px 3px $orange);
+          text-shadow: 0px 0px 3px rgb(255, 72, 0);
+        }
+      }
+
+      img {
+        width: 3.6rem;
+        margin-left: 0.8rem;
+      }
+
+    }
+
+    .InputField {
+      input {
+        outline: none;
+        border: none;
+        margin: 0.4rem;
+        height: 2.7rem;
+        width: 20rem;
+        padding: 1rem;
+        border-radius: 50px;
+        box-shadow: 5px 5px 5px rgba(71, 71, 71, 0.527) inset;
+        background-color: $white;
+        color: $navy-5;
+        &::placeholder {
+          color: $navy-8;
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .errors {
+      height: 2.5rem;
+      margin-top: 0.5rem;
+      color: $red;
+      opacity: 0.8;
+      display: flex;
+      justify-content: center;
+    }
+
+
+    .submit{
+      button {
+        margin: 0.3rem;
+        height: 2.5rem;
+        width: 20rem;
+        padding: 0.5rem;
+        border-radius: 50px;
+        margin-top: 0rem;
+        margin-bottom: 2rem;
+        border: none;
+        background-color: $navy-3;
+        &:hover {
+          background-color: $navy-5;
+        }
+        &:active {
+          background-color: $navy-4;
+        }
+      }
+    }
+
+    .links {
+      color: $navy-8;
+      user-select: none;
+
+      div {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      span {
+        color: $orange;
+        font-weight: 900;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+
+
+
+  }
 }

@@ -58,6 +58,14 @@ const Home = (props) => {
         />
       </div>
 
+      {/* Join Button */}
+      <div className="logout">
+        <Button
+          text="Logout"
+          onClick={() => props.onRedirect("Logout")}
+        />
+      </div>
+
     </div>
   );
 };

@@ -469,7 +469,9 @@ const App = () => {
 
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
-    if (selection === "Post") {
+    if (selection === "Logout") {
+      window.location.href = "/";
+    } else if (selection === "Post") {
       setState({
         ...state,
         active: selection,
