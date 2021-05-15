@@ -27,6 +27,7 @@ const Post = (props) => {
     courseTags: PropTypes.array,
     anonymous: PropTypes.bool,
     author: PropTypes.string,
+    authorRole: PropTypes.string,
     bestAnswer: PropTypes.number,
     body: PropTypes.string,
     pinned: PropTypes.bool,
@@ -49,6 +50,7 @@ const Post = (props) => {
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func,
     userName: PropTypes.string,
+    userRole: PropTypes.string,
     userID: PropTypes.number
   };
 
@@ -135,7 +137,7 @@ const Post = (props) => {
   const scrollToCommentForm = () => {
     setTimeout(() => {
       refCommentForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 200);
   };
 
   // Scroll to best answer
@@ -264,21 +266,6 @@ const Post = (props) => {
   const timestamp = formatTimestamp(props.lastModified);
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
-  // Get the best answer
-  // let best;
-  // for (const comment of props.comments) {
-  //   if (props.bestAnswer === comment.id) {
-  //     best = comment;
-  //     break;
-  //   }
-  //   for (const reply of comment.replies) {
-  //     if (props.bestAnswer === comment.id) {
-  //       best = reply;
-  //       break;
-  //     }
-  //   }
-  // }
-
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -339,7 +326,7 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className="author">{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
           </div>
         </div>
 
@@ -351,6 +338,7 @@ const Post = (props) => {
               tags={props.tags}
               selectedTags={props.tags}
               onClick={handleClick}
+              resolved={!!props.bestAnswer}
             />
           </div>
 
@@ -469,6 +457,7 @@ const Post = (props) => {
             postAuthorID={props.authorID}
             userName={props.userName}
             userID={props.userID}
+            userRole={props.userRole}
             refBestAnswer={refBestAnswer}
             uncollapsed={state.uncollapsed}
           />
@@ -490,10 +479,11 @@ const Post = (props) => {
 
         {/* Add Comment Form */}
         {state.showCommentForm &&
-          <div className="comment-form">
+          <div className={`comment-form ${props.userRole !== "student" ? "instructor" : ""}`}>
             <CommentForm
               label={"NEW DISCUSSION"}
               userName={props.userName}
+              userRole={props.userRole}
               onAddComment={addComment}
               onCancelComment={toggleCommentForm}
             />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import TextForm from "./EditForm/TextForm";
+import InputField from "./InputField";
 import Button from "./Button";
 import "./Register.scss";
 
@@ -56,21 +56,21 @@ const Register = (props) => {
   const handleSubmit = () => {
     const errors = [];
     if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
-      errors.push("Please complete all fields!");
-    } else if (state.password !== state.passwordConf) {
-      errors.push("Passwords do not match!");
-    } else if (!isValid(state.firstName, "length")) {
-      errors.push("First name is too long!");
-    } else if (!isValid(state.lastName, "length")) {
-      errors.push("Last name is too long!");
-    } else if (!isValid(state.email, "length")) {
-      errors.push("Email is too long!");
-    } else if (!isValid(state.password, "length")) {
-      errors.push("Password is too long!");
+      errors.push("Incomplete fields");
     } else if (!isValid(state.firstName, "name") || !isValid(state.lastName, "name")) {
-      errors.push("First and last name may only include letters and spaces.");
+      errors.push("Name may include letters & spaces only");
+    } else if (state.password !== state.passwordConf) {
+      errors.push("Passwords must match");
     } else if (!isValid(state.email, "email")) {
-      errors.push("Please enter a valid email");
+      errors.push("Invalid email");
+    } else if (!isValid(state.firstName, "length")) {
+      errors.push("First name is too long");
+    } else if (!isValid(state.lastName, "length")) {
+      errors.push("Last name is too long");
+    } else if (!isValid(state.email, "length")) {
+      errors.push("Email is too long");
+    } else if (!isValid(state.password, "length")) {
+      errors.push("Password is too long");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -91,68 +91,75 @@ const Register = (props) => {
   return (
     <div className="Register">
 
-      <DevData name="Register" props={props} />
+      {/* <DevData name="Register" props={props} /> */}
 
-      {/* Page Title */}
-      <div className="page-title">
-        Register Page
-      </div>
+      <div className="panel">
 
-      {/* Errors */}
-      {state.errors && state.errors.length > 0 &&
-        <div className="errors">
-          {state.errors.join("")}
+        {/* Campfire */}
+        <div className="page-title">
+          Campfire
+          <img className="glow" src="./images/campfire.png" alt="Campfire" />
         </div>
-      }
 
-      {/* Form Fields */}
-      <div className="form-fields">
-        <TextForm
-          label={"First Name"}
-          text={state.firstName}
-          onChange={(event) => handleInputChange(event, "firstName")}
-        />
+        <form>
 
-        <TextForm
-          label={"Last Name"}
-          text={state.lastName}
-          onChange={(event) => handleInputChange(event, "lastName")}
-        />
+          {/* Input Fields */}
+          <InputField
+            value={state.firstName}
+            placeholder={"First Name"}
+            onChange={(event) => handleInputChange(event, "firstName")}
+          />
+          <InputField
+            value={state.lastName}
+            placeholder={"Last Name"}
+            onChange={(event) => handleInputChange(event, "lastName")}
+          />
+          <InputField
+            value={state.email}
+            placeholder={"Email"}
+            onChange={(event) => handleInputChange(event, "email")}
+          />
+          <InputField
+            value={state.password}
+            placeholder={"Password"}
+            type="password"
+            onChange={(event) => handleInputChange(event, "password")}
+          />
+          <InputField
+            value={state.passwordConf}
+            placeholder={"Confirm Password"}
+            type="password"
+            onChange={(event) => handleInputChange(event, "passwordConf")}
+          />
 
-        <TextForm
-          label={"E-mail"}
-          text={state.email}
-          onChange={(event) => handleInputChange(event, "email")}
-        />
+          {/* Errors */}
+          <div className="errors">
+            {state.errors && state.errors.join("")}
+          </div>
 
-        <TextForm
-          label={"Password"}
-          text={state.password}
-          onChange={(event) => handleInputChange(event, "password")}
-        />
+          {/* Submit */}
+          <div className="submit">
+            <Button
+              type="submit"
+              text="Sign Up"
+              onClick={handleSubmit}
+            />
+          </div>
 
-        <TextForm
-          label={"Confirm Password"}
-          text={state.passwordConf}
-          onChange={(event) => handleInputChange(event, "passwordConf")}
-        />
-      </div>
+        </form>
 
-      {/* Submit Button */}
-      <div className="submit">
-        <Button
-          text="Register"
-          styles="submit register"
-          onClick={handleSubmit}
-        />
-      </div>
+        {/* Links */}
+        <div className="links">
+          <div className="login">
+            <div>
+              Already have an account?
+              <span onClick={() => props.onRedirect("Login")}>
+                LOGIN
+              </span>
+            </div>
+          </div>
+        </div>
 
-      {/* Login Button */}
-      <div className="login-link">
-        <Button
-          text="Go to Login"
-          onClick={() => props.onRedirect("Login")}
-        />
       </div>
 
     </div>

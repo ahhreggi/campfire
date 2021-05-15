@@ -107,8 +107,8 @@ const App = () => {
     request("GET", API.RESET, null, null, "admin")
       .then(() => {
         setTimeout(() => {
-          setActive("Login");
-        }, 2000);
+          window.location.href = "/";
+        }, 1000);
       });
   };
 
@@ -151,7 +151,8 @@ const App = () => {
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
       let active = state.active;
-      if (state.active === "Login") {
+      // Redirect to Home after Login, Register
+      if (state.active === "Login" || state.active === "Register") {
         active = "Home";
       } else if (state.active === "Create") {
         active = "Dashboard";
@@ -186,7 +187,7 @@ const App = () => {
   // - User enters a first/last name, email, and password
   // - Data is sent to the server and the new user data is returned
   // - State is updated (userData)
-  // - SIDE EFFECT: User courses are fetched from the server (fetchUserCourses)
+  // - SIDE EFFECT 1: User courses are fetched from the server (fetchUserCourses)
   // - State is updated (userCourses)
   // - User is redirected to Home, where their courses would be displayed
 
@@ -271,7 +272,7 @@ const App = () => {
   };
 
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
-  // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
+  // SIDE EFFECT 3: userCourses is updated if courseData exists and is not yet in userCourses (happens when creating/joining a course)
   useEffect(() => {
     // console.log("courseData changed and the active view is", state.active);
     if (state.courseData) {
@@ -282,7 +283,6 @@ const App = () => {
         // If coming from the Create or Join page, add the new course data to userCourses
         let userCourses = [ ...state.userCourses ];
         if (state.active === "Create" || state.active === "Join") {
-          console.log("hey das a new course!!");
           const isNewCourse = state.userCourses.filter(course => course.id === state.courseData.id).length < 1;
           if (isNewCourse) {
             const newCourse = {
@@ -299,7 +299,7 @@ const App = () => {
       }
     }
 
-  }, [state.courseData]); // state.courseID?
+  }, [state.courseData]);
 
   // COURSE CREATION ////////////////////////////////////////////////
 
@@ -315,32 +315,12 @@ const App = () => {
     request("POST", API.CREATE, null, data)
       .then((courseData) => {
         if (courseData) {
-
-          // TODO: Return the courseData object instead of the current redirect_to url
-
-          // TEMP FIX:
-          // Parse and retrieve the ID from the response body
-          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
-          // State is updated (courseID)
-          setState({ ...state, courseID: courseID });
-          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-          fetchCourseData(courseID);
-          // State is updated (courseData)
-          // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
-
+          setAppData(courseData, "courseData");
         } else {
           console.log("❌ createCourse failed!");
         }
       });
   };
-
-  // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-  useEffect(() => {
-    if (state.courseID && !state.courseData) {
-      fetchCourseData(state.courseID);
-      // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
-    }
-  }, [state.courseID]);
 
   // COURSE ENROLLMENT //////////////////////////////////////////////
 
@@ -355,19 +335,7 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-
-          // TODO: Return the courseData object instead of the current redirect_to url
-
-          // TEMP FIX:
-          // Parse and retrieve the ID from the response body
-          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
-          // State is updated (courseID)
-          setState({ ...state, courseID: courseID });
-          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-          fetchCourseData(courseID);
-          // State is updated (courseData)
-          // SIDE EFFECT 2: Active state is updated to redirect the user from Join to the Dashboard if courseData exists
-
+          setAppData(courseData, "courseData");
         } else {
           console.log("❌ joinCourse failed!");
           setState({ ...state, errors: ["Invalid access code!"] });
@@ -501,7 +469,9 @@ const App = () => {
 
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
-    if (selection === "Post") {
+    if (selection === "Logout") {
+      window.location.href = "/";
+    } else if (selection === "Post") {
       setState({
         ...state,
         active: selection,
@@ -525,15 +495,24 @@ const App = () => {
   // Update the selected tags dynamically as the user toggles them
   // If only is set to true, only the given tag will be selected
   const updateSelectedTags = (tag, only = false) => {
-    if (only) {
-      setState({ ...state, selectedTags: [tag] });
+    let target;
+    if (tag === "resolved") {
+      target = { id: -1, name: "RESOLVED" };
+    } else if (tag === "unresolved") {
+      target = { id: -2, name: "UNRESOLVED" };
     } else {
-      const selected = hasTag(state.selectedTags, tag.id);
+      target = tag;
+    }
+    if (only) {
+      setState({ ...state, selectedTags: [target] });
+    } else {
+      const selected = hasTag(state.selectedTags, target.id);
       if (selected) {
-        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
+        const updatedTags = state.selectedTags.filter(sTag => sTag.id !== target.id);
         setState({ ...state, selectedTags: updatedTags });
       } else {
-        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+        const updatedTags = [ ...state.selectedTags, target];
+        setState({ ...state, selectedTags: updatedTags });
       }
     }
   };
@@ -557,10 +536,6 @@ const App = () => {
       return posts.filter(post => post.id === postID)[0];
     }
   };
-
-  useEffect(() => {
-    console.log("App postID changed to", state.postID);
-  }, [state.postID]);
 
   ///////////////////////////////////////////////////////////////////
 

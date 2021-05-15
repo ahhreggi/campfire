@@ -56,6 +56,7 @@ const CommentListItem = (props) => {
 
     userName: PropTypes.string,
     userID: PropTypes.number,
+    userRole: PropTypes.string,
 
     refBestAnswer: PropTypes.object,
 
@@ -112,9 +113,6 @@ const CommentListItem = (props) => {
 
   // Toggle reply list
   const toggleReplyList = () => {
-    if (state.showReplyList & state.replies && state.replies.length > 1) {
-      // scrollToCommentTop();
-    }
     setState({ ...state, showReplyList: !state.showReplyList });
   };
 
@@ -211,6 +209,7 @@ const CommentListItem = (props) => {
 
   // Check if the comment is by the post author
   const isPostAuthor = props.commentAuthorID === props.postAuthorID;
+  console.log(props.authorFirstName, props.commentAuthorID, props.postAuthorID, "<<");
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -220,6 +219,8 @@ const CommentListItem = (props) => {
 
   // Get the author name to display
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
+  console.log(props.authorFirstName, props.authorLastName, props.anonymous, "gives", authorName);
+
 
   // Get the author role to display
   const authorRole = getAuthorRole(props.authorRole, false);
@@ -236,6 +237,8 @@ const CommentListItem = (props) => {
 
   // Check if the post is by the current user
   const userIsPostAuthor = props.userID === props.postAuthorID;
+
+  const userIsInstructor = props.userRole !== "student";
 
   // Get class names
   const classes = classNames({
@@ -255,7 +258,7 @@ const CommentListItem = (props) => {
   const scrollToReplyForm = () => {
     setTimeout(() => {
       refReplyForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 200);
   };
 
   ///////////////////////////////////////////////////////////////////
@@ -273,7 +276,6 @@ const CommentListItem = (props) => {
           <div className="avatar">
             <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
-
 
           {/* Role */}
           <div className={`role ${isInstructor && "instructor"}`}>
@@ -315,7 +317,6 @@ const CommentListItem = (props) => {
 
               {/* Comment Header */}
               <header>
-
 
                 {/* Author */}
                 <div className="comment-author">
@@ -375,7 +376,7 @@ const CommentListItem = (props) => {
                 label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
-                isInstructor={isInstructor}
+                isInstructor={userIsInstructor}
                 body={props.body}
                 anonymous={props.anonymous}
                 mode={"COMMENT"}
@@ -558,6 +559,7 @@ const CommentListItem = (props) => {
       }
 
       <div className="ref" ref={refReplyForm}></div>
+
       {/* Add Reply Form */}
       {isParent && state.showReplyForm &&
         <>
@@ -565,6 +567,7 @@ const CommentListItem = (props) => {
             <CommentForm
               label={"NEW REPLY"}
               userName={props.userName}
+              userRole={props.userRole}
               onAddComment={addReply}
               onCancelComment={toggleReplyForm}
             />
