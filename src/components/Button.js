@@ -13,9 +13,18 @@ const Button = (props) => {
     image: PropTypes.string
   };
 
+  // If the button is a resolved/unresolved tag, add special styles
+  let styles = props.styles;
+  if (props.id === -1) {
+    styles += " resolved";
+  } else if (props.id === -2) {
+    styles += " unresolved";
+  }
+  console.log(styles);
+
   return (
     <button
-      className={`${props.styles}`}
+      className={`${styles}`}
       onClick={props.onClick}
       disabled={props.disabled}
     >

@@ -264,21 +264,6 @@ const Post = (props) => {
   const timestamp = formatTimestamp(props.lastModified);
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
-  // Get the best answer
-  // let best;
-  // for (const comment of props.comments) {
-  //   if (props.bestAnswer === comment.id) {
-  //     best = comment;
-  //     break;
-  //   }
-  //   for (const reply of comment.replies) {
-  //     if (props.bestAnswer === comment.id) {
-  //       best = reply;
-  //       break;
-  //     }
-  //   }
-  // }
-
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -351,6 +336,7 @@ const Post = (props) => {
               tags={props.tags}
               selectedTags={props.tags}
               onClick={handleClick}
+              resolved={!!props.bestAnswer}
             />
           </div>
 

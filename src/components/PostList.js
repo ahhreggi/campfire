@@ -65,7 +65,6 @@ const PostList = (props) => {
     if (state.searchText && !state.showFilters) {
       setState({ ...state, showFilters: true });
     }
-    console.log(state.searchText);
   }, [state.searchText]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -185,8 +184,17 @@ const PostList = (props) => {
   // Filter posts by the given array of tags
   // If no tags are selected, all posts will be returned
   const filterPostsByTags = (posts, tags = []) => {
-    const filteredPosts = !tags.length ? posts : posts.filter(post => {
-      // Check if each post has at least one of the selected tags
+    // Add special tags to posts
+    const markedPosts = posts.map(post => {
+      if (post.best_answer) {
+        const newTags = [ ...post.tags, { id: -1, name: "RESOLVED"} ];
+        return { ...post, tags: newTags };
+      } else {
+        const newTags = [ ...post.tags, { id: -2, name: "UNRESOLVED"} ];
+        return { ...post, tags: newTags };
+      }
+    });
+    const filteredPosts = !tags.length ? markedPosts : markedPosts.filter(post => {
       for (const tag of post.tags) {
         if (hasTag(tags, tag.id)) {
           return true;
@@ -205,10 +213,13 @@ const PostList = (props) => {
   const filterPostsBySearchText = (posts, searchText) => {
     const search = searchText.trim().toLowerCase();
     return posts.filter(post => {
+      const id = "@" + post.id;
+      if (id === search) {
+        return true;
+      }
       const title = post.title.trim().toLowerCase();
       const body = post.body.trim().toLowerCase();
-      const id = "@" + post.id;
-      const fields = [title, body, id];
+      const fields = [title, body];
       // Check the post
       for (const field of fields) {
         if (field.includes(search)) {
@@ -255,15 +266,13 @@ const PostList = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
+  const filterTags = [
+    { id: -1, name: "RESOLVED" },
+    { id: -2, name: "UNRESOLVED" },
+    ...props.tags
+  ];
+
   ///////////////////////////////////////////////////////////////////
-
-
-  // TextForm.propTypes = {
-  //   label: PropTypes.string,
-  //   text: PropTypes.string,
-  //   minHeight: PropTypes.string,
-  //   onChange: PropTypes.func,
-  // };
 
   return (
     <div className="PostList">
@@ -315,7 +324,7 @@ const PostList = (props) => {
         {state.showFilters &&
           <div className={`tags ${props.selectedTags.length > 0 ? "filtering" : ""}`}>
             <TagList
-              tags={props.tags}
+              tags={filterTags}
               selectedTags={props.selectedTags}
               onClick={toggleTag}
               styles={"tag filter"}

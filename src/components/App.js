@@ -119,13 +119,13 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-    console.log("\n".repeat(10));
-    console.log("🌐", params);
-    console.log("🔑 STATE TOKEN:", token);
-    if (data) {
-      console.log("📝 DATA SENT:", data);
-    }
-    console.log("\n".repeat(2));
+    // console.log("\n".repeat(10));
+    // console.log("🌐", params);
+    // console.log("🔑 STATE TOKEN:", token);
+    // if (data) {
+    //   console.log("📝 DATA SENT:", data);
+    // }
+    // console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -136,12 +136,12 @@ const App = () => {
       data
     })
       .then(res => {
-        console.log("✔️ SERVER RESPONSE:", res.data);
+        // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
       .catch(err => {
-        console.log("❌ SERVER RESPONSE:");
-        console.error(err);
+        // console.log("❌ SERVER RESPONSE:");
+        // console.error(err);
       });
   };
 
@@ -525,6 +525,7 @@ const App = () => {
   // Update the selected tags dynamically as the user toggles them
   // If only is set to true, only the given tag will be selected
   const updateSelectedTags = (tag, only = false) => {
+    console.log(tag.name);
     if (only) {
       setState({ ...state, selectedTags: [tag] });
     } else {
@@ -533,7 +534,8 @@ const App = () => {
         const updatedTags = state.selectedTags.filter(sTag => sTag.id !== tag.id);
         setState({ ...state, selectedTags: updatedTags });
       } else {
-        setState({ ...state, selectedTags: [ ...state.selectedTags, tag] });
+        const updatedTags = [ ...state.selectedTags, tag];
+        setState({ ...state, selectedTags: updatedTags });
       }
     }
   };

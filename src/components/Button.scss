@@ -112,6 +112,26 @@ button {
       opacity: 0.9;
     }
 
+    &.resolved {
+      border-color: $green;
+      color: $green;
+      margin-right: 0.3rem;
+      &.unselected {
+        border-color: $white;
+        color: #00ff629a;
+      }
+    }
+
+    &.unresolved {
+      border-color: $red;
+      color: $red;
+      font-weight: 700;
+      &.unselected {
+        border-color: $white;
+        color: rgba(255, 28, 28, 0.767);
+      }
+    }
+
   }
 
 }
