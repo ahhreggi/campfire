@@ -15,6 +15,7 @@ const CommentList = (props) => {
     postAuthorID: PropTypes.number,
     userName: PropTypes.string,
     userID: PropTypes.number,
+    userRole: PropTypes.string,
     refBestAnswer: PropTypes.object,
     uncollapsed: PropTypes.array
   };
@@ -64,6 +65,7 @@ const CommentList = (props) => {
           postAuthorID={props.postAuthorID}
           commentAuthorID={comment.author_id}
           userName={props.userName}
+          userRole={props.userRole}
           userID={props.userID}
           refBestAnswer={props.refBestAnswer}
           uncollapsed={props.uncollapsed}

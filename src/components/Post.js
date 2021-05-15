@@ -136,7 +136,7 @@ const Post = (props) => {
   const scrollToCommentForm = () => {
     setTimeout(() => {
       refCommentForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 200);
   };
 
   // Scroll to best answer
@@ -456,6 +456,7 @@ const Post = (props) => {
             postAuthorID={props.authorID}
             userName={props.userName}
             userID={props.userID}
+            userRole={props.userRole}
             refBestAnswer={refBestAnswer}
             uncollapsed={state.uncollapsed}
           />

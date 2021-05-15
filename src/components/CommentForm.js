@@ -30,7 +30,6 @@ const CommentForm = (props) => {
       </div>
 
       <div className="create-form">
-
         <EditForm
           label={props.label}
           author={props.userName}
