@@ -146,9 +146,9 @@ const App = () => {
         console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
-      .catch(err => {
-        console.log("❌ SERVER RESPONSE:");
-        console.error(err);
+      .catch(() => {
+        // console.log("❌ SERVER RESPONSE:");
+        // console.error(err);
       });
   };
 
@@ -213,7 +213,7 @@ const App = () => {
           setAppData(userData, "userData");
         } else {
           console.log("❌ registerUser failed!");
-          setState({ ...state, errors: ["Email already in use!"] });
+          setState({ ...state, errors: ["Email already in use"] });
         }
       });
   };
@@ -240,7 +240,7 @@ const App = () => {
           setAppData(userData, "userData");
         } else {
           console.log("❌ fetchUserData failed!");
-          setState({ ...state, errors: ["Invalid username/password!"] });
+          setState({ ...state, errors: ["Invalid username/password"] });
         }
       });
   };

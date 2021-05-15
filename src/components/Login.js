@@ -30,12 +30,22 @@ const Login = (props) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
+  // Validate registration fields prior to submitting the data
   const handleSubmit = () => {
-    const data = {
-      email: state.email,
-      password: state.password
-    };
-    props.onSubmit(data);
+    const errors = [];
+    if (!state.email || !state.password) {
+      errors.push("Invalid username/password");
+    }
+    // If there are any errors, display them to the user, otherwise submit
+    if (errors.length) {
+      setState({ ...state, errors: errors });
+    } else {
+      const data = {
+        email: state.email,
+        password: state.password
+      };
+      props.onSubmit(data);
+    }
   };
 
   return (
