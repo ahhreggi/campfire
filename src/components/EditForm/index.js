@@ -36,7 +36,7 @@ const EditForm = (props) => {
 
   const [state, setState] = useState({
     previewTitle: props.title,
-    previewBody: props.body,
+    previewBody: props.body.trim(),
     previewAuthor: props.author,
     previewAnonymous: props.anonymous,
     previewTags: props.tags,

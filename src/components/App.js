@@ -445,6 +445,14 @@ const App = () => {
     }
   }, [state.postData]);
 
+  // EDIT A POST //////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User presses the edit button of a post they authored
+  // - User edits the data and saves the changes
+  // - Data is sent to the server and the new post data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
+
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
     request("PATCH", API.POSTS, postID, data)
@@ -488,7 +496,6 @@ const App = () => {
     request("DELETE", API.COMMENTS, commentID)
       .then((res) => {
         setActive("Post", state.postID);
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };

@@ -524,7 +524,7 @@ const CommentListItem = (props) => {
       }
 
       {/* Secondary Reply Form Toggler */}
-      {isParent && !state.showConfirmation && state.showReplyList &&
+      {isParent && !state.showConfirmation && state.showReplyList && props.replies.length > 0 &&
         <>
           <div className="discussion-label replies-label">
             <span className="reply-controls reply-second">
@@ -539,7 +539,7 @@ const CommentListItem = (props) => {
               </span>
 
               {/* Show/Hide Replies */}
-              {props.replies.length > 0 &&
+              {props.replies.length > 0 && state.showReplyList &&
                 <div className={`replies-present reply-second ${state.showReplyList ? "replies-active" : ""}`} onClick={toggleReplyList}>
                   <span className="toggle-item comments">
                     <img src={comment} alt="comments" />
