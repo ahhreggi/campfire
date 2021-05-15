@@ -69,8 +69,6 @@ const Post = (props) => {
     }
   };
 
-  console.log(getBestAnswerParentID(props.comments, props.bestAnswer));
-
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
@@ -182,8 +180,6 @@ const Post = (props) => {
   // Select the best answer
   // commentID may be null
   const editBestAnswer = (commentID) => {
-    console.log("click");
-    // scrollToTop();
     props.onEditPost(props.id, { "best_answer": commentID === props.bestAnswer ? null : commentID });
   };
 
