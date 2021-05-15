@@ -213,13 +213,12 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
-          height: 1.5rem;
-          // align-items: center;
-          &.first {
-            img {
-              padding-bottom: 0.1rem;
-            }
+          height: 1.6rem;
+
+          img {
+            padding-bottom: 0.1rem;
           }
+
         }
 
         img {
@@ -313,6 +312,14 @@
 
     }
 
+  }
+
+  .comment-form {
+    &.instructor {
+      span.name {
+        color: $yellow;
+      }
+    }
   }
 
   .reply-form {

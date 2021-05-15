@@ -89,6 +89,7 @@ const Main = (props) => {
           onTagToggle={props.onTagToggle}
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
           userID={props.userData.userID}
+          userRole={props.courseData.role}
         />
       }
 

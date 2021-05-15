@@ -148,7 +148,6 @@ const App = () => {
   // Set the application data
   const setAppData = (data, type, newPostID, newPostData, newActive) => {
     if (type === "userData") {
-      console.log("Setting userData to", data);
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
       let active = state.active;
@@ -199,7 +198,6 @@ const App = () => {
       .then((userData) => {
         if (userData) {
           setAppData(userData, "userData");
-          console.log(state);
         } else {
           console.log("❌ registerUser failed!");
           setState({ ...state, errors: ["Email already in use!"] });
@@ -253,10 +251,6 @@ const App = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state.userCourses]);
-
   // COURSE SELECTION ///////////////////////////////////////////////
 
   // BASIC USER ROUTE
@@ -278,7 +272,7 @@ const App = () => {
   };
 
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
-  // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
+  // SIDE EFFECT 3: userCourses is updated if courseData exists and is not yet in userCourses (happens when creating/joining a course)
   useEffect(() => {
     // console.log("courseData changed and the active view is", state.active);
     if (state.courseData) {
@@ -305,7 +299,7 @@ const App = () => {
       }
     }
 
-  }, [state.courseData]); // state.courseID?
+  }, [state.courseData]);
 
   // COURSE CREATION ////////////////////////////////////////////////
 
@@ -321,32 +315,12 @@ const App = () => {
     request("POST", API.CREATE, null, data)
       .then((courseData) => {
         if (courseData) {
-
-          // TODO: Return the courseData object instead of the current redirect_to url
-
-          // TEMP FIX:
-          // Parse and retrieve the ID from the response body
-          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
-          // State is updated (courseID)
-          setState({ ...state, courseID: courseID });
-          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-          fetchCourseData(courseID);
-          // State is updated (courseData)
-          // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
-
+          setAppData(courseData, "courseData");
         } else {
           console.log("❌ createCourse failed!");
         }
       });
   };
-
-  // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-  useEffect(() => {
-    if (state.courseID && !state.courseData) {
-      fetchCourseData(state.courseID);
-      // SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
-    }
-  }, [state.courseID]);
 
   // COURSE ENROLLMENT //////////////////////////////////////////////
 
@@ -361,19 +335,7 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-
-          // TODO: Return the courseData object instead of the current redirect_to url
-
-          // TEMP FIX:
-          // Parse and retrieve the ID from the response body
-          const courseID = parseInt(courseData.redirect_to.split("/")[2]);
-          // State is updated (courseID)
-          setState({ ...state, courseID: courseID });
-          // SIDE EFFECT 3: Course data is fetched from the server if courseID exists and courseData doesn't
-          fetchCourseData(courseID);
-          // State is updated (courseData)
-          // SIDE EFFECT 2: Active state is updated to redirect the user from Join to the Dashboard if courseData exists
-
+          setAppData(courseData, "courseData");
         } else {
           console.log("❌ joinCourse failed!");
           setState({ ...state, errors: ["Invalid access code!"] });

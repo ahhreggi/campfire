@@ -15,6 +15,7 @@ const EditForm = (props) => {
 
     title: PropTypes.string,
     author: PropTypes.string,
+    role: PropTypes.string,
     body: PropTypes.string,
     anonymous: PropTypes.bool,
     tags: PropTypes.array,
@@ -148,7 +149,7 @@ const EditForm = (props) => {
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
-        isInstructor={props.isInstructor}
+        isInstructor={props.role !== "student"}
         body={state.previewBody}
         breakBody={state.breakBody}
       />

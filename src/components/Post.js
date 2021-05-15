@@ -49,6 +49,7 @@ const Post = (props) => {
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func,
     userName: PropTypes.string,
+    userRole: PropTypes.string,
     userID: PropTypes.number
   };
 
@@ -476,10 +477,11 @@ const Post = (props) => {
 
         {/* Add Comment Form */}
         {state.showCommentForm &&
-          <div className="comment-form">
+          <div className={`comment-form ${props.userRole !== "student" ? "instructor" : ""}`}>
             <CommentForm
               label={"NEW DISCUSSION"}
               userName={props.userName}
+              userRole={props.userRole}
               onAddComment={addComment}
               onCancelComment={toggleCommentForm}
             />
