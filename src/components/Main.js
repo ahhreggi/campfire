@@ -45,9 +45,9 @@ const Main = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  const post = getPostByID(props.courseData.posts, props.postID);
+  const post = props.courseData ? getPostByID(props.courseData.posts, props.postID) : null;
 
-  const stats = props.courseData.analytics;
+  const stats = props.courseData ? props.courseData.analytics : null;
 
   ///////////////////////////////////////////////////////////////////
 

@@ -561,7 +561,7 @@ const App = () => {
         />
       }
 
-      {/* Login page */}
+      {/* Register page */}
       {state.active === "Register" &&
         <Register
           onSubmit={registerUser}
@@ -609,18 +609,20 @@ const App = () => {
       }
 
       {/* Single course view */}
-      {state.userData && state.userCourses && state.courseData &&
+      {state.userData && state.userCourses &&
         <>
 
           {/* Nav Bar (requires userData, userCourses, courseData) */}
-          <Nav
-            onClick={setActive}
-            active={state.active}
-            viewTitle={`${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }`}
-            courseName={state.courseData.name}
-            userAvatar={state.userData.avatarID}
-            userName={`${state.userData.firstName} ${state.userData.lastName}`}
-          />
+          {state.userData && state.userCourses &&
+            <Nav
+              onClick={setActive}
+              active={state.active}
+              viewTitle={state.courseData ? `${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
+              courseName={state.courseData ? state.courseData.name : "course name"}
+              userAvatar={state.userData.avatarID}
+              userName={`${state.userData.firstName} ${state.userData.lastName}`}
+            />
+          }
 
           <section className="app-containers">
 
