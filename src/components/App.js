@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Nav from "./Nav";
+import CourseList from "./CourseList";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
@@ -128,11 +129,11 @@ const App = () => {
 
     console.log("\n".repeat(10));
     console.log("🌐", params);
-    // console.log("🔑 STATE TOKEN:", token);
+    console.log("🔑 STATE TOKEN:", token);
     if (data) {
       console.log("📝 DATA SENT:", data);
     }
-    // console.log("\n".repeat(2));
+    console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -146,9 +147,9 @@ const App = () => {
         console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
-      .catch(() => {
-        // console.log("❌ SERVER RESPONSE:");
-        // console.error(err);
+      .catch((err) => {
+        console.log("❌ SERVER RESPONSE:");
+        console.error(err);
       });
   };
 
@@ -289,8 +290,8 @@ const App = () => {
   useEffect(() => {
     // If courseData changes and exists
     if (state.courseData) {
-      const origins = ["Home", "Create", "Join", "Dashboard", "Analytics", "Post", "New Post"];
-      // Redirect to Dashboard if coming from Home, Create, Join, or a view within another course
+      const origins = ["Home", "Create", "Join"];
+      // Redirect to Dashboard if coming from Home, Create, Join
       if (origins.includes(state.active)) {
         // If coming from the Create or Join page, add the new course data to userCourses
         let userCourses = [ ...state.userCourses ];
@@ -637,7 +638,7 @@ const App = () => {
               onClick={setActive}
               active={state.active}
               viewTitle={state.courseData ? `${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
-              courseName={state.courseData ? state.courseData.name : "course name"}
+              courseName={state.courseData ? state.courseData.name : ""}
               userAvatar={state.userData.avatarID}
               userName={`${state.userData.firstName} ${state.userData.lastName}`}
             />
@@ -662,6 +663,15 @@ const App = () => {
                   onRedirect={setActive}
                 />
               }
+
+              {!state.courseData && state.userCourses && state.userData &&
+                <CourseList
+                  active={state.active}
+                  userCourses={state.userCourses}
+                  onClick={fetchCourseData}
+                />
+              }
+
             </div>
 
             {/* Current View */}
