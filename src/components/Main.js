@@ -65,6 +65,7 @@ const Main = (props) => {
           courseTags={props.courseData.tags}
           anonymous={post.anonymous}
           author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
+          authorRole={post.authorRole || "instructor"}
           bestAnswer={post.best_answer}
           body={post.body}
           pinned={post.pinned}

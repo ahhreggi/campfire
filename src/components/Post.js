@@ -27,6 +27,7 @@ const Post = (props) => {
     courseTags: PropTypes.array,
     anonymous: PropTypes.bool,
     author: PropTypes.string,
+    authorRole: PropTypes.string,
     bestAnswer: PropTypes.number,
     body: PropTypes.string,
     pinned: PropTypes.bool,
@@ -325,7 +326,7 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className="author">{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
           </div>
         </div>
 

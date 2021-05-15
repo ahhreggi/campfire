@@ -173,7 +173,8 @@ const EditForm = (props) => {
       />
 
       {/* Anonymous Checkbox */}
-      {props.role === "student" &&
+      {/* {props.role === "student" && */}
+      {true &&
         <Checkbox
           checked={state.previewAnonymous}
           onChange={updatePreviewAnonymous}

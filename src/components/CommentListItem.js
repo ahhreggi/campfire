@@ -209,6 +209,7 @@ const CommentListItem = (props) => {
 
   // Check if the comment is by the post author
   const isPostAuthor = props.commentAuthorID === props.postAuthorID;
+  console.log(props.authorFirstName, props.commentAuthorID, props.postAuthorID, "<<");
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -276,7 +277,6 @@ const CommentListItem = (props) => {
             <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
 
-
           {/* Role */}
           <div className={`role ${isInstructor && "instructor"}`}>
             {authorRole}
@@ -317,7 +317,6 @@ const CommentListItem = (props) => {
 
               {/* Comment Header */}
               <header>
-
 
                 {/* Author */}
                 <div className="comment-author">

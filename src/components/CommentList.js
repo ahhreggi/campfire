@@ -63,7 +63,7 @@ const CommentList = (props) => {
           bestAnswer={props.bestAnswer}
           onEditBestAnswer={props.onEditBestAnswer}
           postAuthorID={props.postAuthorID}
-          commentAuthorID={comment.author_id}
+          commentAuthorID={comment.author_id || comment.user_id}
           userName={props.userName}
           userRole={props.userRole}
           userID={props.userID}

@@ -132,6 +132,11 @@
     .author {
       font-weight: 700;
       color: $orange;
+
+      &.instructor {
+        color: $yellow;
+      }
+
     }
 
     .modified {
