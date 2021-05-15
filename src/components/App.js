@@ -60,47 +60,44 @@ const App = () => {
     userData: null, // fetchUserData
     userCourses: null, // fetchUserCourses
 
-    active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
+    // "Login", "Register" => REQ: none
+    // "Home", "Create", "Join" => REQ: userData, userCourses
+    // "Dashboard", "Analytics", "Post", "New Post" => REQ: userData, userCourses, courseData, courseID, posts
+    active: "Login", // view controller, default landing page is the Login screen
 
     courseID: null,
     courseData: null, // all data for the current courseID
+    posts: null, // all posts from courseData
 
-    postID: null, // a post ID or null if viewing dashboard/analytics,
-    postData: null, // post data for the current post ID or null if viewing dashboard/analytics
-
-    posts: null, // all posts for the current course
+    postID: null, // a post ID or null if viewing dashboard/analytics
+    postData: null, // post data for the current post ID or null if postID is null (viewing a non-Post page)
 
     selectedTags: [],
 
-    loading: false,
+    loading: true,
 
-    errors: null // key = active, value = array of messages, e.g. { "Login": ["Invalid username/password"] }
+    errors: null // e.g. ["Invalid username/password"] // typically should have only 0 or 1 item at any given time
 
   });
 
-  // Show a loading screen if active is null for some reason
   useEffect(() => {
-    // console.log("APP: active changed to", state.active);
-    if (state.active === "Dashboard") {
-      if (state.courseData) {
-        // setActive("Dashboard");
-        fetchCourseData(state.courseID, null, null);
-      }
+    // When clicking the Dashboard from within a course, re-fetch and update courseData
+    // Useful for actions that re-direct to the Dashboard and need to update courseData such as deleting a post
+    if (state.active === "Dashboard" && state.courseData) {
+      // setActive("Dashboard");
+      fetchCourseData(state.courseID, null, null);
+      // Show a loading screen if active is null for some reason
+    } else if (!state.active) {
+      setState({ ...state, loading: true });
+      // Remove the loading screen if an active view exists
     } else {
       setState({ ...state, loading: false });
     }
   }, [state.active]);
 
-  // TESTING ////////////////////////////////////////////////////////
-
-  // Testing purposes
-  // const setRole = (role) => {
-  //   console.log("Setting auth token to", role);
-  //   setState({ ...state, userData: { ...state.userData, token: tokens[role] }, role: role });
-  // };
-
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
+  // Reset the database (used for the Refresh DB dev tools button)
   const resetDB = () => {
     console.log("Re-seeding database as admin...");
     setState({});
