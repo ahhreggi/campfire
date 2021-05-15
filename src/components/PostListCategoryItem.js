@@ -89,7 +89,7 @@ const PostListCategoryItem = (props) => {
             <img className="bookmark" src={star} alt="bookmark" />
           }
           <span className="title">
-            {truncateText(props.title, 30)}
+            {truncateText(props.title, 27)}
           </span>
         </div>
 

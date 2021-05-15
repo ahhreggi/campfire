@@ -139,6 +139,7 @@ const EditForm = (props) => {
   return (
     <div className="EditForm">
 
+      {/* Preview */}
       <Preview
         label={props.label}
         title={state.previewTitle}
@@ -148,6 +149,7 @@ const EditForm = (props) => {
         breakBody={state.breakBody}
       />
 
+      {/* Title Field */}
       {props.mode === "POST" &&
         <TextForm
           label={"Post Title"}
@@ -156,6 +158,7 @@ const EditForm = (props) => {
         />
       }
 
+      {/* Body Field */}
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
@@ -163,6 +166,7 @@ const EditForm = (props) => {
         onChange={updatePreviewBody}
       />
 
+      {/* Anonymous Checkbox */}
       {!props.isInstructor &&
         <Checkbox
           checked={state.previewAnonymous}
@@ -170,6 +174,7 @@ const EditForm = (props) => {
         />
       }
 
+      {/* Tag Form */}
       {props.mode === "POST" &&
         <TagForm
           tags={props.courseTags}
@@ -181,6 +186,7 @@ const EditForm = (props) => {
 
       <hr />
 
+      {/* Save/Cancel Buttons */}
       <Confirmation
         onConfirm={saveEdit}
         onCancel={props.onCancel ? cancelEdit : null}

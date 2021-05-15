@@ -185,10 +185,7 @@ const Post = (props) => {
 
   // Save the post changes
   const savePost = (data) => {
-    // If data is provided, changes were made, otherwise, no changes were made
-    if (data) {
-      props.onEditPost(props.id, data);
-    }
+    props.onEditPost(props.id, data);
     // Hide edit form
     toggleForm();
   };
@@ -208,6 +205,7 @@ const Post = (props) => {
     };
     props.onAddComment(commentData);
     setState({ ...state, showCommentForm: false });
+    scrollToCommentForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -271,13 +269,6 @@ const Post = (props) => {
   //     }
   //   }
   // }
-
-  const refPostTop = useRef();
-  const scrollToTop = () => {
-    setTimeout(() => {
-      refPostTop.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
 
   ///////////////////////////////////////////////////////////////////
 

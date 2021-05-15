@@ -119,7 +119,6 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-
     console.log("\n".repeat(10));
     console.log("🌐", params);
     console.log("🔑 STATE TOKEN:", token);
@@ -494,9 +493,7 @@ const App = () => {
   // Request to delete a comment by ID
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
-      .then((res) => {
-        setActive("Post", state.postID);
-      })
+      .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
   };
 

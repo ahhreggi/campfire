@@ -84,6 +84,7 @@
     overflow: hidden;
     color: $navy-8;
     font-size: 0.8rem;
+    height: 1.7rem;
   }
 
   footer {
@@ -98,7 +99,7 @@
     }
 
     .counters {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       margin-right: 0.5rem;
       font-size: 0.8rem;
       color: $white;
@@ -106,7 +107,7 @@
       margin-bottom: 0.6rem;
 
       img {
-        margin-bottom: 0.1rem;
+        margin-bottom: 0.15rem;
       }
 
       .views {
