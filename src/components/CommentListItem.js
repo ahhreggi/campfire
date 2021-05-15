@@ -94,9 +94,7 @@ const CommentListItem = (props) => {
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
     if (!state.showReplyForm) {
-      if (!state.showReplyForm) {
-        scrollToReplyForm();
-      }
+      scrollToReplyForm();
       setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showReplyForm: false });
@@ -260,17 +258,19 @@ const CommentListItem = (props) => {
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
+    <div className={classes}>
+
+      <div className="best-ref" ref={isBestAnswer ? props.refBestAnswer : null}></div>
 
       {/* Top-level Comment */}
       <div className="top">
         <section className="left">
-          {isBestAnswer ? "yes" : "no"}
 
           {/* Avatar */}
           <div className="avatar">
             <img src={`./images/avatars/${props.avatarID}.png`} alt="avatar" />
           </div>
+
 
           {/* Role */}
           <div className={`role ${isInstructor && "instructor"}`}>
@@ -313,6 +313,7 @@ const CommentListItem = (props) => {
               {/* Comment Header */}
               <header>
 
+
                 {/* Author */}
                 <div className="comment-author">
                   {authorName}
@@ -325,7 +326,7 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor ? setBestAnswer : null}>
+                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor && !props.bestAnswer ? setBestAnswer : null}>
                     <img src={checkmark} alt="checkmark" />
                     <span>BEST ANSWER</span>
                   </div>
@@ -333,7 +334,7 @@ const CommentListItem = (props) => {
 
                 {/* Select Best Answer Label */}
                 {!props.bestAnswer && props.bestAnswer !== props.id && userIsPostAuthor &&
-                  <div className="label unselected" onClick={setBestAnswer}>
+                  <div className="label unselected" onClick={!props.bestAnswer ? setBestAnswer : null}>
                     <span>SELECT AS BEST ANSWER</span>
                   </div>
                 }
@@ -384,6 +385,7 @@ const CommentListItem = (props) => {
 
           {/* Comment Footer */}
           <footer>
+
 
             {/* Timestamp */}
             <div className="timestamp">

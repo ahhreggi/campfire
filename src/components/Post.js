@@ -52,6 +52,25 @@ const Post = (props) => {
     userID: PropTypes.number
   };
 
+  // Get the parent ID of the best answer of the post
+  const getBestAnswerParentID = (comments, bestAnswerID) => {
+    // First check the parent itself
+    for (const parent of comments) {
+      if (parent.id === bestAnswerID) {
+        return parent.id;
+      }
+      // Then check its children
+      for (const child of parent.replies) {
+        // If it's found, return the ID of the parent comment
+        if (child.id === bestAnswerID) {
+          return parent.id;
+        }
+      }
+    }
+  };
+
+  console.log(getBestAnswerParentID(props.comments, props.bestAnswer));
+
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
@@ -61,15 +80,15 @@ const Post = (props) => {
 
   // Reset states when switching posts
   useEffect(() => {
-    const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
+    // const uncollapsed = props.bestAnswer ? [getBestAnswerParentID(props.comments, props.bestAnswer)] : [];
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
       showCommentForm: false,
-      uncollapsed: [uncollapsed]
+      uncollapsed: [getBestAnswerParentID(props.comments, props.bestAnswer)]
     });
-  }, [props.id]);
+  }, [props.id, props.comments, props.bestAnswer]);
 
   // If the comment form is opened, scroll to it
   useEffect(() => {
@@ -127,35 +146,15 @@ const Post = (props) => {
 
     // Get the ID of the top-level comment in which the best answer is found
 
-    let bestAnswerParentID = getBestAnswerParentID();
+    let bestAnswerParentID = getBestAnswerParentID(props.comments, props.bestAnswer);
 
     // Uncollapse parent element of best answer only
     setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
     // // This should re-render CommentList and CommentListItem
     // // Scroll to best answer
     setTimeout(() => {
-      console.log("scrolling!");
       refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
-    }, 500);
-  };
-
-  // Get the parent ID of the best answer of the post
-  const getBestAnswerParentID = () => {
-
-    // First check the parent itself
-    for (const parent of props.comments) {
-      if (parent.id === props.bestAnswer) {
-        return parent.id;
-      }
-      // Then check its children
-      for (const child of parent.replies) {
-        // If it's found, return the ID of the parent comment
-        if (child.id === props.bestAnswer) {
-          return parent.id;
-        }
-      }
-    }
-
+    }, 100);
   };
 
   // New comment toggle handler

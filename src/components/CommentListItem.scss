@@ -13,6 +13,11 @@
   word-break: initial;
   border-width: 2px;
 
+  .best-ref {
+    position: relative;
+    bottom: 3vh;
+  }
+
   &:last-child {
     margin-bottom: 1rem;
   }
@@ -281,7 +286,7 @@
           user-select: none;
 
           &.active {
-            cursor: pointer;
+            cursor: initial;
           }
 
           &.unselected {
