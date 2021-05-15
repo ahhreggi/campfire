@@ -41,7 +41,7 @@ const Login = (props) => {
   return (
     <div className="Login">
 
-      <DevData name="Login" props={props} />
+      {/* <DevData name="Login" props={props} /> */}
 
       <div className="panel">
 

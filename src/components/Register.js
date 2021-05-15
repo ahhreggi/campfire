@@ -56,21 +56,21 @@ const Register = (props) => {
   const handleSubmit = () => {
     const errors = [];
     if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
-      errors.push("Please complete all fields");
+      errors.push("Incomplete fields");
     } else if (!isValid(state.firstName, "name") || !isValid(state.lastName, "name")) {
       errors.push("Name may include letters & spaces only");
     } else if (state.password !== state.passwordConf) {
       errors.push("Passwords must match");
     } else if (!isValid(state.email, "email")) {
-      errors.push("Please enter a valid email");
+      errors.push("Invalid email");
     } else if (!isValid(state.firstName, "length")) {
-      errors.push("First name is too long!");
+      errors.push("First name is too long");
     } else if (!isValid(state.lastName, "length")) {
-      errors.push("Last name is too long!");
+      errors.push("Last name is too long");
     } else if (!isValid(state.email, "length")) {
-      errors.push("Email is too long!");
+      errors.push("Email is too long");
     } else if (!isValid(state.password, "length")) {
-      errors.push("Password is too long!");
+      errors.push("Password is too long");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -91,7 +91,7 @@ const Register = (props) => {
   return (
     <div className="Register">
 
-      <DevData name="Register" props={props} />
+      {/* <DevData name="Register" props={props} /> */}
 
       <div className="panel">
 
@@ -152,9 +152,9 @@ const Register = (props) => {
         <div className="links">
           <div className="login">
             <div>
-              Existing user?
+              Already have an account?
               <span onClick={() => props.onRedirect("Login")}>
-                SIGN UP
+                LOGIN
               </span>
             </div>
           </div>
