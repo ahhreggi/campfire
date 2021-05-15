@@ -73,7 +73,6 @@ const App = () => {
     selectedTags: [],
 
     loading: false,
-    reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
 
     errors: null // key = active, value = array of messages, e.g. { "Login": ["Invalid username/password"] }
 
@@ -81,10 +80,12 @@ const App = () => {
 
   // Show a loading screen if active is null for some reason
   useEffect(() => {
-    if (state.active === null) {
-      setTimeout(() => {
-        setState({ ...state, loading: true });
-      }, 1000);
+    // console.log("APP: active changed to", state.active);
+    if (state.active === "Dashboard") {
+      if (state.courseData) {
+        // setActive("Dashboard");
+        fetchCourseData(state.courseID, null, null);
+      }
     } else {
       setState({ ...state, loading: false });
     }
@@ -118,7 +119,6 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-
     console.log("\n".repeat(10));
     console.log("🌐", params);
     console.log("🔑 STATE TOKEN:", token);
@@ -146,36 +146,10 @@ const App = () => {
   };
 
   // Set the application data
-  //   userData: null, // fetchUserData
-  //   userCourses: null, // fetchUserCourses
-
-  //   active: "Login", // current view ("Dashboard", "Analytics", "Post"), default landing: Dashboard => if null, loading will become true
-
-  //   courseID: null,
-  //   courseData: null, // all data for the current courseID
-
-  //   postID: null, // a post ID or null if viewing dashboard/analytics,
-  //   postData: null, // post data for the current post ID or null if viewing dashboard/analytics
-
-  //   posts: null, // all posts for the current course
-
-  //   selectedTags: [],
-
-  //   loading: false,
-  //   reloader: false, // set this to !reloader when making a request without fetchCourseData and a reload is needed
-
-  // Set the application data
-  const setAppData = (data, type, postID = state.postID) => {
-    if (type === "post") { // may not be in use
-      setState({
-        ...state,
-        postData: data,
-        postID: data.id,
-        reloader: !state.reloader
-      });
-    } else if (type === "userData") { // in use
+  const setAppData = (data, type, newPostID, newPostData, newActive) => {
+    if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
-    } else if (type === "userCourses") { // in use
+    } else if (type === "userCourses") {
       let active = state.active;
       if (state.active === "Login") {
         active = "Home";
@@ -185,14 +159,19 @@ const App = () => {
         active = "Dashboard";
       }
       setState({ ...state, userCourses: data, active: active });
-    } else if (type === "courseData") { // in use
+    } else if (type === "courseData") {
+      // If new values for postID and postData are provided, use them
+      const postID = newPostID !== undefined ? newPostID : state.postID;
+      const postData = newPostData !== undefined ? newPostData : state.postData;
+      const active = newActive !== undefined ? newActive : state.active;
       setState({
         ...state,
         courseID: data.id,
         courseData: data,
-        // postID: postID,
-        // postData: data ? getPostByID(data.posts, state.postID) : null,
-        posts: data ? data.posts : null
+        postID: postID,
+        postData: postData,
+        posts: data ? data.posts : null,
+        active: active
       });
     }
   };
@@ -280,13 +259,13 @@ const App = () => {
   // - SIDE EFFECT 2: Active state is updated to redirect the user to the Dashboard
 
   // Fetch course data from the server
-  const fetchCourseData = (courseID) => {
+  const fetchCourseData = (courseID, newPostID, newPostData, newActive) => {
     request("GET", API.COURSES, courseID)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+          setAppData(courseData, "courseData", newPostID, newPostData, newActive);
         } else {
-          console.log("❌ fetchUserCourses failed!");
+          console.log("❌ fetchCourseData failed!");
         }
       });
   };
@@ -294,6 +273,7 @@ const App = () => {
   // SIDE EFFECT 2: Active state is updated to redirect the user from Home to the Dashboard if courseData exists
   // SIDE EFFECT 4: userCourses is updated if courseData exists and is not in userCourses (happens when creating/joining a course)
   useEffect(() => {
+    // console.log("courseData changed and the active view is", state.active);
     if (state.courseData) {
 
       // Redirect to Dashboard if coming from the Home, Create, or Join page
@@ -436,64 +416,20 @@ const App = () => {
 
   // Request to create a new post with the given data
   const addPost = (data) => {
-
     request("POST", API.POSTS, null, data)
-      .then((postData) => {
-
+      .then((data) => {
+        const postData = data[0];
         if (postData) {
-
-          // BUG: When creating a new post, server responds with
-          //   {
-          //     "id":18,
-          //     "user_id":1,
-          //     "course_id":1,
-          //     "title":"qwerty",
-          //     "body":"qwerty",
-          //     "created_at":"2021-05-14T08:39:14.711Z",
-          //     "last_modified":"2021-05-14T08:39:14.711Z",
-          //     "best_answer":null,
-          //     "anonymous":false,
-          //     "active":true,
-          //     "pinned":false,
-          //     "views":0
-          //  }
-
-          // Expected response:
-          //   {
-          //     "id": 16,
-          //     "courseTags": [],
-          //     "anonymous": false,
-          //     "author": "Ginger May",
-          //     "bestAnswer": null,
-          //     "body": "asd",
-          //     "pinned": false,
-          //     "bookmarked": false,
-          //     "comments": [],
-          //     "createdAt": "2021-05-14T08:36:37.545Z",
-          //     "lastModified": "2021-05-14T08:36:37.545Z",
-          //     "pinnable": true,
-          //     "editable": true,
-          //     "tags": [],
-          //     "title": "asd",
-          //     "authorID": 1,
-          //     "views": 0,
-          //     "userName": "Ginger May",
-          //     "userID": 1
-          // }
-
-
-          // Update state to contain the new post ID
-          setState({ ...state, postID: postData.id });
-          // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
-          // // Reload course data
-          // setState({
-          //   ...state,
-          //   postID: postData.id,
-          //   postData: postData,
-          //   posts: { ...state.posts, postData },
-          //   // reloader: !state.reloader
-          // });
-
+          const newCourseData = {
+            ...state.courseData,
+            posts: [
+              ...state.posts,
+              postData
+            ]
+          };
+          // Update courseData, and provide the new postID and postData to allow redirecting
+          setAppData(newCourseData, "courseData", postData.id, postData);
+          // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
         }
       })
       .catch(() => {
@@ -501,26 +437,34 @@ const App = () => {
       });
   };
 
-  // SIDE EFFECT 6: If postID changes and there is no postData (meaning the user came from a non-Post view), fetch course data
-  // Can also just check if the active view is "New Post" to indicate that new course data should be fetched
+  // SIDE EFFECT 7: If postData changes, postID exists, and the active view is "New Post", change it to "Post"
   useEffect(() => {
-    if (state.postID && state.active === "New Post") {
-      fetchCourseData();
+    if (state.postData && state.postID && state.active === "New Post") {
+      setActive("Post", state.postID);
     }
-  }, [state.postID]);
+  }, [state.postData]);
+
+  // EDIT A POST //////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User presses the edit button of a post they authored
+  // - User edits the data and saves the changes
+  // - Data is sent to the server and the new post data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
 
   // Request to edit a postID with the given data
   const editPost = (postID, data) => {
-    console.log("Updating post to:", JSON.stringify(data));
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
   };
 
-  // Request to delete a post by ID and redirect to Dashboard
+  // Request to delete a post by ID, then redirect to Dashboard
   const deletePost = (postID) => {
     request("DELETE", API.POSTS, postID)
-      .then(() => setActive("Dashboard"))
+      .then(() => {
+        setActive("Dashboard");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -549,10 +493,7 @@ const App = () => {
   // Request to delete a comment by ID
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
-      .then((res) => {
-        setActive("Post", state.postID);
-        console.log(res);
-      })
+      .then(() => fetchCourseData(state.courseID))
       .catch((err) => console.log(err));
   };
 
@@ -566,7 +507,6 @@ const App = () => {
         active: selection,
         postID: postID,
         postData: postData ? postData : getPostByID(state.posts, state.postID),
-        reloader: !state.reloader, // need this for deleting comments
         errors: null
       });
       // Record the user's first unique visit
@@ -577,7 +517,6 @@ const App = () => {
         active: selection,
         postID: null,
         postData: null,
-        // reloader: !state.reloader
         errors: null
       });
     }
@@ -618,6 +557,10 @@ const App = () => {
       return posts.filter(post => post.id === postID)[0];
     }
   };
+
+  useEffect(() => {
+    console.log("App postID changed to", state.postID);
+  }, [state.postID]);
 
   ///////////////////////////////////////////////////////////////////
 
@@ -713,14 +656,14 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
-                  selectedPostID={state.postID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}
+                  selectedPostID={state.postID}
                   selectedTags={state.selectedTags}
                   onTagToggle={updateSelectedTags}
                   onTagClear={clearSelectedTags}
-                  onNewPost={() => setActive("New Post")}
+                  onRedirect={setActive}
                 />
               }
             </div>
@@ -741,6 +684,7 @@ const App = () => {
                 onEditComment={editComment}
                 onDeleteComment={deleteComment}
                 onTagToggle={updateSelectedTags}
+                onRedirect={setActive}
               />
             </div>
 
@@ -749,18 +693,18 @@ const App = () => {
         </>
       }
 
-      {/* Test Controls */}
-      <div className="test-controls mt-2">
-        test controls:
-        <Button text="Refresh DB" onClick={() => resetDB()} />
-        {/* these may be broken lol
-        <Button text="admin" onClick={() => setRole("admin")} />
-        <Button text="owner" onClick={() => setRole("owner")} />
-        <Button text="instructor" onClick={() => setRole("instructor")} />
-        <Button text="student" onClick={() => setRole("student")} /> */}
-        {/* current role: {state.role} */}
+      {/* See index.scss */}
+      <div className="dev-tools">
+        {/* Test Controls */}
+        <div className="test-controls mt-2">
+          test controls:
+          <Button text="Refresh DB" onClick={() => resetDB()} />
+        </div>
+        {/* Dev Data Display */}
+        <DevData name="App" props={state} label={"State"} />
       </div>
-      <DevData name="App" props={state} label={"State"} />
+
+
     </div>
 
 

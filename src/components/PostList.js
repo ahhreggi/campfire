@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import PostListItem from "./PostListItem";
 import TagList from "./TagList";
 import Button from "./Button";
+import PostListCategory from "./PostListCategory";
 import glass from "../images/icons/search.png";
 import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
@@ -16,24 +16,37 @@ const PostList = (props) => {
 
   PostList.propTypes = {
     active: PropTypes.string,
-    selectedPostID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func,
+    selectedPostID: PropTypes.number,
     selectedTags: PropTypes.array,
     onTagToggle: PropTypes.func,
     onTagClear: PropTypes.func,
-    onNewPost: PropTypes.func
+    onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
+    active: props.active,
     showFilters: true,
     showPinned: true,
     showBookmarked: true,
     showPosts: true,
     showSearch: false,
-    searchText: ""
+    searchText: "",
+    selectedTags: props.selectedTags,
+    pinned: [],
+    bookmarked: [],
+    unpinned: [],
+    posts: props.posts
   });
+
+  // Process posts into categories whenever:
+  // - The course's posts change (a post is modified, added, or deleted)
+  // - Search or tag filters change
+  useEffect(() => {
+    processPosts(props.posts, state.selectedTags, state.searchText);
+  }, [props.posts, props.active, state.searchText, state.selectedTags]);
 
   // Uncollapse categories when selecting a filter
   useEffect(() => {
@@ -42,7 +55,8 @@ const PostList = (props) => {
       showFilters: true,
       showPinned: true,
       showBookmarked: true,
-      showPosts: true
+      showPosts: true,
+      selectedTags: props.selectedTags
     });
   }, [props.selectedTags]);
 
@@ -51,12 +65,65 @@ const PostList = (props) => {
     if (state.searchText && !state.showFilters) {
       setState({ ...state, showFilters: true });
     }
+    console.log(state.searchText);
   }, [state.searchText]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
+  // STEPS: Filter by tags & search text, then categorize in state
+
+  // All in one post list processor
+  const processPosts = (posts, selectedTags, searchText) => {
+    const filteredByTags = filterPostsByTags(posts, selectedTags);
+    const filteredBySearchText = filterPostsBySearchText(filteredByTags, searchText);
+    categorizePosts(filteredBySearchText);
+    // categorizePosts(props.posts);
+  };
+
+  const categorizePosts = (posts) => {
+    // Categorize posts as pinned or unpinned
+    // Priority: pinned > bookmarked > default
+    const pinned = [];
+    const bookmarked = [];
+    const unpinned = [];
+
+    for (const post of posts) {
+      if (post.pinned) {
+        pinned.push(post);
+      } else if (post.bookmarked) {
+        bookmarked.push(post);
+      } else {
+        unpinned.push(post);
+      }
+    }
+
+    // Sort the posts by descending ID
+    const descPinned = sortByID(pinned);
+    const descBookmarked = sortByID(bookmarked);
+    const descUnpinned = sortByID(unpinned);
+
+    // Sort the pinned posts by bookmark status
+    const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
+
+    // Update state
+    setState({
+      ...state,
+      pinned: bookmarkedPinnedPosts,
+      bookmarked: descBookmarked,
+      unpinned: descUnpinned
+    });
+
+  };
+
+  const toggleTag = (tagID) => {
+    props.onTagToggle(tagID);
+  };
+
+  const onSelectPost = (postID) => {
+    props.onClick(postID);
+  };
+
   const toggleSearch = () => {
-    console.log("toggling search bar");
     if (!state.showSearch) {
       setState({ ...state, showSearch: true, showFilters: true, searchText: "" });
     } else {
@@ -71,7 +138,6 @@ const PostList = (props) => {
 
   const updateSearchText = (event) => {
     setState({ ...state, searchText: event.target.value });
-    console.log(event.target.value);
   };
 
   const toggleList = (category) => {
@@ -86,39 +152,79 @@ const PostList = (props) => {
     }
   };
 
+  const toggleNewPost = () => {
+    props.onRedirect(props.active === "New Post" ? "Dashboard" : "New Post");
+  };
+
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  // Create PostListItem components with the given array of posts
-  const generatePostListItems = (posts) => {
-    return posts.map(post => {
-      // Get the total number of comments + replies of a post
-      const numComments = post.comments
-        .map(comment => 1 + comment.replies.length)
-        .reduce((a, b) => a + b, 0);
-      // Check if a student has commented on the post
-      const showStudentBadge = post.comments.filter(comment => comment.role === "student").length > 0;
-      // Check if an instructor has commented on the post
-      const showInstructorBadge = post.comments.filter(comment => comment.role === "instructor").length > 0;
-      return (
-        <PostListItem
-          key={post.id}
-          id={post.id}
-          title={post.title}
-          body={post.body}
-          pinned={post.pinned}
-          bookmarked={post.bookmarked}
-          bestAnswer={post.best_answer}
-          tags={post.tags}
-          views={post.views}
-          comments={numComments}
-          showStudentBadge={showStudentBadge}
-          showInstructorBadge={showInstructorBadge}
-          onClick={props.onClick}
-          selected={props.selectedPostID === post.id}
-        />
-      );
+  // Return true if the given comment contains searchText within its body or replies
+  const commentContainsText = (comment, searchText) => {
+    const search = searchText.trim().toLowerCase();
+    const body = comment.body.trim().toLowerCase();
+    const fields = [body];
+    // Check the comment
+    for (const field of fields) {
+      if (field.includes(search)) {
+        return true;
+      }
+    }
+    // Check the comment's replies
+    for (const reply of comment.replies) {
+      const body = reply.body.trim().toLowerCase();
+      const fields = [body];
+      for (const field of fields) {
+        if (field.includes(search)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  // Filter posts by the given array of tags
+  // If no tags are selected, all posts will be returned
+  const filterPostsByTags = (posts, tags = []) => {
+    const filteredPosts = !tags.length ? posts : posts.filter(post => {
+      // Check if each post has at least one of the selected tags
+      for (const tag of post.tags) {
+        if (hasTag(tags, tag.id)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    return filteredPosts;
+  };
+
+  // Filter posts by the given search text
+  // To qualify, a post must:
+  // - Contain searchText within its title or body
+  // - Contain searchText within any of its comments and their replies
+  // - Contain searchText in its id (e.g., @123)
+  const filterPostsBySearchText = (posts, searchText) => {
+    const search = searchText.trim().toLowerCase();
+    return posts.filter(post => {
+      const title = post.title.trim().toLowerCase();
+      const body = post.body.trim().toLowerCase();
+      const id = "@" + post.id;
+      const fields = [title, body, id];
+      // Check the post
+      for (const field of fields) {
+        if (field.includes(search)) {
+          return true;
+        }
+      }
+      // Check the post's comments and their replies
+      for (const comment of post.comments) {
+        if (commentContainsText(comment, search)) {
+          return true;
+        }
+      }
+      return false;
     });
   };
+
 
   // Move all bookmarked posts to the front of the given posts array
   const sortByBookmarked = (posts) => {
@@ -141,52 +247,13 @@ const PostList = (props) => {
     });
   };
 
-  // VARIABLES //////////////////////////////////////////////////////
-
   // Return true if the given tagID is in tags
   // TODO: Move to helper file (also in Post)
   const hasTag = (tags, tagID) => {
     return tags.filter(tag => tag.id === tagID).length;
   };
 
-  // If no tags are selected, use all posts, otherwise filter by selected tags
-  const filteredPosts = !props.selectedTags.length ? props.posts : props.posts.filter(post => {
-    // Check if each post has at least one of the selected tags
-    for (const tag of post.tags) {
-      if (hasTag(props.selectedTags, tag.id)) {
-        return true;
-      }
-    }
-    return false;
-  });
-
-  // Categorize posts as pinned or unpinned
-  // Priority: pinned > bookmarked > default
-  const pinned = [];
-  const bookmarked = [];
-  const unpinned = [];
-
-  for (const post of filteredPosts) {
-    if (post.pinned) {
-      pinned.push(post);
-    } else if (post.bookmarked) {
-      bookmarked.push(post);
-    } else {
-      unpinned.push(post);
-    }
-  }
-
-  // Sort the posts by descending ID
-  const descPinned = sortByID(pinned);
-  const descBookmarked = sortByID(bookmarked);
-  const descUnpinned = sortByID(unpinned);
-
-  // Sort the pinned posts by bookmark status
-  const bookmarkedPinnedPosts = sortByBookmarked(descPinned);
-
-  const pinnedPosts = generatePostListItems(bookmarkedPinnedPosts);
-  const bookmarkedPosts = generatePostListItems(descBookmarked);
-  const unpinnedPosts = generatePostListItems(descUnpinned);
+  // VARIABLES //////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////
 
@@ -207,7 +274,7 @@ const PostList = (props) => {
           <Button
             text="new post"
             styles={`new-post ${props.active === "New Post" ? "active" : ""}`}
-            onClick={props.onNewPost}
+            onClick={toggleNewPost}
             image={question}
           />
         </div>
@@ -250,7 +317,7 @@ const PostList = (props) => {
             <TagList
               tags={props.tags}
               selectedTags={props.selectedTags}
-              onClick={props.onTagToggle}
+              onClick={toggleTag}
               styles={"tag filter"}
             />
             {(props.selectedTags.length > 0 || state.searchText) &&
@@ -275,58 +342,64 @@ const PostList = (props) => {
 
         {/* Pinned */}
         <div className="pinned">
-          <div className={`label ${state.showPinned ? "active" : ""} ${!pinnedPosts.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
+          <div className={`label ${state.showPinned ? "active" : ""} ${!state.pinned.length ? "empty" : ""}`} onClick={() => toggleList("pinned")}>
             <div>
               <img src={pin} alt="pin" />
               PINNED
             </div>
             <div className="arrows">
-              {pinnedPosts.length > 0 && state.showPinned && <img src={up} alt="up" />}
-              {pinnedPosts.length > 0 && !state.showPinned && <img src={down} alt="down" />}
+              {state.pinned.length > 0 && state.showPinned && <img src={up} alt="up" />}
+              {state.pinned.length > 0 && !state.showPinned && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showPinned &&
-            <div className="list">
-              {pinnedPosts}
-            </div>
+            <PostListCategory
+              posts={state.pinned}
+              onClick={onSelectPost}
+              selectedPostID={props.selectedPostID}
+            />
           }
         </div>
 
         {/* Bookmarked */}
         <div className="bookmarked">
-          <div className={`label ${state.showBookmarked ? "active" : ""} ${!bookmarkedPosts.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
+          <div className={`label ${state.showBookmarked ? "active" : ""} ${!state.bookmarked.length ? "empty" : ""}`} onClick={() => toggleList("bookmarked")}>
             <div>
               <img src={star} alt="bookmark" />
               BOOKMARKED
             </div>
             <div className="arrows">
-              {bookmarkedPosts.length > 0 && state.showBookmarked && <img src={up} alt="up" />}
-              {bookmarkedPosts.length > 0 && !state.showBookmarked && <img src={down} alt="down" />}
+              {state.bookmarked.length > 0 && state.showBookmarked && <img src={up} alt="up" />}
+              {state.bookmarked.length > 0 && !state.showBookmarked && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showBookmarked &&
-            <div className="list">
-              {bookmarkedPosts}
-            </div>
+            <PostListCategory
+              posts={state.bookmarked}
+              onClick={onSelectPost}
+              selectedPostID={props.selectedPostID}
+            />
           }
         </div>
 
         {/* Posts */}
         <div className="unpinned">
-          <div className={`label ${state.showPosts ? "active" : ""} ${!unpinnedPosts.length && "empty"}`} onClick={() => toggleList("posts")}>
+          <div className={`label ${state.showPosts ? "active" : ""} ${!state.unpinned.length && "empty"}`} onClick={() => toggleList("posts")}>
             <div>
               <img src={question} alt="question" />
               POSTS
             </div>
             <div className="arrows">
-              {unpinnedPosts.length > 0 && state.showPosts && <img src={up} alt="up" />}
-              {unpinnedPosts.length > 0 && !state.showPosts && <img src={down} alt="down" />}
+              {state.unpinned.length > 0 && state.showPosts && <img src={up} alt="up" />}
+              {state.unpinned.length > 0 && !state.showPosts && <img src={down} alt="down" />}
             </div>
           </div>
           {state.showPosts &&
-            <div className="list">
-              {unpinnedPosts}
-            </div>
+            <PostListCategory
+              posts={state.unpinned}
+              onClick={onSelectPost}
+              selectedPostID={props.selectedPostID}
+            />
           }
         </div>
       </div>

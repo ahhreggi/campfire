@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Preview.scss";
 
@@ -16,8 +17,14 @@ const Preview = (props) => {
     label: "PREVIEW"
   };
 
+  const [breakBody, setBreakBody] = useState(props.breakBody);
+
+  useEffect(() => {
+    setBreakBody(props.breakBody);
+  }, [props.breakBody]);
+
   return (
-    <div className={`Preview ${props.breakBody ? "break" : ""}`}>
+    <div className={`Preview ${breakBody ? "break" : ""}`}>
 
       <div className="label">
         {props.label}
@@ -32,7 +39,7 @@ const Preview = (props) => {
         }
 
         {props.title &&
-          <div className="title">
+          <div className="title break">
             {props.title}
           </div>
         }

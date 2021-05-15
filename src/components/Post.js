@@ -52,6 +52,23 @@ const Post = (props) => {
     userID: PropTypes.number
   };
 
+  // Get the parent ID of the best answer of the post
+  const getBestAnswerParentID = (comments, bestAnswerID) => {
+    // First check the parent itself
+    for (const parent of comments) {
+      if (parent.id === bestAnswerID) {
+        return parent.id;
+      }
+      // Then check its children
+      for (const child of parent.replies) {
+        // If it's found, return the ID of the parent comment
+        if (child.id === bestAnswerID) {
+          return parent.id;
+        }
+      }
+    }
+  };
+
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
@@ -61,15 +78,15 @@ const Post = (props) => {
 
   // Reset states when switching posts
   useEffect(() => {
-    const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
+    // const uncollapsed = props.bestAnswer ? [getBestAnswerParentID(props.comments, props.bestAnswer)] : [];
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
       showCommentForm: false,
-      uncollapsed: [uncollapsed]
+      uncollapsed: [getBestAnswerParentID(props.comments, props.bestAnswer)]
     });
-  }, [props.id]);
+  }, [props.id, props.comments, props.bestAnswer]);
 
   // If the comment form is opened, scroll to it
   useEffect(() => {
@@ -127,7 +144,7 @@ const Post = (props) => {
 
     // Get the ID of the top-level comment in which the best answer is found
 
-    let bestAnswerParentID = getBestAnswerParentID();
+    let bestAnswerParentID = getBestAnswerParentID(props.comments, props.bestAnswer);
 
     // Uncollapse parent element of best answer only
     setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
@@ -136,25 +153,6 @@ const Post = (props) => {
     setTimeout(() => {
       refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
     }, 100);
-  };
-
-  // Get the parent ID of the best answer of the post
-  const getBestAnswerParentID = () => {
-
-    // First check the parent itself
-    for (const parent of props.comments) {
-      if (parent.id === props.bestAnswer) {
-        return parent.id;
-      }
-      // Then check its children
-      for (const child of parent.replies) {
-        // If it's found, return the ID of the parent comment
-        if (child.id === props.bestAnswer) {
-          return parent.id;
-        }
-      }
-    }
-
   };
 
   // New comment toggle handler
@@ -207,6 +205,7 @@ const Post = (props) => {
     };
     props.onAddComment(commentData);
     setState({ ...state, showCommentForm: false });
+    scrollToCommentForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -277,6 +276,7 @@ const Post = (props) => {
     <div className="Post">
 
       <DevData name={"Post"} props={props} />
+
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 

@@ -30,14 +30,10 @@ const EditForm = (props) => {
 
   };
 
-  EditForm.defaultProps = {
-    minHeight: "10rem"
-  };
-
   const [state, setState] = useState({
-    previewTitle: props.title,
-    previewBody: props.body,
-    previewAuthor: props.author,
+    previewTitle: props.title ? props.title.trim() : "",
+    previewBody: props.body ? props.body.trim() : "",
+    previewAuthor: props.author ? props.author.trim() : "",
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
     breakBody: false
@@ -62,12 +58,20 @@ const EditForm = (props) => {
 
   // Save changes to the post or comment
   const saveEdit = () => {
-    const data = {
-      title: props.mode === "POST" ? state.previewTitle : null,
-      body: state.previewBody,
-      anonymous: state.previewAnonymous,
-      tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
-    };
+    let data;
+    if (props.mode === "POST") {
+      data = {
+        title: state.previewTitle.trim() ? state.previewTitle.trim() : props.title, // title may not be non-empty
+        body: state.previewBody.trim() ? state.previewBody.trim() : " ",
+        anonymous: state.previewAnonymous,
+        tags: state.previewTags.map(tag => tag.id)
+      };
+    } else {
+      data = {
+        body: state.previewBody.trim() ? state.previewBody : " ",
+        anonymous: state.previewAnonymous
+      };
+    }
     props.onSave(data);
   };
 
@@ -139,6 +143,7 @@ const EditForm = (props) => {
   return (
     <div className="EditForm">
 
+      {/* Preview */}
       <Preview
         label={props.label}
         title={state.previewTitle}
@@ -148,21 +153,25 @@ const EditForm = (props) => {
         breakBody={state.breakBody}
       />
 
+      {/* Title Field */}
       {props.mode === "POST" &&
         <TextForm
           label={"Post Title"}
           text={state.previewTitle}
           onChange={updatePreviewTitle}
+          minHeight={"0"}
         />
       }
 
+      {/* Body Field */}
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
-        minHeight={props.minHeight}
+        minHeight={props.minHeight ? props.minHeight : "10rem"}
         onChange={updatePreviewBody}
       />
 
+      {/* Anonymous Checkbox */}
       {!props.isInstructor &&
         <Checkbox
           checked={state.previewAnonymous}
@@ -170,6 +179,7 @@ const EditForm = (props) => {
         />
       }
 
+      {/* Tag Form */}
       {props.mode === "POST" &&
         <TagForm
           tags={props.courseTags}
@@ -181,6 +191,7 @@ const EditForm = (props) => {
 
       <hr />
 
+      {/* Save/Cancel Buttons */}
       <Confirmation
         onConfirm={saveEdit}
         onCancel={props.onCancel ? cancelEdit : null}
