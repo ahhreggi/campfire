@@ -119,13 +119,13 @@ const App = () => {
     const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-    // console.log("\n".repeat(10));
-    // console.log("🌐", params);
-    // console.log("🔑 STATE TOKEN:", token);
-    // if (data) {
-    //   console.log("📝 DATA SENT:", data);
-    // }
-    // console.log("\n".repeat(2));
+    console.log("\n".repeat(10));
+    console.log("🌐", params);
+    console.log("🔑 STATE TOKEN:", token);
+    if (data) {
+      console.log("📝 DATA SENT:", data);
+    }
+    console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -136,22 +136,24 @@ const App = () => {
       data
     })
       .then(res => {
-        // console.log("✔️ SERVER RESPONSE:", res.data);
+        console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
       .catch(err => {
-        // console.log("❌ SERVER RESPONSE:");
-        // console.error(err);
+        console.log("❌ SERVER RESPONSE:");
+        console.error(err);
       });
   };
 
   // Set the application data
   const setAppData = (data, type, newPostID, newPostData, newActive) => {
     if (type === "userData") {
+      console.log("Setting userData to", data);
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
       let active = state.active;
-      if (state.active === "Login") {
+      // Redirect to Home after Login, Register
+      if (state.active === "Login" || state.active === "Register") {
         active = "Home";
       } else if (state.active === "Create") {
         active = "Dashboard";
@@ -186,7 +188,7 @@ const App = () => {
   // - User enters a first/last name, email, and password
   // - Data is sent to the server and the new user data is returned
   // - State is updated (userData)
-  // - SIDE EFFECT: User courses are fetched from the server (fetchUserCourses)
+  // - SIDE EFFECT 1: User courses are fetched from the server (fetchUserCourses)
   // - State is updated (userCourses)
   // - User is redirected to Home, where their courses would be displayed
 
@@ -197,6 +199,7 @@ const App = () => {
       .then((userData) => {
         if (userData) {
           setAppData(userData, "userData");
+          console.log(state);
         } else {
           console.log("❌ registerUser failed!");
           setState({ ...state, errors: ["Email already in use!"] });
@@ -249,6 +252,10 @@ const App = () => {
         }
       });
   };
+
+  useEffect(() => {
+    console.log(state);
+  }, [state.userCourses]);
 
   // COURSE SELECTION ///////////////////////////////////////////////
 
