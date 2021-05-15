@@ -16,32 +16,66 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
 
-  .DevData {
-    font-weight: 500;
-    font-size: 1.5rem;
-    border: 3px solid $green;
-    padding: 0.5rem 1rem;
-    background-color: $navy-2;
-    margin-bottom: 1rem;
-    textarea {
-      margin-top: 0.5rem;
-      resize: none;
-      border: none;
-      overflow-x: hidden;
-      word-break: break-all;
-      width: 100%;
-      height: 20rem;
-      background-color: $black;
-      color: $green;
-      font-family: $font-code;
-      font-size: 12px;
-      outline: none;
-      @include custom-scrollbar;
+  // DEVELOPMENT ONLY ///////////////////////////////////////////////
+  .App {
+    // overflow-y: scroll; // toggle this to fix app
+    @include custom-scrollbar;
+    .dev-tools {
+      margin-top: 0rem;
+      display: none; // toggle this
     }
-    span {
-      text-transform: uppercase;
-      font-weight: 900;
-      color: $green;
+    .DevData {
+      // display: none !important; // toggle this to quickly hide all dev data
+      font-weight: 500;
+      font-size: 1.5rem;
+      border: 3px solid $green;
+      padding: 0.5rem 1rem;
+      background-color: $navy-2;
+      margin-bottom: 1rem;
+      textarea {
+        margin-top: 0.5rem;
+        resize: none;
+        border: none;
+        overflow-x: hidden;
+        word-break: break-all;
+        width: 100%;
+        height: 20rem;
+        background-color: $black;
+        color: $green;
+        font-family: $font-code;
+        font-size: 12px;
+        outline: none;
+        @include custom-scrollbar;
+      }
+      span {
+        text-transform: uppercase;
+        font-weight: 900;
+        color: $green;
+      }
+      span.hide {
+        color: $red;
+        font-size: 1rem;
+        margin-right: 1rem;
+        margin-bottom: 3rem;
+        cursor: pointer;
+        &:hover {
+          color: $orange;
+        }
+      }
+    }
+  }
+  ///////////////////////////////////////////////////////////////////
+
+  .ref {
+    // border: 1px solid red;
+    position: relative;
+    bottom: 33vh;
+    // display: none;
+    &.top {
+      bottom: 8vh;
+    }
+    &.best {
+      bottom: 4vh;
     }
   }
 

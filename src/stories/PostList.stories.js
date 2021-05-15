@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PostList from '../components/PostList';
-import * as PostListItemStories from './PostListItem.stories';
+import * as PostListCategoryItemStories from './PostListCategoryItem.stories';
 
 let dummyCourseData = {
   "tags": [

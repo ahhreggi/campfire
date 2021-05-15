@@ -24,7 +24,8 @@ const Main = (props) => {
     onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
-    onTagToggle: PropTypes.func
+    onTagToggle: PropTypes.func,
+    onRedirect: PropTypes.func
   };
 
   // const [state, setState] = useState({
@@ -64,6 +65,7 @@ const Main = (props) => {
           courseTags={props.courseData.tags}
           anonymous={post.anonymous}
           author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
+          authorRole={post.authorRole || "instructor"}
           bestAnswer={post.best_answer}
           body={post.body}
           pinned={post.pinned}
@@ -88,6 +90,7 @@ const Main = (props) => {
           onTagToggle={props.onTagToggle}
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
           userID={props.userData.userID}
+          userRole={props.courseData.role}
         />
       }
 
@@ -96,6 +99,7 @@ const Main = (props) => {
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
           courseData={props.courseData}
           onAddPost={props.onAddPost}
+          onRedirect={props.onRedirect}
         />
       }
 

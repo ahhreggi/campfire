@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CommentListItem from "./CommentListItem";
 import "./CommentList.scss";
@@ -16,19 +15,10 @@ const CommentList = (props) => {
     postAuthorID: PropTypes.number,
     userName: PropTypes.string,
     userID: PropTypes.number,
+    userRole: PropTypes.string,
     refBestAnswer: PropTypes.object,
     uncollapsed: PropTypes.array
   };
-
-  // Watch for post uncollapsed state changes
-  const [state, setState] = useState({
-    uncollapsed: props.uncollapsed
-  });
-
-  // When uncollapsed changes, update state
-  useEffect(() => {
-    setState({ uncollapsed: props.uncollapsed });
-  }, [props.uncollapsed]);
 
   // Sort an array of comments
   const sortComments = (comments, byMostRecent = true) => {
@@ -73,12 +63,13 @@ const CommentList = (props) => {
           bestAnswer={props.bestAnswer}
           onEditBestAnswer={props.onEditBestAnswer}
           postAuthorID={props.postAuthorID}
-          commentAuthorID={comment.author_id}
+          commentAuthorID={comment.author_id || comment.user_id}
           userName={props.userName}
+          userRole={props.userRole}
           userID={props.userID}
           refBestAnswer={props.refBestAnswer}
-          uncollapsed={state.uncollapsed}
-          showReplyList={state.uncollapsed.includes(comment.id)}
+          uncollapsed={props.uncollapsed}
+          showReplyList={props.uncollapsed.length && props.uncollapsed.includes(comment.id) ? true : false}
         />
       );
     });

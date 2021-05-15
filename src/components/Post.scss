@@ -21,6 +21,8 @@
     align-items: center;
     border: 2px solid $green;
     padding: 1rem;
+    margin-bottom: 1.5rem;
+    user-select: none;
 
     img {
       margin-right: 0.5rem;
@@ -102,6 +104,7 @@
       color: $white;
       margin-right: 0.5rem;
       user-select: none;
+      cursor: initial;
 
       img {
         width: 1.5rem;
@@ -129,6 +132,11 @@
     .author {
       font-weight: 700;
       color: $orange;
+
+      &.instructor {
+        color: $yellow;
+      }
+
     }
 
     .modified {
@@ -210,6 +218,11 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
+          height: 1.6rem;
+
+          img {
+            padding-bottom: 0.1rem;
+          }
 
         }
 
@@ -219,7 +232,6 @@
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
           opacity: 0.9;
-
         }
 
         .replies-present {
@@ -305,6 +317,14 @@
 
     }
 
+  }
+
+  .comment-form {
+    &.instructor {
+      span.name {
+        color: $yellow;
+      }
+    }
   }
 
   .reply-form {
