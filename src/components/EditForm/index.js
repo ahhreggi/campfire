@@ -31,9 +31,9 @@ const EditForm = (props) => {
   };
 
   const [state, setState] = useState({
-    previewTitle: props.title,
-    previewBody: props.body.trim(),
-    previewAuthor: props.author,
+    previewTitle: props.title ? props.title.trim() : "",
+    previewBody: props.body ? props.body.trim() : "",
+    previewAuthor: props.author ? props.author.trim() : "",
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
     breakBody: false
@@ -58,12 +58,20 @@ const EditForm = (props) => {
 
   // Save changes to the post or comment
   const saveEdit = () => {
-    const data = {
-      title: props.mode === "POST" ? state.previewTitle : null,
-      body: state.previewBody,
-      anonymous: state.previewAnonymous,
-      tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
-    };
+    let data;
+    if (props.mode === "POST") {
+      data = {
+        title: state.previewTitle.trim() ? state.previewTitle.trim() : props.title, // title may not be non-empty
+        body: state.previewBody.trim() ? state.previewBody.trim() : " ",
+        anonymous: state.previewAnonymous,
+        tags: state.previewTags.map(tag => tag.id)
+      };
+    } else {
+      data = {
+        body: state.previewBody.trim() ? state.previewBody : " ",
+        anonymous: state.previewAnonymous
+      };
+    }
     props.onSave(data);
   };
 
