@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Register.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Register = (props) => {
 

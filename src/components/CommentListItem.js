@@ -228,7 +228,6 @@ const CommentListItem = (props) => {
 
   // Check if the comment is by the post author
   const isPostAuthor = props.commentAuthorID === props.postAuthorID;
-  console.log(props.authorFirstName, props.commentAuthorID, props.postAuthorID, "<<");
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -238,8 +237,6 @@ const CommentListItem = (props) => {
 
   // Get the author name to display
   const authorName = getAuthorName(props.authorFirstName, props.authorLastName, props.anonymous);
-  console.log(props.authorFirstName, props.authorLastName, props.anonymous, "gives", authorName);
-
 
   // Get the author role to display
   const authorRole = getAuthorRole(props.authorRole, false);
@@ -257,7 +254,7 @@ const CommentListItem = (props) => {
   // Check if the post is by the current user
   const userIsPostAuthor = props.userID === props.postAuthorID;
 
-  const userIsInstructor = props.userRole !== "student";
+  // const userIsInstructor = props.userRole !== "student";
 
   // Get class names
   const classes = classNames({

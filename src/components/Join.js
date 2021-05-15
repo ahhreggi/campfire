@@ -30,7 +30,7 @@ const Join = (props) => {
 
   // Check if a code contains only letters and numbers?
   const isValidAccessCode = (code) => {
-    return true;
+    return true || code;
     // return !!(code).match("^[a-zA-Z0-9]+$");
   };
 
