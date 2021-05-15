@@ -143,7 +143,7 @@ const CommentListItem = (props) => {
 
   // Set the comment as the post's best answer
   const setBestAnswer = () => {
-    props.onEditBestAnswer(state.commentID);
+    props.onEditBestAnswer(props.id);
   };
 
   // Add a reply
@@ -257,25 +257,15 @@ const CommentListItem = (props) => {
     }, 100);
   };
 
-  const refCommentTop = useRef();
-  // When closing reply list, scroll to comment top
-  const scrollToCommentTop = () => {
-    setTimeout(() => {
-      refCommentTop.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
-
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div className={classes}>
-
-      <div className="ref top" ref={refCommentTop}></div>
-      <div className="ref best" ref={isBestAnswer ? props.refBestAnswer : null}></div>
+    <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
 
       {/* Top-level Comment */}
       <div className="top">
         <section className="left">
+          {isBestAnswer ? "yes" : "no"}
 
           {/* Avatar */}
           <div className="avatar">
@@ -342,7 +332,7 @@ const CommentListItem = (props) => {
                 }
 
                 {/* Select Best Answer Label */}
-                {props.bestAnswer !== props.id && userIsPostAuthor &&
+                {!props.bestAnswer && props.bestAnswer !== props.id && userIsPostAuthor &&
                   <div className="label unselected" onClick={setBestAnswer}>
                     <span>SELECT AS BEST ANSWER</span>
                   </div>

@@ -69,6 +69,7 @@ body {
     // border: 1px solid red;
     position: relative;
     bottom: 33vh;
+    display: none;
     &.top {
       bottom: 8vh;
     }

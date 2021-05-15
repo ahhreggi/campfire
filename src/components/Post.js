@@ -134,8 +134,9 @@ const Post = (props) => {
     // // This should re-render CommentList and CommentListItem
     // // Scroll to best answer
     setTimeout(() => {
+      console.log("scrolling!");
       refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 500);
   };
 
   // Get the parent ID of the best answer of the post
@@ -182,6 +183,8 @@ const Post = (props) => {
   // Select the best answer
   // commentID may be null
   const editBestAnswer = (commentID) => {
+    console.log("click");
+    // scrollToTop();
     props.onEditPost(props.id, { "best_answer": commentID === props.bestAnswer ? null : commentID });
   };
 
@@ -271,12 +274,20 @@ const Post = (props) => {
   //   }
   // }
 
+  const refPostTop = useRef();
+  const scrollToTop = () => {
+    setTimeout(() => {
+      refPostTop.current.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Post">
 
       <DevData name={"Post"} props={props} />
+
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 

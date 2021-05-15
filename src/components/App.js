@@ -120,13 +120,13 @@ const App = () => {
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
 
-    // console.log("\n".repeat(10));
-    // console.log("🌐", params);
-    // console.log("🔑 STATE TOKEN:", token);
-    // if (data) {
-    //   console.log("📝 DATA SENT:", data);
-    // }
-    // console.log("\n".repeat(2));
+    console.log("\n".repeat(10));
+    console.log("🌐", params);
+    console.log("🔑 STATE TOKEN:", token);
+    if (data) {
+      console.log("📝 DATA SENT:", data);
+    }
+    console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -137,7 +137,7 @@ const App = () => {
       data
     })
       .then(res => {
-        // console.log("✔️ SERVER RESPONSE:", res.data);
+        console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
       .catch(err => {
