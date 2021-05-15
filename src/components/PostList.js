@@ -65,6 +65,7 @@ const PostList = (props) => {
     if (state.searchText && !state.showFilters) {
       setState({ ...state, showFilters: true });
     }
+    console.log(state.searchText);
   }, [state.searchText]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -115,7 +116,6 @@ const PostList = (props) => {
   };
 
   const toggleTag = (tagID) => {
-    console.log("hey");
     props.onTagToggle(tagID);
   };
 
@@ -124,7 +124,6 @@ const PostList = (props) => {
   };
 
   const toggleSearch = () => {
-    console.log("toggling search bar");
     if (!state.showSearch) {
       setState({ ...state, showSearch: true, showFilters: true, searchText: "" });
     } else {
@@ -139,7 +138,6 @@ const PostList = (props) => {
 
   const updateSearchText = (event) => {
     setState({ ...state, searchText: event.target.value });
-    console.log(event.target.value);
   };
 
   const toggleList = (category) => {
@@ -162,12 +160,23 @@ const PostList = (props) => {
 
   // Return true if the given comment contains searchText within its body or replies
   const commentContainsText = (comment, searchText) => {
-    if (comment.body.includes(searchText)) {
-      return true;
-    }
-    for (const reply of comment.replies) {
-      if (reply.body.includes(searchText)) {
+    const search = searchText.trim().toLowerCase();
+    const body = comment.body.trim().toLowerCase();
+    const fields = [body];
+    // Check the comment
+    for (const field of fields) {
+      if (field.includes(search)) {
         return true;
+      }
+    }
+    // Check the comment's replies
+    for (const reply of comment.replies) {
+      const body = reply.body.trim().toLowerCase();
+      const fields = [body];
+      for (const field of fields) {
+        if (field.includes(search)) {
+          return true;
+        }
       }
     }
     return false;
@@ -192,17 +201,24 @@ const PostList = (props) => {
   // To qualify, a post must:
   // - Contain searchText within its title or body
   // - Contain searchText within any of its comments and their replies
+  // - Contain searchText in its id (e.g., @123)
   const filterPostsBySearchText = (posts, searchText) => {
+    const search = searchText.trim().toLowerCase();
     return posts.filter(post => {
-      // Check the post title and body
-      if (post.title.includes(searchText) || post.body.includes(searchText)) {
-        return true;
-        // Check the post's comments and their replies
-      } else {
-        for (const comment of post.comments) {
-          if (commentContainsText(comment, searchText)) {
-            return true;
-          }
+      const title = post.title.trim().toLowerCase();
+      const body = post.body.trim().toLowerCase();
+      const id = "@" + post.id;
+      const fields = [title, body, id];
+      // Check the post
+      for (const field of fields) {
+        if (field.includes(search)) {
+          return true;
+        }
+      }
+      // Check the post's comments and their replies
+      for (const comment of post.comments) {
+        if (commentContainsText(comment, search)) {
+          return true;
         }
       }
       return false;

@@ -30,10 +30,6 @@ const EditForm = (props) => {
 
   };
 
-  EditForm.defaultProps = {
-    minHeight: "10rem"
-  };
-
   const [state, setState] = useState({
     previewTitle: props.title,
     previewBody: props.body.trim(),
@@ -155,6 +151,7 @@ const EditForm = (props) => {
           label={"Post Title"}
           text={state.previewTitle}
           onChange={updatePreviewTitle}
+          minHeight={"0"}
         />
       }
 
@@ -162,7 +159,7 @@ const EditForm = (props) => {
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
-        minHeight={props.minHeight}
+        minHeight={props.minHeight ? props.minHeight : "10rem"}
         onChange={updatePreviewBody}
       />
 
