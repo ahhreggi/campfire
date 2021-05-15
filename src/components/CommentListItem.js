@@ -127,7 +127,10 @@ const CommentListItem = (props) => {
 
   // Save the comment changes
   const saveComment = (data) => {
-    props.onEditComment(props.id, data);
+    // Check that changes were actually made
+    if (props.body !== data.body) {
+      props.onEditComment(props.id, data);
+    }
     // Hide edit form
     toggleForm();
   };

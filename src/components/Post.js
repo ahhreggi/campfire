@@ -185,7 +185,16 @@ const Post = (props) => {
 
   // Save the post changes
   const savePost = (data) => {
-    props.onEditPost(props.id, data);
+    const newTags = props.tags.map(tag => tag.id);
+    const tagCheck = JSON.stringify(newTags) !== JSON.stringify(data.tags);
+    // console.log(JSON.stringify(newTags) !== JSON.stringify(data.tags));
+    // Check that changes were actually made
+    if ((props.title !== data.title) ||
+      (props.body !== data.body) ||
+      (props.anonymous !== data.anonymous) ||
+      tagCheck) {
+      props.onEditPost(props.id, data);
+    }
     // Hide edit form
     toggleForm();
   };
