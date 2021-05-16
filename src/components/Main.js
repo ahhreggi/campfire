@@ -3,6 +3,7 @@
 import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
+import Home from "./Home";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
@@ -13,9 +14,16 @@ const Main = (props) => {
 
   Main.propTypes = {
     active: PropTypes.string,
+
     userData: PropTypes.object,
+    userCourses: PropTypes.array,
+
     courseData: PropTypes.object,
+    posts: PropTypes.array,
+
     postID: PropTypes.number,
+    postData: PropTypes.object,
+
     onEditBookmark: PropTypes.func,
     onAddPost: PropTypes.func,
     onEditPost: PropTypes.func,
@@ -24,6 +32,7 @@ const Main = (props) => {
     onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
+
     onTagToggle: PropTypes.func,
     onRedirect: PropTypes.func
   };
@@ -45,8 +54,10 @@ const Main = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  const post = props.courseData ? getPostByID(props.courseData.posts, props.postID) : null;
+  // Home view
 
+  // Course view
+  const post = props.courseData ? getPostByID(props.posts, props.postID) : null;
   const stats = props.courseData ? props.courseData.analytics : null;
 
   ///////////////////////////////////////////////////////////////////
@@ -54,11 +65,42 @@ const Main = (props) => {
   return (
     <div className="Main">
 
-      {/* TEMPORARY */}
-      {props.active === "Dashboard" &&
-        <DevData name={"Main"} props={props} />
+      {/* Home View */}
+      {props.active === "Home" &&
+        <Home
+          userData={props.userData}
+          userCourses={props.userCourses}
+          onRedirect={props.onRedirect}
+        />
       }
 
+      {/* TEMPORARY */}
+      {/* {props.active === "Dashboard" &&
+        <DevData name={"Main"} props={props} />
+      } */}
+
+      {/* Dashboard View */}
+      {props.active === "Dashboard" &&
+        <Dashboard
+          resolved={stats.num_resolved_questions}
+          unresolved={stats.num_unresolved_questions}
+        />
+      }
+
+      {/* Analytics View */}
+      {props.active === "Analytics" && <Analytics />}
+
+      {/* New Post View */}
+      {props.active === "New Post" &&
+        <PostForm
+          userName={`${props.userData.firstName} ${props.userData.lastName}`}
+          courseData={props.courseData}
+          onAddPost={props.onAddPost}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Post View */}
       {props.active === "Post" &&
         <Post
           id={post.id}
@@ -93,24 +135,6 @@ const Main = (props) => {
           userRole={props.courseData.role}
         />
       }
-
-      {props.active === "New Post" &&
-        <PostForm
-          userName={`${props.userData.firstName} ${props.userData.lastName}`}
-          courseData={props.courseData}
-          onAddPost={props.onAddPost}
-          onRedirect={props.onRedirect}
-        />
-      }
-
-      {props.active === "Dashboard" &&
-        <Dashboard
-          resolved={stats.num_resolved_questions}
-          unresolved={stats.num_unresolved_questions}
-        />
-      }
-
-      {props.active === "Analytics" && <Analytics />}
 
     </div>
   );

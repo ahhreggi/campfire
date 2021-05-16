@@ -593,7 +593,7 @@ const App = () => {
       }
 
       {/* Show all user courses */}
-      {state.active === "Home" &&
+      {/* {state.active === "Home" &&
         <Home
           userData={state.userData}
           userCourses={state.userCourses}
@@ -602,7 +602,7 @@ const App = () => {
 
           // props={state}
         />
-      }
+      } */}
 
       {/* Create page */}
       {state.active === "Create" &&
@@ -677,10 +677,18 @@ const App = () => {
             {/* Current View */}
             <div className="app-right">
               <Main
+                // App state
                 active={state.active}
+                // Home view
                 userData={state.userData}
+                userCourses={state.userCourses}
+                // Course view
                 courseData={state.courseData}
+                posts={state.posts}
+                // Post view
                 postID={state.postID}
+                postData={state.postData}
+
                 onEditBookmark={editBookmark}
                 onAddPost={addPost}
                 onEditPost={editPost}
@@ -689,6 +697,7 @@ const App = () => {
                 onLikeComment={likeComment}
                 onEditComment={editComment}
                 onDeleteComment={deleteComment}
+
                 onTagToggle={updateSelectedTags}
                 onRedirect={setActive}
               />
