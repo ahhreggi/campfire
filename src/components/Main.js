@@ -74,6 +74,18 @@ const Main = (props) => {
   return (
     <div className="Main">
 
+      {/* Archived Warning */}
+      {props.courseData && props.courseData.archived &&
+        <div className="archived-message">
+          <div>
+            This course has been <span>archived</span>.
+          </div>
+          <div className="body">
+            While you are free to continue contributing to its discussions, please note that they may no longer be monitored by the course instructors.
+          </div>
+        </div>
+      }
+
       {/* Home View */}
       {props.active === "Home" &&
         <Home
