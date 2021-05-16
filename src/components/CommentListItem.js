@@ -40,6 +40,7 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
 
     endorsements: PropTypes.array,
+    edits: PropTypes.array,
     replies: PropTypes.array,
 
     onLikeComment: PropTypes.func,
@@ -222,17 +223,25 @@ const CommentListItem = (props) => {
   // Get the author role to display
   const authorRole = getAuthorRole(props.authorRole, false);
 
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<span className="modified">{timestamp} (edited {relativeTimestamp} by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span>)</span>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
 
   // Get a list of all endorsers
-  // const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
   const endorsers = props.endorsements.length ? props.endorsements.map((endorsement, index) => {
     return (<><span key={endorsement.id} className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </>);
   }) : "";
-
-  // Get a list of all editors
 
   // Check if the comment is by the current user
   const userIsCommentAuthor = props.userID === props.commentAuthorID;
@@ -396,7 +405,7 @@ const CommentListItem = (props) => {
 
             {/* Timestamp */}
             <div className="timestamp">
-              {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+              {timestampElement}
             </div>
 
             {/* Comment Edit Controls */}
