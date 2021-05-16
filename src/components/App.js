@@ -576,8 +576,6 @@ const App = () => {
           onSubmit={fetchUserData}
           errors={state.errors}
           onRedirect={setActive}
-
-          // props={state}
         />
       }
 
@@ -587,44 +585,6 @@ const App = () => {
           onSubmit={registerUser}
           errors={state.errors}
           onRedirect={setActive}
-
-          // props={state}
-        />
-      }
-
-      {/* Show all user courses */}
-      {/* {state.active === "Home" &&
-        <Home
-          userData={state.userData}
-          userCourses={state.userCourses}
-          onClick={fetchCourseData}
-          onRedirect={setActive}
-
-          // props={state}
-        />
-      } */}
-
-      {/* Create page */}
-      {state.active === "Create" &&
-        <Create
-          userData={state.userData}
-          onSubmit={createCourse}
-          errors={state.errors}
-          onRedirect={setActive}
-
-          // props={state}
-        />
-      }
-
-      {/* Join page */}
-      {state.active === "Join" &&
-        <Join
-          userData={state.userData}
-          onSubmit={joinCourse}
-          errors={state.errors}
-          onRedirect={setActive}
-
-          // props={state}
         />
       }
 
@@ -677,8 +637,9 @@ const App = () => {
             {/* Current View */}
             <div className="app-right">
               <Main
-                // App state
+                // Active state
                 active={state.active}
+                errors={state.errors}
                 // Home view
                 userData={state.userData}
                 userCourses={state.userCourses}
@@ -689,6 +650,11 @@ const App = () => {
                 postID={state.postID}
                 postData={state.postData}
 
+                // Create/Join course functions
+                onCreateCourse={createCourse}
+                onJoinCourse={joinCourse}
+
+                // Post functions
                 onEditBookmark={editBookmark}
                 onAddPost={addPost}
                 onEditPost={editPost}

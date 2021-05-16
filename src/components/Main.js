@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import Home from "./Home";
+import Join from "./Join";
+import Create from "./Create";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
@@ -13,17 +15,24 @@ import DevData from "./DevData";
 const Main = (props) => {
 
   Main.propTypes = {
+    // Active state
     active: PropTypes.string,
-
+    errors: PropTypes.array,
+    // Home view
     userData: PropTypes.object,
     userCourses: PropTypes.array,
-
+    // Course view
     courseData: PropTypes.object,
     posts: PropTypes.array,
-
+    // Post view
     postID: PropTypes.number,
     postData: PropTypes.object,
 
+    // Create/Join course functions
+    onCreateCourse: PropTypes.func,
+    onJoinCourse: PropTypes.func,
+
+    // Post functions
     onEditBookmark: PropTypes.func,
     onAddPost: PropTypes.func,
     onEditPost: PropTypes.func,
@@ -70,6 +79,26 @@ const Main = (props) => {
         <Home
           userData={props.userData}
           userCourses={props.userCourses}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Join View */}
+      {props.active === "Join" &&
+        <Join
+          userData={props.userData}
+          onSubmit={props.onJoinCourse}
+          errors={props.errors}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Create View */}
+      {props.active === "Create" &&
+        <Create
+          userData={props.userData}
+          onSubmit={props.onCreateCourse}
+          errors={props.errors}
           onRedirect={props.onRedirect}
         />
       }
