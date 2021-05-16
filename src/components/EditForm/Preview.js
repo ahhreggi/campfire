@@ -23,6 +23,8 @@ const Preview = (props) => {
     setBreakBody(props.breakBody);
   }, [props.breakBody]);
 
+  const isPost = props.label.includes("POST");
+
   return (
     <div className={`Preview ${breakBody ? "break" : ""}`}>
 
@@ -38,17 +40,15 @@ const Preview = (props) => {
           </div>
         }
 
-        {props.title &&
+        {isPost &&
           <div className="title break">
             {props.title}
           </div>
         }
 
-        {props.body &&
-          <div className="body">
-            {props.body}
-          </div>
-        }
+        <div className="body">
+          {props.body}
+        </div>
 
       </div>
 
