@@ -67,6 +67,22 @@
         }
       }
     }
+
+    &.empty {
+      opacity: 0.5;
+      border: 3px solid $navy-1;
+      background-color: $navy-1;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      img {
+        filter: grayscale(50%);
+      }
+      &:hover {
+        border: 3px solid $navy-1;
+        background-color: $navy-1;
+      }
+    }
+
   }
 
   .CourseListItem:last-child {
