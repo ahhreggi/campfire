@@ -640,6 +640,7 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
+                  userID={state.userData.userID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}

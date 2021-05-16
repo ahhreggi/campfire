@@ -16,6 +16,7 @@ const PostList = (props) => {
 
   PostList.propTypes = {
     active: PropTypes.string,
+    userID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func,
@@ -370,6 +371,7 @@ const PostList = (props) => {
           </div>
           {state.showPinned &&
             <PostListCategory
+              userID={props.userID}
               posts={state.pinned}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
@@ -391,6 +393,7 @@ const PostList = (props) => {
           </div>
           {state.showBookmarked &&
             <PostListCategory
+              userID={props.userID}
               posts={state.bookmarked}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
@@ -412,6 +415,7 @@ const PostList = (props) => {
           </div>
           {state.showPosts &&
             <PostListCategory
+              userID={props.userID}
               posts={state.unpinned}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
