@@ -369,7 +369,7 @@ const Post = (props) => {
       {state.showForm &&
         <>
           <EditForm
-            label={"PREVIEW POST"}
+            label={"EDIT POST"}
             id={props.id}
             title={props.title}
             author={props.author}

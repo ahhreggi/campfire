@@ -311,6 +311,7 @@ const PostList = (props) => {
           <input className="search-bar"
             value={state.searchText}
             onChange={updateSearchText}
+            placeholder={"e.g., react, @123"}
           />
         </div>
       }

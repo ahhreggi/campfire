@@ -36,6 +36,7 @@ const PostForm = (props) => {
       <div className="create-form">
 
         <EditForm
+          label={"PREVIEW POST"}
           title={""}
           author={props.userName}
           role={props.userRole}
