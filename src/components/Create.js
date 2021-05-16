@@ -41,12 +41,11 @@ const Create = (props) => {
     const errors = [];
     if (!state.name || !state.description) {
       errors.push("Please complete all fields!");
-    } else if (!isValid(state.name, "length", 24)) {
+    } else if (!isValid(state.name, "length", 40)) {
       errors.push("Title is too long!");
     } else if (!isValid(state.description, "length")) {
       errors.push("Description is too long!");
     }
-
     console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {

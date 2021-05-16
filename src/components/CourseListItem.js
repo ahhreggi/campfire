@@ -75,7 +75,7 @@ const CourseListItem = (props) => {
 
       {/* Course Name */}
       <div className="name">
-        {props.name}
+        {truncateText(props.name, 35)}
       </div>
 
       {/* Archived Label */}
