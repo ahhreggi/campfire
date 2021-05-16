@@ -1,7 +1,10 @@
 import "./Nav.scss";
 import logout from "../images/icons/logout.png";
-import github from "../images/icons/question-mark.png";
-import courses from "../images/icons/courses-solid.png";
+import github from "../images/icons/github.png";
+// import github from "../images/icons/question-mark.png";
+// import courses from "../images/icons/courses-solid.png";
+import courses from "../images/icons/home.png";
+import arrow from "../images/icons/up-arrow.png";
 import PropTypes from "prop-types";
 
 const Nav = (props) => {
@@ -48,6 +51,10 @@ const Nav = (props) => {
           >
             {props.userName}
           </span>
+        </div>
+
+        <div className="arrow-icon">
+          <img src={arrow} onClick={() => props.onRedirect("Logout")} />
         </div>
 
         <div className="courses-icon">

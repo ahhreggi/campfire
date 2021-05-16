@@ -92,6 +92,9 @@
             opacity: 0.9;
           }
         }
+        .arrow-icon {
+          display: none;
+        }
       }
 
       .user-info {
@@ -124,10 +127,26 @@
         }
       }
 
+      .arrow-icon {
+        img {
+          height: 1rem;
+          width: 1rem;
+          // border: 1px solid red;
+          opacity: 0.6;
+          transform: rotate(90deg);
+          filter: invert(100);
+          margin-left: 0.5rem;
+        }
+
+      }
+
       .courses-icon,
       .github-icon {
         margin-right: 1rem;
-        margin-bottom: 0.2rem;
+      }
+
+      .logout-icon {
+        margin-top: 0.1rem;
       }
 
       .courses-icon,
