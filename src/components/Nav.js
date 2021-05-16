@@ -20,11 +20,22 @@ const Nav = (props) => {
 
   ///////////////////////////////////////////////////////////////////
 
+  const handleClick = () => {
+    const origins = ["Dashboard", "Analytics", "Post", "New Post"];
+    // If the active view is within a course, redirect to the course dashboard
+    if (origins.includes(props.active)) {
+      props.onRedirect("Dashboard");
+      // Otherwise, redirect to the Home page
+    } else {
+      props.onRedirect("Home");
+    }
+  };
+
   return (
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onRedirect("Home")}>
+      <section className="app-nav left" onClick={handleClick}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
@@ -57,9 +68,12 @@ const Nav = (props) => {
           <img src={arrow} onClick={() => props.onRedirect("Logout")} />
         </div>
 
+        {/* Home Link */}
         <div className="courses-icon">
           <img src={courses} onClick={() => props.onRedirect("Home")} />
         </div>
+
+        {/* Github Link */}
         <div className="github-icon">
           <a
             href="https://github.com/ahhreggi/campfire"
@@ -69,6 +83,8 @@ const Nav = (props) => {
             <img src={github} />
           </a>
         </div>
+
+        {/* Logout Link */}
         <div className="logout-icon">
           <img src={logout} onClick={() => props.onRedirect("Logout")} />
         </div>
