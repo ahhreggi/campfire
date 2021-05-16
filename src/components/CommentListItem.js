@@ -198,25 +198,6 @@ const CommentListItem = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  //   {/* { ANONYMOUS CURRENT USER COMMENT EXAMPLE
-  //       "id": 1,
-  //              excluded: parent_id: null -> signifies it's a comment not a reply
-  //       "post_id": 1,
-  //       "anonymous": true,
-  //       "author_avatar_id": 1,
-  //       "body": "I had the same question!",
-  //       "score": 0,
-  //       "created_at": "2021-05-15T17:58:39.671Z",
-  //       "last_modified": "2021-05-15T17:58:39.671Z",
-  //       "endorsed": false,
-  //       "role": "student",
-  //       "editable": false,
-  //       "endorsable": false,
-  //       "liked": false,
-  //       "endorsements": [],
-  //       "replies": []
-  // } */}
-
   // Check if the comment is a parent
   const isParent = !props.parentID;
 
@@ -246,7 +227,12 @@ const CommentListItem = (props) => {
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
+  // const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map((endorsement, index) => {
+    return (<><span key={endorsement.id} className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </>);
+  }) : "";
+
+  // Get a list of all editors
 
   // Check if the comment is by the current user
   const userIsCommentAuthor = props.userID === props.commentAuthorID;
