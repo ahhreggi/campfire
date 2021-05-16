@@ -8,6 +8,7 @@ const PostForm = (props) => {
 
   PostForm.propTypes = {
     userName: PropTypes.string,
+    userRole: PropTypes.string,
     courseData: PropTypes.object,
     onAddPost: PropTypes.func,
     onRedirect: PropTypes.func
@@ -37,6 +38,7 @@ const PostForm = (props) => {
         <EditForm
           title={""}
           author={props.userName}
+          isInstructor={props.userRole !== "student"}
           body={""}
           anonymous={false}
           tags={[]}

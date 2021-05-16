@@ -123,6 +123,7 @@ const Main = (props) => {
       {props.active === "New Post" &&
         <PostForm
           userName={`${props.userData.firstName} ${props.userData.lastName}`}
+          userRole={props.courseData.role}
           courseData={props.courseData}
           onAddPost={props.onAddPost}
           onRedirect={props.onRedirect}
