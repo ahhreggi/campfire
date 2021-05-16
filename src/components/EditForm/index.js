@@ -37,7 +37,8 @@ const EditForm = (props) => {
     previewAuthor: props.author ? props.author.trim() : "",
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
-    breakBody: false
+    breakBody: false,
+    errors: null
   });
 
   // Update previewAuthor when toggling previewAnonymous
@@ -62,18 +63,28 @@ const EditForm = (props) => {
     let data;
     if (props.mode === "POST") {
       data = {
-        title: state.previewTitle.trim() ? state.previewTitle.trim() : props.title, // title may not be non-empty
-        body: state.previewBody.trim() ? state.previewBody.trim() : " ",
+        title: state.previewTitle.trim() ? state.previewTitle.trim() : "", // title may not be non-empty
+        body: state.previewBody.trim() ? state.previewBody.trim() : "",
         anonymous: state.previewAnonymous,
         tags: state.previewTags.map(tag => tag.id)
       };
     } else {
       data = {
-        body: state.previewBody.trim() ? state.previewBody : " ",
+        body: state.previewBody.trim() ? state.previewBody : "",
         anonymous: state.previewAnonymous
       };
     }
-    props.onSave(data);
+    // Posts may not have an empty title or body
+    if (props.mode === "POST" && !data.title.trim()) {
+      setState({ ...state, errors: ["Post title may not be empty"]});
+    } else if (props.mode === "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Post body may not be empty"]});
+      // Comments may not have an empty body
+    } else if (props.mode !== "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Comment body may not be empty"]});
+    } else {
+      props.onSave(data);
+    }
   };
 
   // Cancel edit
@@ -84,13 +95,23 @@ const EditForm = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
-  const updatePreviewTitle = (event) => {
-    setState({ ...state, previewTitle: event.target.value });
+  const updatePreviewTitle = (event, limit = 40) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewTitle: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview body dynamically as the user types
-  const updatePreviewBody = (event) => {
-    setState({ ...state, previewBody: event.target.value });
+  const updatePreviewBody = (event, limit = 2000) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewBody: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview author dynamically as the user toggles anonymous
@@ -149,7 +170,7 @@ const EditForm = (props) => {
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
-        isInstructor={props.role !== "student"}
+        isInstructor={props.isInstructor || (props.role !== "student")}
         body={state.previewBody}
         breakBody={state.breakBody}
       />
@@ -192,6 +213,12 @@ const EditForm = (props) => {
       }
 
       <hr />
+
+      {/* Errors */}
+      <div className="errors">
+        {state.errors && state.errors.join("")}
+      </div>
+
 
       {/* Save/Cancel Buttons */}
       <Confirmation

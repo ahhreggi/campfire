@@ -30,7 +30,7 @@ const Join = (props) => {
 
   // Check if a code contains only letters and numbers?
   const isValidAccessCode = (code) => {
-    return true;
+    return true || code;
     // return !!(code).match("^[a-zA-Z0-9]+$");
   };
 
@@ -87,22 +87,6 @@ const Join = (props) => {
           text="Join"
           styles="submit join"
           onClick={handleSubmit}
-        />
-      </div>
-
-      {/* Create Button */}
-      <div className="create-link">
-        <Button
-          text="Go to Create"
-          onClick={() => props.onRedirect("Create")}
-        />
-      </div>
-
-      {/* Home Button */}
-      <div className="home-link">
-        <Button
-          text="Go to Home"
-          onClick={() => props.onRedirect("Home")}
         />
       </div>
 

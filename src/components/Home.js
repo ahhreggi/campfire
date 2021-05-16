@@ -1,8 +1,8 @@
-import "./Home.scss";
 import PropTypes from "prop-types";
-import Button from "./Button";
+import Panel from "./Panel";
+import "./Home.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Home = (props) => {
   Home.propTypes = {
@@ -12,59 +12,26 @@ const Home = (props) => {
     onRedirect: PropTypes.func
   };
 
-  // Fetch data for a course by ID and go to its page
-  const selectCourse = (courseID) => {
-    props.onClick(courseID);
-  };
-
-  const userCourses = props.userCourses.map(course => {
-    return (
-      <div
-        key={course.id}
-        onClick={() => selectCourse(course.id)}
-      >
-        {course.id}---{course.name}---{course.role}
-      </div>
-    );
-  });
   return (
     <div className="Home">
 
-      <DevData name="Home" props={props} />
+      {/* <DevData name="Home" props={props} /> */}
 
-      <div>
-        Welcome back, {props.userData.firstName + " " + props.userData.lastName}!
+      <div className="greeting">
+        Welcome back, <span>{props.userData.firstName}</span>!
       </div>
-      <div>
-        Here are your courses:
-      </div>
-      <div>
-        {userCourses}
-      </div>
-
-      {/* Create Button */}
-      <div className="create-link">
-        <Button
-          text="Go to Create"
-          onClick={() => props.onRedirect("Create")}
-        />
+      <hr />
+      <div className="panels">
+        <Panel label={"JOIN"} onClick={() => props.onRedirect("Join")} />
+        <Panel label={"CREATE"} onClick={() => props.onRedirect("Create")} />
+        <Panel label={"MANAGE"} onClick={() => props.onRedirect("Manage")} />
+        <Panel label={"ABOUT"} onClick={() => props.onRedirect("About")} />
+        <Panel label={"HELP"} onClick={() => props.onRedirect("Help")} />
+        <Panel label={"SETTINGS"} onClick={() => props.onRedirect("Settings")} />
       </div>
 
-      {/* Join Button */}
-      <div className="join-link">
-        <Button
-          text="Go to Join"
-          onClick={() => props.onRedirect("Join")}
-        />
-      </div>
-
-      {/* Join Button */}
-      <div className="logout">
-        <Button
-          text="Logout"
-          onClick={() => props.onRedirect("Logout")}
-        />
-      </div>
+      <hr />
+      <footer>See project on <a href="https://github.com/ahhreggi/campfire" target="_blank" rel="noreferrer">GitHub</a>.</footer>
 
     </div>
   );

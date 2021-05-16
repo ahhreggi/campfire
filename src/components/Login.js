@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Login.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Login = (props) => {
 
@@ -30,12 +30,22 @@ const Login = (props) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
+  // Validate registration fields prior to submitting the data
   const handleSubmit = () => {
-    const data = {
-      email: state.email,
-      password: state.password
-    };
-    props.onSubmit(data);
+    const errors = [];
+    if (!state.email || !state.password) {
+      errors.push("Invalid username/password");
+    }
+    // If there are any errors, display them to the user, otherwise submit
+    if (errors.length) {
+      setState({ ...state, errors: errors });
+    } else {
+      const data = {
+        email: state.email,
+        password: state.password
+      };
+      props.onSubmit(data);
+    }
   };
 
   return (
@@ -46,10 +56,17 @@ const Login = (props) => {
       <div className="panel">
 
         {/* Campfire */}
-        <div className="page-title">
-          Campfire
-          <img className="glow" src="./images/campfire.png" alt="Campfire" />
-        </div>
+        <a
+          className="header"
+          href="https://github.com/ahhreggi/campfire"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="page-title">
+            Campfire
+            <img className="glow" src="./images/campfire.png" alt="Campfire" />
+          </div>
+        </a>
 
         <form>
 

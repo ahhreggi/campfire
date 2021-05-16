@@ -77,6 +77,11 @@
 
     &.highlight-delete {
       border: 2px solid $red;
+
+      &.highlight-author {
+        border-color: $red;
+      }
+
     }
 
   }
@@ -114,7 +119,7 @@
       border-left-color: $white;
 
       &.highlight-instructor {
-        border-color: $yellow;
+        border-left-color: $yellow;
       }
 
     }
@@ -130,6 +135,11 @@
 
     &.highlight-delete {
       border: 2px solid $red;
+
+      &.highlight-author {
+        border-color: $red;
+      }
+
     }
 
   }
