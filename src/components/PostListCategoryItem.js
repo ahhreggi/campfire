@@ -73,6 +73,16 @@ const PostListCategoryItem = (props) => {
     selected: state.selected
   });
 
+  // Move resolved & unresolved tags to the front of the tag list
+  const tags = [];
+  for (const tag of props.tags) {
+    if (tag.id === -1 || tag.id === -2) {
+      tags.unshift(tag);
+    } else {
+      tags.push(tag);
+    }
+  }
+
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -113,8 +123,8 @@ const PostListCategoryItem = (props) => {
         {/* Tag Buttons */}
         <div className="tags">
           <TagList
-            tags={props.tags}
-            selectedTags={props.tags}
+            tags={tags}
+            selectedTags={tags}
             styles="tag disabled"
             onClick={handleClick}
             truncate={2}
