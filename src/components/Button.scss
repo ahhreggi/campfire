@@ -19,7 +19,7 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
@@ -41,7 +41,7 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
@@ -93,6 +93,9 @@ button {
     &.disabled {
       opacity: 0.9;
       cursor: pointer;
+    }
+    &.post-list-tag {
+      font-size: 0.6rem;
     }
 
     &.filter,

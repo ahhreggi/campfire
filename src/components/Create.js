@@ -18,6 +18,7 @@ const Create = (props) => {
   const [state, setState] = useState({
     name: "",
     description: "",
+    code: "",
     errors: props.errors
   });
 
@@ -25,8 +26,12 @@ const Create = (props) => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
-  const handleInputChange = (event, field) => {
-    setState({ ...state, [field]: event.target.value, errors: null });
+  const handleInputChange = (event, field, maxLength = 250) => {
+    if (event.target.value.length <= maxLength) {
+      setState({ ...state, [field]: event.target.value, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${maxLength}`]});
+    }
   };
 
   const isValid = (string, field, limit = 250) => {
@@ -39,14 +44,15 @@ const Create = (props) => {
   // Validate input fields prior to submitting the data
   const handleSubmit = () => {
     const errors = [];
-    if (!state.name || !state.description) {
+    if (!state.name || !state.description || !state.code) {
       errors.push("Please complete all fields!");
-    } else if (!isValid(state.name, "length", 24)) {
+    } else if (!isValid(state.name, "length", 40)) {
       errors.push("Title is too long!");
     } else if (!isValid(state.description, "length")) {
       errors.push("Description is too long!");
+    } else if (!isValid(state.code, "length", 8)) {
+      errors.push("Course code is too long!");
     }
-
     console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -54,7 +60,8 @@ const Create = (props) => {
     } else {
       const data = {
         name: state.name.trim(),
-        description: state.description.trim()
+        description: state.description.trim(),
+        courseCode: state.code.trim()
       };
       props.onSubmit(data);
     }
@@ -82,20 +89,20 @@ const Create = (props) => {
         <TextForm
           label={"Course Name"}
           text={state.name}
-          onChange={(event) => handleInputChange(event, "name")}
+          onChange={(event) => handleInputChange(event, "name", 40)}
         />
 
         <TextForm
           label={"Course Description"}
           text={state.description}
-          onChange={(event) => handleInputChange(event, "description")}
+          onChange={(event) => handleInputChange(event, "description", 150)}
         />
 
-        {/* <TextForm
-          label={"Course Code/Abbreviation (TODO: up to 8 letters?)"}
+        <TextForm
+          label={"Course Code/Abbreviation (max 8 letters)"}
           text={state.code}
-          onChange={(event) => handleInputChange(event, "description")}
-        /> */}
+          onChange={(event) => handleInputChange(event, "code", 8)}
+        />
 
       </div>
 

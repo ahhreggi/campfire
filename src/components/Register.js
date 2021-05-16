@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Register.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Register = (props) => {
 
@@ -58,19 +58,19 @@ const Register = (props) => {
     if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
       errors.push("Incomplete fields");
     } else if (!isValid(state.firstName, "name") || !isValid(state.lastName, "name")) {
-      errors.push("Name may include letters & spaces only");
+      errors.push("Name may include letters and spaces only");
     } else if (state.password !== state.passwordConf) {
       errors.push("Passwords must match");
     } else if (!isValid(state.email, "email")) {
       errors.push("Invalid email");
-    } else if (!isValid(state.firstName, "length")) {
-      errors.push("First name is too long");
-    } else if (!isValid(state.lastName, "length")) {
-      errors.push("Last name is too long");
-    } else if (!isValid(state.email, "length")) {
-      errors.push("Email is too long");
-    } else if (!isValid(state.password, "length")) {
-      errors.push("Password is too long");
+    } else if (!isValid(state.firstName, "length", 20)) {
+      errors.push("First name is too long (max. 20 characters)");
+    } else if (!isValid(state.lastName, "length", 20)) {
+      errors.push("Last name is too long (max. 20 characters)");
+    } else if (!isValid(state.email, "length", 100)) {
+      errors.push("Email is too long (max. 100 characters)");
+    } else if (!isValid(state.password, "length", 100)) {
+      errors.push("Password is too long (max. 100 characters)");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -96,10 +96,17 @@ const Register = (props) => {
       <div className="panel">
 
         {/* Campfire */}
-        <div className="page-title">
-          Campfire
-          <img className="glow" src="./images/campfire.png" alt="Campfire" />
-        </div>
+        <a
+          className="header"
+          href="https://github.com/ahhreggi/campfire"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="page-title">
+            Campfire
+            <img className="glow" src="./images/campfire.png" alt="Campfire" />
+          </div>
+        </a>
 
         <form>
 

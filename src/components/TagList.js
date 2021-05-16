@@ -60,21 +60,7 @@ const TagList = (props) => {
   }
 
   // Sort tags alphabetically
-  tags.sort((a, b) => {
-    if (a.id === -1) {
-      return -1;
-    }
-    if (a.id === -2) {
-      return -1;
-    }
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
+  tags.sort((a, b) => a.id - b.id);
 
   // Create button components
   tags = tags.map(tag => {

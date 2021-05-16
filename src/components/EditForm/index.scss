@@ -12,6 +12,15 @@
     margin-bottom: 0.5rem;
   }
 
+  .errors {
+    height: 2.5rem;
+    margin-top: 0.5rem;
+    color: $red;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+  }
+
   .Confirmation {
     display: flex;
     justify-content: center;
