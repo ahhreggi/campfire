@@ -197,6 +197,15 @@
 
       }
 
+      .courses-icon.selected {
+        cursor: initial;
+        filter: none;
+        opacity: 1;
+        img {
+          opacity: 1;
+        }
+      }
+
     }
 
   }

@@ -1,7 +1,7 @@
 import "./Nav.scss";
 import logout from "../images/icons/logout.png";
-import github from "../images/icons/github.png";
-// import github from "../images/icons/question-mark.png";
+// import github from "../images/icons/github.png";
+import github from "../images/icons/question-mark.png";
 // import courses from "../images/icons/courses-solid.png";
 import courses from "../images/icons/home.png";
 import arrow from "../images/icons/up-arrow.png";
@@ -70,12 +70,18 @@ const Nav = (props) => {
         </div>
 
         {/* Home Link */}
-        <div className="courses-icon">
-          <img src={courses} onClick={() => props.onRedirect("Home")} />
+        <div className={`courses-icon ${props.active === "Home" ? "selected" : ""}`}>
+          <img src={courses} onClick={props.active !== "Home" ? () => props.onRedirect("Home") : null} />
         </div>
 
+        {/* Help Link */}
+        <div className={"courses-icon"}>
+          <img src={github} onClick={() => props.onRedirect("Help")} />
+        </div>
+
+
         {/* Github Link */}
-        <div className="github-icon">
+        {/* <div className="github-icon">
           <a
             href="https://github.com/ahhreggi/campfire"
             rel="noreferrer"
@@ -83,7 +89,7 @@ const Nav = (props) => {
           >
             <img src={github} />
           </a>
-        </div>
+        </div> */}
 
         {/* Logout Link */}
         <div className="logout-icon">

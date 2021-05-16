@@ -6,7 +6,7 @@ import join from "../images/icons/green-arrow.png";
 import create from "../images/icons/edit.png";
 import manage from "../images/icons/courses.png";
 import about from "../images/icons/star.png";
-import help from "../images/icons/question.png";
+import help from "../images/icons/question-mark-blue.png";
 import settings from "../images/icons/settings.png";
 
 // import DevData from "./DevData";
@@ -26,6 +26,7 @@ const Home = (props) => {
 
       <div className="greeting">
         Welcome back, <span>{props.userData.firstName}</span>!
+        <div className="sub">What would you like to do today?</div>
       </div>
       <hr />
       <div className="panels">
