@@ -40,7 +40,7 @@ const CourseListItem = (props) => {
 
   let isArchived = props.archived;
   // isArchived = true;
-  let isUnresolved = props.analytics.num_unresolved_questions > 0;
+  let isUnresolved = props.analytics.num_unresolved_posts > 0;
   // isUnresolved = true;
   let isInstructor = props.role !== "student";
   // isInstructor = false;

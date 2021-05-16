@@ -20,14 +20,14 @@ body {
 
   // DEVELOPMENT ONLY ///////////////////////////////////////////////
   .App {
-    // overflow-y: scroll; // toggle this to fix app
+    overflow-y: scroll; // toggle this to fix app
     @include custom-scrollbar;
     .dev-tools {
       margin-top: 0rem;
-      display: none; // toggle this
+      // display: none; // toggle this
     }
     .DevData {
-      display: none !important; // toggle this to quickly hide all dev data
+      // display: none !important; // toggle this to quickly hide all dev data
       font-weight: 500;
       font-size: 1.5rem;
       border: 3px solid $green;
