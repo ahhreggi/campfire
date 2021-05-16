@@ -16,7 +16,7 @@ const CourseList = (props) => {
 
   const [state, setState] = useState({
     showCourses: true,
-    showArchived: false,
+    showArchived: true,
   });
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -59,6 +59,7 @@ const CourseList = (props) => {
     return a.id - b.id;
   });
 
+  // Sort the courses as active or archived
   const courses = {
     active: [],
     archived: []
@@ -72,8 +73,16 @@ const CourseList = (props) => {
     }
   }
 
-  const activeCourses = getCourseListItems(courses.active);
-  const archivedCourses = getCourseListItems(courses.archived);
+  // Create the CourseListItem components
+  // const activeCourses = getCourseListItems(courses.active);
+  // const archivedCourses = getCourseListItems(courses.archived);
+
+  // Testing
+  const activeCourses = [];
+  const archivedCourses = getCourseListItems(courses.active);
+
+  // const activeCourses = [];
+  // const archivedCourses = [];
 
   ///////////////////////////////////////////////////////////////////
 
@@ -100,32 +109,38 @@ const CourseList = (props) => {
           <div>{activeCourses}</div>
       }
 
-      {state.showCourses && !activeCourses.length &&
-        <div className="empty msg">You aren&apos;t enrolled in any courses yet!</div>
+      {state.showCourses && activeCourses.length < 1 &&
+        <div className="empty-msg">
+          <span>You aren&apos;t enrolled in any courses yet!</span>
+        </div>
       }
 
       {/* Archived Courses List */}
-      <div
-        className={`courses-label ${state.showArchived ? "active" : ""} ${archivedCourses.length < 1 ? "empty" : ""}`}
-        onClick={archivedCourses.length > 0 ? () => toggleArchived() : null}
-      >
-        <div>
-          <img className="books" src={archive} />
-          ARCHIVED COURSES
-        </div>
-        {archivedCourses.length > 0 &&
-          <div className="arrows">
-            <img src={state.showArchived ? up : down} />
+      {archivedCourses.length > 0 &&
+        <>
+          <div
+            className={`courses-label ${state.showArchived ? "active" : ""} ${archivedCourses.length < 1 ? "empty" : ""}`}
+            onClick={archivedCourses.length > 0 ? () => toggleArchived() : null}
+          >
+            <div>
+              <img className="archived-icon" src={archive} />
+              ARCHIVED COURSES
+            </div>
+            {archivedCourses.length > 0 &&
+              <div className="arrows">
+                <img src={state.showArchived ? up : down} />
+              </div>
+            }
           </div>
-        }
-      </div>
 
-      {state.showArchived && archivedCourses.length > 0 &&
-          <div>{archivedCourses}</div>
-      }
+          {state.showArchived && archivedCourses.length > 0 &&
+              <div>{archivedCourses}</div>
+          }
 
-      {state.showArchived && !archivedCourses.length &&
-        <div className="empty-msg">You have no archived courses</div>
+          {state.showArchived && archivedCourses.length < 1 &&
+            <div className="empty-msg">You have no archived courses</div>
+          }
+        </>
       }
 
     </div>
