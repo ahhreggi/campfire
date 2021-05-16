@@ -74,12 +74,12 @@ const CourseList = (props) => {
   }
 
   // Create the CourseListItem components
-  // const activeCourses = getCourseListItems(courses.active);
-  // const archivedCourses = getCourseListItems(courses.archived);
+  const activeCourses = getCourseListItems(courses.active);
+  const archivedCourses = getCourseListItems(courses.archived);
 
   // Testing
-  const activeCourses = [];
-  const archivedCourses = getCourseListItems(courses.active);
+  // const activeCourses = [];
+  // const archivedCourses = getCourseListItems(courses.active);
 
   // const activeCourses = [];
   // const archivedCourses = [];
