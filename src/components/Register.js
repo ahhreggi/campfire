@@ -63,10 +63,10 @@ const Register = (props) => {
       errors.push("Passwords must match");
     } else if (!isValid(state.email, "email")) {
       errors.push("Invalid email");
-    } else if (!isValid(state.firstName, "length", 60)) {
-      errors.push("First name is too long (max. 60 characters)");
-    } else if (!isValid(state.lastName, "length", 60)) {
-      errors.push("Last name is too long (max. 60 characters)");
+    } else if (!isValid(state.firstName, "length", 20)) {
+      errors.push("First name is too long (max. 20 characters)");
+    } else if (!isValid(state.lastName, "length", 20)) {
+      errors.push("Last name is too long (max. 20 characters)");
     } else if (!isValid(state.email, "length", 100)) {
       errors.push("Email is too long (max. 100 characters)");
     } else if (!isValid(state.password, "length", 100)) {

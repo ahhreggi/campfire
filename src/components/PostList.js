@@ -8,8 +8,8 @@ import filter from "../images/icons/settings.png";
 import pin from "../images/icons/pin.png";
 import star from "../images/icons/star.png";
 import question from "../images/icons/paper.png";
-import up from "../images/icons/up-arrow.png";
-import down from "../images/icons/down-arrow.png";
+import down from "../images/icons/maximize.png";
+import up from "../images/icons/minimize.png";
 import "./PostList.scss";
 
 const PostList = (props) => {

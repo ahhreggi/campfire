@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import CourseListItem from "./CourseListItem";
 import archive from "../images/icons/archive.png";
 import books from "../images/icons/courses.png";
-import up from "../images/icons/up-arrow.png";
-import down from "../images/icons/down-arrow.png";
+import down from "../images/icons/maximize.png";
+import up from "../images/icons/minimize.png";
 import "./CourseList.scss";
 
 const CourseList = (props) => {
@@ -135,10 +135,6 @@ const CourseList = (props) => {
 
           {state.showArchived && archivedCourses.length > 0 &&
               <div>{archivedCourses}</div>
-          }
-
-          {state.showArchived && archivedCourses.length < 1 &&
-            <div className="empty-msg">You have no archived courses</div>
           }
         </>
       }
