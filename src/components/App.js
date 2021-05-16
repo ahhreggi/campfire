@@ -618,6 +618,7 @@ const App = () => {
               courseName={state.courseData ? state.courseData.name : ""}
               userAvatar={state.userData.avatarID}
               userName={`${state.userData.firstName} ${state.userData.lastName}`}
+              userRole={state.courseData ? state.courseData.role : null}
             />
           }
 

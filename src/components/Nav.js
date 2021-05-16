@@ -15,7 +15,8 @@ const Nav = (props) => {
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
     userAvatar: PropTypes.number,
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    userRole: PropTypes.string
   };
 
   ///////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ const Nav = (props) => {
         <span className="course-name">{props.courseName}</span> */}
 
         {/* User Name */}
-        <div className="user-info">
+        <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""}`}>
           <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
           <span
             className="user-name text-truncate"

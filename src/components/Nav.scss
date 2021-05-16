@@ -125,6 +125,12 @@
           opacity: 0.95;
           max-width: 13rem;
         }
+        &.instructor {
+          color: $yellow;
+          &:hover {
+            color: $orange;
+          }
+        }
       }
 
       .arrow-icon {
