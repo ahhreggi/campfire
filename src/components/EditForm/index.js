@@ -37,7 +37,8 @@ const EditForm = (props) => {
     previewAuthor: props.author ? props.author.trim() : "",
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
-    breakBody: false
+    breakBody: false,
+    errors: null
   });
 
   // Update previewAuthor when toggling previewAnonymous
@@ -73,7 +74,15 @@ const EditForm = (props) => {
         anonymous: state.previewAnonymous
       };
     }
-    props.onSave(data);
+    // Posts may not have an empty title (empty body is fine)
+    if (props.mode === "POST" && !data.title) {
+      setState({ ...state, errors: ["Post must include a title"]});
+      // Comments may not have an empty body
+    } else if (props.mode !== "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Comment may not be empty"]});
+    } else {
+      props.onSave(data);
+    }
   };
 
   // Cancel edit
@@ -85,7 +94,7 @@ const EditForm = (props) => {
 
   // Update the preview title dynamically as the user types
   const updatePreviewTitle = (event) => {
-    setState({ ...state, previewTitle: event.target.value });
+    setState({ ...state, previewTitle: event.target.value, errors: null });
   };
 
   // Update the preview body dynamically as the user types
@@ -192,6 +201,12 @@ const EditForm = (props) => {
       }
 
       <hr />
+
+      {/* Errors */}
+      <div className="errors">
+        {state.errors && state.errors.join("")}
+      </div>
+
 
       {/* Save/Cancel Buttons */}
       <Confirmation
