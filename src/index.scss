@@ -16,7 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
   min-width: 55rem;
-  // overflow: hidden;
+  // overflow: hidden; keep disabled
 
   // DEVELOPMENT ONLY ///////////////////////////////////////////////
   .App {

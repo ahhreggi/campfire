@@ -40,7 +40,7 @@ const CourseListItem = (props) => {
 
   let isArchived = props.archived;
   // isArchived = true;
-  let isUnresolved = props.analytics.num_unresolved_posts > 0;
+  let isUnresolved = props.analytics.num_unresolved_questions > 0;
   // isUnresolved = true;
   let isInstructor = props.role !== "student";
   // isInstructor = false;
@@ -61,7 +61,7 @@ const CourseListItem = (props) => {
       {/* Course Code */}
       <div className="code">
         <span>
-          {props.code || "COURSE 00"}
+          {props.code || "MY COURSE"}
         </span>
         {isArchived &&
           <img src={archive} />
