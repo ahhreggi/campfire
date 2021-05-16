@@ -63,14 +63,14 @@ const EditForm = (props) => {
     let data;
     if (props.mode === "POST") {
       data = {
-        title: state.previewTitle.trim() ? state.previewTitle.trim() : props.title, // title may not be non-empty
-        body: state.previewBody.trim() ? state.previewBody.trim() : " ",
+        title: state.previewTitle.trim() ? state.previewTitle.trim() : "", // title may not be non-empty
+        body: state.previewBody.trim() ? state.previewBody.trim() : "",
         anonymous: state.previewAnonymous,
         tags: state.previewTags.map(tag => tag.id)
       };
     } else {
       data = {
-        body: state.previewBody.trim() ? state.previewBody : " ",
+        body: state.previewBody.trim() ? state.previewBody : "",
         anonymous: state.previewAnonymous
       };
     }
