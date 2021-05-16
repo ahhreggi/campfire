@@ -41,7 +41,7 @@ const CourseList = (props) => {
           key={course.id}
           id={course.id}
           name={course.name}
-          code={course.course_code}
+          code={course.courseCode}
           createdAt={course.created_at}
           archived={course.archived}
           role={course.role}

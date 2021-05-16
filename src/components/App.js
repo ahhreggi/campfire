@@ -154,20 +154,27 @@ const App = () => {
   };
 
   // Set the application data
-  const setAppData = (data, type, newPostID, newPostData, newActive) => {
+  const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData) => {
     if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
-      let active = state.active;
+      let active = newActive !== undefined ? newActive : state.active;
+      let courseID = state.courseData ? state.courseData.id : null;
+      let posts = state.courseData ? state.courseData.posts : null;
+      let courseData = newCourseData !== undefined ? newCourseData : state.courseData;
+
+      // If new course data is provided (e.g., a new course was created), update courseData, courseID, posts, and active
+      if (newCourseData) { // can also check if newActive === "Dashboard"
+        courseID = newCourseData.id;
+        posts = newCourseData.posts; // technically this can be empty
+      }
       // Redirect to Home after Login, Register
       if (state.active === "Login" || state.active === "Register") {
         active = "Home";
-      } else if (state.active === "Create") {
-        active = "Dashboard";
       } else if (state.active === "Join") {
         active = "Dashboard";
       }
-      setState({ ...state, userCourses: data, active: active });
+      setState({ ...state, userCourses: data, active: active, courseData: courseData, courseID: courseID, posts: posts });
     } else if (type === "courseData") {
       // If new values for postID and postData are provided, use them
       const postID = newPostID !== undefined ? newPostID : state.postID;
@@ -254,11 +261,12 @@ const App = () => {
   }, [state.userData]);
 
   // Fetch the current user's courses
-  const fetchUserCourses = () => {
+  const fetchUserCourses = (newCourseData) => {
     request("GET", API.COURSES)
       .then((userCourses) => {
         if (userCourses) {
-          setAppData(userCourses, "userCourses");
+          const courseData = newCourseData !== undefined ? newCourseData : state.courseData;
+          setAppData(userCourses, "userCourses", null, null, "Dashboard", courseData);
         } else {
           console.log("❌ fetchUserCourses failed!");
         }
@@ -329,7 +337,7 @@ const App = () => {
   // BASIC USER ROUTE
   // - User enters new course information via the Create page
   // - Data is sent to the server and the new course data is returned
-  // - State is updated (courseID, courseData)
+  // - State is updated (courseID, courseData) => needs to update userCourses before redirecting!
   // - SIDE EFFECT 2: Active state is updated to redirect the user from Create to the Dashboard if courseData exists
   // - SIDE EFFECT 4: User courses are fetched from the server if active changes from "Create" to "Dashboard"
 
@@ -338,12 +346,22 @@ const App = () => {
     request("POST", API.CREATE, null, data)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+          // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
+          fetchUserCourses(courseData);
         } else {
           console.log("❌ createCourse failed!");
         }
       });
   };
+
+  // SIDE EFFECT: userCourses will update and switch from Create to Home
+  // When this happens,
+  useEffect(() => {
+    console.log("userCourses changed!");
+    if (state.userCourses && state.active === "Create") {
+      //
+    }
+  }, [state.userCourses]);
 
   // COURSE ENROLLMENT //////////////////////////////////////////////
 

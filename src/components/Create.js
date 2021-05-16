@@ -61,7 +61,7 @@ const Create = (props) => {
       const data = {
         name: state.name.trim(),
         description: state.description.trim(),
-        "course_code": state.code.trim()
+        courseCode: state.code.trim()
       };
       props.onSubmit(data);
     }
