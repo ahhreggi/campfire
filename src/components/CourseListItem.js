@@ -13,8 +13,8 @@ const CourseListItem = (props) => {
     createdAt: PropTypes.string,
     archived: PropTypes.bool,
     role: PropTypes.string,
+    analytics: PropTypes.object,
     onClick: PropTypes.func,
-    unresolved: PropTypes.bool
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -40,11 +40,11 @@ const CourseListItem = (props) => {
   // VARIABLES //////////////////////////////////////////////////////
 
   let isArchived = props.archived;
-  // isArchived = true;
-  let isUnresolved = props.unresolved;
+  isArchived = true;
+  let isUnresolved = props.analytics.num_unresolved_questions > 0;
   // isUnresolved = true;
   let isInstructor = props.role !== "student";
-  // isInstructor = false;
+  isInstructor = false;
 
   // Get class names
   const classes = classNames({

@@ -45,7 +45,7 @@ const CourseList = (props) => {
           createdAt={course.created_at}
           archived={course.archived}
           role={course.role}
-          unresolved={course.unresolved > 0}
+          analytics={course.analytics}
           onClick={props.onClick}
         />
       );
@@ -89,9 +89,11 @@ const CourseList = (props) => {
           <img className="books" src={books} />
           MY COURSES
         </div>
-        <div className="arrows">
-          <img src={state.showCourses ? up : down} />
-        </div>
+        {activeCourses.length > 0 &&
+          <div className="arrows">
+            <img src={state.showCourses ? up : down} />
+          </div>
+        }
       </div>
 
       {state.showCourses && activeCourses.length > 0 &&
@@ -111,9 +113,11 @@ const CourseList = (props) => {
           <img className="books" src={archive} />
           ARCHIVED COURSES
         </div>
-        <div className="arrows">
-          <img src={state.showArchived ? up : down} />
-        </div>
+        {archivedCourses.length > 0 &&
+          <div className="arrows">
+            <img src={state.showArchived ? up : down} />
+          </div>
+        }
       </div>
 
       {state.showArchived && archivedCourses.length > 0 &&
