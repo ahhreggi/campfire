@@ -240,7 +240,7 @@ const CommentListItem = (props) => {
 
   // Get a list of all endorsers
   const endorsers = props.endorsements.length ? props.endorsements.map((endorsement, index) => {
-    return (<><span key={endorsement.id} className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </>);
+    return (<span key={endorsement.id}><span className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </span>);
   }) : "";
 
   // Check if the comment is by the current user

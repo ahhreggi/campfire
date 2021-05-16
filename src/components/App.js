@@ -507,11 +507,12 @@ const App = () => {
     } else if (selection === "GitHub") {
       window.location.href = "https://github.com/ahhreggi/campfire";
     } else if (selection === "Post") {
+      const newPostData = postData !== undefined ? postData : getPostByID(state.posts, state.postID);
       setState({
         ...state,
         active: selection,
         postID: postID,
-        postData: postData ? postData : getPostByID(state.posts, state.postID),
+        postData: newPostData,
         errors: null
       });
       // Record the user's first unique visit
