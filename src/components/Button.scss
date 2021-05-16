@@ -94,6 +94,9 @@ button {
       opacity: 0.9;
       cursor: pointer;
     }
+    &.post-list-tag {
+      font-size: 0.6rem;
+    }
 
     &.filter,
     &.unselected {

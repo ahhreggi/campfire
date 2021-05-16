@@ -125,7 +125,7 @@ const PostListCategoryItem = (props) => {
           <TagList
             tags={tags}
             selectedTags={tags}
-            styles="tag disabled"
+            styles="tag disabled post-list-tag"
             onClick={handleClick}
             truncate={2}
           />
