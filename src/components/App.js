@@ -149,7 +149,7 @@ const App = () => {
       })
       .catch((err) => {
         console.log("❌ SERVER RESPONSE:");
-        console.error(err);
+        console.error(err.message);
       });
   };
 

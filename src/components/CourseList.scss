@@ -9,4 +9,49 @@
   overflow-y: scroll;
   width: 20rem;
   @include custom-scrollbar;
+
+  .courses-label {
+    font-weight: 900;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.7rem 0.2rem 0.9rem;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    height: 2.5rem;
+    border: 3px solid $navy-0;
+    background-color: $navy-0;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    img {
+      width: 1rem;
+      margin-right: 0.5rem;
+    }
+    .arrows {
+      img {
+        filter: invert(70%);
+        opacity: 0.5;
+        margin-right: 0;
+      }
+    }
+
+    .active {
+      border-radius: 10px 10px 0 0;
+    }
+
+    &:hover:not(.empty):not(.active) {
+      .arrows {
+        img {
+          filter: invert(85%);
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  .CourseListItem:last-child {
+    border-radius: 0 0 10px 10px;
+  }
+
 }

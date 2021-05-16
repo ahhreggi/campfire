@@ -30,7 +30,7 @@ const Home = (props) => {
   return (
     <div className="Home">
 
-      <DevData name="Home" props={props} />
+      {/* <DevData name="Home" props={props} /> */}
 
       <div>
         Welcome back, {props.userData.firstName + " " + props.userData.lastName}!
@@ -55,14 +55,6 @@ const Home = (props) => {
         <Button
           text="Go to Join"
           onClick={() => props.onRedirect("Join")}
-        />
-      </div>
-
-      {/* Join Button */}
-      <div className="logout">
-        <Button
-          text="Logout"
-          onClick={() => props.onRedirect("Logout")}
         />
       </div>
 
