@@ -395,11 +395,20 @@ const App = () => {
 
   const viewPost = (postID) => {
     request("POST", API.POSTS, postID + "/view");
-    // TODO: Add a "viewed" property to each post so I know to update it locally in state
-    // Also a way to check if the post had any new activity since the user last visited would be cool (marked as unread)
-    // If views stored a timestamp, or updated the timestamp each time, you could compare that timestamp to
-    // the most recent comment's timestamp of the post
   };
+
+  // If postID changes, exists, and the user has not previously visited the post before, add a unique view
+  useEffect(() => {
+    if (state.postID) {
+      const post = getPostByID(state.posts, state.postID);
+      if (!post.viewed && state.active !== "New Post") {
+        viewPost(state.postID);
+        setTimeout(() => {
+          fetchCourseData(state.courseData.id, state.postID, getPostByID(state.courseData.posts, state.postID));
+        }, 10);
+      }
+    }
+  }, [state.postID]);
 
   // CREATE A POST //////////////////////////////////////////////////
 
@@ -433,7 +442,7 @@ const App = () => {
   // SIDE EFFECT 7: If postData and postID change to non-null values while the active view is "New Post", change it to "Post"
   useEffect(() => {
     if (state.postData && state.postID && state.active === "New Post") {
-      setActive("Post", state.postID);
+      setActive("Post", state.postID, getPostByID(state.posts, state.postID));
     }
   }, [state.postData]);
 
@@ -507,7 +516,8 @@ const App = () => {
     } else if (selection === "GitHub") {
       window.location.href = "https://github.com/ahhreggi/campfire";
     } else if (selection === "Post") {
-      const newPostData = postData !== undefined ? postData : getPostByID(state.posts, state.postID);
+      // const newPostData = postData !== undefined ? postData : getPostByID(state.posts, state.postID);
+      const newPostData = postData !== undefined ? postData : getPostByID(postID, state.posts);
       setState({
         ...state,
         active: selection,
@@ -515,8 +525,6 @@ const App = () => {
         postData: newPostData,
         errors: null
       });
-      // Record the user's first unique visit
-      viewPost(postID);
     } else if (selection === "Home" && requiresCourseData(state.active)) {
       fetchUserCourses(null, "Home");
     } else {

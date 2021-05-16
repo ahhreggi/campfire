@@ -4,7 +4,7 @@ import "./Panel.scss";
 const Panel = (props) => {
   Panel.propTypes = {
     label: PropTypes.string,
-    img: PropTypes.object,
+    img: PropTypes.string,
     onClick: PropTypes.func
   };
   Panel.defaultProps = {

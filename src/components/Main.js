@@ -163,6 +163,7 @@ const Main = (props) => {
           title={post.title}
           authorID={post.author_id}
           views={post.views}
+          viewed={post.viewed}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
