@@ -1,6 +1,6 @@
-import "./Home.scss";
 import PropTypes from "prop-types";
-import Button from "./Button";
+import Panel from "./Panel";
+import "./Home.scss";
 
 // import DevData from "./DevData";
 
@@ -17,25 +17,21 @@ const Home = (props) => {
 
       {/* <DevData name="Home" props={props} /> */}
 
-      <div>
-        Welcome back, {props.userData.firstName + " " + props.userData.lastName}!
+      <div className="greeting">
+        Welcome back, <span>{props.userData.firstName}</span>!
+      </div>
+      <hr />
+      <div className="panels">
+        <Panel label={"JOIN"} onClick={() => props.onRedirect("Join")} />
+        <Panel label={"CREATE"} onClick={() => props.onRedirect("Create")} />
+        <Panel label={"MANAGE"} onClick={() => props.onRedirect("Manage")} />
+        <Panel label={"ABOUT"} onClick={() => props.onRedirect("About")} />
+        <Panel label={"HELP"} onClick={() => props.onRedirect("Help")} />
+        <Panel label={"SETTINGS"} onClick={() => props.onRedirect("Settings")} />
       </div>
 
-      {/* Create Button */}
-      <div className="create-link">
-        <Button
-          text="Go to Create"
-          onClick={() => props.onRedirect("Create")}
-        />
-      </div>
-
-      {/* Join Button */}
-      <div className="join-link">
-        <Button
-          text="Go to Join"
-          onClick={() => props.onRedirect("Join")}
-        />
-      </div>
+      <hr />
+      <footer>See project on <a href="https://github.com/ahhreggi/campfire" target="_blank" rel="noreferrer">GitHub</a>.</footer>
 
     </div>
   );
