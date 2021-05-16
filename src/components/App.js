@@ -258,12 +258,13 @@ const App = () => {
   }, [state.userData]);
 
   // Fetch the current user's courses
-  const fetchUserCourses = (newCourseData) => {
+  const fetchUserCourses = (newCourseData, newActive) => {
     request("GET", API.COURSES)
       .then((userCourses) => {
         if (userCourses) {
+          let active = newActive !== undefined ? newActive : "Dashboard";
           const courseData = newCourseData !== undefined ? newCourseData : state.courseData;
-          setAppData(userCourses, "userCourses", null, null, "Dashboard", courseData);
+          setAppData(userCourses, "userCourses", null, null, active, courseData);
         } else {
           console.log("❌ fetchUserCourses failed!");
         }
@@ -493,6 +494,12 @@ const App = () => {
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
+  // Return true if the given active view requires courseData
+  const requiresCourseData = (active) => {
+    const dest = ["Dashboard", "Analytics", "Post", "New Post"];
+    return dest.includes(active);
+  };
+
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
     if (selection === "Logout") {
@@ -507,6 +514,8 @@ const App = () => {
       });
       // Record the user's first unique visit
       viewPost(postID);
+    } else if (selection === "Home" && requiresCourseData(state.active)) {
+      fetchUserCourses(null, "Home");
     } else {
       setState({
         ...state,
