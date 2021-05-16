@@ -44,7 +44,7 @@ const CourseListItem = (props) => {
   let isUnresolved = props.unresolved;
   // isUnresolved = true;
   let isInstructor = props.role !== "student";
-  isInstructor = false;
+  // isInstructor = false;
 
   // Get class names
   const classes = classNames({
@@ -59,16 +59,7 @@ const CourseListItem = (props) => {
       onClick={() => props.onClick(props.id)}
     >
 
-      {/* {true &&
-        <div className="archived">
-          <img src={archive} />
-        </div>
-      }
-
-      <div className="role">
-        {props.role}
-      </div> */}
-
+      {/* Course Code */}
       <div className="code">
         <span>
           {props.code || "JSX 001"}
@@ -76,15 +67,18 @@ const CourseListItem = (props) => {
         {isArchived &&
           <img src={archive} />
         }
+        {/* Unresolved Questions Badge */}
         {!isArchived && isUnresolved &&
           <Badge type="unresolved" />
         }
       </div>
 
+      {/* Course Name */}
       <div className="name">
         {props.name}
       </div>
 
+      {/* Archived Label */}
       {isArchived &&
         <div className="archived-label">ARCHIVED</div>
       }

@@ -53,7 +53,7 @@ const CourseList = (props) => {
       >
         <div>
           <img className="books" src={books} />
-          COURSES
+          MY COURSES
         </div>
         <div className="arrows">
           <img src={state.showCourses ? up : down} />
