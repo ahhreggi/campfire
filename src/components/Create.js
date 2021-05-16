@@ -30,7 +30,7 @@ const Create = (props) => {
     if (event.target.value.length <= maxLength) {
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
-      setState({ ...state, errors: [`Maximum character limit: ${maxLength}`]});
+      setState({ ...state, errors: [`Maximum character length: ${maxLength}`]});
     }
   };
 

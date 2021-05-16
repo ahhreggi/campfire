@@ -95,13 +95,23 @@ const EditForm = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
-  const updatePreviewTitle = (event) => {
-    setState({ ...state, previewTitle: event.target.value, errors: null });
+  const updatePreviewTitle = (event, limit = 40) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewTitle: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview body dynamically as the user types
-  const updatePreviewBody = (event) => {
-    setState({ ...state, previewBody: event.target.value });
+  const updatePreviewBody = (event, limit = 2000) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewBody: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview author dynamically as the user toggles anonymous

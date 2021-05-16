@@ -58,19 +58,19 @@ const Register = (props) => {
     if (!state.firstName || !state.lastName || !state.email || !state.password || !state.passwordConf) {
       errors.push("Incomplete fields");
     } else if (!isValid(state.firstName, "name") || !isValid(state.lastName, "name")) {
-      errors.push("Name may include letters & spaces only");
+      errors.push("Name may include letters and spaces only");
     } else if (state.password !== state.passwordConf) {
       errors.push("Passwords must match");
     } else if (!isValid(state.email, "email")) {
       errors.push("Invalid email");
-    } else if (!isValid(state.firstName, "length")) {
-      errors.push("First name is too long");
-    } else if (!isValid(state.lastName, "length")) {
-      errors.push("Last name is too long");
-    } else if (!isValid(state.email, "length")) {
-      errors.push("Email is too long");
-    } else if (!isValid(state.password, "length")) {
-      errors.push("Password is too long");
+    } else if (!isValid(state.firstName, "length", 60)) {
+      errors.push("First name is too long (max. 60 characters)");
+    } else if (!isValid(state.lastName, "length", 60)) {
+      errors.push("Last name is too long (max. 60 characters)");
+    } else if (!isValid(state.email, "length", 100)) {
+      errors.push("Email is too long (max. 100 characters)");
+    } else if (!isValid(state.password, "length", 100)) {
+      errors.push("Password is too long (max. 100 characters)");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
