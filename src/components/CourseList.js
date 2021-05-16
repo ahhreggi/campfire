@@ -119,7 +119,7 @@ const CourseList = (props) => {
       {archivedCourses.length > 0 &&
         <>
           <div
-            className={`courses-label ${state.showArchived ? "active" : ""} ${archivedCourses.length < 1 ? "empty" : ""}`}
+            className={`courses-label courses-label-archived ${state.showArchived ? "active" : ""} ${archivedCourses.length < 1 ? "empty" : ""}`}
             onClick={archivedCourses.length > 0 ? () => toggleArchived() : null}
           >
             <div>

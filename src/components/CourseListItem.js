@@ -41,8 +41,7 @@ const CourseListItem = (props) => {
 
   let isArchived = props.archived;
   // isArchived = true;
-  console.log(!props.analytics ? "analytics doesn't exist" : "exists");
-  let isUnresolved = false; //props.analytics.num_unresolved_questions > 0;
+  let isUnresolved = props.analytics.num_unresolved_questions > 0;
   // isUnresolved = true;
   let isInstructor = props.role !== "student";
   // isInstructor = false;
