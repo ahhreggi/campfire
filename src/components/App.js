@@ -215,7 +215,15 @@ const App = () => {
     request("POST", API.REGISTER, null, data)
       .then((userData) => {
         if (userData) {
-          setAppData(userData, "userData");
+          // If the user's first or last name is longer than 16 characters, initialize it
+          const firstName = userData.firstName.length > 16 ? userData.firstName.slice(0, 1) + "." : userData.firstName;
+          const lastName = userData.lastName.length > 16 ? userData.lastName.slice(0, 1) + "." : userData.lastName;
+          const newUserData = {
+            ...userData,
+            firstName: firstName,
+            lastName: lastName
+          };
+          setAppData(newUserData, "userData");
         } else {
           console.log("❌ registerUser failed!");
           setState({ ...state, errors: ["Email already in use"] });
@@ -242,7 +250,15 @@ const App = () => {
     request("POST", API.LOGIN, null, { email: data.email, password: data.password })
       .then((userData) => {
         if (userData) {
-          setAppData(userData, "userData");
+          // If the user's first or last name is longer than 16 characters, initialize it
+          const firstName = userData.firstName.length > 16 ? userData.firstName.slice(0, 1) + "." : userData.firstName;
+          const lastName = userData.lastName.length > 16 ? userData.lastName.slice(0, 1) + "." : userData.lastName;
+          const newUserData = {
+            ...userData,
+            firstName: firstName,
+            lastName: lastName
+          };
+          setAppData(newUserData, "userData");
         } else {
           console.log("❌ fetchUserData failed!");
           setState({ ...state, errors: ["Invalid username/password"] });

@@ -111,8 +111,8 @@ const Main = (props) => {
       {/* Dashboard View */}
       {props.active === "Dashboard" &&
         <Dashboard
-          resolved={stats.num_resolved_questions}
-          unresolved={stats.num_unresolved_questions}
+          resolved={stats ? stats.num_resolved_questions : null}
+          unresolved={stats ? stats.num_unresolved_questions : null}
         />
       }
 
