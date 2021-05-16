@@ -55,7 +55,7 @@ const Nav = (props) => {
         <span className="course-name">{props.courseName}</span> */}
 
         {/* User Name */}
-        <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""}`}>
+        <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""} d-none d-xl-inline-flex`}>
           <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
           <span
             className="user-name text-truncate"
@@ -63,20 +63,31 @@ const Nav = (props) => {
           >
             {props.userName}
           </span>
+          {/* <div className="arrow-icon">
+            <img src={arrow} onClick={() => props.onRedirect("Logout")} />
+          </div> */}
         </div>
 
-        <div className="arrow-icon">
-          <img src={arrow} onClick={() => props.onRedirect("Logout")} />
-        </div>
+        <div className="nav-buttons">
 
-        {/* Home Link */}
-        <div className={`courses-icon ${props.active === "Home" ? "selected" : ""}`}>
-          <img src={courses} onClick={props.active !== "Home" ? () => props.onRedirect("Home") : null} />
-        </div>
+          {/* Home Link */}
+          <div className={`courses-icon ${props.active === "Home" ? "selected" : ""}`}>
+            <img src={courses} onClick={props.active !== "Home" ? () => props.onRedirect("Home") : null} />
+          </div>
 
-        {/* Help Link */}
-        <div className={"courses-icon"}>
-          <img src={github} onClick={() => props.onRedirect("Help")} />
+          {/* Help Link */}
+          <div className={"courses-icon"}>
+            <img src={github} onClick={() => props.onRedirect("Help")} />
+          </div>
+
+          {/* Logout Link */}
+          <div className="logout-icon">
+            <img src={logout} onClick={() => props.onRedirect("Logout")} />
+          </div>
+
+
+
+
         </div>
 
 
@@ -91,10 +102,6 @@ const Nav = (props) => {
           </a>
         </div> */}
 
-        {/* Logout Link */}
-        <div className="logout-icon">
-          <img src={logout} onClick={() => props.onRedirect("Logout")} />
-        </div>
 
       </section>
     </div>

@@ -1,5 +1,6 @@
 @mixin custom-scrollbar {
   &::-webkit-scrollbar {
+    height: 0.5em;
     width: 0.5em;
   }
 
@@ -11,5 +12,9 @@
   &::-webkit-scrollbar-thumb {
     background-color: $navy-4;
     border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: $navy-2;
   }
 }

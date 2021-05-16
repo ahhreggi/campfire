@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   user-select: none;
+  background-color: $navy-2;
 
   section.app-nav {
     height: 100%;
@@ -15,6 +16,7 @@
 
     &.left {
       min-width: 20rem;
+      background-color: $navy-1;
 
       .title {
         font-family: $font-title;
@@ -23,7 +25,6 @@
         margin-left: 0rem;
         display: flex;
         align-items: center;
-        transition: 0.5s;
         animation: glow 2s infinite alternate;
 
         @keyframes glow {
@@ -58,7 +59,8 @@
       flex-grow: 1;
       background-color: $navy-2;
       font-size: 1.3rem;
-      min-width: 15rem;
+      min-width: 0;
+      // min-width: 5rem;
 
       .view-title {
         font-weight: 700;
@@ -71,15 +73,28 @@
       display: flex;
       justify-content: space-between;
       padding-left: 1.5rem;
+      transition: 1s;
+      // flex-grow: 1;
+      max-width: 18rem;
+      overflow: hidden;
+
+      .nav-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        // border: 1px solid red;
+        overflow: hidden;
+        margin-left: 1rem;
+      }
 
       &:hover {
-        background-color: $navy-4;
-        min-width: 20rem;
+        background-color: $navy-2;
+        // min-width: 20rem;
+        max-width: 30rem;
 
         .courses-icon,
         .github-icon,
         .logout-icon {
-          display: block;
+          // display: block;
         }
 
         .user-info {
@@ -92,23 +107,23 @@
         }
 
         .arrow-icon {
-          display: none;
+          display: none !important;
         }
 
       }
 
       .user-info {
-        max-width: 15rem;
         height: 2rem;
         display: flex;
         align-items: center;
         flex-wrap: nowrap;
         max-width: 20rem;
+        transition: 1s;
+        margin-left: 2rem;
 
         &:hover {
           cursor: pointer;
           opacity: 1;
-          color: $orange;
 
           .user-name {
             opacity: 1;
@@ -134,7 +149,7 @@
           color: $yellow;
 
           &:hover {
-            color: $orange;
+            // color: $orange;
           }
 
         }
@@ -168,7 +183,6 @@
       .github-icon,
       .logout-icon {
         margin-left: 0.3rem;
-        display: none;
         cursor: pointer;
         filter: grayscale(100%) brightness(0) invert(100);
 
@@ -186,7 +200,7 @@
           opacity: 0.7;
 
           &:hover {
-            opacity: 1;
+            opacity: 0.9;
           }
 
           &:active {
