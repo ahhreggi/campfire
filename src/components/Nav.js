@@ -1,10 +1,13 @@
 import "./Nav.scss";
+import logout from "../images/icons/logout.png";
+import github from "../images/icons/question-mark.png";
+import courses from "../images/icons/courses-solid.png";
 import PropTypes from "prop-types";
 
 const Nav = (props) => {
 
   Nav.propTypes = {
-    onClick: PropTypes.func,
+    onRedirect: PropTypes.func,
     active: PropTypes.string,
     viewTitle: PropTypes.string,
     courseName: PropTypes.string,
@@ -12,11 +15,13 @@ const Nav = (props) => {
     userName: PropTypes.string
   };
 
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onClick("Home")}>
+      <section className="app-nav left" onClick={() => props.onRedirect("Home")}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
@@ -31,17 +36,34 @@ const Nav = (props) => {
       {/* User Panel */}
       <section className="app-nav right">
 
-        {/* Course Name */}
-        <span className="course-name">{props.courseName}</span>
+        {/* Course Name
+        <span className="course-name">{props.courseName}</span> */}
 
         {/* User Name */}
-        <div>
+        <div className="user-info">
           <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
-          <span className="user-name">{props.userName}</span>
+          <span
+            className="user-name text-truncate"
+            onClick={() => props.onRedirect("Home")}
+          >
+            {props.userName}
+          </span>
         </div>
 
-        <div>
-          <a href="/">Logout</a>
+        <div className="courses-icon">
+          <img src={courses} onClick={() => props.onRedirect("Home")} />
+        </div>
+        <div className="github-icon">
+          <a
+            href="https://github.com/ahhreggi/campfire"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img src={github} />
+          </a>
+        </div>
+        <div className="logout-icon">
+          <img src={logout} onClick={() => props.onRedirect("Logout")} />
         </div>
 
       </section>

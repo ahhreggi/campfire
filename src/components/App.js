@@ -503,8 +503,9 @@ const App = () => {
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
     if (selection === "Logout") {
-      setState({});
-      window.location.href = "/";
+      setState({ active: "Login" });
+    } else if (selection === "GitHub") {
+      window.location.href = "https://github.com/ahhreggi/campfire";
     } else if (selection === "Post") {
       setState({
         ...state,
@@ -611,7 +612,7 @@ const App = () => {
           {/* Nav Bar (requires userData, userCourses, courseData) */}
           {state.userData && state.userCourses &&
             <Nav
-              onClick={setActive}
+              onRedirect={setActive}
               active={state.active}
               viewTitle={state.courseData ? `${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
               courseName={state.courseData ? state.courseData.name : ""}
