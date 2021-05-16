@@ -44,14 +44,8 @@
           margin-left: 0.8rem;
         }
 
-
         &:hover {
           cursor: pointer;
-          // color: $orange;
-          // color: rgb(255, 240, 221);
-          // filter: drop-shadow(0px 0px 3px $orange);
-          // text-shadow: 0px 0px 3px rgb(255, 123, 0);
-          // animation: glow 1s infinite alternate;
         }
 
       }
@@ -81,43 +75,53 @@
       &:hover {
         background-color: $navy-4;
         min-width: 20rem;
+
         .courses-icon,
         .github-icon,
         .logout-icon {
           display: block;
         }
+
         .user-info {
           margin-right: 1rem;
+
           .user-name {
             opacity: 0.9;
           }
+
         }
+
         .arrow-icon {
           display: none;
         }
+
       }
 
       .user-info {
         max-width: 15rem;
-        // border: 1px solid red;
         height: 2rem;
         display: flex;
         align-items: center;
         flex-wrap: nowrap;
         max-width: 20rem;
+
         &:hover {
           cursor: pointer;
           opacity: 1;
           color: $orange;
+
           .user-name {
             opacity: 1;
           }
+
         }
+
         img {
           width: 2rem;
           margin-right: 1rem;
           border-radius: 100%;
         }
+
         .user-name {
           margin-right: 0.5rem;
           font-weight: 700;
@@ -125,15 +129,20 @@
           opacity: 0.95;
           max-width: 13rem;
         }
+
         &.instructor {
           color: $yellow;
+
           &:hover {
             color: $orange;
           }
+
         }
+
       }
 
       .arrow-icon {
+
         img {
           height: 1rem;
           width: 1rem;
@@ -191,7 +200,5 @@
     }
 
   }
-
-
 
 }
