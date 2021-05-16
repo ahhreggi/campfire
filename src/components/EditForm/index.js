@@ -74,12 +74,14 @@ const EditForm = (props) => {
         anonymous: state.previewAnonymous
       };
     }
-    // Posts may not have an empty title (empty body is fine)
-    if (props.mode === "POST" && !data.title) {
-      setState({ ...state, errors: ["Post must include a title"]});
+    // Posts may not have an empty title or body
+    if (props.mode === "POST" && !data.title.trim()) {
+      setState({ ...state, errors: ["Post title may not be empty"]});
+    } else if (props.mode === "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Post body may not be empty"]});
       // Comments may not have an empty body
     } else if (props.mode !== "POST" && !data.body.trim()) {
-      setState({ ...state, errors: ["Comment may not be empty"]});
+      setState({ ...state, errors: ["Comment body may not be empty"]});
     } else {
       props.onSave(data);
     }
@@ -158,7 +160,7 @@ const EditForm = (props) => {
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
-        isInstructor={props.isInstructor}
+        isInstructor={props.isInstructor || (props.role !== "student")}
         body={state.previewBody}
         breakBody={state.breakBody}
       />

@@ -392,6 +392,7 @@ const CommentListItem = (props) => {
                 label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
+                role={props.authorRole}
                 isInstructor={props.authorRole !== "student"}
                 body={props.body}
                 anonymous={props.anonymous}

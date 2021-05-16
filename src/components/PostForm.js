@@ -38,6 +38,7 @@ const PostForm = (props) => {
         <EditForm
           title={""}
           author={props.userName}
+          role={props.userRole}
           isInstructor={props.userRole !== "student"}
           body={""}
           anonymous={false}
