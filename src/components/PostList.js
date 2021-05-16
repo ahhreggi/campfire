@@ -60,10 +60,16 @@ const PostList = (props) => {
     });
   }, [props.selectedTags]);
 
-  // If searchText exists, ensure that showFilters is true
+  // If searchText exists, ensure that filters and any closed, non-empty categories are opened
   useEffect(() => {
-    if (state.searchText && !state.showFilters) {
-      setState({ ...state, showFilters: true });
+    if (state.searchText) {
+      setState({
+        ...state,
+        showFilters: true,
+        showPinned: !state.showPinned && state.pinned.length > 0 ? true : state.showPinned,
+        showBookmarked: !state.showBookmarked && state.bookmarked.length > 0 ? true : state.showBookmarked,
+        showPosts: !state.showPosts && state.unpinned.length > 0 ? true : state.showPosts
+      });
     }
   }, [state.searchText]);
 
@@ -124,7 +130,7 @@ const PostList = (props) => {
 
   const toggleSearch = () => {
     if (!state.showSearch) {
-      setState({ ...state, showSearch: true, showFilters: true, searchText: "" });
+      setState({ ...state, showSearch: true, searchText: "" });
     } else {
       setState({ ...state, showSearch: false, searchText: "" });
     }
