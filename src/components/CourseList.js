@@ -43,11 +43,12 @@ const CourseList = (props) => {
   const toggleCourses = () => {
     setState({ ...state, showCourses: !state.showCourses });
   };
+
   return (
     <div className="CourseList">
 
       <div
-        className={`courses-label ${state.showCourses ? "active" : ""}`}
+        className={`courses-label ${state.showCourses ? "active" : ""} ${props.userCourses.length < 1 ? "empty" : ""}`}
         onClick={() => toggleCourses()}
       >
         <div>
@@ -55,17 +56,15 @@ const CourseList = (props) => {
           COURSES
         </div>
         <div className="arrows">
-          <img src={up} />
-          {/* {state.showFilters && <img src={up} alt="up" />}
-          {!state.showFilters && <img src={down} alt="down" />} */}
+          <img src={state.showCourses ? up : down} />
         </div>
       </div>
 
-      {courses.length > 0 &&
+      {state.showCourses && courses.length > 0 &&
           <div>{courses}</div>
       }
 
-      {!courses.length &&
+      {state.showCourses && !courses.length &&
         <div>You aren&apos;t enrolled in any courses yet!</div>
       }
 
