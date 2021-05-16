@@ -405,7 +405,7 @@ const App = () => {
         viewPost(state.postID);
         setTimeout(() => {
           fetchCourseData(state.courseData.id, state.postID, getPostByID(state.courseData.posts, state.postID));
-        }, 10);
+        }, 100);
       }
     }
   }, [state.postID]);
