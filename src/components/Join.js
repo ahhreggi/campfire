@@ -90,22 +90,6 @@ const Join = (props) => {
         />
       </div>
 
-      {/* Create Button */}
-      <div className="create-link">
-        <Button
-          text="Go to Create"
-          onClick={() => props.onRedirect("Create")}
-        />
-      </div>
-
-      {/* Home Button */}
-      <div className="home-link">
-        <Button
-          text="Go to Home"
-          onClick={() => props.onRedirect("Home")}
-        />
-      </div>
-
     </div>
   );
 };
