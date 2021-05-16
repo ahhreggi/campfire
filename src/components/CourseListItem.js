@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Badge from "./Badge";
@@ -62,7 +61,7 @@ const CourseListItem = (props) => {
       {/* Course Code */}
       <div className="code">
         <span>
-          {props.code || "JSX 001"}
+          {props.code || "COURSE 00"}
         </span>
         {isArchived &&
           <img src={archive} />

@@ -2,7 +2,7 @@ import "./Home.scss";
 import PropTypes from "prop-types";
 import Button from "./Button";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Home = (props) => {
   Home.propTypes = {

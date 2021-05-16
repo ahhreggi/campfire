@@ -8,9 +8,6 @@ import Button from "./Button";
 
 import Register from "./Register";
 import Login from "./Login";
-import Home from "./Home";
-import Create from "./Create";
-import Join from "./Join";
 
 import DevData from "./DevData";
 // import Error404 from "./Error404";
@@ -353,15 +350,6 @@ const App = () => {
         }
       });
   };
-
-  // SIDE EFFECT: userCourses will update and switch from Create to Home
-  // When this happens,
-  useEffect(() => {
-    console.log("userCourses changed!");
-    if (state.userCourses && state.active === "Create") {
-      //
-    }
-  }, [state.userCourses]);
 
   // COURSE ENROLLMENT //////////////////////////////////////////////
 

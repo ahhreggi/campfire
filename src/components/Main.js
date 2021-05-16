@@ -10,7 +10,7 @@ import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Main = (props) => {
 

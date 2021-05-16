@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import CourseListItem from "./CourseListItem";
 import archive from "../images/icons/archive.png";
@@ -41,7 +41,7 @@ const CourseList = (props) => {
           key={course.id}
           id={course.id}
           name={course.name}
-          code={course.courseCode}
+          code={course.course_code}
           createdAt={course.created_at}
           archived={course.archived}
           role={course.role}
