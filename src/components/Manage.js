@@ -16,21 +16,32 @@ const Manage = (props) => {
     onRedirect: PropTypes.func
   };
 
-  // VARIABLES //////////////////////////////////////////////////////
+  const [state, setState] = useState({
+    activeCourses: [],
+    archivedCourses: []
+  });
 
-  const activeCourses = [];
-  const archivedCourses = [];
+  // Update categories whenever userCourses changes
+  useEffect(() => {
 
-  for (const course of props.userCourses) {
-    if (course.archived) {
-      archivedCourses.push(course);
-    } else {
-      activeCourses.push(course);
+    const activeCourses = [];
+    const archivedCourses = [];
+
+    for (const course of props.userCourses) {
+      if (course.archived) {
+        archivedCourses.push(course);
+      } else {
+        activeCourses.push(course);
+      }
     }
-  }
 
-  const numActiveCourses = activeCourses.length;
-  const numArchivedCourses = archivedCourses.length;
+    setState({
+      ...state,
+      activeCourses: activeCourses,
+      archivedCourses: archivedCourses
+    });
+
+  }, [props.userCourses]);
 
   ///////////////////////////////////////////////////////////////////
 
@@ -50,15 +61,25 @@ const Manage = (props) => {
           You may unenrol from a course at any time, however please note that any contributions you&apos;ve made will remain unchanged (you can always delete them manually).
         </div>
         <div className="counters">
-          You are currently enrolled in <span className="number active">{numActiveCourses}</span> active course{numActiveCourses !== 1 ? "s" : ""}
-          {numArchivedCourses > 0 ? <> and <span className="number archived">{numArchivedCourses}</span> archived course{numArchivedCourses !== 1 ? "s" : ""}.</> : ""}
+          You are currently enrolled in <span className="number active">{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
+          {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}.</> : ""}
         </div>
       </div>
 
       {/* CourseList */}
       <div className="user-courses">
-        <ManageList />
-        <ManageList />
+        {/* Active Courses List */}
+        <ManageList
+          courses={state.activeCourses}
+          onLeaveCourse={props.onLeaveCourse}
+          onRedirect={props.onRedirect}
+        />
+        {/* Archived Courses List */}
+        <ManageList
+          courses={state.archivedCourses}
+          onLeaveCourse={props.onLeaveCourse}
+          onRedirect={props.onRedirect}
+        />
       </div>
 
 
