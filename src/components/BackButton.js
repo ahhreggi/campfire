@@ -8,9 +8,13 @@ const BackButton = (props) => {
   };
 
   return (
-    <div className="BackButton" onClick={() => props.onRedirect("Home")}>
-      <img src={arrow} />
-      <div>BACK TO HOME</div>
+    <div className="BackButton">
+      <hr />
+      <div className="link" onClick={() => props.onRedirect("Home")}>
+
+        <img src={arrow} />
+        <div>BACK TO HOME</div>
+      </div>
     </div>
   );
 };

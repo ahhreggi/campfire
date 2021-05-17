@@ -17,9 +17,99 @@
     margin-top: 5rem;
   }
 
+  .panel {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    height: 15rem;
+    width: 30rem;
+    // border: 2px solid $white;
+    background-color: $navy-2;
+    // box-shadow: -3px -3px 5px $navy-4, 3px 3px 5px $navy-0;
+    border-radius: 15px;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $navy-2;
+    transition: 0.2s;
+    &.invalid {
+      border: 2px solid $red;
+    }
+    &.success {
+      border: 2px solid $green;
+    }
+  }
+
   .page-title {
     font-size: 2rem;
     font-weight: 700;
+  }
+
+  .page-text {
+
+    .student {
+      font-weight: 700;
+      color: $orange;
+    }
+
+    .instructor {
+      font-weight: 700;
+      color: $yellow;
+    }
+
+  }
+
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    margin-top: 1rem;
+
+    .form-label {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    input {
+      color: $navy-1;
+      font-size: 0.9rem;
+      background-color: $white;
+      width: 22rem;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      margin-bottom: 0rem;
+      font-family: $font-code;
+      &::placeholder {
+        opacity: 0.6;
+      }
+    }
+
+  }
+  .messages {
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+    display: flex;
+    position: initial;
+    &.error {
+      color: $red;
+    }
+    &.success {
+      color: $green;
+    }
+  }
+
+  .submit {
+    // margin-bottom: 3rem;
   }
 
 }

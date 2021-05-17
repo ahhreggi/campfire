@@ -11,6 +11,7 @@ button {
     margin-bottom: 0.1rem;
   }
 
+  &.submit.join,
   &.new-post {
     border-radius: 10px;
     background-color: $navy-5;

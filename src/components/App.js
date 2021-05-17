@@ -74,6 +74,7 @@ const App = () => {
 
     loading: true,
 
+    status: null,
     errors: null // e.g. ["Invalid username/password"] // typically should have only 0 or 1 item at any given time
 
   });
@@ -366,10 +367,13 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+          setState({ ...state, status: "success" });
+          setTimeout(() => {
+            setAppData(courseData, "courseData");
+          }, 1500);
         } else {
           console.log("❌ joinCourse failed!");
-          setState({ ...state, errors: ["Invalid access code!"] });
+          setState({ ...state, errors: ["Invalid access code"] });
         }
       });
   };
@@ -668,6 +672,7 @@ const App = () => {
               <Main
                 // Active state
                 active={state.active}
+                status={state.status}
                 errors={state.errors}
                 // Home view
                 userData={state.userData}
@@ -708,7 +713,7 @@ const App = () => {
       }
 
       {/* See index.scss */}
-      <div className="dev-tools d-none">
+      <div className="dev-tools">
         {/* Test Controls */}
         <div className="test-controls mt-2">
           test controls:

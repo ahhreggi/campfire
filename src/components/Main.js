@@ -17,6 +17,7 @@ const Main = (props) => {
   Main.propTypes = {
     // Active state
     active: PropTypes.string,
+    status: PropTypes.string,
     errors: PropTypes.array,
     // Home view
     userData: PropTypes.object,
@@ -45,6 +46,8 @@ const Main = (props) => {
     onTagToggle: PropTypes.func,
     onRedirect: PropTypes.func
   };
+
+
 
   // const [state, setState] = useState({
   //   mainActive: props.active
@@ -100,6 +103,7 @@ const Main = (props) => {
         <Join
           userData={props.userData}
           onSubmit={props.onJoinCourse}
+          status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
@@ -110,6 +114,7 @@ const Main = (props) => {
         <Create
           userData={props.userData}
           onSubmit={props.onCreateCourse}
+          status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
