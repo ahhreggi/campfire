@@ -18,23 +18,23 @@ const CourseListItem = (props) => {
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
-  const truncateText = (text, length) => {
-    if (text.length > length) {
-      let result = "";
-      const words = text.split(" ");
-      for (const word of words) {
-        if (result.length + word.length <= length) {
-          result += " " + word;
-        } else {
-          break;
-        }
-      }
-      result = result.trim();
-      return result + (result !== text ? "..." : "");
-    } else {
-      return text;
-    }
-  };
+  // const truncateText = (text, length) => {
+  //   if (text.length > length) {
+  //     let result = "";
+  //     const words = text.split(" ");
+  //     for (const word of words) {
+  //       if (result.length + word.length <= length) {
+  //         result += " " + word;
+  //       } else {
+  //         break;
+  //       }
+  //     }
+  //     result = result.trim();
+  //     return result + (result !== text ? "..." : "");
+  //   } else {
+  //     return text;
+  //   }
+  // };
 
   // VARIABLES //////////////////////////////////////////////////////
 
@@ -73,8 +73,8 @@ const CourseListItem = (props) => {
       </div>
 
       {/* Course Name */}
-      <div className="name">
-        {truncateText(props.name, 35)}
+      <div className="name text-truncate">
+        {props.name}
       </div>
 
       {/* Archived Label */}
