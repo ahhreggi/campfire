@@ -151,6 +151,14 @@
 
     }
 
+    .edited {
+      color: $navy-8;
+      font-style: italic;
+      .instructor {
+        color: $yellow;
+      }
+    }
+
     .modified {
       font-style: italic;
       color: $navy-8;

@@ -41,6 +41,7 @@ const Post = (props) => {
     title: PropTypes.string,
     authorID: PropTypes.number,
     views: PropTypes.number,
+    edits: PropTypes.array,
     onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
@@ -269,9 +270,24 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
+  // // Get the timestamp to display
+  // const timestamp = formatTimestamp(props.lastModified);
+  // const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<>{timestamp} <span className="edited">(edited {relativeTimestamp}{editor.user_id !== props.authorID && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span></>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
 
   // Check if word break is needed for the body
   const breakBody = getLongestWordLength(props.body) > 30;
@@ -340,7 +356,7 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestampElement}
           </div>
         </div>
 
