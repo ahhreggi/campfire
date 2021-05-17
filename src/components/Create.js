@@ -28,11 +28,8 @@ const Create = (props) => {
   const handleInputChange = (event, field, maxLength) => {
     // console.log(event.target.value);
     if (event.target.value.length <= maxLength) {
-      console.log(state[field].length, maxLength);
-      console.log("hey");
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
-      console.log("ERR");
       setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
     }
   };

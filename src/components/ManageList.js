@@ -7,6 +7,7 @@ const ManageList = (props) => {
   ManageList.propTypes = {
     courses: PropTypes.array,
     onLeaveCourse: PropTypes.func,
+    onViewCourse: PropTypes.func,
     onRedirect: PropTypes.func
   };
 
@@ -22,6 +23,7 @@ const ManageList = (props) => {
         role={course.role}
         joinDate={course.join_date}
         onLeaveCourse={props.onLeaveCourse}
+        onViewCourse={props.onViewCourse}
         onRedirect={props.onRedirect}
       />
     );

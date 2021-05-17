@@ -36,6 +36,7 @@ const Main = (props) => {
 
     // Manage course functions
     onLeaveCourse: PropTypes.func,
+    onViewCourse: PropTypes.func,
 
     // Post functions
     onEditBookmark: PropTypes.func,
@@ -128,6 +129,7 @@ const Main = (props) => {
           userData={props.userData}
           userCourses={props.userCourses}
           onLeaveCourse={props.onLeaveCourse}
+          onViewCourse={props.onViewCourse}
           status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}

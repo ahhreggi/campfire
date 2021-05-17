@@ -15,6 +15,7 @@ const ManageListItem = (props) => {
     role: PropTypes.string,
     joinDate: PropTypes.string,
     onLeaveCourse: PropTypes.func,
+    onViewCourse: PropTypes.func,
     onRedirect: PropTypes.func
   };
 
@@ -34,11 +35,22 @@ const ManageListItem = (props) => {
       <div className="name">
         {props.name}
       </div>
-      <div className="leave-button">
+
+
+      <div className="view-button">
+        <Button
+          text={"VIEW"}
+          styles={"form green"}
+          // may have to change redirect to a course manage page later
+          onClick={() => props.onViewCourse(props.id, null, null, "Dashboard")}
+        />
+      </div>
+      <div className={`leave-button ${props.role}`}>
         <Button
           text={"UNENROLL"}
           styles={"form red"}
-          onClick={() => toggleConfirmation()}
+          onClick={props.role !== "owner" ? () => toggleConfirmation() : null}
+          disabled={props.role === "owner"}
         />
       </div>
       {state.showConfirmation &&
@@ -50,6 +62,8 @@ const ManageListItem = (props) => {
           />
         </div>
       }
+
+
 
 
 

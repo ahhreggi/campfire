@@ -710,6 +710,7 @@ const App = () => {
 
                 // Manage course functions
                 onLeaveCourse={leaveCourse}
+                onViewCourse={fetchCourseData}
 
                 // Post functions
                 onEditBookmark={editBookmark}

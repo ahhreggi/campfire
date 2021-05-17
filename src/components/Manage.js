@@ -11,6 +11,7 @@ const Manage = (props) => {
     userData: PropTypes.object,
     userCourses: PropTypes.array,
     onLeaveCourse: PropTypes.func,
+    onViewCourse: PropTypes.func,
     status: PropTypes.string,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
@@ -72,12 +73,14 @@ const Manage = (props) => {
         <ManageList
           courses={state.activeCourses}
           onLeaveCourse={props.onLeaveCourse}
+          onViewCourse={props.onViewCourse}
           onRedirect={props.onRedirect}
         />
         {/* Archived Courses List */}
         <ManageList
           courses={state.archivedCourses}
           onLeaveCourse={props.onLeaveCourse}
+          onViewCourse={props.onViewCourse}
           onRedirect={props.onRedirect}
         />
       </div>
