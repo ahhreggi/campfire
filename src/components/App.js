@@ -378,6 +378,21 @@ const App = () => {
       });
   };
 
+  // COURSE UNENROLMENT ////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User visits the Manage page and presses UNENROL within a list of their courses
+  // - User is prompted to confirm unenrolment if they are not the owner (they may only delete the course)
+  // - TODO: Pass ownership of a course?
+  // - The data is deleted from the server, no response data is returned
+  // - State is updated (userCourses), user stays on the Manage page
+
+  // Unenrol the user from the given courseID
+  const leaveCourse = (courseID) => {
+    request("POST", API.COURSES + "/" + courseID + "leave")
+      .then(() => fetchUserCourses());
+  };
+
   // BOOKMARKS //////////////////////////////////////////////////////
 
   // BASIC USER ROUTE
@@ -674,12 +689,15 @@ const App = () => {
                 active={state.active}
                 status={state.status}
                 errors={state.errors}
+
                 // Home view
                 userData={state.userData}
                 userCourses={state.userCourses}
+
                 // Course view
                 courseData={state.courseData}
                 posts={state.posts}
+
                 // Post view
                 postID={state.postID}
                 postData={state.postData}
@@ -687,6 +705,9 @@ const App = () => {
                 // Create/Join course functions
                 onCreateCourse={createCourse}
                 onJoinCourse={joinCourse}
+
+                // Manage course functions
+                onLeaveCourse={leaveCourse}
 
                 // Post functions
                 onEditBookmark={editBookmark}
