@@ -17,7 +17,12 @@ const ManageListItem = (props) => {
 
   return (
     <div className="ManageListItem">
-      {props.id} - {props.courseCode}
+      <div className="code">
+        {props.courseCode}
+      </div>
+      <div className="name">
+        {props.name}
+      </div>
     </div>
   );
 };
