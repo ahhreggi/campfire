@@ -49,11 +49,9 @@ const Preview = (props) => {
           </div>
         }
 
-        
         <div className="body">
           <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
         </div>
-        
 
       </div>
 
