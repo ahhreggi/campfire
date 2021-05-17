@@ -714,12 +714,7 @@ const App = () => {
       }
 
       {/* See index.scss */}
-      <div className="dev-tools">
-        {/* Test Controls */}
-        <div className="test-controls mt-2">
-          test controls:
-          <Button text="Refresh DB" onClick={() => resetDB()} />
-        </div>
+      <div className="dev-tools pt-5">
         {/* Dev Data Display */}
         <DevData name="App" props={state} label={"State"} />
       </div>

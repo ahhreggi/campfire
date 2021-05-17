@@ -1,8 +1,9 @@
 @import "../styles/global.scss";
 
 .CourseListItem {
-  border: 3px solid $navy-4;
-  background-color: $navy-4;
+  border: 1px solid $navy-3;
+  background-color: $navy-1;
+  background: linear-gradient($navy-4, $navy-0);
   border-left-color: $navy-8;
   height: 6rem;
   user-select: none;
@@ -10,11 +11,17 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding-top: 0.3rem;
+  justify-content: center;
+  padding-bottom: 0.4rem;
   padding-left: 1rem;
   padding-right: 1rem;
   opacity: 0.95;
-  transition: 0.3s;
+  transition: 0.2s;
+
+  &:hover {
+    border-left-width: 3px;
+    background: linear-gradient($navy-5, $navy-1);
+  }
 
   &.instructor {
     border-left-color: $yellow;
@@ -25,6 +32,11 @@
     border: 3px solid $navy-4;
     background-color: $navy-4;
     border-left-color: $navy-6;
+    border-left-width: 1px;
+
+    &:hover {
+      border-left-width: 3px;
+    }
 
     &.instructor {
       border-left-color: rgb(117, 117, 0);
@@ -37,6 +49,7 @@
       display: block;
       color: $red;
       font-weight: 700;
+      font-size: 0.8rem;
     }
     &:hover {
       opacity: 0.9;
@@ -87,7 +100,7 @@
     align-items: center;
     font-weight: 900;
     text-transform: uppercase;
-    font-size: 2rem;
+    font-size: 1.8rem;
     .label {
       font-size: 1rem;
       font-weight: 700;
@@ -106,7 +119,7 @@
 
   .name {
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     opacity: 0.85;
   }
 

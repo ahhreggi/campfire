@@ -51,9 +51,9 @@ const Create = (props) => {
     if (!state.name.trim() || !state.code.trim()) {
       errors.push("Please complete all fields");
     } else if (!isValid(state.name, "length", 40)) {
-      errors.push("Title is too long");
+      errors.push("Name/summary is too long");
     } else if (!isValid(state.code, "length", 12)) {
-      errors.push("Course code is too long!");
+      errors.push("Course code is too long");
     }
     console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
@@ -114,13 +114,13 @@ const Create = (props) => {
 
           {/* Course Name */}
           <div className="form-label">
-            Course Name/Title
+            Course Name/Summary
           </div>
           <input
             className="name"
             value={state.name}
             onChange={(event) => handleInputChange(event, "name", 40)}
-            placeholder={"Introduction to Web Development"}
+            placeholder={"Intro to Web Development w/ Prof. Oak"}
           />
 
           {/* Course Description */}

@@ -56,7 +56,7 @@ const CourseList = (props) => {
 
   // Sort the courses from most recent to oldest
   const userCourses = props.userCourses.sort((a, b) => {
-    return a.id - b.id;
+    return b.id - a.id;
   });
 
   // Sort the courses as active or archived
