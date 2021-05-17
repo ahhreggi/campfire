@@ -65,26 +65,28 @@ button {
     border-radius: 5px;
     width: 6rem;
     opacity: 0.8;
+    background-color: rgba(58, 58, 58, 0.301);
 
     &.green {
       color: $green;
+      background-color: rgba(0, 128, 0, 0.253);
     }
 
     &.red {
       color: $red;
+      background-color: rgba(141, 0, 0, 0.253);
     }
 
     &.yellow {
       color: $yellow;
+      background-color: rgba(255, 187, 0, 0.329);
     }
 
     &.manage {
       opacity: 0.9;
       &.green {
-        background-color: rgba(0, 128, 0, 0.253);
       }
       &.red {
-        background-color: rgba(255, 0, 0, 0.233);
         &.disabled {
           color: grey;
           background-color: rgba(255, 255, 255, 0.089);
@@ -92,7 +94,6 @@ button {
         }
       }
       &.yellow {
-        background-color: rgba(255, 187, 0, 0.329);
       }
     }
 
