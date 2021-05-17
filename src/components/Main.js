@@ -34,6 +34,9 @@ const Main = (props) => {
     onCreateCourse: PropTypes.func,
     onJoinCourse: PropTypes.func,
 
+    // Manage course functions
+    onLeaveCourse: PropTypes.func,
+
     // Post functions
     onEditBookmark: PropTypes.func,
     onAddPost: PropTypes.func,
@@ -123,7 +126,8 @@ const Main = (props) => {
       {props.active === "Manage" &&
         <Manage
           userData={props.userData}
-          onSubmit={props.onCreateCourse}
+          userCourses={props.userCourses}
+          onLeaveCourse={props.onLeaveCourse}
           status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
