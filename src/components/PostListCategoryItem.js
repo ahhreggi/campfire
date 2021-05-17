@@ -143,7 +143,7 @@ const PostListCategoryItem = (props) => {
         <div className="counters">
           <span className="views icon-small">
             <img src={eye} alt="views" />
-            {props.views}
+            {props.views < 0 ? 0 : props.views}
           </span>
           <span className="comments icon-small">
             <img src={comment} alt="comments" />

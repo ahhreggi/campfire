@@ -330,7 +330,7 @@ const CommentListItem = (props) => {
               <header>
 
                 {/* Author */}
-                <div className="comment-author">
+                <div className="comment-author text-truncate">
                   {authorName}
                   {isPostAuthor &&
                     <>

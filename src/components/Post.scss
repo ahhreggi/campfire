@@ -18,19 +18,29 @@
     font-size: 1.2rem;
     border-radius: 15px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     border: 2px solid $green;
     padding: 1rem;
     margin-bottom: 1.5rem;
     user-select: none;
 
+    .header {
+      margin-right: 1.1rem;
+    }
+
     img {
       margin-right: 0.5rem;
     }
 
+    .resolution-refs {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
     .link {
       margin-bottom: 0.2rem;
-      margin-left: 1.1rem;
+      // margin-left: 1.1rem;
       margin-right: 0.5rem;
       cursor: pointer;
       img.arrow {

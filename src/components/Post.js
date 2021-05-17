@@ -280,21 +280,25 @@ const Post = (props) => {
           <>
             <div className="resolution-message">
 
-              <div>
+              <div className="header">
                 This question has been answered.
               </div>
 
-              <div className="link" onClick={() => scrollToBestAnswer()}>
-                <img src={arrow} className="arrow" />
-                <span>VIEW BEST ANSWER</span>
-              </div>
+              <div className="resolution-refs">
 
-              {props.authorID === props.userID &&
-                <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
-                  <img src={cross} className="cross" />
-                  <span>MARK AS UNRESOLVED</span>
+                <div className="link" onClick={() => scrollToBestAnswer()}>
+                  <img src={arrow} className="arrow" />
+                  <span>VIEW BEST ANSWER</span>
                 </div>
-              }
+
+                {props.authorID === props.userID &&
+                  <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                    <img src={cross} className="cross" />
+                    <span>MARK AS UNRESOLVED</span>
+                  </div>
+                }
+
+              </div>
 
             </div>
             <hr />
@@ -311,7 +315,7 @@ const Post = (props) => {
           {/* Views */}
           <div className="views icon-med">
             <img src={eye} alt="views" />
-            {props.views}
+            {props.views < 0 ? 0 : props.views}
           </div>
 
         </header>
