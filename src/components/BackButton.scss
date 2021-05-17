@@ -1,0 +1,35 @@
+@import "../styles/global.scss";
+
+.BackButton {
+  // display: flex;
+  // align-items: center;
+  cursor: pointer;
+  opacity: 0.9;
+  // margin-top: 3rem;
+
+  .link {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+
+      &:hover {
+        opacity: 1;
+        img {
+          filter: none;
+        }
+      }
+      img {
+        width: 1.7rem;
+        transform: scaleX(-1);
+        filter: brightness(0) invert(100);
+      }
+      div {
+        font-weight: 900;
+        font-size: 1rem;
+        user-select: none;
+        margin-left: 0.5rem;
+      }
+
+  }
+
+}

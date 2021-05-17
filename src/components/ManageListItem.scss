@@ -1,0 +1,94 @@
+@import "../styles/global.scss";
+
+.ManageListItem {
+  border-left: 3px solid $navy-4;
+  background-color: $navy-2;
+  border-radius: 15px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem 0.7rem 1.5rem;
+  height: 9rem;
+  min-width: 40rem;
+  margin-bottom: 0.5rem;
+  transition: 0.3s;
+  &:hover {
+    background-color: $navy-4;
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // border: 1px solid red;
+    // min-width: 30rem;
+
+    .code {
+      font-weight: 900;
+      margin-right: 1rem;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      font-size: 2rem;
+      &.archived {
+        color: $red;
+        opacity: 0.7;
+      }
+    }
+    .role {
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      .joined {
+        margin-left: 0.5rem;
+        color: $white;
+        opacity: 0.5;
+      }
+      &.owner {
+        color: $yellow;
+      }
+      &.instructor {
+        color: $yellow;
+      }
+      &.admin {
+        color: $red;
+      }
+    }
+    .name {
+      font-size: 1rem;
+      max-width: 30rem;
+      margin-right: 2rem;
+    }
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 4rem;
+    }
+  }
+
+  &.center {
+    justify-content: center;
+  }
+
+  .confirmation {
+    height: 9rem;
+    display: flex;
+    align-self: center;
+  }
+
+  &.student {
+    border-left-color: $navy-8;
+  }
+  &.owner,
+  &.instructor {
+    border-left-color: $yellow;
+  }
+  &.admin {
+    border-left-color: $red;
+  }
+}

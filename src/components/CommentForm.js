@@ -8,6 +8,7 @@ const CommentForm = (props) => {
     header: PropTypes.string,
     label: PropTypes.string,
     userName: PropTypes.string,
+    userRole: PropTypes.string,
     courseData: PropTypes.object,
     onAddComment: PropTypes.func,
     onCancelComment: PropTypes.func
@@ -28,19 +29,18 @@ const CommentForm = (props) => {
         {props.header}
       </div>
 
-      {/* <hr /> */}
-
       <div className="create-form">
-
         <EditForm
           label={props.label}
           author={props.userName}
+          role={props.userRole}
           body={""}
           anonymous={false}
           onSave={createComment}
           onCancel={props.onCancelComment}
           mode={"COMMENT"}
           minHeight={"5rem"}
+          isInstructor={props.userRole !== "student"}
         />
 
       </div>

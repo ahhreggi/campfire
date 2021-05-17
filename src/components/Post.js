@@ -18,6 +18,7 @@ import "./Post.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 import ReactMarkdown from "react-markdown";
+import CodeSyntax from "./CodeSyntax";
 
 import DevData from "./DevData";
 
@@ -28,6 +29,7 @@ const Post = (props) => {
     courseTags: PropTypes.array,
     anonymous: PropTypes.bool,
     author: PropTypes.string,
+    authorRole: PropTypes.string,
     bestAnswer: PropTypes.number,
     body: PropTypes.string,
     pinned: PropTypes.bool,
@@ -41,6 +43,7 @@ const Post = (props) => {
     title: PropTypes.string,
     authorID: PropTypes.number,
     views: PropTypes.number,
+    edits: PropTypes.array,
     onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
@@ -50,7 +53,25 @@ const Post = (props) => {
     onDeleteComment: PropTypes.func,
     onTagToggle: PropTypes.func,
     userName: PropTypes.string,
+    userRole: PropTypes.string,
     userID: PropTypes.number
+  };
+
+  // Get the parent ID of the best answer of the post
+  const getBestAnswerParentID = (comments, bestAnswerID) => {
+    // First check the parent itself
+    for (const parent of comments) {
+      if (parent.id === bestAnswerID) {
+        return parent.id;
+      }
+      // Then check its children
+      for (const child of parent.replies) {
+        // If it's found, return the ID of the parent comment
+        if (child.id === bestAnswerID) {
+          return parent.id;
+        }
+      }
+    }
   };
 
   const [state, setState] = useState({
@@ -62,15 +83,15 @@ const Post = (props) => {
 
   // Reset states when switching posts
   useEffect(() => {
-    const uncollapsed = props.bestAnswer ? [getBestAnswerParentID()] : [];
+    // const uncollapsed = props.bestAnswer ? [getBestAnswerParentID(props.comments, props.bestAnswer)] : [];
     setState({
       ...state,
       showForm: false,
       showConfirmation: false,
       showCommentForm: false,
-      uncollapsed: [uncollapsed]
+      uncollapsed: [getBestAnswerParentID(props.comments, props.bestAnswer)]
     });
-  }, [props.id]);
+  }, [props.id, props.comments, props.bestAnswer]);
 
   // If the comment form is opened, scroll to it
   useEffect(() => {
@@ -119,7 +140,7 @@ const Post = (props) => {
   const scrollToCommentForm = () => {
     setTimeout(() => {
       refCommentForm.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 200);
   };
 
   // Scroll to best answer
@@ -128,7 +149,7 @@ const Post = (props) => {
 
     // Get the ID of the top-level comment in which the best answer is found
 
-    let bestAnswerParentID = getBestAnswerParentID();
+    let bestAnswerParentID = getBestAnswerParentID(props.comments, props.bestAnswer);
 
     // Uncollapse parent element of best answer only
     setState({ ...state, uncollapsed: [ bestAnswerParentID ]});
@@ -137,25 +158,6 @@ const Post = (props) => {
     setTimeout(() => {
       refBestAnswer.current.scrollIntoView({ behavior: "smooth" });
     }, 100);
-  };
-
-  // Get the parent ID of the best answer of the post
-  const getBestAnswerParentID = () => {
-
-    // First check the parent itself
-    for (const parent of props.comments) {
-      if (parent.id === props.bestAnswer) {
-        return parent.id;
-      }
-      // Then check its children
-      for (const child of parent.replies) {
-        // If it's found, return the ID of the parent comment
-        if (child.id === props.bestAnswer) {
-          return parent.id;
-        }
-      }
-    }
-
   };
 
   // New comment toggle handler
@@ -188,7 +190,16 @@ const Post = (props) => {
 
   // Save the post changes
   const savePost = (data) => {
-    props.onEditPost(props.id, data);
+    const newTags = props.tags.map(tag => tag.id);
+    const tagCheck = JSON.stringify(newTags) !== JSON.stringify(data.tags);
+    // console.log(JSON.stringify(newTags) !== JSON.stringify(data.tags));
+    // Check that changes were actually made
+    if ((props.title !== data.title) ||
+      (props.body !== data.body) ||
+      (props.anonymous !== data.anonymous) ||
+      tagCheck) {
+      props.onEditPost(props.id, data);
+    }
     // Hide edit form
     toggleForm();
   };
@@ -208,6 +219,7 @@ const Post = (props) => {
     };
     props.onAddComment(commentData);
     setState({ ...state, showCommentForm: false });
+    scrollToCommentForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -242,6 +254,13 @@ const Post = (props) => {
     }
   };
 
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    if (text) {
+      return Math.max(...text.split(" ").map(word => word.length));
+    }
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -253,24 +272,27 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
+  // // Get the timestamp to display
+  // const timestamp = formatTimestamp(props.lastModified);
+  // const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<>{timestamp} <span className="edited">(edited {relativeTimestamp}{editor.user_id !== props.authorID && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span></>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
 
-  // Get the best answer
-  // let best;
-  // for (const comment of props.comments) {
-  //   if (props.bestAnswer === comment.id) {
-  //     best = comment;
-  //     break;
-  //   }
-  //   for (const reply of comment.replies) {
-  //     if (props.bestAnswer === comment.id) {
-  //       best = reply;
-  //       break;
-  //     }
-  //   }
-  // }
+  // Check if word break is needed for the body
+  const breakBody = getLongestWordLength(props.body) > 30;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -279,27 +301,32 @@ const Post = (props) => {
 
       <DevData name={"Post"} props={props} />
 
+
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
         {props.bestAnswer &&
           <>
             <div className="resolution-message">
 
-              <div>
+              <div className="header">
                 This question has been answered.
               </div>
 
-              <div className="link" onClick={() => scrollToBestAnswer()}>
-                <img src={arrow} className="arrow" />
-                <span>VIEW BEST ANSWER</span>
-              </div>
+              <div className="resolution-refs">
 
-              {props.authorID === props.userID &&
-                <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
-                  <img src={cross} className="cross" />
-                  <span>MARK AS UNRESOLVED</span>
+                <div className="link" onClick={() => scrollToBestAnswer()}>
+                  <img src={arrow} className="arrow" />
+                  <span>VIEW BEST ANSWER</span>
                 </div>
-              }
+
+                {props.authorID === props.userID &&
+                  <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                    <img src={cross} className="cross" />
+                    <span>MARK AS UNRESOLVED</span>
+                  </div>
+                }
+
+              </div>
 
             </div>
             <hr />
@@ -316,7 +343,7 @@ const Post = (props) => {
           {/* Views */}
           <div className="views icon-med">
             <img src={eye} alt="views" />
-            {props.views}
+            {props.views < 0 ? 0 : props.views}
           </div>
 
         </header>
@@ -331,7 +358,7 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className="author">{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestampElement}
           </div>
         </div>
 
@@ -343,6 +370,7 @@ const Post = (props) => {
               tags={props.tags}
               selectedTags={props.tags}
               onClick={handleClick}
+              resolved={!!props.bestAnswer}
             />
           </div>
 
@@ -363,8 +391,10 @@ const Post = (props) => {
         <hr />
 
         {/* Post Body */}
-        <div className={`post-body ${state.breakBody && "break"}`}>
-          <ReactMarkdown>{props.body}</ReactMarkdown>
+        <div className={`post-body ${breakBody && "break"}`}>
+          <ReactMarkdown components={CodeSyntax}>
+            {props.body}
+          </ReactMarkdown>
         </div>
 
       </div>
@@ -373,9 +403,11 @@ const Post = (props) => {
       {state.showForm &&
         <>
           <EditForm
+            label={"EDIT POST"}
             id={props.id}
             title={props.title}
             author={props.author}
+            role={props.authorRole}
             body={props.body}
             anonymous={props.anonymous}
             tags={props.tags}
@@ -461,8 +493,10 @@ const Post = (props) => {
             postAuthorID={props.authorID}
             userName={props.userName}
             userID={props.userID}
+            userRole={props.userRole}
             refBestAnswer={refBestAnswer}
             uncollapsed={state.uncollapsed}
+            type={"comments"}
           />
         </div>
 
@@ -482,10 +516,11 @@ const Post = (props) => {
 
         {/* Add Comment Form */}
         {state.showCommentForm &&
-          <div className="comment-form">
+          <div className={`comment-form ${props.userRole !== "student" ? "instructor" : ""}`}>
             <CommentForm
               label={"NEW DISCUSSION"}
               userName={props.userName}
+              userRole={props.userRole}
               onAddComment={addComment}
               onCancelComment={toggleCommentForm}
             />

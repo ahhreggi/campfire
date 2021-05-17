@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 // Temporary props data display for dev testing
@@ -12,8 +13,11 @@ const DevData = (props) => {
   DevData.defaultProps = {
     label: "Props"
   };
+  const [visibility, setVisibility] = useState(true);
+
   return (
-    <div className="DevData">
+    <div className="DevData" style={{ "display": visibility ? "block" : "none" }}>
+      <span className="hide" onClick={() => setVisibility(!visibility)}>{" close "}</span>
       {props.label} data for <span>{props.name}</span>:
       <textarea value={JSON.stringify(props.props, null, 4)} readOnly />
     </div>

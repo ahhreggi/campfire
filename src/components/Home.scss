@@ -1,5 +1,38 @@
 @import "../styles/global.scss";
 
 .Home {
-
+  display: flex;
+  flex-direction: column;
+  .greeting {
+    font-size: 2rem;
+    font-weight: 700;
+    span {
+      color: $orange;
+      font-weight: 900;
+    }
+    .sub {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+  }
+  .panels {
+    // border: 1px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    .Panel {
+      margin: 0 1rem 1rem 0;
+    }
+  }
+  footer {
+    color: $navy-8;
+    a {
+      color: $orange;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
 }

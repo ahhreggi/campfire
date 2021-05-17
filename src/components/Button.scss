@@ -11,6 +11,7 @@ button {
     margin-bottom: 0.1rem;
   }
 
+  &.submit.join,
   &.new-post {
     border-radius: 10px;
     background-color: $navy-5;
@@ -19,10 +20,11 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
+    transition: 0.3s;
     &:hover {
       background-color: $navy-6;
       border: 3px solid $navy-6;
@@ -41,10 +43,11 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
+    transition: 0.3s;
     &:hover {
       background-color: $navy-6;
       border: 3px solid $navy-6;
@@ -71,6 +74,28 @@ button {
       color: $red;
     }
 
+    &.yellow {
+      color: $yellow;
+    }
+
+    &.manage {
+      opacity: 0.9;
+      &.green {
+        background-color: rgba(0, 128, 0, 0.253);
+      }
+      &.red {
+        background-color: rgba(255, 0, 0, 0.233);
+        &.disabled {
+          color: grey;
+          background-color: rgba(255, 255, 255, 0.089);
+          opacity: 1;
+        }
+      }
+      &.yellow {
+        background-color: rgba(255, 187, 0, 0.329);
+      }
+    }
+
     &:hover {
       opacity: 1;
     }
@@ -94,6 +119,9 @@ button {
       opacity: 0.9;
       cursor: pointer;
     }
+    &.post-list-tag {
+      font-size: 0.6rem;
+    }
 
     &.filter,
     &.unselected {
@@ -112,6 +140,44 @@ button {
       opacity: 0.9;
     }
 
+    &.resolved {
+      border-color: $green;
+      color: $green;
+      margin-right: 0.3rem;
+      &.unselected {
+        border-color: $white;
+        color: #00ff629a;
+      }
+    }
+
+    &.unresolved {
+      border-color: $red;
+      color: $red;
+      font-weight: 700;
+      &.unselected {
+        border-color: $white;
+        color: rgba(255, 28, 28, 0.767);
+      }
+    }
+
+  }
+
+  &.tab {
+    border: 1px solid $navy-5;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;;
+    font-size: 0.8rem;
+    background-color: $navy-2;
+    &:hover {
+      background-color: $navy-3;
+    }
+    &.active {
+      background-color: $navy-5;
+    }
   }
 
 }

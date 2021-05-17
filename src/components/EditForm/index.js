@@ -16,6 +16,7 @@ const EditForm = (props) => {
 
     title: PropTypes.string,
     author: PropTypes.string,
+    role: PropTypes.string,
     body: PropTypes.string,
     anonymous: PropTypes.bool,
     tags: PropTypes.array,
@@ -31,18 +32,15 @@ const EditForm = (props) => {
 
   };
 
-  EditForm.defaultProps = {
-    minHeight: "10rem"
-  };
-
   const [state, setState] = useState({
-    previewTitle: props.title,
-    previewBody: props.body,
-    previewAuthor: props.author,
+    previewTitle: props.title ? props.title.trim() : "",
+    previewBody: props.body ? props.body.trim() : "",
+    previewAuthor: props.author ? props.author.trim() : "",
     previewAnonymous: props.anonymous,
     previewTags: props.tags,
     breakBody: false,
     selectionStart: null,
+    errors: null
   });
 
   // Setup reference to text area to facilitate tab support
@@ -65,12 +63,13 @@ const EditForm = (props) => {
     setState({ ...state, breakBody: checkTitle || checkBody });
 
     // If a tab was inserted, update cursor location
-    if (
-      prevBody &&
-      state.previewBody.match(/[\t]/g)?.length > prevBody.match(/[\t]/g)?.length
-    ) {
-      textArea.current.selectionStart = textArea.current.selectionEnd =
-        state.selectionStart + 1;
+    if (prevBody) {
+      const prevTabCount = prevBody.match(/[\t]/g)?.length || 0;
+      const newTabCount = state.previewBody.match(/[\t]/g)?.length;
+      if (newTabCount > prevTabCount) {
+        textArea.current.selectionStart = textArea.current.selectionEnd =
+          state.selectionStart + 1;
+      }
     }
   }, [state.previewBody]);
 
@@ -78,13 +77,31 @@ const EditForm = (props) => {
 
   // Save changes to the post or comment
   const saveEdit = () => {
-    const data = {
-      title: props.mode === "POST" ? state.previewTitle : null,
-      body: state.previewBody,
-      anonymous: state.previewAnonymous,
-      tags: props.mode === "POST" ? state.previewTags.map(tag => tag.id) : null
-    };
-    props.onSave(data);
+    let data;
+    if (props.mode === "POST") {
+      data = {
+        title: state.previewTitle.trim() ? state.previewTitle.trim() : "", // title may not be non-empty
+        body: state.previewBody.trim() ? state.previewBody.trim() : "",
+        anonymous: state.previewAnonymous,
+        tags: state.previewTags.map(tag => tag.id)
+      };
+    } else {
+      data = {
+        body: state.previewBody.trim() ? state.previewBody : "",
+        anonymous: state.previewAnonymous
+      };
+    }
+    // Posts may not have an empty title or body
+    if (props.mode === "POST" && !data.title.trim()) {
+      setState({ ...state, errors: ["Post title may not be empty"]});
+    } else if (props.mode === "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Post body may not be empty"]});
+      // Comments may not have an empty body
+    } else if (props.mode !== "POST" && !data.body.trim()) {
+      setState({ ...state, errors: ["Comment body may not be empty"]});
+    } else {
+      props.onSave(data);
+    }
   };
 
   // Cancel edit
@@ -95,13 +112,23 @@ const EditForm = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
-  const updatePreviewTitle = (event) => {
-    setState({ ...state, previewTitle: event.target.value });
+  const updatePreviewTitle = (event, limit = 40) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewTitle: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview body dynamically as the user types
-  const updatePreviewBody = (event) => {
-    setState({ ...state, previewBody: event.target.value });
+  const updatePreviewBody = (event, limit = 2000) => {
+    const text = event.target.value;
+    if (text.length <= limit) {
+      setState({ ...state, previewBody: text, errors: null });
+    } else {
+      setState({ ...state, errors: [`Maximum character length: ${limit}`]});
+    }
   };
 
   // Update the preview author dynamically as the user toggles anonymous
@@ -176,39 +203,46 @@ const EditForm = (props) => {
   return (
     <div className="EditForm">
 
+      {/* Preview */}
       <Preview
         label={props.label}
         title={state.previewTitle}
         author={state.previewAuthor}
-        isInstructor={props.isInstructor}
+        isInstructor={props.isInstructor || (props.role !== "student")}
         body={state.previewBody}
         breakBody={state.breakBody}
       />
 
+      {/* Title Field */}
       {props.mode === "POST" &&
         <TextForm
           label={"Post Title"}
           text={state.previewTitle}
           onChange={updatePreviewTitle}
+          minHeight={"0"}
         />
       }
 
+      {/* Body Field */}
       <TextForm
         label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
         text={state.previewBody}
-        minHeight={props.minHeight}
+        minHeight={props.minHeight ? props.minHeight : "10rem"}
         onChange={updatePreviewBody}
         onKeyDown={insertTab}
         refs={textArea}
       />
 
-      {!props.isInstructor &&
+      {/* Anonymous Checkbox */}
+      {/* {props.role === "student" && */}
+      {true &&
         <Checkbox
           checked={state.previewAnonymous}
           onChange={updatePreviewAnonymous}
         />
       }
 
+      {/* Tag Form */}
       {props.mode === "POST" &&
         <TagForm
           tags={props.courseTags}
@@ -220,6 +254,13 @@ const EditForm = (props) => {
 
       <hr />
 
+      {/* Errors */}
+      <div className="errors">
+        {state.errors && state.errors.join("")}
+      </div>
+
+
+      {/* Save/Cancel Buttons */}
       <Confirmation
         onConfirm={saveEdit}
         onCancel={props.onCancel ? cancelEdit : null}

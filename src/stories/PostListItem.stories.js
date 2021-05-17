@@ -1,15 +1,15 @@
 import React from 'react';
 
-import PostListItem from '../components/PostListItem';
+import PostListCategoryItem from '../components/PostListCategoryItem';
 
 export default {
-  title: 'PostListItem',
-  component: PostListItem,
+  title: 'PostListCategoryItem',
+  component: PostListCategoryItem,
   argTypes: { onClick: { action: 'Clicked' }},
   decorators: [(Story) => <div style={{ width: '20rem'}}><Story/></div>]
 };
 
-const Template = (args) => <PostListItem {...args} />;
+const Template = (args) => <PostListCategoryItem {...args} />;
 
 export const Primary = Template.bind ({});
 Primary.storyName = 'Default';
