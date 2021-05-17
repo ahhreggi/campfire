@@ -3,7 +3,6 @@
 .CourseListItem {
   border: 3px solid $navy-4;
   background-color: $navy-4;
-  // background: linear-gradient($navy-4, $navy-0);
   border-left-color: $navy-8;
   height: 6rem;
   user-select: none;
@@ -20,11 +19,16 @@
 
   &:hover {
     border-left-width: 3px;
-    // background: linear-gradient($navy-5, $navy-1);
   }
 
   &.instructor {
     border-left-color: $yellow;
+  }
+
+  .owner-name {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    font-weight: 700;
   }
 
   &.archived {

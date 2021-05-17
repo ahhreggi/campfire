@@ -25,53 +25,69 @@ const ManageListItem = (props) => {
     showConfirmation: false
   });
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const toggleConfirmation = () => {
     setState({ showConfirmation: !state.showConfirmation });
   };
 
-  // Convert timestamp into a readable format
-  // TODO: Move to helper file
-  const formatTimestamp = (timestamp, relative) => {
-    if (relative) {
-      return moment(timestamp).subtract(3, "seconds").fromNow();
-    } else {
-      return moment(timestamp).subtract(3, "seconds").format("dddd, MMMM Do, YYYY @ h:mm a");
-    }
-  };
+  // VARIABLES //////////////////////////////////////////////////////
 
   const isEnrolled = props.joinDate;
 
   const joinedString = isEnrolled ? moment(props.joinDate).format("YYYY/MM/DD") : "UNENROLLED";
 
+  const roleString = props.role === "owner" || props.role === "admin" ? props.role + " (instructor)" : props.role;
+
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className={`ManageListItem ${state.showConfirmation ? "center" : ""} ${props.role}`}>
+
+      {/* Default Course List Item */}
       {!state.showConfirmation &&
         <>
+
           <div className="left">
+
+            {/* Role & Timestamp */}
             <div className={`role ${props.role}`}>
-              {props.role === "owner" ? "owner (instructor)" : props.role}
+              {roleString}
               <span className="joined">
                 {joinedString}
               </span>
             </div>
+
+            {/* Course Code/Label */}
             <div className={`code ${props.archived ? "archived" : ""}`}>
               {props.courseCode}
             </div>
+
+            {/* Course Name */}
             <div className="name text-truncate">
               {props.name}
             </div>
+
+            {/* Course Head Instructor (owner) */}
+            <div className="owner-name">
+              {props.ownerName || "Unknown Instructor"}
+            </div>
           </div>
 
+          {/* Controls */}
           <div className="right">
             <div className="buttons">
+
+              {/* View Button */}
               <div className="view-button">
                 <Button
                   text={"VIEW"}
                   styles={"form green manage"}
-                  // may have to change redirect to a course manage page later
                   onClick={() => props.onViewCourse(props.id, null, null, "Dashboard")}
                 />
               </div>
+
+              {/* Manage Button */}
               {props.role === "owner" &&
                 <div className="manage-button">
                   <Button
@@ -82,6 +98,8 @@ const ManageListItem = (props) => {
                   />
                 </div>
               }
+
+              {/* Unenroll Button */}
               {props.role !== "owner" &&
                 <div className="leave-button">
                   <Button
@@ -92,11 +110,14 @@ const ManageListItem = (props) => {
                   />
                 </div>
               }
+
             </div>
           </div>
+
         </>
       }
 
+      {/* Unenrolment confirmation */}
       {state.showConfirmation &&
         <div className="confirmation">
           <Confirmation
@@ -106,9 +127,6 @@ const ManageListItem = (props) => {
           />
         </div>
       }
-
-
-
 
     </div>
   );

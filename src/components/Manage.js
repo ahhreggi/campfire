@@ -46,6 +46,8 @@ const Manage = (props) => {
 
   }, [props.userCourses]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const showCategory = (category) => {
     if (category === "active") {
       setState({ ...state, showActiveCourses: true, showArchivedCourses: false });
@@ -69,14 +71,25 @@ const Manage = (props) => {
       {/* Page Text */}
       <div className="page-text">
         <div>
-          You may unenrol from a course at any time, however please note that any contributions you&apos;ve made will remain unchanged (you can always delete them manually).
+          You may unenrol from a course at any time, however please note that <b>any contributions you&apos;ve made will remain unchanged</b> (you can always delete them manually).
+        </div>
+        <div className="course-owner">
+          If you are the <span>owner</span> of a course you wish to unenrol from, you must first pass ownership to another instructor, or delete the course entirely.
         </div>
         <div className="counters">
-          You are currently enrolled in <span className={`number active ${state.activeCourses.length === 0 ? "disable" : ""}`}>{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
-          {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}</> : ""}.
+          {props.userCourses.length === 0 &&
+            <span className="new">You currently have no course enrolments.</span>
+          }
+          {props.userCourses.length > 0 &&
+            <>
+              You are currently enrolled in <span className={`number active ${state.activeCourses.length === 0 ? "disable" : ""}`}>{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
+              {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}</> : ""}.
+            </>
+          }
         </div>
       </div>
 
+      {/* List Toggler */}
       <div className="tabs">
         <Button
           text="Active Courses"
@@ -90,8 +103,9 @@ const Manage = (props) => {
         />
       </div>
 
-      {/* CourseList */}
+      {/* Course Lists */}
       <div className="user-courses">
+
         {/* Active Courses List */}
         {state.showActiveCourses &&
           <>
@@ -104,10 +118,11 @@ const Manage = (props) => {
               />
             }
             {state.activeCourses.length === 0 &&
-              <div className="empty">You aren&apos;t enrolled in any courses yet!</div>
+              <div className="empty">You have no active courses.</div>
             }
           </>
         }
+
         {/* Archived Courses List */}
         {state.showArchivedCourses &&
           <>
@@ -124,11 +139,12 @@ const Manage = (props) => {
             }
           </>
         }
-      </div>
 
+      </div>
 
       {/* Back to Home */}
       <BackButton onRedirect={props.onRedirect} />
+
     </div>
   );
 };

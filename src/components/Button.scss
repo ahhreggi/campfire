@@ -25,14 +25,17 @@ button {
     opacity: 1;
     text-transform: uppercase;
     transition: 0.3s;
+
     &:hover {
       background-color: $navy-6;
       border: 3px solid $navy-6;
     }
+
     &:active {
       background-color: $navy-5;
       border: 3px solid $navy-5;
     }
+
   }
 
   &.search {
@@ -65,35 +68,35 @@ button {
     border-radius: 5px;
     width: 6rem;
     opacity: 0.8;
+    background-color: rgba(58, 58, 58, 0.301);
 
     &.green {
       color: $green;
+      background-color: rgba(0, 128, 0, 0.253);
     }
 
     &.red {
       color: $red;
+      background-color: rgba(141, 0, 0, 0.253);
     }
 
     &.yellow {
       color: $yellow;
+      background-color: rgba(255, 187, 0, 0.329);
     }
 
     &.manage {
       opacity: 0.9;
-      &.green {
-        background-color: rgba(0, 128, 0, 0.253);
-      }
+
       &.red {
-        background-color: rgba(255, 0, 0, 0.233);
+
         &.disabled {
           color: grey;
           background-color: rgba(255, 255, 255, 0.089);
           opacity: 1;
         }
       }
-      &.yellow {
-        background-color: rgba(255, 187, 0, 0.329);
-      }
+
     }
 
     &:hover {
@@ -144,20 +147,24 @@ button {
       border-color: $green;
       color: $green;
       margin-right: 0.3rem;
+
       &.unselected {
         border-color: $white;
         color: #00ff629a;
       }
+
     }
 
     &.unresolved {
       border-color: $red;
       color: $red;
       font-weight: 700;
+
       &.unselected {
         border-color: $white;
         color: rgba(255, 28, 28, 0.767);
       }
+
     }
 
   }
@@ -172,12 +179,15 @@ button {
     font-weight: 700;;
     font-size: 0.8rem;
     background-color: $navy-2;
+
     &:hover {
       background-color: $navy-3;
     }
+
     &.active {
       background-color: $navy-5;
     }
+
   }
 
 }

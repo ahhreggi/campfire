@@ -4,13 +4,12 @@ import Button from "./Button";
 import BackButton from "./BackButton";
 import "./Join.scss";
 
-import DevData from "./DevData";
-
 const Join = (props) => {
 
   Join.propTypes = {
     onSubmit: PropTypes.func,
     status: PropTypes.string,
+    statusMessage: PropTypes.string,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
   };
@@ -18,34 +17,28 @@ const Join = (props) => {
   const [state, setState] = useState({
     accessCode: "",
     status: props.status,
+    statusMessage: props.status,
     errors: props.errors
   });
 
   useEffect(() => {
-    setState({ ...state, status: props.status });
-  }, [props.status]);
+    setState({ ...state, status: props.status, statusMessage: props.statusMessage });
+  }, [props.status, props.statusMessage]);
 
   useEffect(() => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const handleInputChange = (event, field) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  // Check if a code contains only letters and numbers?
-  const isValidAccessCode = (code) => {
-    return true || code;
-    // return !!(code).match("^[a-zA-Z0-9]+$");
-  };
-
   // Validate input field prior to submitting the data
   const handleSubmit = () => {
-    // TODO: Set specific parameters for an access code?
-    // E.g., X number of digits, numbers and letters only, etc...
-
     const errors = [];
-    if (!state.accessCode || !isValidAccessCode(state.accessCode)) {
+    if (!state.accessCode) {
       errors.push("Please enter a valid access code");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
@@ -59,10 +52,10 @@ const Join = (props) => {
     }
   };
 
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className="Join">
-
-      <DevData name="Join" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
@@ -95,7 +88,7 @@ const Join = (props) => {
         {/* Success/Errors */}
         <div>
           <div className={`messages ${state.status} ${state.errors ? "error" : ""}`}>
-            {state.status && "Course found!"}
+            {state.status && state.statusMessage ? <>Joining&nbsp;<span className="course-name">{state.statusMessage}...</span></> : null}
             {state.errors && state.errors.join("")}
           </div>
         </div>

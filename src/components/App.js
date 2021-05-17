@@ -367,10 +367,18 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-          setState({ ...state, status: "success" });
-          setTimeout(() => {
-            setAppData(courseData, "courseData");
-          }, 1500);
+
+          // If the data contains a message, the user is already enrolled in the course
+          if (courseData.message) {
+            console.log("Already enrolled!");
+            setState({ ...state, errors: ["You are already enrolled in this course"] });
+            // Otherwise, enrol normally
+          } else {
+            setState({ ...state, status: "success", statusMessage: courseData.name });
+            setTimeout(() => {
+              setAppData(courseData, "courseData");
+            }, 1500);
+          }
         } else {
           console.log("❌ joinCourse failed!");
           setState({ ...state, errors: ["Invalid access code"] });
@@ -690,6 +698,7 @@ const App = () => {
                 // Active state
                 active={state.active}
                 status={state.status}
+                statusMessage={state.statusMessage}
                 errors={state.errors}
 
                 // Home view
@@ -731,6 +740,7 @@ const App = () => {
 
           <footer className="app-footer">
             <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
+            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
           </footer>
 
         </>
@@ -741,7 +751,6 @@ const App = () => {
         {/* Dev Data Display */}
         <DevData name="App" props={state} label={"State"} />
       </div>
-      <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
 
 
     </div>

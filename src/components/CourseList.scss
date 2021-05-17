@@ -3,7 +3,7 @@
 .CourseList {
   height: 100%;
   border-radius: 10px 0 0 0;
-  padding: 1rem 0.5rem 0.8rem 1rem;
+  padding: 1rem 0.75rem 0.8rem 1rem;
   background-color: $navy-2;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -47,14 +47,17 @@
       border: 3px solid $navy-0;
       background-color: $navy-0;
       border-radius: 10px 10px 0 0;
+
       &:hover {
         border: 3px solid $navy-0;
         background-color: $navy-0;
       }
+
       &:active {
         border: 3px solid $navy-0;
         background-color: $navy-0;
       }
+
     }
 
     &:not(.empty) {
@@ -62,11 +65,15 @@
     }
 
     &:hover:not(.empty):not(.active) {
+
       .arrows {
+
         img {
           opacity: 0.7;
         }
+
       }
+
     }
 
     &.empty {
@@ -75,13 +82,16 @@
       background-color: $navy-1;
       border-radius: 10px;
       margin-bottom: 0.5rem;
+
       img {
         filter: grayscale(50%);
       }
+
       &:hover {
         border: 3px solid $navy-1;
         background-color: $navy-1;
       }
+
     }
 
   }
@@ -90,10 +100,12 @@
     display: flex;
     justify-content: center;
     margin: 1rem 0 3rem 0;
+
     span {
       font-weight: 700;
       font-size: 0.9rem;
     }
+
   }
 
   .CourseListItem:last-child {

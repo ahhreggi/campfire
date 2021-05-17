@@ -175,7 +175,6 @@
         }
 
         img.not-liked {
-          // opacity: 0.7;
           filter: grayscale(50%);
         }
 
@@ -293,8 +292,6 @@
           font-weight: 700;
           user-select: none;
           margin-left: 1rem;
-          // display: flex;
-          // justify-self: flex-end;
           justify-content: flex-end;
 
           &.active {
@@ -343,12 +340,9 @@
 
         .text {
           flex-grow: 1;
-          // margin-bottom: 1rem;
-
         }
 
         .endorsers {
-          // margin-bottom: 0rem;
           margin-top: 1rem;
           display: flex;
           font-size: 0.8rem;
@@ -389,10 +383,7 @@
             color: $yellow;
           }
 
-
-
         }
-
 
       }
 

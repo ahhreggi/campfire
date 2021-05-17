@@ -35,16 +35,19 @@
       user-select: none;
 
       @keyframes glow {
+
         from {
           color: $white;
           filter: drop-shadow(0px 0px 0px $orange);
           text-shadow: 0px 0px 0px $orange;
         }
+
         to {
           color: rgb(255, 226, 188);
           filter: drop-shadow(0px 0px 3px $orange);
           text-shadow: 0px 0px 3px rgb(255, 72, 0);
         }
+
       }
 
       img {
@@ -55,6 +58,7 @@
     }
 
     .InputField {
+
       input {
         outline: none;
         border: none;
@@ -66,11 +70,14 @@
         box-shadow: 5px 5px 5px rgba(71, 71, 71, 0.527) inset;
         background-color: $white;
         color: $navy-5;
+
         &::placeholder {
           color: $navy-8;
           opacity: 0.5;
         }
+
       }
+
     }
 
     .errors {
@@ -83,7 +90,8 @@
     }
 
 
-    .submit{
+    .submit {
+
       button {
         margin: 0.3rem;
         height: 2.5rem;
@@ -95,13 +103,17 @@
         border: none;
         background-color: $navy-3;
         transition: 0.3s;
+
         &:hover {
           background-color: $navy-5;
         }
+
         &:active {
           background-color: $navy-4;
         }
+
       }
+
     }
 
     .links {
@@ -120,13 +132,14 @@
         font-weight: 900;
         cursor: pointer;
         margin-left: 0.5rem;
+
         &:hover {
           color: $white;
         }
+
       }
+
     }
-
-
 
   }
 }

@@ -8,7 +8,6 @@
 
   .panel {
     box-shadow: -3px -3px 5px $navy-4, 3px 3px 5px $navy-0;
-    // height: 45rem;
     width: 24rem;
     border-radius: 20px;
     display: flex;
@@ -36,16 +35,19 @@
       user-select: none;
 
       @keyframes glow {
+
         from {
           color: $white;
           filter: drop-shadow(0px 0px 0px $orange);
           text-shadow: 0px 0px 0px $orange;
         }
+
         to {
           color: rgb(255, 226, 188);
           filter: drop-shadow(0px 0px 3px $orange);
           text-shadow: 0px 0px 3px rgb(255, 72, 0);
         }
+
       }
 
       img {
@@ -67,11 +69,14 @@
         box-shadow: 5px 5px 5px rgba(71, 71, 71, 0.527) inset;
         background-color: $white;
         color: $navy-5;
+
         &::placeholder {
           color: $navy-8;
           opacity: 0.5;
         }
+
       }
+
     }
 
     .errors {
@@ -96,13 +101,18 @@
         border: none;
         background-color: $navy-3;
         transition: 0.3s;
+
         &:hover {
           background-color: $navy-5;
         }
+
         &:active {
           background-color: $navy-4;
+
         }
+
       }
+
     }
 
     .links {
@@ -122,13 +132,14 @@
         font-weight: 900;
         cursor: pointer;
         margin-left: 0.5rem;
+
         &:hover {
           color: $white;
         }
+
       }
+
     }
-
-
 
   }
 }

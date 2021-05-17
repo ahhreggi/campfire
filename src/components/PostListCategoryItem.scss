@@ -9,23 +9,27 @@
   transition: 0.3s;
 
   &.new:not(.owned) {
+
     header {
+
       .title {
         color: $yellow;
       }
+
     }
+
   }
 
   &.owned {
+
     header {
+
       .title {
         margin-left: 0.2rem;
       }
-    }
-  }
 
-  &.instructor {
-    // color: $yellow;
+    }
+
   }
 
   &:hover,
@@ -36,9 +40,11 @@
 
     header {
       background-color: $navy-6;
+
       .title {
         opacity: 1;
       }
+
     }
 
 
@@ -84,19 +90,22 @@
         font-weight: 700;
         font-size: 0.9rem;
         margin-left: 0.5rem;
+
         img {
           width: 0.75rem;
           margin-bottom: 0rem;
-          // transform: scaleX(-1);
           margin-right: 0.2rem;
+
           &:not(.owned) {
             display: none;
           }
+
         }
 
       }
 
     }
+
     .header-right {
       display: flex;
       justify-content: flex-end;
