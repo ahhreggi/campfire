@@ -154,27 +154,23 @@ code {
     "Courier New", monospace;
   }
 
+// SyntaxHighlighter styling
 pre {
-  display: flex;
-  max-width: 50rem;
-  // border: 1px solid red;
-  padding: 1rem;
-  pre {
-    // border: 1px solid blue;
-    width: 100%;
-    // overflow-x: hidden;
-  }
+  overflow: hidden;
+
   code {
-    // border: 1px solid green;
-    word-break: break-all;
-    overflow-wrap: anywhere;
-    width: 100%;
+    overflow: hidden;
+    font-size: 0.9rem;
+
     span {
       overflow-wrap: anywhere;
       white-space: pre-wrap;
     }
+
   }
+
 }
+
 pre,
 code {
   @include custom-scrollbar;

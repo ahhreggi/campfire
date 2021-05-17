@@ -1,9 +1,10 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable */
+
 // import SyntaxHighlighter from "react-syntax-highlighter";
 // import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default {
   code({ node, inline, className, children, ...props }) {
@@ -12,21 +13,16 @@ export default {
     console.log("match", match);
     return !inline && match ? (
       <SyntaxHighlighter
-        style={okaidia}
+        style={dracula}
         customStyle={{
-          "backgroundColor": "#06060f",
-          // "border-radius": "15px",
+          "backgroundColor": "#06060fb6",
+          "border-radius": "15px",
+          "overflow": "hidden",
           "padding": "1rem",
-          // "maxWidth": "50rem",
-          // "overflow": "scroll",
-          "display": "flex",
-          "whiteSpace": "pre-wrap",
-          "wordBreak": "break-all"
+          "margin": "0"
         }}
-        // wrapLines={true}
-        // wrapLongLines={true}
         language={match[1]}
-        // showLineNumbers={true}
+        showLineNumbers={false}
         {...props}
       >
         {String(children).replace(/\n$/, "")}
