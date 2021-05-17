@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import BackButton from "./BackButton";
+import ManageList from "./ManageList";
 import "./Manage.scss";
 
 const Manage = (props) => {
