@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
+import BackButton from "./BackButton";
 import "./Join.scss";
 
 import DevData from "./DevData";
@@ -61,7 +62,7 @@ const Join = (props) => {
 
       {/* Page Title */}
       <div className="page-title">
-        Join Page
+        Join an existing course
       </div>
 
       {/* Errors */}
@@ -89,6 +90,9 @@ const Join = (props) => {
           onClick={handleSubmit}
         />
       </div>
+
+      {/* Back to Home */}
+      <BackButton onRedirect={props.onRedirect} />
 
     </div>
   );
