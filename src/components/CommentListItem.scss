@@ -11,6 +11,12 @@
   border-left: 2px solid $navy-6;
   border-radius: 15px;
   word-break: initial;
+  border-width: 2px;
+
+  .best-ref {
+    position: relative;
+    bottom: 3vh;
+  }
 
   &:last-child {
     margin-bottom: 1rem;
@@ -32,7 +38,6 @@
 
     .EditForm {
       background-color: $navy-1;
-      margin-bottom: 1rem;
     }
 
     &.highlight-instructor {
@@ -72,7 +77,11 @@
 
     &.highlight-delete {
       border: 2px solid $red;
-      background-color: $navy-0;
+
+      &.highlight-author {
+        border-color: $red;
+      }
+
     }
 
   }
@@ -110,7 +119,7 @@
       border-left-color: $white;
 
       &.highlight-instructor {
-        border-color: $yellow;
+        border-left-color: $yellow;
       }
 
     }
@@ -126,7 +135,11 @@
 
     &.highlight-delete {
       border: 2px solid $red;
-      background-color: $navy-1;
+
+      &.highlight-author {
+        border-color: $red;
+      }
+
     }
 
   }
@@ -188,7 +201,7 @@
       margin-right: 1rem;
 
       .avatar {
-        margin: 0.2rem 0 0.3rem 0;
+        margin: 0rem 0 0.3rem 0;
 
         img {
           width: 5rem;
@@ -260,12 +273,13 @@
         justify-content: space-between;
         align-items: center;
         height: 2rem;
-        min-width: 28rem;
+        min-width: 24rem;
         padding-bottom: 0.9rem;
 
         .comment-author {
           font-weight: 700;
           font-size: 0.9rem;
+          max-width: 20rem;
 
           img.author-badge {
             width: 0.8rem;
@@ -278,14 +292,21 @@
         .label {
           font-weight: 700;
           user-select: none;
+          margin-left: 1rem;
+          // display: flex;
+          // justify-self: flex-end;
+          justify-content: flex-end;
 
           &.active {
-            cursor: pointer;
+            cursor: initial;
           }
 
           &.unselected {
+            width: 16.8rem;
             filter: grayscale(100%);
             opacity: 0.3;
+            display: flex;
+
             &:hover {
               filter: grayscale(30%);
               opacity: 0.5;
@@ -295,10 +316,12 @@
 
           &.selected {
             opacity: 1;
+            width: 10.8rem;
+            display: flex;
           }
 
           img {
-            width: 1.2rem;
+            width: 1.1rem;
             margin: 0 0.5rem 0.3rem 0;
           }
 
@@ -336,7 +359,7 @@
             margin-right: 0.5rem;
           }
 
-          .names {
+          .endorser-name {
             color: $yellow;
           }
 
@@ -349,7 +372,7 @@
         justify-content: space-between;
         border-top: 1px solid $navy-7;
         padding-top: 0.5rem;
-        min-height: 2.5rem;
+        height: 2.5rem;
 
         .timestamp {
           font-size: 0.8rem;
@@ -358,6 +381,15 @@
           .modified {
             font-style: italic;
           }
+
+          .student {
+            color: rgb(163, 165, 197);
+          }
+          .instructor {
+            color: $yellow;
+          }
+
+
 
         }
 

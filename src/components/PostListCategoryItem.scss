@@ -1,12 +1,32 @@
 @import "../styles/global.scss";
 
-.PostListItem {
+.PostListCategoryItem {
   border: 3px solid $navy-5;
   background-color: $navy-2;
   height: 6rem;
   user-select: none;
   border-radius: 10px;
-  // margin: 0rem 0;
+  transition: 0.3s;
+
+  &.new:not(.owned) {
+    header {
+      .title {
+        color: $yellow;
+      }
+    }
+  }
+
+  &.owned {
+    header {
+      .title {
+        margin-left: 0.2rem;
+      }
+    }
+  }
+
+  &.instructor {
+    // color: $yellow;
+  }
 
   &:hover,
   &.selected {
@@ -46,7 +66,6 @@
     align-items: center;
     background-color: $navy-5;
     height: 2rem;
-    // border-radius: 0.37rem 0.37rem 0 0;
     box-sizing: border-box;
 
     .header-left {
@@ -65,6 +84,15 @@
         font-weight: 700;
         font-size: 0.9rem;
         margin-left: 0.5rem;
+        img {
+          width: 0.75rem;
+          margin-bottom: 0rem;
+          // transform: scaleX(-1);
+          margin-right: 0.2rem;
+          &:not(.owned) {
+            display: none;
+          }
+        }
 
       }
 
@@ -84,6 +112,7 @@
     overflow: hidden;
     color: $navy-8;
     font-size: 0.8rem;
+    height: 1.7rem;
   }
 
   footer {
@@ -98,7 +127,7 @@
     }
 
     .counters {
-      margin-top: 0.5rem;
+      margin-top: 0.66rem;
       margin-right: 0.5rem;
       font-size: 0.8rem;
       color: $white;
@@ -106,11 +135,11 @@
       margin-bottom: 0.6rem;
 
       img {
-        margin-bottom: 0.1rem;
+        margin-bottom: 0.15rem;
       }
 
       .views {
-        margin-right: 1rem;
+        margin-right: 0.5rem;
       }
 
     }

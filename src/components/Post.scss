@@ -18,17 +18,31 @@
     font-size: 1.2rem;
     border-radius: 15px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     border: 2px solid $green;
-    padding: 1rem;
+    padding: 1rem 1rem;
+    margin-bottom: 1.5rem;
+    user-select: none;
+
+    .header {
+      margin: 0rem 1.1rem 0rem 0;
+      margin-right: 1.1rem;
+    }
 
     img {
       margin-right: 0.5rem;
     }
 
+    .resolution-refs {
+      display: flex;
+      flex-wrap: nowrap;
+      // margin-bottom: 1rem;
+    }
+
     .link {
       margin-bottom: 0.2rem;
-      margin-left: 1.1rem;
+      // margin-left: 1.1rem;
       margin-right: 0.5rem;
       cursor: pointer;
       img.arrow {
@@ -100,8 +114,8 @@
       font-size: 1.2rem;
       font-weight: 700;
       color: $white;
-      margin-right: 0.5rem;
       user-select: none;
+      cursor: initial;
 
       img {
         width: 1.5rem;
@@ -129,6 +143,19 @@
     .author {
       font-weight: 700;
       color: $orange;
+
+      &.instructor {
+        color: $yellow;
+      }
+
+    }
+
+    .edited {
+      color: $navy-8;
+      font-style: italic;
+      .instructor {
+        color: $yellow;
+      }
     }
 
     .modified {
@@ -210,6 +237,11 @@
         .reply-controls {
           display: flex;
           flex-direction: row;
+          height: 1.6rem;
+
+          img {
+            padding-bottom: 0.1rem;
+          }
 
         }
 
@@ -219,7 +251,6 @@
           margin-right: 0.3rem;
           margin-bottom: 0.1rem;
           opacity: 0.9;
-
         }
 
         .replies-present {
@@ -305,6 +336,14 @@
 
     }
 
+  }
+
+  .comment-form {
+    &.instructor {
+      span.name {
+        color: $yellow;
+      }
+    }
   }
 
   .reply-form {

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CommentListItem from "./CommentListItem";
 import "./CommentList.scss";
@@ -16,19 +15,11 @@ const CommentList = (props) => {
     postAuthorID: PropTypes.number,
     userName: PropTypes.string,
     userID: PropTypes.number,
+    userRole: PropTypes.string,
     refBestAnswer: PropTypes.object,
-    uncollapsed: PropTypes.array
+    uncollapsed: PropTypes.array,
+    type: PropTypes.string // Post uses "comments", CommentListItem uses type replies
   };
-
-  // Watch for post uncollapsed state changes
-  const [state, setState] = useState({
-    uncollapsed: props.uncollapsed
-  });
-
-  // When uncollapsed changes, update state
-  useEffect(() => {
-    setState({ uncollapsed: props.uncollapsed });
-  }, [props.uncollapsed]);
 
   // Sort an array of comments
   const sortComments = (comments, byMostRecent = true) => {
@@ -45,43 +36,98 @@ const CommentList = (props) => {
     // const sortedComments = sortComments(props.comments, true); // most recent -> oldest
     let sortedComments = sortComments(comments, false); // oldest -> most recent
 
-    return sortedComments.map(comment => {
-      return (
-        <CommentListItem
-          key={comment.id}
-          id={comment.id}
-          parentID={comment.parent_id}
-          anonymous={comment.anonymous}
-          authorFirstName={comment.author_first_name}
-          authorLastName={comment.author_last_name}
-          authorRole={comment.role}
-          avatarID={comment.author_avatar_id}
-          body={comment.body}
-          score={comment.score}
-          createdAt={comment.created_at}
-          lastModified={comment.last_modified}
-          liked={comment.liked}
-          endorsed={comment.endorsed}
-          editable={comment.editable}
-          endorsable={comment.endorsable}
-          endorsements={comment.endorsements}
-          replies={comment.replies}
-          onAddComment={props.onAddComment}
-          onLikeComment={props.onLikeComment}
-          onEditComment={props.onEditComment}
-          onDeleteComment={props.onDeleteComment}
-          bestAnswer={props.bestAnswer}
-          onEditBestAnswer={props.onEditBestAnswer}
-          postAuthorID={props.postAuthorID}
-          commentAuthorID={comment.author_id}
-          userName={props.userName}
-          userID={props.userID}
-          refBestAnswer={props.refBestAnswer}
-          uncollapsed={state.uncollapsed}
-          showReplyList={state.uncollapsed.includes(comment.id)}
-        />
-      );
-    });
+    // Check if it's an array of comments or an array of replies
+    const isComments = props.type === "comments";
+
+    if (isComments) {
+      return sortedComments.map(comment => {
+        return (
+          <CommentListItem
+
+            key={comment.id}
+            id={comment.id}
+            anonymous={comment.anonymous}
+            authorFirstName={comment.author_first_name}
+            authorLastName={comment.author_last_name}
+            commentAuthorID={comment.author_id}
+            avatarID={comment.author_avatar_id}
+            parentID={null} // always null for comments
+            authorRole={comment.role}
+            body={comment.body}
+            score={comment.score}
+            createdAt={comment.created_at}
+            lastModified={comment.last_modified}
+            liked={comment.liked}
+            endorsed={comment.endorsed}
+            editable={comment.editable}
+            endorsable={comment.endorsable}
+            endorsements={comment.endorsements}
+            edits={comment.edits}
+            replies={comment.replies}
+
+            onAddComment={props.onAddComment}
+            onLikeComment={props.onLikeComment}
+            onEditComment={props.onEditComment}
+            onDeleteComment={props.onDeleteComment}
+            bestAnswer={props.bestAnswer}
+            onEditBestAnswer={props.onEditBestAnswer}
+            postAuthorID={props.postAuthorID}
+
+            userName={props.userName}
+            userRole={props.userRole}
+            userID={props.userID}
+            refBestAnswer={props.refBestAnswer}
+            uncollapsed={props.uncollapsed}
+            showReplyList={props.uncollapsed.length && props.uncollapsed.includes(comment.id) ? true : false}
+
+          />
+        );
+      });
+    } else if (props.type === "replies") {
+      return sortedComments.map(reply => {
+        return (
+          <CommentListItem
+
+            key={reply.id}
+            id={reply.id}
+            parentID={reply.parent_id} // always present for replies
+            anonymous={reply.anonymous}
+            authorFirstName={reply.author_first_name}
+            authorLastName={reply.author_last_name}
+            commentAuthorID={reply.author_id}
+            avatarID={reply.author_avatar_id}
+            authorRole={reply.role}
+            body={reply.body}
+            score={reply.score}
+            createdAt={reply.created_at}
+            lastModified={reply.last_modified}
+            liked={reply.liked}
+            endorsed={reply.endorsements.length > 0} // replies aren't given an endorsed prop
+            editable={reply.editable}
+            endorsable={reply.endorsable}
+            endorsements={reply.endorsements}
+            edits={reply.edits}
+            replies={null} // replies have no further replies
+
+            onAddComment={props.onAddComment}
+            onLikeComment={props.onLikeComment}
+            onEditComment={props.onEditComment}
+            onDeleteComment={props.onDeleteComment}
+            bestAnswer={props.bestAnswer}
+            onEditBestAnswer={props.onEditBestAnswer}
+            postAuthorID={props.postAuthorID}
+
+            userName={props.userName}
+            userRole={props.userRole}
+            userID={props.userID}
+            refBestAnswer={props.refBestAnswer}
+            uncollapsed={props.uncollapsed}
+            showReplyList={props.uncollapsed.length && props.uncollapsed.includes(reply.id) ? true : false}
+
+          />
+        );
+      });
+    }
 
   };
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import TextForm from "./EditForm/TextForm";
+import InputField from "./InputField";
 import Button from "./Button";
 import "./Login.scss";
 
-import DevData from "./DevData";
+// import DevData from "./DevData";
 
 const Login = (props) => {
 
@@ -15,8 +15,10 @@ const Login = (props) => {
   };
 
   const [state, setState] = useState({
-    email: "hello1@campfire.ca", // should be null by default
-    password: "campfire", // should be null by default
+    // email: "",
+    // password: "",
+    email: "hello5@campfire.ca",
+    password: "campfire",
     errors: props.errors
   });
 
@@ -28,65 +30,89 @@ const Login = (props) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
+  // Validate registration fields prior to submitting the data
   const handleSubmit = () => {
-    const data = {
-      email: state.email,
-      password: state.password
-    };
-    props.onSubmit(data);
+    const errors = [];
+    if (!state.email || !state.password) {
+      errors.push("Invalid username/password");
+    }
+    // If there are any errors, display them to the user, otherwise submit
+    if (errors.length) {
+      setState({ ...state, errors: errors });
+    } else {
+      const data = {
+        email: state.email,
+        password: state.password
+      };
+      props.onSubmit(data);
+    }
   };
 
   return (
     <div className="Login">
 
-      <DevData name="Login" props={props} />
+      {/* <DevData name="Login" props={props} /> */}
 
-      {/* Page Title */}
-      <div className="page-title">
-        Login Page
-      </div>
+      <div className="panel">
 
-      {/* Errors */}
-      {state.errors && state.errors.length > 0 &&
-        <div className="errors">
-          {state.errors.join("")}
+        {/* Campfire */}
+        <a
+          className="header"
+          href="https://github.com/ahhreggi/campfire"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="page-title">
+            Campfire
+            <img className="glow" src="./images/campfire.png" alt="Campfire" />
+          </div>
+        </a>
+
+        <form>
+
+          {/* Email */}
+          <InputField
+            value={state.email}
+            placeholder={"hello@campfire.ca"}
+            onChange={(event) => handleInputChange(event, "email")}
+          />
+
+          {/* Password */}
+          <InputField
+            value={state.password}
+            placeholder={"********"}
+            type="password"
+            onChange={(event) => handleInputChange(event, "password")}
+          />
+
+          {/* Errors */}
+          <div className="errors">
+            {state.errors && state.errors.join("")}
+          </div>
+
+          {/* Submit */}
+          <div className="submit">
+            <Button
+              type="submit"
+              text="Login"
+              onClick={handleSubmit}
+            />
+          </div>
+
+        </form>
+
+        {/* Links */}
+        <div className="links">
+          <div className="register">
+            <div>
+              New to Campfire?
+              <span onClick={() => props.onRedirect("Register")}>
+                SIGN UP
+              </span>
+            </div>
+          </div>
         </div>
-      }
-
-      {/* Form Fields */}
-      <div className="form-fields">
-
-        <TextForm
-          label={"E-mail"}
-          text={state.email}
-          onChange={(event) => handleInputChange(event, "email")}
-        />
-
-        <TextForm
-          label={"Password"}
-          text={state.password}
-          onChange={(event) => handleInputChange(event, "password")}
-        />
       </div>
-
-      {/* Submit Button */}
-      <div className="submit">
-        <Button
-          text="Login"
-          styles="submit login"
-          onClick={handleSubmit}
-        />
-      </div>
-
-      {/* Register Button */}
-      <div className="register-link">
-        <Button
-          text="Go to Register"
-          onClick={() => props.onRedirect("Register")}
-        />
-      </div>
-
-
 
     </div>
   );

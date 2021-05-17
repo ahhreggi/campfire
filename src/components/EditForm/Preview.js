@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
 import remarkHighlight from "remark-highlight.js";
@@ -19,8 +20,16 @@ const Preview = (props) => {
     label: "PREVIEW"
   };
 
+  const [breakBody, setBreakBody] = useState(props.breakBody);
+
+  useEffect(() => {
+    setBreakBody(props.breakBody);
+  }, [props.breakBody]);
+
+  const isPost = props.label.includes("POST");
+
   return (
-    <div className={`Preview ${props.breakBody ? "break" : ""}`}>
+    <div className={`Preview ${breakBody ? "break" : ""}`}>
 
       <div className="label">
         {props.label}
@@ -34,17 +43,17 @@ const Preview = (props) => {
           </div>
         }
 
-        {props.title &&
-          <div className="title">
+        {isPost &&
+          <div className="title break">
             {props.title}
           </div>
         }
 
-        {props.body &&
-          <div className="body">
-            <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
-          </div>
-        }
+        
+        <div className="body">
+          <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
+        </div>
+        
 
       </div>
 

@@ -11,6 +11,7 @@ button {
     margin-bottom: 0.1rem;
   }
 
+  &.submit.join,
   &.new-post {
     border-radius: 10px;
     background-color: $navy-5;
@@ -19,10 +20,11 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
+    transition: 0.3s;
     &:hover {
       background-color: $navy-6;
       border: 3px solid $navy-6;
@@ -41,10 +43,11 @@ button {
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 9rem;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
+    transition: 0.3s;
     &:hover {
       background-color: $navy-6;
       border: 3px solid $navy-6;
@@ -94,6 +97,9 @@ button {
       opacity: 0.9;
       cursor: pointer;
     }
+    &.post-list-tag {
+      font-size: 0.6rem;
+    }
 
     &.filter,
     &.unselected {
@@ -110,6 +116,26 @@ button {
       border-color: $orange;
       color: $orange;
       opacity: 0.9;
+    }
+
+    &.resolved {
+      border-color: $green;
+      color: $green;
+      margin-right: 0.3rem;
+      &.unselected {
+        border-color: $white;
+        color: #00ff629a;
+      }
+    }
+
+    &.unresolved {
+      border-color: $red;
+      color: $red;
+      font-weight: 700;
+      &.unselected {
+        border-color: $white;
+        color: rgba(255, 28, 28, 0.767);
+      }
     }
 
   }

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkHighlight from "remark-highlight.js";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
@@ -43,6 +43,7 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
 
     endorsements: PropTypes.array,
+    edits: PropTypes.array,
     replies: PropTypes.array,
 
     onLikeComment: PropTypes.func,
@@ -59,6 +60,7 @@ const CommentListItem = (props) => {
 
     userName: PropTypes.string,
     userID: PropTypes.number,
+    userRole: PropTypes.string,
 
     refBestAnswer: PropTypes.object,
 
@@ -97,6 +99,7 @@ const CommentListItem = (props) => {
   // Toggle and reset the new reply form
   const toggleReplyForm = () => {
     if (!state.showReplyForm) {
+      scrollToReplyForm();
       setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
     } else {
       setState({ ...state, showReplyForm: false });
@@ -126,7 +129,10 @@ const CommentListItem = (props) => {
 
   // Save the comment changes
   const saveComment = (data) => {
-    props.onEditComment(props.id, data);
+    // Check that changes were actually made
+    if (props.body !== data.body) {
+      props.onEditComment(props.id, data);
+    }
     // Hide edit form
     toggleForm();
   };
@@ -140,7 +146,7 @@ const CommentListItem = (props) => {
 
   // Set the comment as the post's best answer
   const setBestAnswer = () => {
-    props.onEditBestAnswer(state.commentID);
+    props.onEditBestAnswer(props.id);
   };
 
   // Add a reply
@@ -153,6 +159,7 @@ const CommentListItem = (props) => {
     props.onAddComment(newReplyData);
     // Hide reply form
     setState({ ...state, showReplyForm: false, showReplyList: true });
+    scrollToReplyForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -219,18 +226,33 @@ const CommentListItem = (props) => {
   // Get the author role to display
   const authorRole = getAuthorRole(props.authorRole, false);
 
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<span className="modified">{timestamp} (edited {relativeTimestamp}{props.commentAuthorID !== editor.user_id && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map((endorsement, index) => {
+    return (<span key={endorsement.id}><span className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </span>);
+  }) : "";
 
   // Check if the comment is by the current user
   const userIsCommentAuthor = props.userID === props.commentAuthorID;
 
   // Check if the post is by the current user
   const userIsPostAuthor = props.userID === props.postAuthorID;
+
+  // const userIsInstructor = props.userRole !== "student";
 
   // Get class names
   const classes = classNames({
@@ -245,10 +267,20 @@ const CommentListItem = (props) => {
     "break-body": Math.max(...props.body.split(" ").map(word => word.length)) > 100
   });
 
+  // Scroll to reply form
+  const refReplyForm = useRef();
+  const scrollToReplyForm = () => {
+    setTimeout(() => {
+      refReplyForm.current.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
+
   ///////////////////////////////////////////////////////////////////
 
   return (
-    <div ref={isBestAnswer ? props.refBestAnswer : null} className={classes}>
+    <div className={classes}>
+
+      <div className="best-ref" ref={isBestAnswer ? props.refBestAnswer : null}></div>
 
       {/* Top-level Comment */}
       <div className="top">
@@ -301,7 +333,7 @@ const CommentListItem = (props) => {
               <header>
 
                 {/* Author */}
-                <div className="comment-author">
+                <div className="comment-author text-truncate">
                   {authorName}
                   {isPostAuthor &&
                     <>
@@ -312,15 +344,17 @@ const CommentListItem = (props) => {
 
                 {/* Best Answer Label */}
                 {isBestAnswer &&
-                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor ? setBestAnswer : null}>
-                    <img src={checkmark} alt="checkmark" />
-                    <span>BEST ANSWER</span>
+                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor && !props.bestAnswer ? setBestAnswer : null}>
+                    <div>
+                      <img src={checkmark} alt="checkmark" />
+                      <span>BEST ANSWER</span>
+                    </div>
                   </div>
                 }
 
                 {/* Select Best Answer Label */}
-                {props.bestAnswer !== props.id && userIsPostAuthor &&
-                  <div className="label unselected" onClick={setBestAnswer}>
+                {!props.bestAnswer && props.bestAnswer !== props.id && userIsPostAuthor &&
+                  <div className="label unselected" onClick={!props.bestAnswer ? setBestAnswer : null}>
                     <span>SELECT AS BEST ANSWER</span>
                   </div>
                 }
@@ -358,7 +392,8 @@ const CommentListItem = (props) => {
                 label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
-                isInstructor={isInstructor}
+                role={props.authorRole}
+                isInstructor={props.authorRole !== "student"}
                 body={props.body}
                 anonymous={props.anonymous}
                 mode={"COMMENT"}
@@ -372,9 +407,10 @@ const CommentListItem = (props) => {
           {/* Comment Footer */}
           <footer>
 
+
             {/* Timestamp */}
-            <div className="timestamp">
-              {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            <div className="timestamp text-truncate">
+              {timestampElement}
             </div>
 
             {/* Comment Edit Controls */}
@@ -446,11 +482,14 @@ const CommentListItem = (props) => {
       {isParent && !state.showConfirmation &&
         <>
           <div className="discussion-label replies-label">
-            <span className="reply-controls">
+            <span className="reply-controls first">
 
               {/* Add Reply Button */}
-              {!state.showReplyList &&
-                <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+              {true &&
+                <span
+                  className={`reply ${state.showReplyForm ? "reply-active" : ""}`}
+                  onClick={state.showReplyList && state.showReplyForm ? () => scrollToReplyForm() : toggleReplyForm}
+                >
                   <img
                     src={reply}
                     alt="reply"
@@ -487,6 +526,24 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
+      {/* { REPLY
+            "id": 4,
+            "parent_id": 2,
+            "anonymous": false,
+            "author_first_name": "Gresham",
+            "author_last_name": "Barlow",
+            "author_avatar_id": 10,
+            "body": "Thanks for this!!",
+            "score": 0,
+            "created_at": "2021-05-15T17:58:39.671Z",
+            "last_modified": "2021-05-15T17:58:39.671Z",
+            "role": "student",
+            "user_id": 9,
+            "editable": false,
+            "endorsable": false,
+            "liked": false,
+            "endorsements": []
+      } */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
           <CommentList
@@ -501,12 +558,13 @@ const CommentListItem = (props) => {
             userID={props.userID}
             refBestAnswer={props.refBestAnswer}
             uncollapsed={props.uncollapsed}
+            type={"replies"}
           />
         </section>
       }
 
       {/* Secondary Reply Form Toggler */}
-      {isParent && !state.showConfirmation && state.showReplyList &&
+      {isParent && !state.showConfirmation && state.showReplyList && props.replies.length > 0 &&
         <>
           <div className="discussion-label replies-label">
             <span className="reply-controls reply-second">
@@ -521,7 +579,7 @@ const CommentListItem = (props) => {
               </span>
 
               {/* Show/Hide Replies */}
-              {props.replies.length > 1 &&
+              {props.replies.length > 0 && state.showReplyList &&
                 <div className={`replies-present reply-second ${state.showReplyList ? "replies-active" : ""}`} onClick={toggleReplyList}>
                   <span className="toggle-item comments">
                     <img src={comment} alt="comments" />
@@ -536,16 +594,21 @@ const CommentListItem = (props) => {
         </>
       }
 
+      <div className="ref" ref={refReplyForm}></div>
+
       {/* Add Reply Form */}
       {isParent && state.showReplyForm &&
-        <div className="reply-form">
-          <CommentForm
-            label={"NEW REPLY"}
-            userName={props.userName}
-            onAddComment={addReply}
-            onCancelComment={toggleReplyForm}
-          />
-        </div>
+        <>
+          <div className="reply-form">
+            <CommentForm
+              label={"NEW REPLY"}
+              userName={props.userName}
+              userRole={props.userRole}
+              onAddComment={addReply}
+              onCancelComment={toggleReplyForm}
+            />
+          </div>
+        </>
       }
 
     </div>
