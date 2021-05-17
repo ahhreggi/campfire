@@ -1,5 +1,4 @@
 import ReactMarkdown from "react-markdown";
-import remarkHighlight from "remark-highlight.js";
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
@@ -18,7 +17,7 @@ import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
 import comment from "../images/icons/comment.png";
 import "./CommentListItem.scss";
-import "../styles/syntaxHighlighting.scss";
+import CodeSyntax from "./CodeSyntax";
 
 const CommentListItem = (props) => {
 
@@ -366,7 +365,9 @@ const CommentListItem = (props) => {
 
                 {/* Comment Text */}
                 <div className="text">
-                  <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
+                  <ReactMarkdown components={CodeSyntax}>
+                    {props.body}
+                  </ReactMarkdown>
                 </div>
 
                 {/* Comment Endorsers */}

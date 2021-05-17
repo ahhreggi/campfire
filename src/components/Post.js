@@ -18,6 +18,7 @@ import "./Post.scss";
 import EditForm from "./EditForm";
 import Confirmation from "./Confirmation";
 import ReactMarkdown from "react-markdown";
+import CodeSyntax from "./CodeSyntax";
 
 import DevData from "./DevData";
 
@@ -391,7 +392,9 @@ const Post = (props) => {
 
         {/* Post Body */}
         <div className={`post-body ${breakBody && "break"}`}>
-          <ReactMarkdown>{props.body}</ReactMarkdown>
+          <ReactMarkdown components={CodeSyntax}>
+            {props.body}
+          </ReactMarkdown>
         </div>
 
       </div>

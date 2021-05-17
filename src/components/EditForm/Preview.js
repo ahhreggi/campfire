@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
-import remarkHighlight from "remark-highlight.js";
 import "./Preview.scss";
-import "../../styles/syntaxHighlighting.scss";
+import CodeSyntax from "../CodeSyntax";
 
 const Preview = (props) => {
 
@@ -50,7 +49,9 @@ const Preview = (props) => {
         }
 
         <div className="body">
-          <ReactMarkdown remarkPlugins={[remarkHighlight]}>{props.body}</ReactMarkdown>
+          <ReactMarkdown components={CodeSyntax}>
+            {props.body}
+          </ReactMarkdown>
         </div>
 
       </div>
