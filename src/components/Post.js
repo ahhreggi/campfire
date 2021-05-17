@@ -251,6 +251,13 @@ const Post = (props) => {
     }
   };
 
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    if (text) {
+      return Math.max(...text.split(" ").map(word => word.length));
+    }
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -265,6 +272,9 @@ const Post = (props) => {
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
   const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+
+  // Check if word break is needed for the body
+  const breakBody = getLongestWordLength(props.body) > 30;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -363,7 +373,7 @@ const Post = (props) => {
         <hr />
 
         {/* Post Body */}
-        <div className={`post-body ${state.breakBody && "break"}`}>
+        <div className={`post-body ${breakBody && "break"}`}>
           {props.body}
         </div>
 
