@@ -87,7 +87,7 @@
         img {
           width: 0.75rem;
           margin-bottom: 0.2rem;
-          transform: scaleX(-1);
+          // transform: scaleX(-1);
           margin-right: 0.2rem;
           &:not(.owned) {
             display: none;
