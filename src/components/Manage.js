@@ -46,6 +46,8 @@ const Manage = (props) => {
 
   }, [props.userCourses]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const showCategory = (category) => {
     if (category === "active") {
       setState({ ...state, showActiveCourses: true, showArchivedCourses: false });
@@ -87,6 +89,7 @@ const Manage = (props) => {
         </div>
       </div>
 
+      {/* List Toggler */}
       <div className="tabs">
         <Button
           text="Active Courses"
@@ -100,8 +103,9 @@ const Manage = (props) => {
         />
       </div>
 
-      {/* CourseList */}
+      {/* Course Lists */}
       <div className="user-courses">
+
         {/* Active Courses List */}
         {state.showActiveCourses &&
           <>
@@ -118,6 +122,7 @@ const Manage = (props) => {
             }
           </>
         }
+
         {/* Archived Courses List */}
         {state.showArchivedCourses &&
           <>
@@ -134,11 +139,12 @@ const Manage = (props) => {
             }
           </>
         }
-      </div>
 
+      </div>
 
       {/* Back to Home */}
       <BackButton onRedirect={props.onRedirect} />
+
     </div>
   );
 };
