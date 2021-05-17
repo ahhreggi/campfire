@@ -108,7 +108,11 @@
 
     &.success {
       color: $green;
+      .course-name {
+        font-weight: 700;
+      }
     }
+
 
   }
 

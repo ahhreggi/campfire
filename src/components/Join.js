@@ -11,6 +11,7 @@ const Join = (props) => {
   Join.propTypes = {
     onSubmit: PropTypes.func,
     status: PropTypes.string,
+    statusMessage: PropTypes.string,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
   };
@@ -18,12 +19,13 @@ const Join = (props) => {
   const [state, setState] = useState({
     accessCode: "",
     status: props.status,
+    statusMessage: props.status,
     errors: props.errors
   });
 
   useEffect(() => {
-    setState({ ...state, status: props.status });
-  }, [props.status]);
+    setState({ ...state, status: props.status, statusMessage: props.statusMessage });
+  }, [props.status, props.statusMessage]);
 
   useEffect(() => {
     setState({ ...state, errors: props.errors });
@@ -95,7 +97,7 @@ const Join = (props) => {
         {/* Success/Errors */}
         <div>
           <div className={`messages ${state.status} ${state.errors ? "error" : ""}`}>
-            {state.status && "Course found!"}
+            {state.status && state.statusMessage ? <>Joining&nbsp;<span className="course-name">{state.statusMessage}</span></> : null}
             {state.errors && state.errors.join("")}
           </div>
         </div>

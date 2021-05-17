@@ -19,6 +19,7 @@ const Main = (props) => {
     // Active state
     active: PropTypes.string,
     status: PropTypes.string,
+    statusMessage: PropTypes.string,
     errors: PropTypes.array,
     // Home view
     userData: PropTypes.object,
@@ -108,6 +109,7 @@ const Main = (props) => {
         <Join
           onSubmit={props.onJoinCourse}
           status={props.status}
+          statusMessage={props.statusMessage}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
