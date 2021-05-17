@@ -11,7 +11,10 @@ const Confirmation = (props) => {
     useSubmit: PropTypes.bool
   };
 
-  const confirmText = props.message ? "DELETE" : props.useSubmit ? "SUBMIT" : "SAVE";
+  let confirmText = props.message ? "DELETE" : props.useSubmit ? "SUBMIT" : "SAVE";
+  if (props.message.includes("unenroll")) {
+    confirmText = "UNENROLL";
+  }
   const confirmStyles = props.message ? "red" : "green";
   const cancelStyles = props.message ? "white" : "red";
 
