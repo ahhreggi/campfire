@@ -112,6 +112,11 @@ body {
     opacity: 1;
   }
 
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
   .icon-small,
   .icon-med,
   .icon-large {
@@ -165,6 +170,9 @@ pre {
     span {
       overflow-wrap: anywhere;
       white-space: pre-wrap;
+      &.token {
+        color: $orange-lighter;
+      }
     }
 
   }
