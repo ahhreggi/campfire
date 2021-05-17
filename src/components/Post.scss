@@ -21,11 +21,12 @@
     flex-wrap: wrap;
     align-items: center;
     border: 2px solid $green;
-    padding: 1rem;
+    padding: 1rem 1rem;
     margin-bottom: 1.5rem;
     user-select: none;
 
     .header {
+      margin: 0rem 1.1rem 0rem 0;
       margin-right: 1.1rem;
     }
 
@@ -36,6 +37,7 @@
     .resolution-refs {
       display: flex;
       flex-wrap: nowrap;
+      // margin-bottom: 1rem;
     }
 
     .link {

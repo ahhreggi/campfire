@@ -700,11 +700,15 @@ const App = () => {
 
           </section>
 
+          <footer className="app-footer">
+
+          </footer>
+
         </>
       }
 
       {/* See index.scss */}
-      <div className="dev-tools">
+      <div className="dev-tools d-none">
         {/* Test Controls */}
         <div className="test-controls mt-2">
           test controls:

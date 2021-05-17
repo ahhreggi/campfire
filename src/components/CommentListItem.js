@@ -404,7 +404,7 @@ const CommentListItem = (props) => {
 
 
             {/* Timestamp */}
-            <div className="timestamp">
+            <div className="timestamp text-truncate">
               {timestampElement}
             </div>
 
