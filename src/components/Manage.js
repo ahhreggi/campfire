@@ -12,7 +12,7 @@ const Manage = (props) => {
     userCourses: PropTypes.array,
     onLeaveCourse: PropTypes.func,
     status: PropTypes.string,
-    errors: PropTypes.errors,
+    errors: PropTypes.array,
     onRedirect: PropTypes.func
   };
 
@@ -61,8 +61,8 @@ const Manage = (props) => {
           You may unenrol from a course at any time, however please note that any contributions you&apos;ve made will remain unchanged (you can always delete them manually).
         </div>
         <div className="counters">
-          You are currently enrolled in <span className="number active">{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
-          {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}.</> : ""}
+          You are currently enrolled in <span className={`number active ${state.activeCourses.length === 0 ? "disable" : ""}`}>{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
+          {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}</> : ""}.
         </div>
       </div>
 

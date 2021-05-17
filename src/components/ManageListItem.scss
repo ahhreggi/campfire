@@ -3,6 +3,8 @@
 .ManageListItem {
   border: 1px solid white;
   font-weight: 700;
+  display: flex;
+  flex-wrap: nowrap;
   .code {
 
   }

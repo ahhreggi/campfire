@@ -389,9 +389,11 @@ const App = () => {
 
   // Unenrol the user from the given courseID
   const leaveCourse = (courseID) => {
-    request("POST", API.COURSES + "/" + courseID + "leave")
-      .then(() => fetchUserCourses());
+    request("POST", API.COURSES + "/" + courseID + "/leave")
+      .then(() => fetchUserCourses(null, "Manage"));
   };
+
+  // SIDE EFFECT 8: If userData changes while active is "Manage", stay on Manage
 
   // BOOKMARKS //////////////////////////////////////////////////////
 

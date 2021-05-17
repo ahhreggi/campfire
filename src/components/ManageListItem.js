@@ -1,4 +1,7 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import Button from "./Button";
+import Confirmation from "./Confirmation";
 import "./ManageListItem.scss";
 
 const ManageListItem = (props) => {
@@ -15,6 +18,14 @@ const ManageListItem = (props) => {
     onRedirect: PropTypes.func
   };
 
+  const [state, setState] = useState({
+    showConfirmation: false
+  });
+
+  const toggleConfirmation = () => {
+    setState({ showConfirmation: !state.showConfirmation });
+  };
+
   return (
     <div className="ManageListItem">
       <div className="code">
@@ -23,6 +34,25 @@ const ManageListItem = (props) => {
       <div className="name">
         {props.name}
       </div>
+      <div className="leave-button">
+        <Button
+          text={"UNENROLL"}
+          styles={"form red"}
+          onClick={() => toggleConfirmation()}
+        />
+      </div>
+      {state.showConfirmation &&
+        <div className="confirmation">
+          <Confirmation
+            message={`Are you sure you would like to unenroll from ${props.courseCode}?`}
+            onConfirm={() => props.onLeaveCourse(props.id)}
+            onCancel={toggleConfirmation}
+          />
+        </div>
+      }
+
+
+
     </div>
   );
 };

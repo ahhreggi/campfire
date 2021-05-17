@@ -20,6 +20,9 @@
       &.archived {
         color: $red;
       }
+      &.disable {
+        color: $orange;
+      }
     }
   }
 
