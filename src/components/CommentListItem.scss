@@ -292,16 +292,21 @@
         .label {
           font-weight: 700;
           user-select: none;
-          width: 10.8rem;
           margin-left: 1rem;
+          // display: flex;
+          // justify-self: flex-end;
+          justify-content: flex-end;
 
           &.active {
             cursor: initial;
           }
 
           &.unselected {
+            width: 16.8rem;
             filter: grayscale(100%);
             opacity: 0.3;
+            display: flex;
+
             &:hover {
               filter: grayscale(30%);
               opacity: 0.5;
@@ -311,6 +316,8 @@
 
           &.selected {
             opacity: 1;
+            width: 10.8rem;
+            display: flex;
           }
 
           img {

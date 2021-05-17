@@ -342,8 +342,10 @@ const CommentListItem = (props) => {
                 {/* Best Answer Label */}
                 {isBestAnswer &&
                   <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor && !props.bestAnswer ? setBestAnswer : null}>
-                    <img src={checkmark} alt="checkmark" />
-                    <span>BEST ANSWER</span>
+                    <div>
+                      <img src={checkmark} alt="checkmark" />
+                      <span>BEST ANSWER</span>
+                    </div>
                   </div>
                 }
 
