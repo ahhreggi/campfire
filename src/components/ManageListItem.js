@@ -29,16 +29,6 @@ const ManageListItem = (props) => {
     setState({ showConfirmation: !state.showConfirmation });
   };
 
-  // Convert timestamp into a readable format
-  // TODO: Move to helper file
-  const formatTimestamp = (timestamp, relative) => {
-    if (relative) {
-      return moment(timestamp).subtract(3, "seconds").fromNow();
-    } else {
-      return moment(timestamp).subtract(3, "seconds").format("dddd, MMMM Do, YYYY @ h:mm a");
-    }
-  };
-
   const isEnrolled = props.joinDate;
 
   const joinedString = isEnrolled ? moment(props.joinDate).format("YYYY/MM/DD") : "UNENROLLED";
