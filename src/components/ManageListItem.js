@@ -43,13 +43,15 @@ const ManageListItem = (props) => {
 
   const joinedString = isEnrolled ? moment(props.joinDate).format("YYYY/MM/DD") : "UNENROLLED";
 
+  const roleString = props.role === "owner" || props.role === "admin" ? props.role + " (instructor)" : props.role;
+
   return (
     <div className={`ManageListItem ${state.showConfirmation ? "center" : ""} ${props.role}`}>
       {!state.showConfirmation &&
         <>
           <div className="left">
             <div className={`role ${props.role}`}>
-              {props.role === "owner" ? "owner (instructor)" : props.role}
+              {roleString}
               <span className="joined">
                 {joinedString}
               </span>
