@@ -20,25 +20,11 @@ const Nav = (props) => {
 
   ///////////////////////////////////////////////////////////////////
 
-  const handleClick = () => {
-    const origins = ["Dashboard", "Analytics", "Post", "New Post"];
-    // If the active view is within a course, redirect to the course dashboard
-    if (origins.includes(props.active)) {
-      props.onRedirect("Dashboard");
-      // Otherwise, redirect to the Home page
-    } else {
-      props.onRedirect("Home");
-    }
-  };
-
-  // const names = userName.split(" ");
-  // const userName = props.userName.length > 25 ? names[0] + names[1][0] + "." : props.userName;
-
   return (
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={handleClick}>
+      <section className="app-nav left" onClick={() => props.onRedirect("Home")}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
@@ -57,18 +43,19 @@ const Nav = (props) => {
         <span className="course-name">{props.courseName}</span> */}
 
         {/* User Name */}
-        <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""} d-none d-xl-inline-flex`}>
-          <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
-          <span
-            className="user-name text-truncate"
-            onClick={() => props.onRedirect("Home")}
-          >
-            {props.userName}
-            {/* {userName} */}
-          </span>
-          {/* <div className="arrow-icon">
-            <img src={arrow} onClick={() => props.onRedirect("Logout")} />
-          </div> */}
+        <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""}`}>
+          <div className="user-link">
+            <img src={`./images/avatars/${props.userAvatar}.png`} onClick={() => props.onRedirect("Settings")} alt="Avatar" />
+            <span
+              className="user-name text-truncate d-none d-xl-inline"
+              onClick={() => props.onRedirect("Settings")}
+            >
+              {props.userName}
+            </span>
+            {/* <div className="arrow-icon">
+              <img src={arrow} onClick={() => props.onRedirect("Logout")} />
+            </div> */}
+          </div>
         </div>
 
         <div className="nav-buttons">
@@ -79,7 +66,7 @@ const Nav = (props) => {
           </div>
 
           {/* Help Link */}
-          <div className={"courses-icon"}>
+          <div className={`courses-icon ${props.active === "Help" ? "selected" : ""}`}>
             <img src={github} onClick={() => props.onRedirect("Help")} />
           </div>
 

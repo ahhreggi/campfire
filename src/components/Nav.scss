@@ -60,7 +60,6 @@
       background-color: $navy-2;
       font-size: 1.3rem;
       min-width: 0;
-      // min-width: 5rem;
 
       .view-title {
         font-weight: 700;
@@ -73,43 +72,18 @@
       display: flex;
       justify-content: space-between;
       padding-left: 1.5rem;
-      transition: 1s;
-      // flex-grow: 1;
-      max-width: 18rem;
+      transition: 0.2s;
       overflow: hidden;
 
       .nav-buttons {
         display: flex;
         flex-wrap: nowrap;
-        // border: 1px solid red;
-        overflow: hidden;
-        margin-left: 1rem;
+
       }
 
-      &:hover {
-        background-color: $navy-2;
-        // min-width: 20rem;
-        max-width: 30rem;
-
-        .courses-icon,
-        .github-icon,
-        .logout-icon {
-          // display: block;
-        }
-
-        .user-info {
-          margin-right: 1rem;
-
-          .user-name {
-            opacity: 0.9;
-          }
-
-        }
-
-        .arrow-icon {
-          display: none !important;
-        }
-
+      .user-link {
+        display: flex;
+        max-width: 15rem;
       }
 
       .user-info {
@@ -118,8 +92,8 @@
         align-items: center;
         flex-wrap: nowrap;
         max-width: 20rem;
-        transition: 1s;
         margin-left: 2rem;
+        margin-right: 1rem;
 
         &:hover {
           cursor: pointer;
@@ -132,25 +106,21 @@
         }
 
         img {
-          width: 2rem;
-          margin-right: 1rem;
+          width: 1.6rem;
           border-radius: 100%;
         }
 
         .user-name {
-          margin-right: 0.5rem;
+          margin-left: 1rem;
           font-weight: 700;
           font-size: 1.1rem;
           opacity: 0.95;
-          max-width: 13rem;
+          display: flex;
+          flex-wrap: nowrap;
         }
 
         &.instructor {
           color: $yellow;
-
-          &:hover {
-            // color: $orange;
-          }
 
         }
 
@@ -161,7 +131,6 @@
         img {
           height: 1rem;
           width: 1rem;
-          // border: 1px solid red;
           opacity: 0.6;
           transform: rotate(90deg);
           filter: invert(100);
