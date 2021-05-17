@@ -85,6 +85,11 @@ button {
       }
       &.red {
         background-color: rgba(255, 0, 0, 0.233);
+        &.disabled {
+          color: grey;
+          background-color: rgba(255, 255, 255, 0.089);
+          opacity: 1;
+        }
       }
       &.yellow {
         background-color: rgba(255, 187, 0, 0.329);

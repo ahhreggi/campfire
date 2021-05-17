@@ -27,12 +27,22 @@
   }
 
   .user-courses {
-    border: 1px solid white;
-    border-radius: 15px;
-    // background-color: $navy-4;
-    padding: 1rem;
+    border: 1px solid $navy-5;
+    background-color: $navy-0;
+    padding: 1rem 1rem 0.5rem 1rem;
     display: flex;
     flex-direction: column;
+    height: 30rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    @include custom-scrollbar;
+    &::-webkit-scrollbar-track {
+      background-color: $navy-0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $navy-5;
+      border-radius: 15px;
+    }
   }
 
 }

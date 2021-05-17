@@ -1,7 +1,8 @@
 @import "../styles/global.scss";
 
 .ManageListItem {
-  border: 2px solid $navy-4;
+  border-left: 3px solid $navy-4;
+  background-color: $navy-2;
   border-radius: 15px;
   font-weight: 700;
   display: flex;
@@ -9,6 +10,11 @@
   padding: 0.5rem 1.5rem 0.7rem 1.5rem;
   height: 9rem;
   min-width: 40rem;
+  margin-bottom: 0.5rem;
+  transition: 0.3s;
+  &:hover {
+    background-color: $navy-4;
+  }
   .left {
     display: flex;
     flex-direction: column;
@@ -24,16 +30,28 @@
       align-items: center;
       flex-wrap: nowrap;
       font-size: 2rem;
+      &.archived {
+        color: $red;
+        opacity: 0.7;
+      }
     }
     .role {
       font-size: 0.9rem;
       font-weight: 900;
       text-transform: uppercase;
+      .joined {
+        margin-left: 0.5rem;
+        color: $white;
+        opacity: 0.5;
+      }
       &.owner {
         color: $yellow;
       }
       &.instructor {
         color: $yellow;
+      }
+      &.admin {
+        color: $red;
       }
     }
     .name {
@@ -61,5 +79,16 @@
     height: 9rem;
     display: flex;
     align-self: center;
+  }
+
+  &.student {
+    border-left-color: $navy-8;
+  }
+  &.owner,
+  &.instructor {
+    border-left-color: $yellow;
+  }
+  &.admin {
+    border-left-color: $red;
   }
 }
