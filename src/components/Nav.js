@@ -4,7 +4,6 @@ import logout from "../images/icons/logout.png";
 import github from "../images/icons/question-mark.png";
 // import courses from "../images/icons/courses-solid.png";
 import courses from "../images/icons/home.png";
-import arrow from "../images/icons/up-arrow.png";
 import PropTypes from "prop-types";
 
 const Nav = (props) => {
@@ -31,6 +30,9 @@ const Nav = (props) => {
       props.onRedirect("Home");
     }
   };
+
+  // const names = userName.split(" ");
+  // const userName = props.userName.length > 25 ? names[0] + names[1][0] + "." : props.userName;
 
   return (
     <div className="Nav">
@@ -62,6 +64,7 @@ const Nav = (props) => {
             onClick={() => props.onRedirect("Home")}
           >
             {props.userName}
+            {/* {userName} */}
           </span>
           {/* <div className="arrow-icon">
             <img src={arrow} onClick={() => props.onRedirect("Logout")} />

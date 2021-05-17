@@ -30,7 +30,7 @@ const Create = (props) => {
     if (event.target.value.length <= maxLength) {
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
-      setState({ ...state, errors: [`Maximum character length: ${maxLength}`]});
+      setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
     }
   };
 
@@ -44,13 +44,11 @@ const Create = (props) => {
   // Validate input fields prior to submitting the data
   const handleSubmit = () => {
     const errors = [];
-    if (!state.name || !state.description || !state.code) {
+    if (!state.name || !state.code) {
       errors.push("Please complete all fields!");
     } else if (!isValid(state.name, "length", 40)) {
       errors.push("Title is too long!");
-    } else if (!isValid(state.description, "length")) {
-      errors.push("Description is too long!");
-    } else if (!isValid(state.code, "length", 8)) {
+    } else if (!isValid(state.code, "length", 12)) {
       errors.push("Course code is too long!");
     }
     console.log(errors);
@@ -87,22 +85,25 @@ const Create = (props) => {
       {/* Form Fields */}
       <div className="form-fields">
         <TextForm
-          label={"Course Name"}
-          text={state.name}
-          onChange={(event) => handleInputChange(event, "name", 40)}
-        />
-
-        <TextForm
-          label={"Course Description"}
-          text={state.description}
-          onChange={(event) => handleInputChange(event, "description", 150)}
-        />
-
-        <TextForm
-          label={"Course Code/Abbreviation (max 8 letters)"}
+          label={"Course Code/Title (max. 12 characters)"}
           text={state.code}
           onChange={(event) => handleInputChange(event, "code", 8)}
+          placeholder={"e.g., WEB 001"}
         />
+        <TextForm
+          label={"Course Name/Subtitle"}
+          text={state.name}
+          onChange={(event) => handleInputChange(event, "name", 40)}
+          placeholder={"e.g., Introduction to Web Development"}
+        />
+
+        <TextForm
+          label={"Course Description (optional)"}
+          text={state.description}
+          onChange={(event) => handleInputChange(event, "description", 150)}
+          placeholder={"What's the course about?"}
+        />
+
 
       </div>
 

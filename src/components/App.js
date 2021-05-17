@@ -267,6 +267,7 @@ const App = () => {
           setAppData(userCourses, "userCourses", null, null, active, courseData);
         } else {
           console.log("❌ fetchUserCourses failed!");
+          setState({ ...state, errors: ["Failed to retrieve user courses"]});
         }
       });
   };
