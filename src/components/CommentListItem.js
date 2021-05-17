@@ -527,24 +527,6 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
-      {/* { REPLY
-            "id": 4,
-            "parent_id": 2,
-            "anonymous": false,
-            "author_first_name": "Gresham",
-            "author_last_name": "Barlow",
-            "author_avatar_id": 10,
-            "body": "Thanks for this!!",
-            "score": 0,
-            "created_at": "2021-05-15T17:58:39.671Z",
-            "last_modified": "2021-05-15T17:58:39.671Z",
-            "role": "student",
-            "user_id": 9,
-            "editable": false,
-            "endorsable": false,
-            "liked": false,
-            "endorsements": []
-      } */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
           <CommentList

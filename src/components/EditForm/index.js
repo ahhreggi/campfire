@@ -225,7 +225,7 @@ const EditForm = (props) => {
 
       {/* Body Field */}
       <TextForm
-        label={props.mode === "POST" ? "Post Body" : ""} // no label if it's a comment body
+        label={props.mode === "POST" ? "Post Body" : ""}
         text={state.previewBody}
         minHeight={props.minHeight ? props.minHeight : "10rem"}
         onChange={updatePreviewBody}
@@ -234,7 +234,6 @@ const EditForm = (props) => {
       />
 
       {/* Anonymous Checkbox */}
-      {/* {props.role === "student" && */}
       {true &&
         <Checkbox
           checked={state.previewAnonymous}
