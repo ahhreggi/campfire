@@ -731,6 +731,7 @@ const App = () => {
 
           <footer className="app-footer">
             <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
+            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
           </footer>
 
         </>
@@ -741,7 +742,6 @@ const App = () => {
         {/* Dev Data Display */}
         <DevData name="App" props={state} label={"State"} />
       </div>
-      <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
 
 
     </div>

@@ -72,8 +72,15 @@ const Manage = (props) => {
           You may unenrol from a course at any time, however please note that any contributions you&apos;ve made will remain unchanged (you can always delete them manually).
         </div>
         <div className="counters">
-          You are currently enrolled in <span className={`number active ${state.activeCourses.length === 0 ? "disable" : ""}`}>{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
-          {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}</> : ""}.
+          {props.userCourses.length === 0 &&
+            <span className="new">You currently have no course enrolments.</span>
+          }
+          {props.userCourses.length > 0 &&
+            <>
+              You are currently enrolled in <span className={`number active ${state.activeCourses.length === 0 ? "disable" : ""}`}>{state.activeCourses.length}</span> active course{state.activeCourses.length !== 1 ? "s" : ""}
+              {state.archivedCourses.length > 0 ? <> and <span className="number archived">{state.archivedCourses.length}</span> archived course{state.archivedCourses.length !== 1 ? "s" : ""}</> : ""}.
+            </>
+          }
         </div>
       </div>
 
@@ -104,7 +111,7 @@ const Manage = (props) => {
               />
             }
             {state.activeCourses.length === 0 &&
-              <div className="empty">You aren&apos;t enrolled in any courses yet!</div>
+              <div className="empty">You have no active courses.</div>
             }
           </>
         }

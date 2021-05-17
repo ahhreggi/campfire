@@ -11,6 +11,9 @@
     .counters {
       margin: 1rem 0;
       font-weight: 700;
+      .new {
+        color: $red;
+      }
     }
     .number {
       font-weight: 700;
@@ -19,9 +22,6 @@
       }
       &.archived {
         color: $red;
-      }
-      &.disable {
-        color: $orange;
       }
     }
   }
@@ -45,6 +45,12 @@
     }
     .empty {
       font-weight: 700;
+      font-size: 1.5rem;
+      opacity: 0.5;
+      color: $navy-8;
+      display: flex;
+      justify-content: center;
+      margin-top: 5rem;
     }
   }
 
