@@ -6,11 +6,12 @@ import PostForm from "./PostForm";
 import Home from "./Home";
 import Join from "./Join";
 import Create from "./Create";
+import Manage from "./Manage";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import "./Main.scss";
 
-// import DevData from "./DevData";
+import DevData from "./DevData";
 
 const Main = (props) => {
 
@@ -101,7 +102,6 @@ const Main = (props) => {
       {/* Join View */}
       {props.active === "Join" &&
         <Join
-          userData={props.userData}
           onSubmit={props.onJoinCourse}
           status={props.status}
           errors={props.errors}
@@ -112,6 +112,16 @@ const Main = (props) => {
       {/* Create View */}
       {props.active === "Create" &&
         <Create
+          onSubmit={props.onCreateCourse}
+          status={props.status}
+          errors={props.errors}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Manage View */}
+      {props.active === "Manage" &&
+        <Manage
           userData={props.userData}
           onSubmit={props.onCreateCourse}
           status={props.status}
@@ -120,10 +130,12 @@ const Main = (props) => {
         />
       }
 
+
+
       {/* TEMPORARY */}
-      {/* {props.active === "Dashboard" &&
+      {props.active === "Manage" &&
         <DevData name={"Main"} props={props} />
-      } */}
+      }
 
       {/* Dashboard View */}
       {props.active === "Dashboard" &&

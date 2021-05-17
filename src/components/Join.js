@@ -9,7 +9,6 @@ import DevData from "./DevData";
 const Join = (props) => {
 
   Join.propTypes = {
-    userData: PropTypes.object,
     onSubmit: PropTypes.func,
     status: PropTypes.string,
     errors: PropTypes.array,

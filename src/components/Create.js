@@ -9,7 +9,6 @@ import DevData from "./DevData";
 const Create = (props) => {
 
   Create.propTypes = {
-    userData: PropTypes.object,
     onSubmit: PropTypes.func,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
