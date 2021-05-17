@@ -15,7 +15,7 @@ export default {
       <SyntaxHighlighter
         style={dracula}
         customStyle={{
-          "backgroundColor": "#06060fb6",
+          "backgroundColor": "#141830",
           "border-radius": "15px",
           "overflow": "hidden",
           "padding": "1rem",
