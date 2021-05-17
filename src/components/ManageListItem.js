@@ -62,6 +62,9 @@ const ManageListItem = (props) => {
             <div className="name text-truncate">
               {props.name}
             </div>
+            <div className="owner-name">
+              {props.ownerName || "Unknown Instructor"}
+            </div>
           </div>
 
           <div className="right">

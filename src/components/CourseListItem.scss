@@ -27,6 +27,12 @@
     border-left-color: $yellow;
   }
 
+  .owner-name {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    font-weight: 700;
+  }
+
   &.archived {
     opacity: 0.7;
     border: 3px solid $navy-4;

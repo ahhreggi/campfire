@@ -45,6 +45,7 @@ const CourseList = (props) => {
           createdAt={course.created_at}
           archived={course.archived}
           role={course.role}
+          ownerName={course.owner_name}
           analytics={course.analytics}
           onClick={props.onClick}
         />

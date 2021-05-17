@@ -12,6 +12,7 @@ const CourseListItem = (props) => {
     createdAt: PropTypes.string,
     archived: PropTypes.bool,
     role: PropTypes.string,
+    ownerName: PropTypes.string,
     analytics: PropTypes.object,
     onClick: PropTypes.func,
   };
@@ -81,6 +82,11 @@ const CourseListItem = (props) => {
       {isArchived &&
         <div className="archived-label">ARCHIVED</div>
       }
+
+      {/* Owner Name */}
+      <div className="owner-name">
+        {props.ownerName || "Unknown Instructor"}
+      </div>
 
     </div>
 
