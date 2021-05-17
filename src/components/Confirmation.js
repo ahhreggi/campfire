@@ -12,7 +12,7 @@ const Confirmation = (props) => {
   };
 
   let confirmText = props.message ? "DELETE" : props.useSubmit ? "SUBMIT" : "SAVE";
-  if (props.message.includes("unenroll")) {
+  if (props.message && props.message.includes("unenroll")) {
     confirmText = "UNENROLL";
   }
   const confirmStyles = props.message ? "red" : "green";
