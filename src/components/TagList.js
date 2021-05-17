@@ -12,12 +12,14 @@ const TagList = (props) => {
     onClick: PropTypes.func,
     truncate: PropTypes.number,
     styles: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    resolved: PropTypes.bool
   };
 
   TagList.defaultProps = {
     truncate: Infinity,
-    selectLimit: Infinity
+    selectLimit: Infinity,
+    resolved: null
   };
 
   const [disabled, setDisabled] = useState(props.selectedTags.length >= props.selectLimit);
@@ -58,15 +60,7 @@ const TagList = (props) => {
   }
 
   // Sort tags alphabetically
-  tags.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
+  tags.sort((a, b) => a.id - b.id);
 
   // Create button components
   tags = tags.map(tag => {
@@ -74,12 +68,33 @@ const TagList = (props) => {
       <Button
         key={tag.id}
         text={tag.name}
-        styles={`tag ${props.styles} ${hasTag(props.selectedTags, tag.id) ? "selected" : "unselected"} ${disabled && "disabled"}`}
+        styles={`tag ${props.styles} ${hasTag(props.selectedTags, tag.id) ? "selected" : "unselected"} ${disabled && "disabled"} ${tag.id === -1 ? "resolved" : ""} ${tag.id === -2 ? "unresolved" : ""}`}
         onClick={() => handleClick(tag)}
         disabled={props.disabled}
       />
     );
   });
+
+  // Add a resolved/unresolved tag if necessary
+  if (props.resolved) {
+    tags.unshift(
+      <Button
+        key="-1"
+        text="RESOLVED"
+        onClick={() => handleClick("resolved")}
+        styles={"tag resolved"}
+      />
+    );
+  } else if (props.resolved === false) {
+    tags.unshift(
+      <Button
+        key="-2"
+        text="UNRESOLVED"
+        onClick={() => handleClick("unresolved")}
+        styles={"tag unresolved"}
+      />
+    );
+  }
 
   ///////////////////////////////////////////////////////////////////
 

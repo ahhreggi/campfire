@@ -1,0 +1,26 @@
+@import "../styles/global.scss";
+
+.CommentForm {
+  margin-top: 1rem;
+
+  .header {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .create-form {
+
+    .EditForm {
+      border: 2px solid $blue;
+      background-color: $navy-2;
+      border-radius: 15px;
+
+      .Preview {
+        min-height: 5rem;
+      }
+
+    }
+
+  }
+
+}

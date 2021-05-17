@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Badge from "./Badge";
@@ -5,11 +6,11 @@ import TagList from "./TagList";
 import star from "../images/icons/star.png";
 import comment from "../images/icons/comment.png";
 import eye from "../images/icons/eye.png";
-import "./PostListItem.scss";
+import "./PostListCategoryItem.scss";
 
-const PostListItem = (props) => {
+const PostListCategoryItem = (props) => {
 
-  PostListItem.propTypes = {
+  PostListCategoryItem.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     body: PropTypes.string,
@@ -22,8 +23,19 @@ const PostListItem = (props) => {
     showStudentBadge: PropTypes.bool,
     showInstructorBadge: PropTypes.bool,
     onClick: PropTypes.func,
-    selected: PropTypes.bool
+    selectedPostID: PropTypes.number
   };
+
+  const [state, setState] = useState({
+    selected: props.selectedPostID === props.id
+  });
+
+  // When the the selected post changes, update selectedPostID to update styling
+  useEffect(() => {
+    setState({
+      selected: props.selectedPostID === props.id
+    });
+  }, [props.selectedPostID]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
@@ -55,11 +67,21 @@ const PostListItem = (props) => {
 
   // Get class names
   const classes = classNames({
-    PostListItem: true,
+    PostListCategoryItem: true,
     pinned: props.pinned,
     bookmarked: props.bookmarked,
-    selected: props.selected
+    selected: state.selected
   });
+
+  // Move resolved & unresolved tags to the front of the tag list
+  const tags = [];
+  for (const tag of props.tags) {
+    if (tag.id === -1 || tag.id === -2) {
+      tags.unshift(tag);
+    } else {
+      tags.push(tag);
+    }
+  }
 
   ///////////////////////////////////////////////////////////////////
 
@@ -73,14 +95,11 @@ const PostListItem = (props) => {
 
         {/* Post Title */}
         <div className="header-left">
-          {/* {props.pinned &&
-            <img className="pin" src={pin} alt="pin" />
-          } */}
           {props.bookmarked &&
             <img className="bookmark" src={star} alt="bookmark" />
           }
           <span className="title">
-            {truncateText(props.title, 30)}
+            {truncateText(props.title, 27)}
           </span>
         </div>
 
@@ -104,9 +123,9 @@ const PostListItem = (props) => {
         {/* Tag Buttons */}
         <div className="tags">
           <TagList
-            tags={props.tags}
-            selectedTags={props.tags}
-            styles="tag disabled"
+            tags={tags}
+            selectedTags={tags}
+            styles="tag disabled post-list-tag"
             onClick={handleClick}
             truncate={2}
           />
@@ -130,4 +149,4 @@ const PostListItem = (props) => {
   );
 };
 
-export default PostListItem;
+export default PostListCategoryItem;

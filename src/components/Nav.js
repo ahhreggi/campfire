@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
 import "./Nav.scss";
+import PropTypes from "prop-types";
 
 const Nav = (props) => {
 
@@ -16,7 +16,7 @@ const Nav = (props) => {
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onClick("Dashboard")}>
+      <section className="app-nav left" onClick={() => props.onClick("Home")}>
         <span className="title glow">
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
@@ -38,6 +38,10 @@ const Nav = (props) => {
         <div>
           <img src={`./images/avatars/${props.userAvatar}.png`} alt="Avatar" />
           <span className="user-name">{props.userName}</span>
+        </div>
+
+        <div>
+          <a href="/">Logout</a>
         </div>
 
       </section>

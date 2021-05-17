@@ -1,0 +1,30 @@
+@import "../styles/global.scss";
+
+.Home {
+  display: flex;
+  flex-direction: column;
+  .greeting {
+    font-size: 2rem;
+    span {
+      color: $orange;
+      font-weight: 700;
+    }
+  }
+  .panels {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    .Panel {
+      margin: 0 1rem 1rem 0;
+    }
+  }
+  footer {
+    color: $navy-8;
+    a {
+      color: $orange;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}

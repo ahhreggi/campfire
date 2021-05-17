@@ -1,6 +1,7 @@
 @import "../../styles/global.scss";
 
 .EditForm {
+  border-radius: 15px;
 
   .Preview {
     margin-bottom: 1rem;
@@ -9,6 +10,15 @@
   .Checkbox {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  .errors {
+    height: 2.5rem;
+    margin-top: 0.5rem;
+    color: $red;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
   }
 
   .Confirmation {

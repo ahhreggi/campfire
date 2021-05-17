@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import classNames from "classnames";
 import EditForm from "./EditForm";
+import CommentForm from "./CommentForm";
 import Confirmation from "./Confirmation";
 import CommentList from "./CommentList";
 import like from "../images/icons/heart.png";
 import endorse from "../images/icons/endorse.png";
 import plus from "../images/icons/plus.png";
 import minus from "../images/icons/minus.png";
+import reply from "../images/icons/reply.png";
 import edit from "../images/icons/edit.png";
 import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
+import comment from "../images/icons/comment.png";
 import "./CommentListItem.scss";
 
 const CommentListItem = (props) => {
@@ -41,40 +44,76 @@ const CommentListItem = (props) => {
 
     onLikeComment: PropTypes.func,
 
+    onAddComment: PropTypes.func,
     onEditComment: PropTypes.func,
     onDeleteComment: PropTypes.func,
 
     bestAnswer: PropTypes.number,
+    onEditBestAnswer: PropTypes.func,
 
     postAuthorID: PropTypes.number,
-    commentAuthorID: PropTypes.number
+    commentAuthorID: PropTypes.number,
+
+    userName: PropTypes.string,
+    userID: PropTypes.number,
+    userRole: PropTypes.string,
+
+    refBestAnswer: PropTypes.object,
+
+    uncollapsed: PropTypes.array,
+
+    showReplyList: PropTypes.bool
   };
 
   const [state, setState] = useState({
     showForm: false,
     showConfirmation: false,
-    showReplies: false,
-    endorsed: props.endorsed
+    showReplyForm: false,
+    showReplyList: props.showReplyList, // props.uncollapsed.includes(props.id),
+    endorsed: props.endorsed,
+    commentID: props.id
   });
+
+  // When uncollapsed changes, update showReplyList in state
+  useEffect(() => {
+    if (!state.showReplyList && props.uncollapsed.includes(props.id)) {
+      setState({ showReplyList: true });
+    }
+  }, [props.uncollapsed]);
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
-  // Toggle and reset the post edit form
+  // Toggle and reset the comment edit form
   const toggleForm = () => {
-    if (!state.showForm && state.showConfirmation) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation});
+    if (!state.showForm) {
+      setState({ ...state, showForm: true, showConfirmation: false, showReplyForm: false });
     } else {
-      setState({ ...state, showForm: !state.showForm });
+      setState({ ...state, showForm: false });
+    }
+  };
+
+  // Toggle and reset the new reply form
+  const toggleReplyForm = () => {
+    if (!state.showReplyForm) {
+      scrollToReplyForm();
+      setState({ ...state, showReplyForm: true, showConfirmation: false, showForm: false });
+    } else {
+      setState({ ...state, showReplyForm: false });
     }
   };
 
   // Toggle delete confirmation form
   const toggleConfirmation = () => {
-    if (!state.showConfirmation && state.showForm) {
-      setState({ ...state, showForm: !state.showForm, showConfirmation: !state.showConfirmation });
+    if (!state.showConfirmation) {
+      setState({ ...state, showConfirmation: true, showForm: false, showReplyForm: false });
     } else {
-      setState({ ...state, showConfirmation: !state.showConfirmation });
+      setState({ ...state, showConfirmation: false });
     }
+  };
+
+  // Toggle reply list
+  const toggleReplyList = () => {
+    setState({ ...state, showReplyList: !state.showReplyList });
   };
 
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
@@ -84,17 +123,39 @@ const CommentListItem = (props) => {
     props.onLikeComment(props.id, props.liked);
   };
 
-
+  // Save the comment changes
   const saveComment = (data) => {
-    props.onEditComment(props.id, data);
+    // Check that changes were actually made
+    if (props.body !== data.body) {
+      props.onEditComment(props.id, data);
+    }
     // Hide edit form
     toggleForm();
   };
 
+  // Delete the comment
   const deleteComment = () => {
     props.onDeleteComment(props.id);
     // Hide confirmation form
     toggleConfirmation();
+  };
+
+  // Set the comment as the post's best answer
+  const setBestAnswer = () => {
+    props.onEditBestAnswer(props.id);
+  };
+
+  // Add a reply
+  const addReply = (data) => {
+    const newReplyData = {
+      body: data.body,
+      parentID: props.id,
+      anonymous: data.anonymous
+    };
+    props.onAddComment(newReplyData);
+    // Hide reply form
+    setState({ ...state, showReplyForm: false, showReplyList: true });
+    scrollToReplyForm();
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -129,20 +190,32 @@ const CommentListItem = (props) => {
   // TODO: Move to helper file
   const formatTimestamp = (timestamp, relative) => {
     if (relative) {
-      return moment(timestamp).fromNow();
+      return moment(timestamp).subtract(3, "seconds").fromNow();
     } else {
-      return moment(timestamp).format("dddd, MMMM Do, YYYY @ h:mm a");
+      return moment(timestamp).subtract(3, "seconds").format("dddd, MMMM Do, YYYY @ h:mm a");
     }
   };
 
-  // Return a formatted relative timestamp based on if it was modified
-  const getTimestamp = (timestamp, isModified) => {
-    const result = `${isModified ? "Last modified: " : ""} ${formatTimestamp(timestamp)}`;
-    return `${result} (${formatTimestamp(timestamp, true)})`;
-  };
-
-
   // VARIABLES //////////////////////////////////////////////////////
+
+  //   {/* { ANONYMOUS CURRENT USER COMMENT EXAMPLE
+  //       "id": 1,
+  //              excluded: parent_id: null -> signifies it's a comment not a reply
+  //       "post_id": 1,
+  //       "anonymous": true,
+  //       "author_avatar_id": 1,
+  //       "body": "I had the same question!",
+  //       "score": 0,
+  //       "created_at": "2021-05-15T17:58:39.671Z",
+  //       "last_modified": "2021-05-15T17:58:39.671Z",
+  //       "endorsed": false,
+  //       "role": "student",
+  //       "editable": false,
+  //       "endorsable": false,
+  //       "liked": false,
+  //       "endorsements": [],
+  //       "replies": []
+  // } */}
 
   // Check if the comment is a parent
   const isParent = !props.parentID;
@@ -150,8 +223,11 @@ const CommentListItem = (props) => {
   // Check if the comment is by an instructor
   const isInstructor = props.authorRole !== "student";
 
-  // Check if the comment is the post author
-  const isPostAuthor = props.postAuthorID === props.commentAuthorID;
+  // Check if the comment is by a student
+  const isStudent = props.authorRole === "student";
+
+  // Check if the comment is by the post author
+  const isPostAuthor = props.commentAuthorID === props.postAuthorID;
 
   // Check if the comment is selected as the best answer
   const isBestAnswer = props.bestAnswer === props.id;
@@ -166,25 +242,47 @@ const CommentListItem = (props) => {
   const authorRole = getAuthorRole(props.authorRole, false);
 
   // Get the timestamp to display
-  const timestamp = getTimestamp(props.lastModified, isModified);
+  const timestamp = formatTimestamp(props.lastModified);
+  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name) : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
+
+  // Check if the comment is by the current user
+  const userIsCommentAuthor = props.userID === props.commentAuthorID;
+
+  // Check if the post is by the current user
+  const userIsPostAuthor = props.userID === props.postAuthorID;
+
+  // const userIsInstructor = props.userRole !== "student";
 
   // Get class names
   const classes = classNames({
     CommentListItem: true,
     "highlight-parent": isParent,
     "highlight-instructor": isInstructor,
+    "highlight-student": isStudent,
     "highlight-author": isPostAuthor,
     "highlight-best": isBestAnswer,
-    "highlight-delete": state.showConfirmation
+    "highlight-delete": state.showConfirmation,
+    "highlight-user": userIsCommentAuthor,
+    "break-body": Math.max(...props.body.split(" ").map(word => word.length)) > 100
   });
+
+  // Scroll to reply form
+  const refReplyForm = useRef();
+  const scrollToReplyForm = () => {
+    setTimeout(() => {
+      refReplyForm.current.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
 
   ///////////////////////////////////////////////////////////////////
 
   return (
     <div className={classes}>
+
+      <div className="best-ref" ref={isBestAnswer ? props.refBestAnswer : null}></div>
 
       {/* Top-level Comment */}
       <div className="top">
@@ -206,7 +304,11 @@ const CommentListItem = (props) => {
             {/* Likes */}
             <div className="likes">
               <span className="icon heart">
-                <img src={like} alt="like" />
+                <img
+                  className={!props.liked ? "not-liked" : ""}
+                  src={like}
+                  alt="like"
+                />
               </span>
               <span className={`counter ${props.liked && "active"}`}>
                 {props.score}
@@ -226,61 +328,94 @@ const CommentListItem = (props) => {
 
         <section className="right">
 
+          {!state.showForm &&
+            <div>
 
-          {/* Comment Header */}
-          <div>
-            <header>
+              {/* Comment Header */}
+              <header>
 
-              {/* Author */}
-              <div className="author">
-                {authorName}
-              </div>
-
-              {/* Best Answer Label */}
-              {isBestAnswer &&
-                <div className="label">
-                  <img src={checkmark} alt="checkmark" />
-                  <span>BEST ANSWER</span>
+                {/* Author */}
+                <div className="comment-author">
+                  {authorName}
+                  {isPostAuthor &&
+                    <>
+                      <img className="author-badge" src={edit} alt="author" />
+                    </>
+                  }
                 </div>
-              }
 
-            </header>
-
-            {/* Comment Body */}
-            <div className="comment-body">
-
-              {/* Comment Text */}
-              <div className="text">
-                {props.body}
-              </div>
-
-              {/* Comment Endorsers */}
-              {endorsers &&
-                <div className="endorsers">
-                  <div className="icon medal">
-                    <img src={endorse} alt="endorse" />
+                {/* Best Answer Label */}
+                {isBestAnswer &&
+                  <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor && !props.bestAnswer ? setBestAnswer : null}>
+                    <img src={checkmark} alt="checkmark" />
+                    <span>BEST ANSWER</span>
                   </div>
-                  <div className="text">
-                    Endorsed by <span className="names">{endorsers}</span>
+                }
+
+                {/* Select Best Answer Label */}
+                {!props.bestAnswer && props.bestAnswer !== props.id && userIsPostAuthor &&
+                  <div className="label unselected" onClick={!props.bestAnswer ? setBestAnswer : null}>
+                    <span>SELECT AS BEST ANSWER</span>
                   </div>
+                }
+
+              </header>
+
+              {/* Comment Body */}
+              <div className="comment-body">
+
+                {/* Comment Text */}
+                <div className="text">
+                  {props.body}
                 </div>
-              }
 
+                {/* Comment Endorsers */}
+                {endorsers &&
+                  <div className="endorsers">
+                    <div className="icon medal">
+                      <img src={endorse} alt="endorse" />
+                    </div>
+                    <div className="text">
+                      Endorsed by <span className="names">{endorsers}</span>
+                    </div>
+                  </div>
+                }
+
+              </div>
             </div>
-          </div>
+          }
+
+          {/* Edit Form */}
+          {state.showForm &&
+            <>
+              <EditForm
+                label={isParent ? "EDIT COMMENT" : "EDIT REPLY"}
+                id={props.id}
+                author={props.authorFirstName + " " + props.authorLastName}
+                role={props.authorRole}
+                isInstructor={props.authorRole !== "student"}
+                body={props.body}
+                anonymous={props.anonymous}
+                mode={"COMMENT"}
+                onSave={saveComment}
+                onCancel={toggleForm}
+                minHeight={"5rem"}
+              />
+            </>
+          }
 
           {/* Comment Footer */}
           <footer>
 
+
             {/* Timestamp */}
-            <div className={`timestamp ${isModified && "modified"}`}>
-              {timestamp}
+            <div className="timestamp">
+              {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
             </div>
 
             {/* Comment Edit Controls */}
             {props.editable &&
               <div className="controls">
-
                 <span className="edit">
                   <img
                     className={"icon-large" + (state.showForm ? "" : " disabled")}
@@ -311,10 +446,11 @@ const CommentListItem = (props) => {
         <div className="editable">
 
           {/* Edit Form */}
-          {state.showForm &&
-            <>
+          {false && state.showForm &&
+            <div className="comment-edit-form">
               <hr />
               <EditForm
+                label={"EDIT PREVIEW"}
                 id={props.id}
                 author={props.authorFirstName + " " + props.authorLastName}
                 body={props.body}
@@ -322,8 +458,9 @@ const CommentListItem = (props) => {
                 mode={"COMMENT"}
                 onSave={saveComment}
                 onCancel={toggleForm}
+                minHeight={"5rem"}
               />
-            </>
+            </div>
           }
 
           {/* Delete Confirmation */}
@@ -341,8 +478,73 @@ const CommentListItem = (props) => {
         </div>
       }
 
+      {/* First Reply Toggler */}
+      {isParent && !state.showConfirmation &&
+        <>
+          <div className="discussion-label replies-label">
+            <span className="reply-controls first">
+
+              {/* Add Reply Button */}
+              {true &&
+                <span
+                  className={`reply ${state.showReplyForm ? "reply-active" : ""}`}
+                  onClick={state.showReplyList && state.showReplyForm ? () => scrollToReplyForm() : toggleReplyForm}
+                >
+                  <img
+                    src={reply}
+                    alt="reply"
+                  />
+                  <span>REPLY</span>
+                </span>
+              }
+
+              {/* Show/Hide Replies */}
+              {props.replies.length > 0 &&
+                <div className={`replies-present ${state.showReplyList ? "replies-active" : ""}`} onClick={toggleReplyList}>
+                  <span className="toggle-item comments">
+                    <img src={comment} alt="comments" />
+                  </span>
+
+                  <span className="toggle-item">
+                    {state.showReplyList ? "Hide" : "Show" } Replies {props.replies.length > 0 && `(${props.replies.length})`}
+                  </span>
+                </div>
+              }
+
+              {/* No Replies */}
+              {!props.replies.length && !state.showReplyList &&
+                <div className="replies-absent">
+                  <span className="toggle-item comments">
+                    <img src={comment} alt="comments" />
+                  </span>
+                  <span className="toggle-item no-replies">No replies</span>
+                </div>
+              }
+            </span>
+          </div>
+        </>
+      }
+
       {/* Replies */}
-      {isParent && props.replies.length > 0 &&
+      {/* { REPLY
+            "id": 4,
+            "parent_id": 2,
+            "anonymous": false,
+            "author_first_name": "Gresham",
+            "author_last_name": "Barlow",
+            "author_avatar_id": 10,
+            "body": "Thanks for this!!",
+            "score": 0,
+            "created_at": "2021-05-15T17:58:39.671Z",
+            "last_modified": "2021-05-15T17:58:39.671Z",
+            "role": "student",
+            "user_id": 9,
+            "editable": false,
+            "endorsable": false,
+            "liked": false,
+            "endorsements": []
+      } */}
+      {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
           <CommentList
             comments={props.replies}
@@ -350,9 +552,63 @@ const CommentListItem = (props) => {
             onEditComment={props.onEditComment}
             onDeleteComment={props.onDeleteComment}
             bestAnswer={props.bestAnswer}
+            onEditBestAnswer={props.onEditBestAnswer}
             postAuthorID={props.postAuthorID}
+            userName={props.userName}
+            userID={props.userID}
+            refBestAnswer={props.refBestAnswer}
+            uncollapsed={props.uncollapsed}
+            type={"replies"}
           />
         </section>
+      }
+
+      {/* Secondary Reply Form Toggler */}
+      {isParent && !state.showConfirmation && state.showReplyList && props.replies.length > 0 &&
+        <>
+          <div className="discussion-label replies-label">
+            <span className="reply-controls reply-second">
+
+              {/* Add Reply Button */}
+              <span className={`reply ${state.showReplyForm ? "reply-active" : ""}`} onClick={toggleReplyForm}>
+                <img
+                  src={reply}
+                  alt="reply"
+                />
+                REPLY
+              </span>
+
+              {/* Show/Hide Replies */}
+              {props.replies.length > 0 && state.showReplyList &&
+                <div className={`replies-present reply-second ${state.showReplyList ? "replies-active" : ""}`} onClick={toggleReplyList}>
+                  <span className="toggle-item comments">
+                    <img src={comment} alt="comments" />
+                  </span>
+                  <span className="toggle-item">
+                    {state.showReplyList ? "Hide" : "Show" } Replies {props.replies.length > 0 && `(${props.replies.length})`}
+                  </span>
+                </div>
+              }
+            </span>
+          </div>
+        </>
+      }
+
+      <div className="ref" ref={refReplyForm}></div>
+
+      {/* Add Reply Form */}
+      {isParent && state.showReplyForm &&
+        <>
+          <div className="reply-form">
+            <CommentForm
+              label={"NEW REPLY"}
+              userName={props.userName}
+              userRole={props.userRole}
+              onAddComment={addReply}
+              onCancelComment={toggleReplyForm}
+            />
+          </div>
+        </>
       }
 
     </div>

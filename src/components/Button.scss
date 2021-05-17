@@ -13,20 +13,45 @@ button {
 
   &.new-post {
     border-radius: 10px;
-    border: 1px solid $navy-2;
-    background: linear-gradient($navy-7, $navy-1);
+    background-color: $navy-5;
+    border: 3px solid $navy-5;
     color: $white;
     font-size: 0.9rem;
     font-weight: 700;
     height: 3rem;
-    width: 50%;
+    width: 8.75rem;
     margin-bottom: 0.5rem;
     opacity: 1;
     text-transform: uppercase;
-    &:hover,
-    &.active {
-      border: 3px solid $navy-8;
-      background: linear-gradient($navy-7, $navy-2);
+    &:hover {
+      background-color: $navy-6;
+      border: 3px solid $navy-6;
+    }
+    &:active {
+      background-color: $navy-5;
+      border: 3px solid $navy-5;
+    }
+  }
+
+  &.search {
+    border-radius: 10px;
+    background-color: $navy-5;
+    border: 3px solid $navy-5;
+    color: $white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    height: 3rem;
+    width: 8.75rem;
+    margin-bottom: 0.5rem;
+    opacity: 1;
+    text-transform: uppercase;
+    &:hover {
+      background-color: $navy-6;
+      border: 3px solid $navy-6;
+    }
+    &:active {
+      background-color: $navy-5;
+      border: 3px solid $navy-5;
     }
   }
 
@@ -69,6 +94,9 @@ button {
       opacity: 0.9;
       cursor: pointer;
     }
+    &.post-list-tag {
+      font-size: 0.6rem;
+    }
 
     &.filter,
     &.unselected {
@@ -85,6 +113,26 @@ button {
       border-color: $orange;
       color: $orange;
       opacity: 0.9;
+    }
+
+    &.resolved {
+      border-color: $green;
+      color: $green;
+      margin-right: 0.3rem;
+      &.unselected {
+        border-color: $white;
+        color: #00ff629a;
+      }
+    }
+
+    &.unresolved {
+      border-color: $red;
+      color: $red;
+      font-weight: 700;
+      &.unselected {
+        border-color: $white;
+        color: rgba(255, 28, 28, 0.767);
+      }
     }
 
   }

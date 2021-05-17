@@ -1,0 +1,110 @@
+@import "../styles/global.scss";
+
+.CourseListItem {
+  border: 3px solid $navy-4;
+  background-color: $navy-4;
+  border-left-color: $navy-8;
+  height: 6rem;
+  user-select: none;
+  margin-bottom: 0.2rem;
+  padding-left: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.3rem;
+  opacity: 0.95;
+  // border-radius: 10px;
+
+  &.instructor {
+    border-left-color: $yellow;
+    &:hover {
+      // border-color: $yellow;
+    }
+  }
+
+  &.archived {
+    opacity: 0.7;
+    border: 3px solid $navy-4;
+    background-color: $navy-4;
+    border-left-color: $navy-6;
+
+    &.instructor {
+      border-left-color: rgb(117, 117, 0);
+    }
+
+    .name {
+      display: none;
+    }
+    .archived-label {
+      display: block;
+      color: $red;
+      font-weight: 700;
+    }
+    &:hover {
+      opacity: 0.9;
+      border-left-color: $red;
+      // border-color: $red;
+      &.instructor {
+        border-left-color: $red;
+      }
+      .name {
+        display: block;
+        opacity: 0.9
+      }
+      .archived-label {
+        display: none;
+      }
+    }
+  }
+
+  &:hover:not(.archived) {
+    opacity: 1;
+    background-color: $navy-5;
+    border-color: $navy-5;
+    border-left-color: $navy-8;
+    .name {
+      opacity: 1;
+    }
+    &.instructor {
+      border-left-color: $yellow;
+    }
+  }
+
+  img {
+    width: 1.1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.3rem;
+    padding-bottom: 0.1rem;
+  }
+
+  .role {
+
+  }
+
+  .code {
+    display: flex;
+    align-items: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 2rem;
+    height: 3rem;
+    .label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: $red;
+    }
+    .Badge {
+      margin-top: 0.15rem;
+    }
+    img {
+      margin-top: 0.2rem;
+    }
+  }
+
+  .name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    opacity: 0.85;
+  }
+
+}
