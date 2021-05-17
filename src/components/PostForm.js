@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import EditForm from "./EditForm";
 import "./PostForm.scss";
 
-import DevData from "./DevData";
-
 const PostForm = (props) => {
 
   PostForm.propTypes = {
@@ -24,8 +22,6 @@ const PostForm = (props) => {
 
   return (
     <div className="PostForm">
-
-      <DevData name="PostForm" props={props} />
 
       <div className="header">
         Create a new post

@@ -4,8 +4,6 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Register.scss";
 
-// import DevData from "./DevData";
-
 const Register = (props) => {
 
   Register.propTypes = {
@@ -95,8 +93,6 @@ const Register = (props) => {
 
   return (
     <div className="Register">
-
-      {/* <DevData name="Register" props={props} /> */}
 
       <div className="panel">
 

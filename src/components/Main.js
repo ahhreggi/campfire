@@ -141,9 +141,9 @@ const Main = (props) => {
 
 
       {/* TEMPORARY */}
-      {props.active === "Manage" &&
+      {/* {props.active === "Manage" &&
         <DevData name={"Main"} props={props} />
-      }
+      } */}
 
       {/* Dashboard View */}
       {props.active === "Dashboard" &&

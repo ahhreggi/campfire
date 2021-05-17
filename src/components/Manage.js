@@ -74,7 +74,7 @@ const Manage = (props) => {
           You may unenrol from a course at any time, however please note that <b>any contributions you&apos;ve made will remain unchanged</b> (you can always delete them manually).
         </div>
         <div className="course-owner">
-          If you are the <span>owner</span> of a course you wish to unenrol from, you must first pass ownership to another instructor, or delete the course entirely.
+          If you are the <span>owner</span> of a course you wish to unenrol from, you must first pass ownership to another instructor, or delete the course entirely via the course settings.
         </div>
         <div className="counters">
           {props.userCourses.length === 0 &&

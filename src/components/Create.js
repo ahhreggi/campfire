@@ -4,8 +4,6 @@ import Button from "./Button";
 import BackButton from "./BackButton";
 import "./Create.scss";
 
-import DevData from "./DevData";
-
 const Create = (props) => {
 
   Create.propTypes = {
@@ -67,8 +65,6 @@ const Create = (props) => {
 
   return (
     <div className="Create">
-
-      <DevData name="Create" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
