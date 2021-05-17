@@ -78,7 +78,6 @@
       .nav-buttons {
         display: flex;
         flex-wrap: nowrap;
-
       }
 
       .user-link {
@@ -126,19 +125,6 @@
 
       }
 
-      .arrow-icon {
-
-        img {
-          height: 1rem;
-          width: 1rem;
-          opacity: 0.6;
-          transform: rotate(90deg);
-          filter: invert(100);
-          margin-left: 0.5rem;
-        }
-
-      }
-
       .courses-icon,
       .github-icon {
         margin-right: 1rem;
@@ -155,21 +141,13 @@
         cursor: pointer;
         filter: grayscale(100%) brightness(0) invert(100);
 
-        &:hover {
-          filter: none;
-
-          img {
-            opacity: 0.8;
-          }
-
-        }
-
         img {
           width: 1.5rem;
-          opacity: 0.7;
+          opacity: 0.5;
 
           &:hover {
             opacity: 0.9;
+            filter: none;
           }
 
           &:active {
