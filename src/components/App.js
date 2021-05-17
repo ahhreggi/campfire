@@ -706,7 +706,8 @@ const App = () => {
           </section>
 
           <footer className="app-footer">
-
+            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
           </footer>
 
         </>
