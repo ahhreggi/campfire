@@ -97,7 +97,7 @@ const Join = (props) => {
         {/* Success/Errors */}
         <div>
           <div className={`messages ${state.status} ${state.errors ? "error" : ""}`}>
-            {state.status && state.statusMessage ? <>Joining&nbsp;<span className="course-name">{state.statusMessage}</span></> : null}
+            {state.status && state.statusMessage ? <>Joining&nbsp;<span className="course-name">{state.statusMessage}...</span></> : null}
             {state.errors && state.errors.join("")}
           </div>
         </div>
