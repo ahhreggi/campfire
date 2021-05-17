@@ -97,7 +97,7 @@ const ManageListItem = (props) => {
         </>
       }
 
-      {state.showConfirmation && props.role !== "owner" &&
+      {state.showConfirmation &&
         <div className="confirmation">
           <Confirmation
             message={`Are you sure you would like to unenroll from ${props.courseCode}?`}
