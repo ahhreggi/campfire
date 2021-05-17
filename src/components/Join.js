@@ -4,8 +4,6 @@ import Button from "./Button";
 import BackButton from "./BackButton";
 import "./Join.scss";
 
-import DevData from "./DevData";
-
 const Join = (props) => {
 
   Join.propTypes = {
@@ -31,23 +29,16 @@ const Join = (props) => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const handleInputChange = (event, field) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  // Check if a code contains only letters and numbers?
-  const isValidAccessCode = (code) => {
-    return true || code;
-    // return !!(code).match("^[a-zA-Z0-9]+$");
-  };
-
   // Validate input field prior to submitting the data
   const handleSubmit = () => {
-    // TODO: Set specific parameters for an access code?
-    // E.g., X number of digits, numbers and letters only, etc...
-
     const errors = [];
-    if (!state.accessCode || !isValidAccessCode(state.accessCode)) {
+    if (!state.accessCode) {
       errors.push("Please enter a valid access code");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
@@ -61,10 +52,10 @@ const Join = (props) => {
     }
   };
 
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className="Join">
-
-      <DevData name="Join" props={props} />
 
       {/* Page Title */}
       <div className="page-title">
