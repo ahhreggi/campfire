@@ -37,28 +37,33 @@
     .resolution-refs {
       display: flex;
       flex-wrap: nowrap;
-      // margin-bottom: 1rem;
     }
 
     .link {
       margin-bottom: 0.2rem;
-      // margin-left: 1.1rem;
       margin-right: 0.5rem;
       cursor: pointer;
+
       img.arrow {
         width: 1rem;
       }
+
       span {
         font-size: 0.9rem;
         font-weight: 900;
       }
+
       &:hover {
         color: $green;
+
         img {
           filter: none;
         }
+
       }
+
     }
+
     .unresolve {
       margin-bottom: 0.2rem;
       margin-left: 1rem;
@@ -104,7 +109,6 @@
       &.unresolved {
         color: $red
       }
-
 
     }
 
@@ -339,11 +343,15 @@
   }
 
   .comment-form {
+
     &.instructor {
+
       span.name {
         color: $yellow;
       }
+
     }
+
   }
 
   .reply-form {

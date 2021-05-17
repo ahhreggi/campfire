@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import ManageListItem from "./ManageListItem";
-import "./ManageList.scss";
 
 const ManageList = (props) => {
 

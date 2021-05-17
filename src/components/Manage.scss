@@ -8,32 +8,44 @@
   }
 
   .page-text {
+
     b {
       color: $orange;
     }
+
     .course-owner {
       margin-top: 1rem;
+
       span {
         color: $yellow;
         font-weight: 700;
       }
+
     }
+
     .counters {
       margin: 1rem 0;
       font-weight: 700;
+
       .new {
         color: $red;
       }
+
     }
+
     .number {
       font-weight: 700;
+
       &.active {
         color: $green;
       }
+
       &.archived {
         color: $red;
       }
+
     }
+
   }
 
   .user-courses {
@@ -46,13 +58,16 @@
     overflow-x: hidden;
     overflow-y: scroll;
     @include custom-scrollbar;
+
     &::-webkit-scrollbar-track {
       background-color: $navy-0;
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: $navy-5;
       border-radius: 15px;
     }
+
     .empty {
       font-weight: 700;
       font-size: 1.5rem;
@@ -62,6 +77,7 @@
       justify-content: center;
       margin-top: 5rem;
     }
+
   }
 
 }

@@ -4,14 +4,15 @@
   background-color: $navy-1;
   height: 100%;
   padding: 1.5rem 1.5rem 1.5rem 2rem;
-  // padding-top: 0.4rem;
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: scroll;
   @include custom-scrollbar;
+
   &::-webkit-scrollbar-track {
     background-color: $navy-1;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: $navy-4;
   }
@@ -24,12 +25,16 @@
     padding: 1rem;
     margin-bottom: 1.5rem;
     user-select: none;
+
     span {
       color: $red;
     }
+
     .body {
       font-size: 1rem;
       margin-top: 0.5rem;
     }
+
   }
+
 }
