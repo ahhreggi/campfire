@@ -8,7 +8,7 @@ import "./Manage.scss";
 const Manage = (props) => {
 
   Manage.propTypes = {
-    userData: PropTypes.array,
+    userData: PropTypes.object,
     userCourses: PropTypes.array,
     onLeaveCourse: PropTypes.func,
     status: PropTypes.string,
