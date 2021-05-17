@@ -19,7 +19,9 @@ const Manage = (props) => {
 
   const [state, setState] = useState({
     activeCourses: [],
-    archivedCourses: []
+    archivedCourses: [],
+    showActiveCourses: true,
+    showArchivedCourses: false
   });
 
   // Update categories whenever userCourses changes
@@ -44,6 +46,14 @@ const Manage = (props) => {
 
   }, [props.userCourses]);
 
+  const showCategory = (category) => {
+    if (category === "active") {
+      setState({ ...state, showActiveCourses: true, showArchivedCourses: false });
+    } else {
+      setState({ ...state, showActiveCourses: false, showArchivedCourses: true });
+    }
+  };
+
   ///////////////////////////////////////////////////////////////////
 
   return (
@@ -67,22 +77,53 @@ const Manage = (props) => {
         </div>
       </div>
 
+      <div className="tabs">
+        <Button
+          text="Active Courses"
+          styles={`tab ${state.showActiveCourses ? "active" : ""}`}
+          onClick={() => showCategory("active")}
+        />
+        <Button
+          text="Archived Courses"
+          styles={`tab ${state.showArchivedCourses ? "active" : ""}`}
+          onClick={() => showCategory("archived")}
+        />
+      </div>
+
       {/* CourseList */}
       <div className="user-courses">
         {/* Active Courses List */}
-        <ManageList
-          courses={state.activeCourses}
-          onLeaveCourse={props.onLeaveCourse}
-          onViewCourse={props.onViewCourse}
-          onRedirect={props.onRedirect}
-        />
+        {state.showActiveCourses &&
+          <>
+            {state.activeCourses.length > 0 &&
+              <ManageList
+                courses={state.activeCourses}
+                onLeaveCourse={props.onLeaveCourse}
+                onViewCourse={props.onViewCourse}
+                onRedirect={props.onRedirect}
+              />
+            }
+            {state.activeCourses.length === 0 &&
+              <div className="empty">You aren&apos;t enrolled in any courses yet!</div>
+            }
+          </>
+        }
         {/* Archived Courses List */}
-        <ManageList
-          courses={state.archivedCourses}
-          onLeaveCourse={props.onLeaveCourse}
-          onViewCourse={props.onViewCourse}
-          onRedirect={props.onRedirect}
-        />
+        {state.showArchivedCourses &&
+          <>
+            {state.archivedCourses.length > 0 &&
+              <ManageList
+                courses={state.archivedCourses}
+                onLeaveCourse={props.onLeaveCourse}
+                onViewCourse={props.onViewCourse}
+                onRedirect={props.onRedirect}
+              />
+            }
+            {state.archivedCourses.length === 0 &&
+              <div className="empty">You have no archived courses.</div>
+            }
+          </>
+        }
       </div>
 
 

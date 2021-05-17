@@ -22,6 +22,7 @@ const ManageList = (props) => {
         ownerName={course.owner_name}
         role={course.role}
         joinDate={course.join_date}
+        archived={course.archived}
         onLeaveCourse={props.onLeaveCourse}
         onViewCourse={props.onViewCourse}
         onRedirect={props.onRedirect}

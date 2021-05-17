@@ -74,6 +74,28 @@ button {
       color: $red;
     }
 
+    &.yellow {
+      color: $yellow;
+    }
+
+    &.manage {
+      opacity: 0.9;
+      &.green {
+        background-color: rgba(0, 128, 0, 0.253);
+      }
+      &.red {
+        background-color: rgba(255, 0, 0, 0.233);
+        &.disabled {
+          color: grey;
+          background-color: rgba(255, 255, 255, 0.089);
+          opacity: 1;
+        }
+      }
+      &.yellow {
+        background-color: rgba(255, 187, 0, 0.329);
+      }
+    }
+
     &:hover {
       opacity: 1;
     }
@@ -138,6 +160,24 @@ button {
       }
     }
 
+  }
+
+  &.tab {
+    border: 1px solid $navy-5;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;;
+    font-size: 0.8rem;
+    background-color: $navy-2;
+    &:hover {
+      background-color: $navy-3;
+    }
+    &.active {
+      background-color: $navy-5;
+    }
   }
 
 }
