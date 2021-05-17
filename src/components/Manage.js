@@ -16,8 +16,23 @@ const Manage = (props) => {
     onRedirect: PropTypes.func
   };
 
-  const numActiveCourses = props.userCourses.filter(course => !course.archived).length;
-  const numArchivedCourses = props.userCourses.length - numActiveCourses;
+  // VARIABLES //////////////////////////////////////////////////////
+
+  const activeCourses = [];
+  const archivedCourses = [];
+
+  for (const course of props.userCourses) {
+    if (course.archived) {
+      archivedCourses.push(course);
+    } else {
+      activeCourses.push(course);
+    }
+  }
+
+  const numActiveCourses = activeCourses.length;
+  const numArchivedCourses = archivedCourses.length;
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Manage">
@@ -42,7 +57,8 @@ const Manage = (props) => {
 
       {/* CourseList */}
       <div className="user-courses">
-        User courses here!
+        <ManageList />
+        <ManageList />
       </div>
 
 
