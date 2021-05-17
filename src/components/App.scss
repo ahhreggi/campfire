@@ -9,7 +9,7 @@
   overflow: hidden;
   // overflow-y: scroll;
   height: 96vh;
-  min-width: 35rem;
+  min-width: 55rem;
 
   section.app-containers {
     display: flex;
@@ -35,8 +35,6 @@
   &::-webkit-scrollbar-track {
     border-radius: 0 15px 15px 0;
     background-color: $navy-2;
-    // background: linear-gradient($navy-2, $navy-0);
-    z-index: -1;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -49,6 +47,10 @@
   }
 
   footer.app-footer {
+    min-width: 70rem;
+    height: 0.5rem;
+    background-color: $navy-2;
+    border-radius: 0 0 0 15px;
 
   }
 
