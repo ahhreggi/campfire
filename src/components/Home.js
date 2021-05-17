@@ -26,9 +26,10 @@ const Home = (props) => {
 
       <div className="greeting">
         Welcome back, <span>{props.userData.firstName}</span>!
+        <hr />
         <div className="sub">What would you like to do today?</div>
       </div>
-      <hr />
+      {/* <hr /> */}
       <div className="panels">
         <Panel label={"JOIN"} img={join} onClick={() => props.onRedirect("Join")} />
         <Panel label={"CREATE"} img={create} onClick={() => props.onRedirect("Create")} />

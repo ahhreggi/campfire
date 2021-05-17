@@ -48,7 +48,7 @@ const Join = (props) => {
 
     const errors = [];
     if (!state.accessCode || !isValidAccessCode(state.accessCode)) {
-      errors.push("Please enter a valid 36-character access code");
+      errors.push("Please enter a valid access code");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -75,7 +75,7 @@ const Join = (props) => {
 
       {/* Page Text */}
       <div className="page-text">
-        Have a <span className="student">student</span> or <span className="instructor">instructor</span> access code? Enter it below to enrol in the course. If you&apos;re unsure or don&apos;t have a code yet, contact your head instructor.
+        Have a <span className="student">student</span> or <span className="instructor">instructor</span> access code? Enter it below to join the course discussion board. If you&apos;re unsure or don&apos;t have a code yet, contact your head instructor.
       </div>
 
       <div className={`panel ${state.status} ${state.errors ? "invalid" : ""}`}>
@@ -87,14 +87,14 @@ const Join = (props) => {
             Course Access Code
           </div>
           <input
-            text={state.accessCode}
+            value={state.accessCode}
             onChange={(event) => handleInputChange(event, "accessCode")}
             placeholder={"7b8257fb-126e-4a3f-961b-81891c6edf4a"}
             maxLength={36}
           />
         </div>
 
-        {/* Errors */}
+        {/* Success/Errors */}
         <div>
           <div className={`messages ${state.status} ${state.errors ? "error" : ""}`}>
             {state.status && "Course found!"}
