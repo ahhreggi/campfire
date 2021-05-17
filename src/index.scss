@@ -8,6 +8,7 @@ html {
 }
 
 body {
+  // display: flex;
   margin: 0;
   background-color: $navy-0;
   color: $white;
@@ -15,6 +16,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
+  // overflow: hidden;
+  // keep disabled
+
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  // background: linear-gradient($black, $navy-0);
+
+  .App {
+    margin-left: 15rem;
+    margin-right: 15rem;
+    min-width: 55rem;
+    width: 85vw;
+    overflow-x: hidden;
+    // box-shadow: -3px -3px 5px $navy-2, 3px 3px 5px $navy-0;
+    box-shadow: 0px 0px 5px black;
+  }
 
   // DEVELOPMENT ONLY ///////////////////////////////////////////////
   .App {

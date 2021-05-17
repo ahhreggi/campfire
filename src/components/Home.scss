@@ -5,12 +5,20 @@
   flex-direction: column;
   .greeting {
     font-size: 2rem;
+    font-weight: 700;
     span {
       color: $orange;
-      font-weight: 700;
+      font-weight: 900;
+    }
+    .sub {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
     }
   }
   .panels {
+    // border: 1px solid red;
     display: flex;
     flex-wrap: wrap;
     margin-top: 0.5rem;

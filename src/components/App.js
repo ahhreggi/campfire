@@ -74,6 +74,7 @@ const App = () => {
 
     loading: true,
 
+    status: null,
     errors: null // e.g. ["Invalid username/password"] // typically should have only 0 or 1 item at any given time
 
   });
@@ -267,6 +268,7 @@ const App = () => {
           setAppData(userCourses, "userCourses", null, null, active, courseData);
         } else {
           console.log("❌ fetchUserCourses failed!");
+          setState({ ...state, errors: ["Failed to retrieve user courses"]});
         }
       });
   };
@@ -365,10 +367,13 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+          setState({ ...state, status: "success" });
+          setTimeout(() => {
+            setAppData(courseData, "courseData");
+          }, 1500);
         } else {
           console.log("❌ joinCourse failed!");
-          setState({ ...state, errors: ["Invalid access code!"] });
+          setState({ ...state, errors: ["Invalid access code"] });
         }
       });
   };
@@ -395,11 +400,20 @@ const App = () => {
 
   const viewPost = (postID) => {
     request("POST", API.POSTS, postID + "/view");
-    // TODO: Add a "viewed" property to each post so I know to update it locally in state
-    // Also a way to check if the post had any new activity since the user last visited would be cool (marked as unread)
-    // If views stored a timestamp, or updated the timestamp each time, you could compare that timestamp to
-    // the most recent comment's timestamp of the post
   };
+
+  // If postID changes, exists, and the user has not previously visited the post before, add a unique view
+  useEffect(() => {
+    if (state.postID) {
+      const post = getPostByID(state.posts, state.postID);
+      if (!post.viewed && state.active !== "New Post") {
+        viewPost(state.postID);
+        setTimeout(() => {
+          fetchCourseData(state.courseData.id, state.postID, getPostByID(state.courseData.posts, state.postID));
+        }, 100);
+      }
+    }
+  }, [state.postID]);
 
   // CREATE A POST //////////////////////////////////////////////////
 
@@ -433,7 +447,7 @@ const App = () => {
   // SIDE EFFECT 7: If postData and postID change to non-null values while the active view is "New Post", change it to "Post"
   useEffect(() => {
     if (state.postData && state.postID && state.active === "New Post") {
-      setActive("Post", state.postID);
+      setActive("Post", state.postID, getPostByID(state.posts, state.postID));
     }
   }, [state.postData]);
 
@@ -503,18 +517,19 @@ const App = () => {
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
     if (selection === "Logout") {
-      setState({});
-      window.location.href = "/";
+      setState({ active: "Login" });
+    } else if (selection === "GitHub") {
+      window.location.href = "https://github.com/ahhreggi/campfire";
     } else if (selection === "Post") {
+      // const newPostData = postData !== undefined ? postData : getPostByID(state.posts, state.postID);
+      const newPostData = postData !== undefined ? postData : getPostByID(postID, state.posts);
       setState({
         ...state,
         active: selection,
         postID: postID,
-        postData: postData ? postData : getPostByID(state.posts, state.postID),
+        postData: newPostData,
         errors: null
       });
-      // Record the user's first unique visit
-      viewPost(postID);
     } else if (selection === "Home" && requiresCourseData(state.active)) {
       fetchUserCourses(null, "Home");
     } else {
@@ -611,12 +626,13 @@ const App = () => {
           {/* Nav Bar (requires userData, userCourses, courseData) */}
           {state.userData && state.userCourses &&
             <Nav
-              onClick={setActive}
+              onRedirect={setActive}
               active={state.active}
-              viewTitle={state.courseData ? `${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
+              viewTitle={state.courseData ? `${state.courseData.code || "My Course"} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
               courseName={state.courseData ? state.courseData.name : ""}
               userAvatar={state.userData.avatarID}
               userName={`${state.userData.firstName} ${state.userData.lastName}`}
+              userRole={state.courseData ? state.courseData.role : null}
             />
           }
 
@@ -629,6 +645,7 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
+                  userID={state.userData.userID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}
@@ -655,6 +672,7 @@ const App = () => {
               <Main
                 // Active state
                 active={state.active}
+                status={state.status}
                 errors={state.errors}
                 // Home view
                 userData={state.userData}
@@ -687,16 +705,16 @@ const App = () => {
 
           </section>
 
+          <footer className="app-footer">
+            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
+          </footer>
+
         </>
       }
 
       {/* See index.scss */}
-      <div className="dev-tools">
-        {/* Test Controls */}
-        <div className="test-controls mt-2">
-          test controls:
-          <Button text="Refresh DB" onClick={() => resetDB()} />
-        </div>
+      <div className="dev-tools pt-5">
         {/* Dev Data Display */}
         <DevData name="App" props={state} label={"State"} />
       </div>

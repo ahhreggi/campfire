@@ -3,6 +3,7 @@ import PostListCategoryItem from "./PostListCategoryItem";
 
 const PostListCategory = (props) => {
   PostListCategory.propTypes = {
+    userID: PropTypes.number,
     posts: PropTypes.array,
     onClick: PropTypes.func,
     selectedPostID: PropTypes.number
@@ -29,6 +30,9 @@ const PostListCategory = (props) => {
         bestAnswer={post.best_answer}
         tags={post.tags}
         views={post.views}
+        viewed={post.viewed}
+        instructor={post.role !== "student"}
+        owned={post.author_id === props.userID}
         comments={numComments}
         showStudentBadge={showStudentBadge}
         showInstructorBadge={showInstructorBadge}

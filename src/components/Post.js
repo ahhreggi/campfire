@@ -41,6 +41,7 @@ const Post = (props) => {
     title: PropTypes.string,
     authorID: PropTypes.number,
     views: PropTypes.number,
+    edits: PropTypes.array,
     onEditBookmark: PropTypes.func,
     onEditPost: PropTypes.func,
     onDeletePost: PropTypes.func,
@@ -251,6 +252,13 @@ const Post = (props) => {
     }
   };
 
+  // Return the length of the longest word in the given string
+  const getLongestWordLength = (text) => {
+    if (text) {
+      return Math.max(...text.split(" ").map(word => word.length));
+    }
+  };
+
   // VARIABLES //////////////////////////////////////////////////////
 
   // Get the author name to display
@@ -262,9 +270,27 @@ const Post = (props) => {
   // Determine if the post was ever modified (title or body only)
   const isModified = props.createdAt !== props.lastModified;
 
+  // // Get the timestamp to display
+  // const timestamp = formatTimestamp(props.lastModified);
+  // const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<>{timestamp} <span className="edited">(edited {relativeTimestamp}{editor.user_id !== props.authorID && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span></>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
+
+  // Check if word break is needed for the body
+  const breakBody = getLongestWordLength(props.body) > 30;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -280,21 +306,25 @@ const Post = (props) => {
           <>
             <div className="resolution-message">
 
-              <div>
+              <div className="header">
                 This question has been answered.
               </div>
 
-              <div className="link" onClick={() => scrollToBestAnswer()}>
-                <img src={arrow} className="arrow" />
-                <span>VIEW BEST ANSWER</span>
-              </div>
+              <div className="resolution-refs">
 
-              {props.authorID === props.userID &&
-                <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
-                  <img src={cross} className="cross" />
-                  <span>MARK AS UNRESOLVED</span>
+                <div className="link" onClick={() => scrollToBestAnswer()}>
+                  <img src={arrow} className="arrow" />
+                  <span>VIEW BEST ANSWER</span>
                 </div>
-              }
+
+                {props.authorID === props.userID &&
+                  <div className="unresolve" onClick={() => editBestAnswer(props.bestAnswer)}>
+                    <img src={cross} className="cross" />
+                    <span>MARK AS UNRESOLVED</span>
+                  </div>
+                }
+
+              </div>
 
             </div>
             <hr />
@@ -311,7 +341,7 @@ const Post = (props) => {
           {/* Views */}
           <div className="views icon-med">
             <img src={eye} alt="views" />
-            {props.views}
+            {props.views < 0 ? 0 : props.views}
           </div>
 
         </header>
@@ -326,7 +356,7 @@ const Post = (props) => {
         {/* Author & Timestamps */}
         <div className="post-subheader">
           <div>
-            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            Submitted by <span className={`author ${props.authorRole !== "student" ? "instructor" : ""}`}>{authorName}</span> on {timestampElement}
           </div>
         </div>
 
@@ -359,7 +389,7 @@ const Post = (props) => {
         <hr />
 
         {/* Post Body */}
-        <div className={`post-body ${state.breakBody && "break"}`}>
+        <div className={`post-body ${breakBody && "break"}`}>
           {props.body}
         </div>
 

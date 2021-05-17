@@ -17,6 +17,7 @@ const Main = (props) => {
   Main.propTypes = {
     // Active state
     active: PropTypes.string,
+    status: PropTypes.string,
     errors: PropTypes.array,
     // Home view
     userData: PropTypes.object,
@@ -45,6 +46,8 @@ const Main = (props) => {
     onTagToggle: PropTypes.func,
     onRedirect: PropTypes.func
   };
+
+
 
   // const [state, setState] = useState({
   //   mainActive: props.active
@@ -100,6 +103,7 @@ const Main = (props) => {
         <Join
           userData={props.userData}
           onSubmit={props.onJoinCourse}
+          status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
@@ -110,6 +114,7 @@ const Main = (props) => {
         <Create
           userData={props.userData}
           onSubmit={props.onCreateCourse}
+          status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
@@ -123,8 +128,8 @@ const Main = (props) => {
       {/* Dashboard View */}
       {props.active === "Dashboard" &&
         <Dashboard
-          resolved={stats ? stats.num_resolved_questions : null}
-          unresolved={stats ? stats.num_unresolved_questions : null}
+          resolved={stats ? stats.num_resolved_posts : null}
+          unresolved={stats ? stats.num_unresolved_posts : null}
         />
       }
 
@@ -163,6 +168,8 @@ const Main = (props) => {
           title={post.title}
           authorID={post.author_id}
           views={post.views}
+          edits={post.edits}
+          viewed={post.viewed}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}
