@@ -233,7 +233,7 @@ const CommentListItem = (props) => {
   const relativeTimestamp = formatTimestamp(props.lastModified, true);
   let timestampElement;
   if (isModified) {
-    timestampElement = (<span className="modified">{timestamp} (edited {relativeTimestamp} by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span>)</span>);
+    timestampElement = (<span className="modified">{timestamp} (edited {relativeTimestamp}{props.commentAuthorID !== editor.user_id && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span>);
   } else {
     timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
   }
