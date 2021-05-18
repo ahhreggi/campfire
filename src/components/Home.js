@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import Panel from "./Panel";
+import Button from "./Button";
 import "./Home.scss";
 
 import join from "../images/icons/green-arrow.png";

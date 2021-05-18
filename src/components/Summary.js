@@ -27,7 +27,12 @@ const Summary = (props) => {
       }
       {props.unresolved > 0 &&
         <div className="unresolved-posts">
-          There are currently <span className="unresolved">{props.unresolved}</span> unresolved questions.
+          {props.unresolved === 1 &&
+            <>There is currently <span className="unresolved">{props.unresolved}</span> unresolved question.</>
+          }
+          {props.unresolved > 1 &&
+            <>There are currently <span className="unresolved">{props.unresolved}</span> unresolved questions.</>
+          }
         </div>
       }
     </div>

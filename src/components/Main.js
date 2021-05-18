@@ -8,6 +8,7 @@ import Join from "./Join";
 import Create from "./Create";
 import Manage from "./Manage";
 import Dashboard from "./Dashboard";
+import Info from "./Info";
 import Analytics from "./Analytics";
 import BackButton from "./BackButton";
 import "./Main.scss";
@@ -155,6 +156,13 @@ const Main = (props) => {
           courseCode={props.courseData.course_code}
           courseName={props.courseData.name}
           analytics={props.courseData.analytics}
+        />
+      }
+
+      {/* Info View */}
+      {props.active === "Info" &&
+        <Info
+          courseData={props.courseData}
         />
       }
 

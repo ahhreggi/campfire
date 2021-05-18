@@ -45,7 +45,7 @@ const Dashboard = (props) => {
       <div className="panels">
         <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
         <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} />
-        <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Course Info")} />
+        <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Info")} />
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
         <Panel label={"ACCESS"} img={secret} onClick={() => props.onRedirect("Access")} />
         <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
