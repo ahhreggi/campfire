@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Confirmation from "./Confirmation";
 import PropTypes from "prop-types";
 import Button from "./Button";

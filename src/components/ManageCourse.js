@@ -47,16 +47,19 @@ const ManageCourse = (props) => {
   return (
     <div className="ManageCourse">
 
+      {/* Page Title */}
       <div className="page-title">
         Users
       </div>
 
       <hr />
 
+      {/* Page Text */}
       <div className="count">
         There are currently <span className="instructor">{instructors.length}</span> instructor(s) and <span className="student">{students.length}</span> student(s) enrolled in <span className="course-name">{props.courseData.course_code}: {props.courseData.name}</span>.
       </div>
 
+      {/* Instructors List */}
       <div className="label">Instructors</div>
       <div className="list">
         <div className="instructors">
@@ -69,6 +72,8 @@ const ManageCourse = (props) => {
           />
         </div>
       </div>
+
+      {/* Students List */}
       <div className="label">Students</div>
       <div className="list">
         <div className="students">
