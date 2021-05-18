@@ -7,7 +7,6 @@ import create from "../images/icons/edit.png";
 import manage from "../images/icons/courses.png";
 import about from "../images/icons/star.png";
 import help from "../images/icons/question-mark-blue.png";
-import settings from "../images/icons/settings.png";
 
 // import DevData from "./DevData";
 
@@ -36,7 +35,7 @@ const Home = (props) => {
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage")} />
         <Panel label={"ABOUT"} img={about} onClick={() => props.onRedirect("About")} />
         <Panel label={"HELP"} img={help} onClick={() => props.onRedirect("Help")} />
-        <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account Settings")} />
+        <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account")} />
       </div>
 
       <hr />

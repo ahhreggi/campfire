@@ -741,8 +741,7 @@ const App = () => {
             <Nav
               onRedirect={setActive}
               active={state.active}
-              viewTitle={state.courseData ? `${state.courseData.course_code.toUpperCase() || "My Course"} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
-              courseName={state.courseData ? state.courseData.name : ""}
+              courseData={state.courseData}
               userAvatar={state.userData.avatarID}
               userName={`${state.userData.firstName} ${state.userData.lastName}`}
               userRole={state.courseData ? state.courseData.role : null}

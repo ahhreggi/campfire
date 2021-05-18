@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import BackButton from "./BackButton";
 import ManageList from "./ManageList";
 import "./Manage.scss";
 
@@ -63,7 +62,7 @@ const Manage = (props) => {
 
       {/* Page Title */}
       <div className="page-title">
-        Manage enrolments
+        Manage course enrolments
       </div>
 
       <hr />
@@ -141,9 +140,6 @@ const Manage = (props) => {
         }
 
       </div>
-
-      {/* Back to Home */}
-      <BackButton onRedirect={props.onRedirect} />
 
     </div>
   );

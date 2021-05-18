@@ -105,9 +105,6 @@ const Join = (props) => {
 
       </div>
 
-      {/* Back to Home */}
-      <BackButton onRedirect={props.onRedirect} />
-
     </div>
   );
 };

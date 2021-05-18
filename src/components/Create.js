@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import BackButton from "./BackButton";
 import "./Create.scss";
 
 const Create = (props) => {
@@ -147,9 +146,6 @@ const Create = (props) => {
         </div>
 
       </div>
-
-      {/* Back to Home */}
-      <BackButton onRedirect={props.onRedirect} />
 
     </div>
   );

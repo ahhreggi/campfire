@@ -9,6 +9,7 @@ import Create from "./Create";
 import Manage from "./Manage";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
+import BackButton from "./BackButton";
 import "./Main.scss";
 
 import DevData from "./DevData";

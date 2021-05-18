@@ -2,6 +2,13 @@ import PropTypes from "prop-types";
 import Panel from "./Panel";
 import "./Dashboard.scss";
 
+import about from "../images/icons/about.png";
+import post from "../images/icons/paper.png";
+import secret from "../images/icons/key.png";
+import manage from "../images/icons/endorse.png";
+import analytics from "../images/icons/analytics.png";
+import settings from "../images/icons/settings.png";
+
 import DevData from "./DevData";
 
 const Dashboard = (props) => {
@@ -24,12 +31,15 @@ const Dashboard = (props) => {
       </div>
       {/* <hr /> */}
       <div className="panels">
-        <Panel label={"JOIN"} img={""} onClick={() => props.onRedirect("Join")} />
-        <Panel label={"CREATE"} img={""} onClick={() => props.onRedirect("Create")} />
-        <Panel label={"MANAGE"} img={""} onClick={() => props.onRedirect("Manage")} />
-        <Panel label={"ABOUT"} img={""} onClick={() => props.onRedirect("About")} />
+        <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
+        <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} />
+        <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Course Info")} />
+        <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
+        <Panel label={"ACCESS"} img={secret} onClick={() => props.onRedirect("Access")} />
+        <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
+        {/* <Panel label={"ABOUT"} img={""} onClick={() => props.onRedirect("About")} />
         <Panel label={"HELP"} img={""} onClick={() => props.onRedirect("Help")} />
-        <Panel label={"SETTINGS"} img={""} onClick={() => props.onRedirect("Settings")} />
+        <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} /> */}
       </div>
 
       <hr />

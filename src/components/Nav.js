@@ -6,17 +6,34 @@ import github from "../images/icons/question-mark.png";
 import courses from "../images/icons/home.png";
 import PropTypes from "prop-types";
 
+import BackButton from "./BackButton";
+
 const Nav = (props) => {
 
   Nav.propTypes = {
     onRedirect: PropTypes.func,
     active: PropTypes.string,
-    viewTitle: PropTypes.string,
-    courseName: PropTypes.string,
+    courseData: PropTypes.object,
     userAvatar: PropTypes.number,
     userName: PropTypes.string,
     userRole: PropTypes.string
   };
+
+  const toHome = ["Join", "Create", "Manage", "About", "Help", "Account"];
+
+  let backToLabel;
+  if (toHome.includes(props.active)) {
+    backToLabel = "Home";
+  } else {
+    backToLabel = props.courseData ? props.courseData.course_code : "NO CODE";
+  }
+
+  let destination;
+  if (backToLabel === "Home") {
+    destination = "Home";
+  } else {
+    destination = "Dashboard";
+  }
 
   ///////////////////////////////////////////////////////////////////
 
@@ -33,7 +50,24 @@ const Nav = (props) => {
 
       {/* View Title */}
       <section className="app-nav middle">
-        <span className="view-title text-truncate">{props.viewTitle}</span>
+
+        {/* Back to Home/Dashboard */}
+        {props.active !== "Home" && props.active !== "Dashboard" &&
+          <BackButton
+            label={backToLabel.toUpperCase()}
+            destination={destination}
+            onRedirect={props.onRedirect}
+          />
+        }
+
+        {props.active === "Home" &&
+          <span className="view-title">Home</span>
+        }
+
+        {props.active === "Dashboard" &&
+          <span className="view-title text-truncate">{props.courseData ? `${props.courseData.course_code}: ${props.courseData.name}` : ""}</span>
+        }
+
       </section>
 
       {/* User Panel */}

@@ -4,16 +4,17 @@ import "./BackButton.scss";
 
 const BackButton = (props) => {
   BackButton.propTypes = {
+    label: PropTypes.string,
+    destination: PropTypes.string,
     onRedirect: PropTypes.func
   };
 
+
   return (
     <div className="BackButton">
-      <hr />
-      <div className="link" onClick={() => props.onRedirect("Home")}>
-
+      <div className="link" onClick={() => props.onRedirect(props.destination)}>
         <img src={arrow} />
-        <div>BACK TO HOME</div>
+        <div>BACK TO {props.label}</div>
       </div>
     </div>
   );
