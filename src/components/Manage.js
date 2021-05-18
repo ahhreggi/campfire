@@ -141,6 +141,8 @@ const Manage = (props) => {
 
       </div>
 
+      <hr />
+
     </div>
   );
 };

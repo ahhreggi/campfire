@@ -24,7 +24,7 @@ const Home = (props) => {
       {/* <DevData name="Home" props={props} /> */}
 
       <div className="greeting">
-        Welcome back, <span>{props.userData.firstName}</span>!
+        Hello, <span>{props.userData.firstName}</span>!
         <hr />
         <div className="sub">What would you like to do today?</div>
       </div>

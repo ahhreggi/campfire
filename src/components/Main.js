@@ -150,8 +150,11 @@ const Main = (props) => {
       {props.active === "Dashboard" &&
         <Dashboard
           userData={props.userData}
-          courseData={props.courseData}
+          userRole={props.courseData.role}
           onRedirect={props.onRedirect}
+          courseCode={props.courseData.course_code}
+          courseName={props.courseData.name}
+          analytics={props.courseData.analytics}
         />
       }
 

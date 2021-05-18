@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import Panel from "./Panel";
+import Summary from "./Summary";
 import "./Dashboard.scss";
 
 import about from "../images/icons/about.png";
@@ -15,8 +16,11 @@ const Dashboard = (props) => {
 
   Dashboard.propTypes = {
     userData: PropTypes.object,
-    courseData: PropTypes.object,
-    onRedirect: PropTypes.func
+    userRole: PropTypes.string,
+    onRedirect: PropTypes.func,
+    courseCode: PropTypes.string,
+    courseName: PropTypes.string,
+    analytics: PropTypes.object
   };
 
   return (
@@ -25,9 +29,17 @@ const Dashboard = (props) => {
       {/* <DevData name="Home" props={props} /> */}
 
       <div className="greeting">
-        Welcome back to the course, <span>{props.userData.firstName}</span>!
+        <div>{props.courseCode}: {props.courseName}</div>
         <hr />
-        <div className="sub">What would you like to do today?</div>
+        <div>
+          <Summary
+            onRedirect={props.onRedirect}
+            resolved={props.analytics.num_resolved_posts}
+            unresolved={props.analytics.num_unresolved_posts}
+            unread={props.analytics.num_unread_posts}
+          />
+        </div>
+        <hr />
       </div>
       {/* <hr /> */}
       <div className="panels">
@@ -55,10 +67,6 @@ const Dashboard = (props) => {
   //     <DevData name={"courseData.users"} props={props.courseData.users} /> */}
   //   </div>
   // );
-
-};
-
-Dashboard.propTypes = {
 
 };
 

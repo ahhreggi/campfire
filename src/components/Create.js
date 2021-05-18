@@ -147,6 +147,8 @@ const Create = (props) => {
 
       </div>
 
+      <hr />
+
     </div>
   );
 };

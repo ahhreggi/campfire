@@ -298,8 +298,8 @@ const App = () => {
   useEffect(() => {
     // If courseData changes and exists
     if (state.courseData) {
-      const origins = ["Home", "Create", "Join"];
-      // Redirect to Dashboard if coming from Home, Create, Join
+      const origins = ["Home", "Create", "Join", "Manage", "About", "Help", "Account"];
+      // Redirect to Dashboard if coming from a non-course view
       if (origins.includes(state.active)) {
         // If coming from the Create or Join page, add the new course data to userCourses
         let userCourses = [ ...state.userCourses ];

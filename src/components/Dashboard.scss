@@ -7,6 +7,7 @@
   .greeting {
     font-size: 2rem;
     font-weight: 700;
+    justify-content: center;
 
     span {
       color: $orange;
@@ -26,10 +27,18 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 0.5rem;
+    // justify-content: space-between;
 
     .Panel {
       margin: 0 1rem 1rem 0;
+      display: flex;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
     }
+
 
   }
 

@@ -105,6 +105,8 @@ const Join = (props) => {
 
       </div>
 
+      <hr />
+
     </div>
   );
 };
