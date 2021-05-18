@@ -70,14 +70,16 @@
 
   }
   .controls {
-    // width: 15rem;
     display: flex;
     justify-content: flex-end;
+
     img {
       width: 3rem;
       height: 1rem;
     }
+
   }
+
   .confirmation {
     justify-content: center;
     align-items: center;

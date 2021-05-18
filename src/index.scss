@@ -228,3 +228,7 @@ textarea {
     border-color: $navy-8;
   }
 }
+
+textarea {
+  @include custom-scrollbar;
+}

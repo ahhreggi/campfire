@@ -11,6 +11,7 @@ import Dashboard from "./Dashboard";
 import Info from "./Info";
 import ManageCourse from "./ManageCourse";
 import Access from "./Access";
+import Settings from "./Settings";
 import Analytics from "./Analytics";
 import BackButton from "./BackButton";
 import "./Main.scss";
@@ -204,6 +205,17 @@ const Main = (props) => {
           onResetAccess={props.onResetAccess}
           onRedirect={props.onRedirect}
           isOwner={props.courseData.role === "owner"}
+        />
+      }
+
+      {/* Settings View */}
+      {props.active === "Settings" &&
+        <Settings
+          courseData={props.courseData}
+          onEditCourse={props.onEditCourse}
+          status={props.status}
+          errors={props.errors}
+          onRedirect={props.onRedirect}
         />
       }
 
