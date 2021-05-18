@@ -407,8 +407,14 @@ const App = () => {
 
   // Edit a courseID with the given data
   const editCourse = (courseID, data) => {
-    request("PATCH", API.POSTS, courseID, data)
+    request("PATCH", API.COURSES, courseID, data)
       .then(() => fetchCourseData(state.courseID));
+  };
+
+  // Delete a course by ID, then redirect to Home
+  const deleteCourse = (courseID) => {
+    request("DELETE", API.COURSES, courseID)
+      .then(() => setActive("Home"));
   };
 
   // BOOKMARK A POST ////////////////////////////////////////////////
