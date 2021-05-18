@@ -14,7 +14,7 @@ export default {
         style={dracula}
         customStyle={{
           "backgroundColor": "#06060fb6",
-          "border-radius": "16px",
+          "borderRadius": "16px",
           "overflow": "hidden",
           "padding": "1rem",
           "margin": "0"
