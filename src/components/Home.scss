@@ -11,6 +11,13 @@
     span {
       color: $orange;
       font-weight: 900;
+      &.link.faq {
+        color: $white;
+        &:hover {
+          color: $blue;
+          cursor: pointer;
+        }
+      }
     }
 
     .sub {
@@ -18,9 +25,20 @@
       margin-top: 1rem;
       margin-bottom: 0.5rem;
       font-weight: 500;
+      .new {
+        font-size: 1;
+      }
+      img {
+        width: 1.1rem;
+        margin-left: 0.25rem;
+        margin-bottom: 0.2rem;
+        margin-right: 0.25rem;
+      }
     }
 
+
   }
+
 
   .panels {
     display: flex;

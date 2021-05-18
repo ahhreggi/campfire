@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Panel from "./Panel";
-import Button from "./Button";
+import moment from "moment";
 import "./Home.scss";
 
 import join from "../images/icons/green-arrow.png";
@@ -20,6 +20,9 @@ const Home = (props) => {
     onRedirect: PropTypes.func
   };
 
+  // Check if the user is new (joined within 30 seconds)
+  const newUser = moment().diff(moment(props.userData.joinDate)) < 30000;
+
   return (
     <div className="Home">
 
@@ -27,7 +30,22 @@ const Home = (props) => {
       {props.status}
 
       <div className="greeting">
-        Hello, <span>{props.userData.firstName}</span>!
+
+        {!newUser &&
+          <>Hello, <span>{props.userData.firstName}</span>!</>
+        }
+
+        {newUser &&
+          <>
+            Welcome to Campfire, <span>{props.userData.firstName}</span>!
+            <div className="new sub">
+              If you need help getting started, check out the <span className="link faq" onClick={() => props.onRedirect("Help")}><img src={help} />FAQ</span>.
+            </div>
+          </>
+        }
+
+
+
         <hr />
         <div className="sub">What would you like to do today?</div>
       </div>
