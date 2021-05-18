@@ -414,25 +414,26 @@ const App = () => {
           // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
           fetchUserCourses(courseData);
         } else {
-          console.log("❌ createCourse failed!");
+          console.log("❌ editCourse failed!");
         }
       });
   };
 
-  const testRequest = () => {
-    const courseID = 1;
-    const data = {
-      name: "NEW NAME",
-      description: "NEW DESCRIPTION",
-      courseCode: "NEW CODE",
-      tags: ["tag1", "tag2"],
-      archive: false,
-      roles: {
-        5: "instructor" // change dean into a student, student, instructor, owner, null to kick
-      }
-    };
-    editCourse(courseID, data);
-  };
+  // const testRequest = () => {
+  //   const courseID = 1;
+  //   const data = {
+  //     name: "NEW NAME",
+  //     description: "NEW DESCRIPTION",
+  //     courseCode: "NEW CODE",
+  //     tags: ["tag1", "tag2"],
+  //     archive: false,
+  //     roles: {
+  //       2: "owner", // MUST SET OWNER TO INSTRUCTOR IF PASSING OWNERSHIP!
+  //       5: "instructor" // change dean into a student, student, instructor, owner, null to kick
+  //     }
+  //   };
+  //   editCourse(courseID, data);
+  // };
 
   // Delete a course by ID, then redirect to Home
   const deleteCourse = (courseID) => {
@@ -440,9 +441,14 @@ const App = () => {
       .then(() => setActive("Home"));
   };
 
+  const testRequest = (courseID) => {
+    // deleteCourse(1); // broken
+    resetAccessCodes(1);
+  };
+
   // Reset the student and instructor access codes of a course
   const resetAccessCodes = (courseID) => {
-    request("DELETE", API.COURSES + "/" + courseID + "/resetAccessCodes")
+    request("POST", API.COURSES + "/" + courseID + "/resetAccessCodes")
       .then(() => fetchCourseData(state.courseID));
   };
 
