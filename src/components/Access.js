@@ -50,16 +50,19 @@ const Access = (props) => {
   return (
     <div className="Access">
 
+      {/* Page Title */}
       <div className="page-title">
         <header>Course access codes</header>
       </div>
 
       <hr />
 
+      {/* Page Text */}
       <div className="page-text">
         Invite <span>students</span> and <span className="instructor">instructors</span> to join this discussion board by providing them with the appropriate access codes below.
       </div>
 
+      {/* Student Access Code */}
       <div className="code">
         <header>Student access code</header>
         <div className="box">
@@ -69,6 +72,7 @@ const Access = (props) => {
             onClick={() => copyStudentCode(props.studentCode)}
           />
         </div>
+        {/* Click to Copy Button */}
         <div
           className={`msg ${copiedStudent ? "" : "active"}`}
           onClick={!copiedStudent ? () => copyStudentCode(props.studentCode) : null}
@@ -77,6 +81,7 @@ const Access = (props) => {
         </div>
       </div>
 
+      {/* Instructor Access Code */}
       <div className="code instructor">
         <span>Instructor access code</span>
         <div className="box">
@@ -86,6 +91,7 @@ const Access = (props) => {
             onClick={() => copyInstructorCode(props.instructorCode)}
           />
         </div>
+        {/* Click to Copy Button */}
         <div
           className={`msg instructor ${copiedInstructor ? "" : "active"}`}
           onClick={!copiedInstructor ? () => copyInstructorCode(props.instructorCode) : null}
@@ -96,6 +102,7 @@ const Access = (props) => {
 
       <hr />
 
+      {/* Reset Button */}
       <div className="center">
 
         {props.isOwner &&

@@ -81,8 +81,12 @@
       user-select: none;
       margin-left: 0.2rem;
     }
+    .msg {
+      opacity: 1;
+    }
     .msg.active {
       cursor: pointer;
+      opacity: 0.6;
     }
   }
 
