@@ -10,6 +10,7 @@ import Manage from "./Manage";
 import Dashboard from "./Dashboard";
 import Info from "./Info";
 import ManageCourse from "./ManageCourse";
+import Access from "./Access";
 import Analytics from "./Analytics";
 import BackButton from "./BackButton";
 import "./Main.scss";
@@ -175,6 +176,16 @@ const Main = (props) => {
         <ManageCourse
           courseData={props.courseData}
           onEditCourse={props.onEditCourse}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Access Codes View */}
+      {props.active === "Access" &&
+        <Access
+          studentCode={props.courseData.secrets.student_access_code}
+          instructorCode={props.courseData.secrets.instructor_access_code}
+          onResetAccess={props.onResetAccess}
           onRedirect={props.onRedirect}
         />
       }
