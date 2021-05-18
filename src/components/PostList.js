@@ -16,6 +16,7 @@ const PostList = (props) => {
 
   PostList.propTypes = {
     active: PropTypes.string,
+    userID: PropTypes.number,
     posts: PropTypes.array,
     tags: PropTypes.array,
     onClick: PropTypes.func,
@@ -62,7 +63,7 @@ const PostList = (props) => {
 
   // If searchText exists, ensure that filters and any closed, non-empty categories are opened
   useEffect(() => {
-    if (state.searchText) {
+    if (state.searchText && !state.showFilters) {
       setState({
         ...state,
         showFilters: true,
@@ -118,7 +119,11 @@ const PostList = (props) => {
       unpinned: descUnpinned
     });
 
+
   };
+
+  useEffect(() => {
+  }, [state.unpinned]);
 
   const toggleTag = (tagID) => {
     props.onTagToggle(tagID);
@@ -312,6 +317,7 @@ const PostList = (props) => {
             value={state.searchText}
             onChange={updateSearchText}
             placeholder={"e.g., react, @123"}
+            spellCheck={"false"}
           />
         </div>
       }
@@ -370,9 +376,11 @@ const PostList = (props) => {
           </div>
           {state.showPinned &&
             <PostListCategory
+              userID={props.userID}
               posts={state.pinned}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
+              searchText={state.searchText}
             />
           }
         </div>
@@ -391,9 +399,11 @@ const PostList = (props) => {
           </div>
           {state.showBookmarked &&
             <PostListCategory
+              userID={props.userID}
               posts={state.bookmarked}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
+              searchText={state.searchText}
             />
           }
         </div>
@@ -412,9 +422,11 @@ const PostList = (props) => {
           </div>
           {state.showPosts &&
             <PostListCategory
+              userID={props.userID}
               posts={state.unpinned}
               onClick={onSelectPost}
               selectedPostID={props.selectedPostID}
+              searchText={state.searchText}
             />
           }
         </div>

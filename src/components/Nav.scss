@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   user-select: none;
+  background-color: $navy-2;
 
   section.app-nav {
     height: 100%;
@@ -15,6 +16,7 @@
 
     &.left {
       min-width: 20rem;
+      background-color: $navy-1;
 
       .title {
         font-family: $font-title;
@@ -23,7 +25,6 @@
         margin-left: 0rem;
         display: flex;
         align-items: center;
-        transition: 0.5s;
         animation: glow 2s infinite alternate;
 
         @keyframes glow {
@@ -44,14 +45,8 @@
           margin-left: 0.8rem;
         }
 
-
         &:hover {
           cursor: pointer;
-          // color: $orange;
-          // color: rgb(255, 240, 221);
-          // filter: drop-shadow(0px 0px 3px $orange);
-          // text-shadow: 0px 0px 3px rgb(255, 123, 0);
-          // animation: glow 1s infinite alternate;
         }
 
       }
@@ -64,29 +59,119 @@
       flex-grow: 1;
       background-color: $navy-2;
       font-size: 1.3rem;
+      min-width: 0;
 
       .view-title {
-        font-weight: 700;
+        font-weight: 900;
+        font-size: 1.3rem;
+        text-transform: uppercase;
       }
 
     }
 
     &.right {
-      min-width: 25rem;
       background-color: $navy-2;
       display: flex;
       justify-content: space-between;
+      padding-left: 1.5rem;
+      transition: 0.2s;
+      overflow: hidden;
 
-      img {
-        width: 2rem;
-        margin: 1rem;
-        border-radius: 100%;
+      .nav-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+
+      .user-link {
+        display: flex;
+        max-width: 15rem;
+      }
+
+      .user-info {
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        max-width: 20rem;
+        margin-left: 2rem;
+        margin-right: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 1;
+
+          .user-name {
+            opacity: 1;
+          }
+
+        }
+
+        img {
+          width: 1.6rem;
+          border-radius: 100%;
+        }
+
+        .user-name {
+          margin-left: 1rem;
+          font-weight: 700;
+          font-size: 1.1rem;
+          opacity: 0.95;
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        &.instructor {
+          color: $yellow;
+
+        }
+
+      }
+
+      .courses-icon,
+      .github-icon {
+        margin-right: 1rem;
+      }
+
+      .logout-icon {
+        margin-top: 0.1rem;
+        margin-right: 0.5rem;
+      }
+
+      .courses-icon,
+      .github-icon,
+      .logout-icon {
+        margin-left: 0.3rem;
+        cursor: pointer;
+        filter: grayscale(100%) brightness(0) invert(100);
+
+        img {
+          width: 1.5rem;
+          opacity: 0.5;
+
+          &:hover {
+            opacity: 0.9;
+            filter: none;
+          }
+
+          &:active {
+            opacity: 1;
+          }
+
+        }
+
+      }
+
+      .courses-icon.selected {
+        cursor: initial;
+        filter: none;
+        opacity: 1;
+        img {
+          opacity: 1;
+        }
       }
 
     }
 
   }
-
-
 
 }

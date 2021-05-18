@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import ReactMarkdown from "react-markdown";
 import "./Preview.scss";
+import CodeSyntax from "../CodeSyntax";
 
 const Preview = (props) => {
 
@@ -47,7 +49,9 @@ const Preview = (props) => {
         }
 
         <div className="body">
-          {props.body}
+          <ReactMarkdown components={CodeSyntax}>
+            {props.body}
+          </ReactMarkdown>
         </div>
 
       </div>

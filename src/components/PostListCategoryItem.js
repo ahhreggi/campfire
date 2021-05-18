@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import removeMarkdown from "remove-markdown";
 import Badge from "./Badge";
 import TagList from "./TagList";
 import star from "../images/icons/star.png";
+import pencil from "../images/icons/edit.png";
 import comment from "../images/icons/comment.png";
 import eye from "../images/icons/eye.png";
 import "./PostListCategoryItem.scss";
@@ -19,6 +21,9 @@ const PostListCategoryItem = (props) => {
     bookmarked: PropTypes.bool,
     tags: PropTypes.array,
     views: PropTypes.number,
+    viewed: PropTypes.bool,
+    instructor: PropTypes.bool,
+    owned: PropTypes.bool,
     comments: PropTypes.number,
     showStudentBadge: PropTypes.bool,
     showInstructorBadge: PropTypes.bool,
@@ -70,7 +75,10 @@ const PostListCategoryItem = (props) => {
     PostListCategoryItem: true,
     pinned: props.pinned,
     bookmarked: props.bookmarked,
-    selected: state.selected
+    selected: state.selected,
+    new: !props.viewed,
+    instructor: props.instructor,
+    owned: props.owned
   });
 
   // Move resolved & unresolved tags to the front of the tag list
@@ -99,7 +107,8 @@ const PostListCategoryItem = (props) => {
             <img className="bookmark" src={star} alt="bookmark" />
           }
           <span className="title">
-            {truncateText(props.title, 27)}
+            <img src={pencil} className={props.owned ? "owned" : ""} />
+            {truncateText(props.title, 25)}
           </span>
         </div>
 
@@ -115,7 +124,7 @@ const PostListCategoryItem = (props) => {
 
       {/* Post Body Snippet */}
       <div className="summary text-truncate">
-        {props.body}
+        {removeMarkdown(props.body)}
       </div>
 
       <footer>
@@ -135,7 +144,7 @@ const PostListCategoryItem = (props) => {
         <div className="counters">
           <span className="views icon-small">
             <img src={eye} alt="views" />
-            {props.views}
+            {props.views < 0 ? 0 : props.views}
           </span>
           <span className="comments icon-small">
             <img src={comment} alt="comments" />

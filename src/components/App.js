@@ -74,6 +74,7 @@ const App = () => {
 
     loading: true,
 
+    status: null,
     errors: null // e.g. ["Invalid username/password"] // typically should have only 0 or 1 item at any given time
 
   });
@@ -267,6 +268,7 @@ const App = () => {
           setAppData(userCourses, "userCourses", null, null, active, courseData);
         } else {
           console.log("❌ fetchUserCourses failed!");
+          setState({ ...state, errors: ["Failed to retrieve user courses"]});
         }
       });
   };
@@ -296,8 +298,8 @@ const App = () => {
   useEffect(() => {
     // If courseData changes and exists
     if (state.courseData) {
-      const origins = ["Home", "Create", "Join"];
-      // Redirect to Dashboard if coming from Home, Create, Join
+      const origins = ["Home", "Create", "Join", "Manage", "About", "Help", "Account"];
+      // Redirect to Dashboard if coming from a non-course view
       if (origins.includes(state.active)) {
         // If coming from the Create or Join page, add the new course data to userCourses
         let userCourses = [ ...state.userCourses ];
@@ -365,15 +367,93 @@ const App = () => {
     request("POST", API.JOIN, null, data)
       .then((courseData) => {
         if (courseData) {
-          setAppData(courseData, "courseData");
+
+          // If the data contains a message, the user is already enrolled in the course
+          if (courseData.message) {
+            console.log("Already enrolled!");
+            setState({ ...state, errors: ["You are already enrolled in this course"] });
+            // Otherwise, enrol normally
+          } else {
+            setState({ ...state, status: "success", statusMessage: courseData.name });
+            setTimeout(() => {
+              setAppData(courseData, "courseData");
+            }, 1500);
+          }
         } else {
           console.log("❌ joinCourse failed!");
-          setState({ ...state, errors: ["Invalid access code!"] });
+          setState({ ...state, errors: ["Invalid access code"] });
         }
       });
   };
 
-  // BOOKMARKS //////////////////////////////////////////////////////
+  // COURSE UNENROLMENT ////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User visits the Manage page and presses UNENROL within a list of their courses
+  // - User is prompted to confirm unenrolment if they are not the owner (they may only delete the course)
+  // - TODO: Pass ownership of a course?
+  // - The data is deleted from the server, no response data is returned
+  // - State is updated (userCourses), user stays on the Manage page
+
+  // Unenrol the user from the given courseID
+  const leaveCourse = (courseID) => {
+    request("POST", API.COURSES + "/" + courseID + "/leave")
+      .then(() => fetchUserCourses(null, "Manage"));
+  };
+
+  // SIDE EFFECT 8: If userData changes while active is "Manage", stay on Manage
+
+  // EDIT A COURSE //////////////////////////////////////////////////
+
+  // Edit a courseID with the given data
+  const editCourse = (courseID, data) => {
+    request("PATCH", API.COURSES, courseID, data)
+      // .then(() => fetchCourseData(state.courseID));
+      .then((courseData) => {
+        if (courseData) {
+          // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
+          fetchUserCourses(courseData);
+          fetchCourseData(courseData.id);
+        } else {
+          console.log("❌ editCourse failed!");
+        }
+      });
+  };
+
+  const testRequest = () => {
+    const courseID = 1;
+    const data = {
+      name: "NEW NAME",
+      description: "NEW DESCRIPTION",
+      courseCode: "NEW CODE",
+      tags: ["tag1", "tag2"],
+      archive: false,
+      roles: {
+        // 2: "owner", // MUST SET OWNER TO INSTRUCTOR IF PASSING OWNERSHIP!
+        2: "owner" // change dean into a student, student, instructor, owner, null to kick
+      }
+    };
+    editCourse(courseID, data);
+  };
+
+  // Delete a course by ID, then redirect to Home
+  const deleteCourse = (courseID) => {
+    request("DELETE", API.COURSES, courseID)
+      .then(() => setActive("Home"));
+  };
+
+  // const testRequest = (courseID) => {
+  //   deleteCourse(1); // broken
+  //   resetAccessCodes(1);
+  // };
+
+  // Reset the student and instructor access codes of a course
+  const resetAccessCodes = (courseID) => {
+    request("POST", API.COURSES + "/" + courseID + "/resetAccessCodes")
+      .then(() => fetchCourseData(state.courseID));
+  };
+
+  // BOOKMARK A POST ////////////////////////////////////////////////
 
   // BASIC USER ROUTE
   // - User selects a course from the post list
@@ -381,7 +461,7 @@ const App = () => {
   // - State is updated (courseID, courseData)
   // - The post is immediately moved to the appropriate category within the post list
 
-  // Edit the user's bookmark for the given postID
+  // Toggle the user's bookmark for the given postID
   const editBookmark = (postID, bookmarked) => {
     const method = bookmarked ? "DELETE" : "POST";
     request(method, API.BOOKMARKS, null, { postID })
@@ -391,15 +471,25 @@ const App = () => {
   // VIEW A POST ////////////////////////////////////////////////////
 
   // BASIC USER ROUTE
-  // - User's first unique visit to a post updates its view count
+  // - User's first unique visit to a post updates its view count by 1
 
+  // Add a unique view to the given postID
   const viewPost = (postID) => {
     request("POST", API.POSTS, postID + "/view");
-    // TODO: Add a "viewed" property to each post so I know to update it locally in state
-    // Also a way to check if the post had any new activity since the user last visited would be cool (marked as unread)
-    // If views stored a timestamp, or updated the timestamp each time, you could compare that timestamp to
-    // the most recent comment's timestamp of the post
   };
+
+  // If postID changes, exists, and the user has not previously visited the post before, add a unique view
+  useEffect(() => {
+    if (state.postID) {
+      const post = getPostByID(state.posts, state.postID);
+      if (!post.viewed && state.active !== "New Post") {
+        viewPost(state.postID);
+        setTimeout(() => {
+          fetchCourseData(state.courseData.id, state.postID, getPostByID(state.courseData.posts, state.postID));
+        }, 100);
+      }
+    }
+  }, [state.postID]);
 
   // CREATE A POST //////////////////////////////////////////////////
 
@@ -410,7 +500,7 @@ const App = () => {
   // - State is updated (courseID, courseData)
   // - SIDE EFFECT 5: Active state is updated to redirect the user from New Post to the new Post if postData exists
 
-  // Request to create a new post with the given data
+  // Create a new post with the given data
   const addPost = (data) => {
     request("POST", API.POSTS, null, data)
       .then((data) => {
@@ -433,23 +523,26 @@ const App = () => {
   // SIDE EFFECT 7: If postData and postID change to non-null values while the active view is "New Post", change it to "Post"
   useEffect(() => {
     if (state.postData && state.postID && state.active === "New Post") {
-      setActive("Post", state.postID);
+      setActive("Post", state.postID, getPostByID(state.posts, state.postID));
     }
   }, [state.postData]);
 
   // EDIT A POST //////////////////////////////////////////////////////
 
   // BASIC USER ROUTE
-  // - User presses the edit button of a post they authored (or they are an instructor+)
+  // - User presses the edit button of a post they authored (or they are an instructor)
   // - User edits the data and saves the changes
+  // - User can also immediately toggle the pin status of a post (if they are an instructor)
   // - Data is sent to the server and the new post data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to edit a postID with the given data
+  // Edit a postID with the given data
   const editPost = (postID, data) => {
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID));
   };
+
+  // DELETE A POST //////////////////////////////////////////////////
 
   // BASIC USER ROUTE
   // - User presses the delete button of a post they authored (or they are an instructor+)
@@ -457,39 +550,73 @@ const App = () => {
   // - The data is deleted from the server, no response data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to delete a post by ID, then redirect to Dashboard
+  // Delete a post by ID, then redirect to Dashboard
   const deletePost = (postID) => {
     request("DELETE", API.POSTS, postID)
       .then(() => setActive("Dashboard"));
   };
 
-  // Request to like a comment by ID
+  // LIKE A COMMENT /////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User press the like/unlike button of a comment
+  // - The data sent is determined by the current value (to set it to the opposite)
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
+  // - If the user is an instructor, it counts as an endorsement, instead
+
+  // Toggle a user's like on a comment with the given ID
   const likeComment = (commentID, liked) => {
     const url = API.COMMENTS + "/"  + commentID + (liked ? "/unlike" : "/like");
     request("POST", url)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
 
-  // Request to add a comment with the given data
+  // ADD A COMMENT //////////////////////////////////////////////////
+
+  // VALIDATION
+  // - Attempting to submit a comment with no body displays an error
+
+  // BASIC USER ROUTE
+  // - User adds a comment to a post, or a reply to a comment
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
+
+  // Add a comment with the given data
   const addComment = (data) => {
     request("POST", API.COMMENTS, null, data)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
 
-  // Request to edit a comment by ID with the given data
+  // EDIT A COMMENT /////////////////////////////////////////////////
+
+  // VALIDATION
+  // - Attempting to edit a comment to have no body displays an error
+
+  // BASIC USER ROUTE
+  // - User edits a comment to a post, or a reply to a comment
+  // - User confirms the changes
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
+
+  // Edit a comment by ID with the given data
   const editComment = (commentID, data) => {
     request("PATCH", API.COMMENTS, commentID, data)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
 
-  // Request to delete a comment by ID
+  // DELETE A COMMENT ///////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User presses the delete button of a comment/reply they authored (or they are an instructor+)
+  // - User confirms the delete
+  // - The data is deleted from the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
+
+  // Delete a comment by ID
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -503,18 +630,19 @@ const App = () => {
   // Change the active view to "Dashboard", "Analytics", "New Post", "Post" (requires postID) and refresh course data
   const setActive = (selection, postID = null, postData = null) => {
     if (selection === "Logout") {
-      setState({});
-      window.location.href = "/";
+      setState({ active: "Login" });
+    } else if (selection === "GitHub") {
+      window.location.href = "https://github.com/ahhreggi/campfire";
     } else if (selection === "Post") {
+      // const newPostData = postData !== undefined ? postData : getPostByID(state.posts, state.postID);
+      const newPostData = postData !== undefined ? postData : getPostByID(postID, state.posts);
       setState({
         ...state,
         active: selection,
         postID: postID,
-        postData: postData ? postData : getPostByID(state.posts, state.postID),
+        postData: newPostData,
         errors: null
       });
-      // Record the user's first unique visit
-      viewPost(postID);
     } else if (selection === "Home" && requiresCourseData(state.active)) {
       fetchUserCourses(null, "Home");
     } else {
@@ -611,12 +739,12 @@ const App = () => {
           {/* Nav Bar (requires userData, userCourses, courseData) */}
           {state.userData && state.userCourses &&
             <Nav
-              onClick={setActive}
+              onRedirect={setActive}
               active={state.active}
-              viewTitle={state.courseData ? `${state.courseData.name} > ${state.postID ? "Post @" + state.postID : state.active }` : state.active}
-              courseName={state.courseData ? state.courseData.name : ""}
+              courseData={state.courseData}
               userAvatar={state.userData.avatarID}
               userName={`${state.userData.firstName} ${state.userData.lastName}`}
+              userRole={state.courseData ? state.courseData.role : null}
             />
           }
 
@@ -629,6 +757,7 @@ const App = () => {
               {state.courseData &&
                 <PostList
                   active={state.active}
+                  userID={state.userData.userID}
                   tags={state.courseData.tags}
                   posts={state.posts}
                   onClick={(postID) => setActive("Post", postID)}
@@ -655,13 +784,18 @@ const App = () => {
               <Main
                 // Active state
                 active={state.active}
+                status={state.status}
+                statusMessage={state.statusMessage}
                 errors={state.errors}
+
                 // Home view
                 userData={state.userData}
                 userCourses={state.userCourses}
+
                 // Course view
                 courseData={state.courseData}
                 posts={state.posts}
+
                 // Post view
                 postID={state.postID}
                 postData={state.postData}
@@ -669,6 +803,15 @@ const App = () => {
                 // Create/Join course functions
                 onCreateCourse={createCourse}
                 onJoinCourse={joinCourse}
+
+                // Manage user enrolments functions
+                onLeaveCourse={leaveCourse}
+                onViewCourse={fetchCourseData}
+
+                // Manage course/settings functions
+                onEditCourse={editCourse}
+                onDeleteCourse={deleteCourse}
+                onResetAccess={resetAccessCodes}
 
                 // Post functions
                 onEditBookmark={editBookmark}
@@ -687,16 +830,17 @@ const App = () => {
 
           </section>
 
+          <footer className="app-footer">
+            <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
+            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            <Button text="TEST REQ" styles={"form red mt-3"} onClick={() => testRequest()} />
+          </footer>
+
         </>
       }
 
       {/* See index.scss */}
-      <div className="dev-tools">
-        {/* Test Controls */}
-        <div className="test-controls mt-2">
-          test controls:
-          <Button text="Refresh DB" onClick={() => resetDB()} />
-        </div>
+      <div className="dev-tools pt-5">
         {/* Dev Data Display */}
         <DevData name="App" props={state} label={"State"} />
       </div>

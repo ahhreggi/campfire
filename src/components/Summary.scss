@@ -1,0 +1,36 @@
+@import "../styles/global.scss";
+
+.Summary {
+  font-size: 1.5rem;
+  // border: 1px solid white;
+  border-radius: 15px;
+  background-color: $navy-4;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.3rem;
+
+  img {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .resolved-posts {
+  }
+
+  .unresolved-posts {
+    span.unresolved {
+      color: $red;
+    }
+  }
+
+  .unread-posts {
+    span.unread {
+      color: $yellow;
+    }
+  }
+}

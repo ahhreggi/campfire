@@ -2,4 +2,87 @@
 
 .Create {
 
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .page-text {
+
+    .student {
+      font-weight: 700;
+      color: $orange;
+    }
+
+    .instructor {
+      font-weight: 700;
+      color: $yellow;
+    }
+
+    div.owner {
+      margin-top: 1rem;
+      span {
+        font-weight: 700;
+        color: $yellow;
+      }
+    }
+
+    .access {
+      color: $green;
+      font-weight: 700;
+    }
+
+  }
+
+  .create-form {
+    border-radius: 15px;
+    padding: 1rem;
+    background-color: $navy-2;
+    border: 1px solid $navy-5;
+    width: fit-content;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+
+    .form-label {
+      margin-bottom: 0rem;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+    }
+
+    input,
+    textarea {
+      font-size: 0.9rem;
+      width: 30rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      outline: none;
+      margin-bottom: 1rem;
+      resize: none;
+
+      &.code {
+        width: 10rem;
+      }
+
+      &.description {
+        margin-bottom: 0.5rem;
+      }
+
+    }
+
+  }
+
+  .error {
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    color: $red;
+  }
+
 }

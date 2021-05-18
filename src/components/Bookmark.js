@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import star from "../images/icons/star.png";
 import starEmpty from "../images/icons/star-empty.png";
-import "./Bookmark.scss";
 
 const Bookmark = (props) => {
 

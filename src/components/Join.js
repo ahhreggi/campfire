@@ -1,47 +1,45 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import TextForm from "./EditForm/TextForm";
 import Button from "./Button";
+import BackButton from "./BackButton";
 import "./Join.scss";
-
-import DevData from "./DevData";
 
 const Join = (props) => {
 
   Join.propTypes = {
-    userData: PropTypes.object,
     onSubmit: PropTypes.func,
+    status: PropTypes.string,
+    statusMessage: PropTypes.string,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
   };
 
   const [state, setState] = useState({
     accessCode: "",
+    status: props.status,
+    statusMessage: props.status,
     errors: props.errors
   });
+
+  useEffect(() => {
+    setState({ ...state, status: props.status, statusMessage: props.statusMessage });
+  }, [props.status, props.statusMessage]);
 
   useEffect(() => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   const handleInputChange = (event, field) => {
     setState({ ...state, [field]: event.target.value, errors: null });
   };
 
-  // Check if a code contains only letters and numbers?
-  const isValidAccessCode = (code) => {
-    return true || code;
-    // return !!(code).match("^[a-zA-Z0-9]+$");
-  };
-
   // Validate input field prior to submitting the data
   const handleSubmit = () => {
-    // TODO: Set specific parameters for an access code?
-    // E.g., X number of digits, numbers and letters only, etc...
-
     const errors = [];
-    if (!state.accessCode || !isValidAccessCode(state.accessCode)) {
-      errors.push("Please enter a valid access code.");
+    if (!state.accessCode) {
+      errors.push("Please enter a valid access code");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
@@ -54,41 +52,60 @@ const Join = (props) => {
     }
   };
 
+  ///////////////////////////////////////////////////////////////////
+
   return (
     <div className="Join">
 
-      <DevData name="Join" props={props} />
-
       {/* Page Title */}
       <div className="page-title">
-        Join Page
+        Join an existing course
       </div>
 
-      {/* Errors */}
-      {state.errors && state.errors.length > 0 &&
-        <div className="errors">
-          {state.errors.join("")}
+      <hr />
+
+      {/* Page Text */}
+      <div className="page-text">
+        Have a <span className="student">student</span> or <span className="instructor">instructor</span> access code? Enter it below to join the course discussion board. If you&apos;re unsure or don&apos;t have a code yet, contact your head instructor.
+      </div>
+
+      <div className={`panel ${state.status} ${state.errors ? "invalid" : ""}`}>
+
+        {/* Form Fields */}
+        <div className="form-fields">
+          {/* Label */}
+          <div className="form-label">
+            Course Access Code
+          </div>
+          <input
+            value={state.accessCode}
+            onChange={(event) => handleInputChange(event, "accessCode")}
+            placeholder={"7b8257fb-126e-4a3f-961b-81891c6edf4a"}
+            maxLength={36}
+          />
         </div>
-      }
 
-      {/* Form Fields */}
-      <div className="form-fields">
-        <TextForm
-          label={"Course Access Code"}
-          text={state.accessCode}
-          onChange={(event) => handleInputChange(event, "accessCode")}
-        />
+        {/* Success/Errors */}
+        <div>
+          <div className={`messages ${state.status} ${state.errors ? "error" : ""}`}>
+            {state.status && state.statusMessage ? <>Joining&nbsp;<span className="course-name">{state.statusMessage}...</span></> : null}
+            {state.errors && state.errors.join("")}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="submit">
+          <Button
+            text="SUBMIT"
+            styles="form green"
+            onClick={handleSubmit}
+            disabled={state.status === "success"}
+          />
+        </div>
 
       </div>
 
-      {/* Submit Button */}
-      <div className="submit">
-        <Button
-          text="Join"
-          styles="submit join"
-          onClick={handleSubmit}
-        />
-      </div>
+      <hr />
 
     </div>
   );
