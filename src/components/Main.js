@@ -108,6 +108,7 @@ const Main = (props) => {
       {/* Home View */}
       {props.active === "Home" &&
         <Home
+          status={props.status}
           userData={props.userData}
           userCourses={props.userCourses}
           onRedirect={props.onRedirect}
@@ -165,10 +166,10 @@ const Main = (props) => {
         <Dashboard
           courseData={props.courseData}
           userData={props.userData}
-          userRole={props.courseData.role}
+          userRole={props.courseData ? props.courseData.role : null}
           onRedirect={props.onRedirect}
-          courseCode={props.courseData.course_code}
-          courseName={props.courseData.name}
+          courseCode={props.courseData ? props.courseData.course_code : null}
+          courseName={props.courseData ? props.courseData.name : null}
           analytics={props.courseData.analytics}
         />
       }

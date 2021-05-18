@@ -66,7 +66,7 @@ const Dashboard = (props) => {
         <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} /> */}
       </div>
 
-      <hr />
+      <hr className="bottom" />
     </div>
   );
 

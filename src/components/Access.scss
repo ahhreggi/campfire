@@ -11,6 +11,7 @@
   .page-text {
     margin-bottom: 1rem;
     span {
+      color: $orange;
       font-weight: 700;
       &.instructor {
         color: $yellow;
@@ -19,7 +20,8 @@
   }
 
   .code {
-    border-left: 2px solid $white;
+    border-left: 2px solid $orange;
+    color: $orange;
     // border-right: 2px solid $white;
     background-color: $navy-2;
     padding: 1rem;
@@ -87,6 +89,7 @@
     .msg.active {
       cursor: pointer;
       opacity: 0.6;
+      color: $white;
     }
   }
 

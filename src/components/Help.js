@@ -26,9 +26,9 @@ const Help = (props) => {
           <div className="answer">
             <span className="link" onClick={() => props.onRedirect("GitHub")}>Campfire</span> is a Q&A discussion board/forum that allows students and instructors to discuss course-related topics 24/7 in a controlled, moderated environment. Users can:
             <ul>
-              <li>Participate in discussions to crowdsource solutions</li>
+              <li>Ask questions and participate in discussions to crowdsource solutions</li>
               <li>Use search features to find previously asked questions</li>
-              <li>Post anonymously to other students</li>
+              <li>Contribute anonymously among other students</li>
             </ul>
           </div>
         </div>
@@ -47,7 +47,7 @@ const Help = (props) => {
             What can I do as a student?
           </div>
           <div className="answer">
-            Once enrolled, you can immediately start posting questions or participate in <span className="discussions">discussions</span>. Even though there are instructors present to help, students are encouraged to help their peers! If you find a comment you really agree with, you can increase its number of &apos;likes&apos; by pressing the <img src={plus} /> button.
+            Once enrolled, you can immediately start posting questions or participate in <span className="discussions">discussions</span>. Even though there are instructors present to help, you are encouraged to help your peers! If you find a comment you really agree with, you can increase its number of &apos;likes&apos; by pressing the <img src={plus} /> button.
           </div>
         </div>
 

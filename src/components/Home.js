@@ -13,6 +13,7 @@ import help from "../images/icons/question-mark-blue.png";
 
 const Home = (props) => {
   Home.propTypes = {
+    status: PropTypes.string,
     userData: PropTypes.object,
     userCourses: PropTypes.array,
     onClick: PropTypes.func,
@@ -23,6 +24,7 @@ const Home = (props) => {
     <div className="Home">
 
       {/* <DevData name="Home" props={props} /> */}
+      {props.status}
 
       <div className="greeting">
         Hello, <span>{props.userData.firstName}</span>!
@@ -35,7 +37,7 @@ const Home = (props) => {
         <Panel label={"CREATE"} img={create} onClick={() => props.onRedirect("Create")} />
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage")} />
         <Panel label={"ABOUT"} img={about} onClick={() => props.onRedirect("GitHub")} />
-        <Panel label={"HELP"} img={help} onClick={() => props.onRedirect("Help")} />
+        <Panel label={"FAQ"} img={help} onClick={() => props.onRedirect("Help")} />
         <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account")} />
       </div>
 
