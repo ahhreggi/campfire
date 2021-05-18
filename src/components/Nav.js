@@ -83,10 +83,10 @@ const Nav = (props) => {
         {/* User Name */}
         <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""}`}>
           <div className="user-link">
-            <img src={`./images/avatars/${props.userAvatar}.png`} onClick={() => props.onRedirect("Settings")} alt="Avatar" />
+            <img src={`./images/avatars/${props.userAvatar}.png`} onClick={() => props.onRedirect("Account")} alt="Avatar" />
             <span
               className="user-name text-truncate d-none d-xl-inline"
-              onClick={() => props.onRedirect("Settings")}
+              onClick={() => props.onRedirect("Account")}
             >
               {props.userName}
             </span>

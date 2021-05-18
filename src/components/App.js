@@ -436,6 +436,21 @@ const App = () => {
       });
   };
 
+  // REMOVE USER FROM COURSE ////////////////////////////////////////
+
+  // Remove a user from a course
+  const removeUser = (courseID, userID) => {
+    const data = { [userID]: null};
+    request("PATCH", API.COURSES, courseID, data)
+      .then((res) => {
+        if (res) {
+          console.log("removed!");
+        } else {
+          console.log("??");
+        }
+      });
+  };
+
   const testRequest = () => {
     const courseID = 1;
     const data = {
@@ -446,7 +461,7 @@ const App = () => {
       archive: false,
       roles: {
         // 2: "owner", // MUST SET OWNER TO INSTRUCTOR IF PASSING OWNERSHIP!
-        2: "owner" // change dean into a student, student, instructor, owner, null to kick
+        5: null // change dean into a student, student, instructor, owner, null to kick
       }
     };
     editCourse(courseID, data);
@@ -828,6 +843,7 @@ const App = () => {
                 onEditCourse={editCourse}
                 onDeleteCourse={deleteCourse}
                 onResetAccess={resetAccessCodes}
+                onRemoveUser={removeUser}
 
                 // Post functions
                 onEditBookmark={editBookmark}

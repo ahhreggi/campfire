@@ -48,6 +48,7 @@ const Main = (props) => {
     onEditCourse: PropTypes.func,
     onDeleteCourse: PropTypes.func,
     onResetAccess: PropTypes.func,
+    onRemoveUser: PropTypes.func,
 
     // Post functions
     onEditBookmark: PropTypes.func,
@@ -188,6 +189,7 @@ const Main = (props) => {
         <ManageCourse
           courseData={props.courseData}
           onEditCourse={props.onEditCourse}
+          onRemoveUser={props.onRemoveUser}
           onRedirect={props.onRedirect}
         />
       }

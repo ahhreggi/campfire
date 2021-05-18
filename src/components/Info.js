@@ -115,9 +115,9 @@ const Info = (props) => {
 
       </div>
 
-
-
-      {/* <hr /> */}
+      {props.active === "Info" &&
+        <hr />
+      }
 
     </div>
   );

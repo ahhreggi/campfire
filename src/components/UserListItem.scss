@@ -1,7 +1,58 @@
 @import "../styles/global.scss";
 
 .UserListItem {
-  border: 1px solid $navy-5;
+  border-left: 2px solid $white;
   border-radius: 15px;
-  padding: 1rem;
+  background-color: $navy-2;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  &:hover {
+    background-color: $navy-5;
+  }
+  &:nth-child(odd) {
+    background-color: $navy-3;
+    &:hover {
+      background-color: $navy-5;
+    }
+  }
+  .user {
+    display: flex;
+    align-items: center;
+  }
+  img {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  .name {
+    width: 20rem;
+    font-size: 0.9rem;
+    font-weight: 900;
+    // border: 1px solid red;
+    &.instructor,
+    &.owner {
+      color: $yellow;
+    }
+  }
+  .role {
+    font-size: 0.9rem;
+    font-weight: 900;
+    width: 9rem;
+    margin-right: 3rem;
+
+    &.owner,
+    &.instructor {
+      color: $yellow;
+    }
+
+  }
+  .controls {
+    width: 8rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
 }
