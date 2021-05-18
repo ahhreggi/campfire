@@ -52,7 +52,7 @@ const UserListItem = (props) => {
 
           {/* Owner Controls */}
           <div className="controls">
-            {props.userRole === "owner" &&
+            {props.userRole === "owner" && props.role !== "owner" &&
               <Button text="REMOVE" styles="form red" onClick={handleClick} />
             }
           </div>
