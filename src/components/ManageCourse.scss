@@ -1,0 +1,21 @@
+@import "../styles/global.scss";
+
+.ManageCourse {
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    justify-content: center;
+  }
+  .count {
+    font-size: 1.2rem;
+    span.instructor {
+      color: $yellow;
+      font-weight: 700;
+    }
+    span.student {
+      color: $green;
+      font-weight: 700;
+    }
+  }
+}

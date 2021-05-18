@@ -4,8 +4,6 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Register.scss";
 
-// import DevData from "./DevData";
-
 const Register = (props) => {
 
   Register.propTypes = {
@@ -31,8 +29,13 @@ const Register = (props) => {
 
   // STATE HANDLERS /////////////////////////////////////////////////
 
-  const handleInputChange = (event, field) => {
-    setState({ ...state, [field]: event.target.value, errors: null });
+  // 20 20 100 100
+  const handleInputChange = (event, field, maxLength = 250) => {
+    if (event.target.value.length <= maxLength) {
+      setState({ ...state, [field]: event.target.value, errors: null });
+    } else {
+      setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
+    }
   };
 
   // HELPER FUNCTIONS ///////////////////////////////////////////////
@@ -67,9 +70,9 @@ const Register = (props) => {
       errors.push("First name is too long (max. 20 characters)");
     } else if (!isValid(state.lastName, "length", 20)) {
       errors.push("Last name is too long (max. 20 characters)");
-    } else if (!isValid(state.email, "length", 100)) {
+    } else if (!isValid(state.email, "length", 250)) {
       errors.push("Email is too long (max. 100 characters)");
-    } else if (!isValid(state.password, "length", 100)) {
+    } else if (!isValid(state.password, "length", 250)) {
       errors.push("Password is too long (max. 100 characters)");
     }
     // If there are any errors, display them to the user, otherwise sanitize and submit
@@ -90,8 +93,6 @@ const Register = (props) => {
 
   return (
     <div className="Register">
-
-      {/* <DevData name="Register" props={props} /> */}
 
       <div className="panel">
 
@@ -114,29 +115,29 @@ const Register = (props) => {
           <InputField
             value={state.firstName}
             placeholder={"First Name"}
-            onChange={(event) => handleInputChange(event, "firstName")}
+            onChange={(event) => handleInputChange(event, "firstName", 20)}
           />
           <InputField
             value={state.lastName}
             placeholder={"Last Name"}
-            onChange={(event) => handleInputChange(event, "lastName")}
+            onChange={(event) => handleInputChange(event, "lastName", 20)}
           />
           <InputField
             value={state.email}
             placeholder={"Email"}
-            onChange={(event) => handleInputChange(event, "email")}
+            onChange={(event) => handleInputChange(event, "email", 80)}
           />
           <InputField
             value={state.password}
             placeholder={"Password"}
             type="password"
-            onChange={(event) => handleInputChange(event, "password")}
+            onChange={(event) => handleInputChange(event, "password", 250)}
           />
           <InputField
             value={state.passwordConf}
             placeholder={"Confirm Password"}
             type="password"
-            onChange={(event) => handleInputChange(event, "passwordConf")}
+            onChange={(event) => handleInputChange(event, "passwordConf", 250)}
           />
 
           {/* Errors */}

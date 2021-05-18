@@ -45,6 +45,7 @@ const CourseList = (props) => {
           createdAt={course.created_at}
           archived={course.archived}
           role={course.role}
+          ownerName={course.owner_name}
           analytics={course.analytics}
           onClick={props.onClick}
         />
@@ -56,7 +57,7 @@ const CourseList = (props) => {
 
   // Sort the courses from most recent to oldest
   const userCourses = props.userCourses.sort((a, b) => {
-    return a.id - b.id;
+    return b.id - a.id;
   });
 
   // Sort the courses as active or archived

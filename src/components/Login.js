@@ -4,8 +4,6 @@ import InputField from "./InputField";
 import Button from "./Button";
 import "./Login.scss";
 
-// import DevData from "./DevData";
-
 const Login = (props) => {
 
   Login.propTypes = {
@@ -15,8 +13,6 @@ const Login = (props) => {
   };
 
   const [state, setState] = useState({
-    // email: "",
-    // password: "",
     email: "hello5@campfire.ca",
     password: "campfire",
     errors: props.errors
@@ -50,8 +46,6 @@ const Login = (props) => {
 
   return (
     <div className="Login">
-
-      {/* <DevData name="Login" props={props} /> */}
 
       <div className="panel">
 

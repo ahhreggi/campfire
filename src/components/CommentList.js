@@ -62,6 +62,7 @@ const CommentList = (props) => {
             editable={comment.editable}
             endorsable={comment.endorsable}
             endorsements={comment.endorsements}
+            edits={comment.edits}
             replies={comment.replies}
 
             onAddComment={props.onAddComment}
@@ -105,6 +106,7 @@ const CommentList = (props) => {
             editable={reply.editable}
             endorsable={reply.endorsable}
             endorsements={reply.endorsements}
+            edits={reply.edits}
             replies={null} // replies have no further replies
 
             onAddComment={props.onAddComment}

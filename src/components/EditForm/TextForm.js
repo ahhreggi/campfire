@@ -9,6 +9,8 @@ const TextForm = (props) => {
     text: PropTypes.string,
     minHeight: PropTypes.string,
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    refs: PropTypes.object,
     placeholder: PropTypes.string
   };
 
@@ -25,7 +27,10 @@ const TextForm = (props) => {
         style={{ "minHeight": props.minHeight || "0rem" }}
         value={props.text}
         onChange={(event) => props.onChange(event)}
+        onKeyDown={props.onKeyDown}
+        ref={props.refs}
         placeholder={props.placeholder}
+        spellCheck={"false"}
       />
 
     </div>

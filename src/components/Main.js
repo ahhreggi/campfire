@@ -6,17 +6,24 @@ import PostForm from "./PostForm";
 import Home from "./Home";
 import Join from "./Join";
 import Create from "./Create";
+import Manage from "./Manage";
 import Dashboard from "./Dashboard";
+import Info from "./Info";
+import ManageCourse from "./ManageCourse";
+import Access from "./Access";
 import Analytics from "./Analytics";
+import BackButton from "./BackButton";
 import "./Main.scss";
 
-// import DevData from "./DevData";
+import DevData from "./DevData";
 
 const Main = (props) => {
 
   Main.propTypes = {
     // Active state
     active: PropTypes.string,
+    status: PropTypes.string,
+    statusMessage: PropTypes.string,
     errors: PropTypes.array,
     // Home view
     userData: PropTypes.object,
@@ -32,6 +39,15 @@ const Main = (props) => {
     onCreateCourse: PropTypes.func,
     onJoinCourse: PropTypes.func,
 
+    // Manage user enrolments functions
+    onLeaveCourse: PropTypes.func,
+    onViewCourse: PropTypes.func,
+
+    // Manage course/settings functions
+    onEditCourse: PropTypes.func,
+    onDeleteCourse: PropTypes.func,
+    onResetAccess: PropTypes.func,
+
     // Post functions
     onEditBookmark: PropTypes.func,
     onAddPost: PropTypes.func,
@@ -45,6 +61,8 @@ const Main = (props) => {
     onTagToggle: PropTypes.func,
     onRedirect: PropTypes.func
   };
+
+
 
   // const [state, setState] = useState({
   //   mainActive: props.active
@@ -98,8 +116,9 @@ const Main = (props) => {
       {/* Join View */}
       {props.active === "Join" &&
         <Join
-          userData={props.userData}
           onSubmit={props.onJoinCourse}
+          status={props.status}
+          statusMessage={props.statusMessage}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
@@ -108,23 +127,67 @@ const Main = (props) => {
       {/* Create View */}
       {props.active === "Create" &&
         <Create
-          userData={props.userData}
           onSubmit={props.onCreateCourse}
+          status={props.status}
+          errors={props.errors}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Manage View */}
+      {props.active === "Manage" &&
+        <Manage
+          userData={props.userData}
+          userCourses={props.userCourses}
+          onLeaveCourse={props.onLeaveCourse}
+          onViewCourse={props.onViewCourse}
+          status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
         />
       }
 
       {/* TEMPORARY */}
-      {/* {props.active === "Dashboard" &&
+      {/* {props.active === "Manage" &&
         <DevData name={"Main"} props={props} />
       } */}
 
       {/* Dashboard View */}
       {props.active === "Dashboard" &&
         <Dashboard
-          resolved={stats ? stats.num_resolved_questions : null}
-          unresolved={stats ? stats.num_unresolved_questions : null}
+          userData={props.userData}
+          userRole={props.courseData.role}
+          onRedirect={props.onRedirect}
+          courseCode={props.courseData.course_code}
+          courseName={props.courseData.name}
+          analytics={props.courseData.analytics}
+        />
+      }
+
+      {/* Info View */}
+      {props.active === "Info" &&
+        <Info
+          courseData={props.courseData}
+        />
+      }
+
+      {/* Manage Course View */}
+      {props.active === "Manage Course" &&
+        <ManageCourse
+          courseData={props.courseData}
+          onEditCourse={props.onEditCourse}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Access Codes View */}
+      {props.active === "Access" &&
+        <Access
+          studentCode={props.courseData.secrets.student_access_code}
+          instructorCode={props.courseData.secrets.instructor_access_code}
+          onResetAccess={props.onResetAccess}
+          onRedirect={props.onRedirect}
+          isOwner={props.courseData.role === "owner"}
         />
       }
 
@@ -163,6 +226,8 @@ const Main = (props) => {
           title={post.title}
           authorID={post.author_id}
           views={post.views}
+          edits={post.edits}
+          viewed={post.viewed}
           onEditBookmark={props.onEditBookmark}
           onAddPost={props.onAddPost}
           onEditPost={props.onEditPost}

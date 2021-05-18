@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
@@ -16,6 +17,7 @@ import trash from "../images/icons/trash.png";
 import checkmark from "../images/icons/checkmark.png";
 import comment from "../images/icons/comment.png";
 import "./CommentListItem.scss";
+import CodeSyntax from "./CodeSyntax";
 
 const CommentListItem = (props) => {
 
@@ -40,6 +42,7 @@ const CommentListItem = (props) => {
     endorsable: PropTypes.bool,
 
     endorsements: PropTypes.array,
+    edits: PropTypes.array,
     replies: PropTypes.array,
 
     onLikeComment: PropTypes.func,
@@ -198,25 +201,6 @@ const CommentListItem = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  //   {/* { ANONYMOUS CURRENT USER COMMENT EXAMPLE
-  //       "id": 1,
-  //              excluded: parent_id: null -> signifies it's a comment not a reply
-  //       "post_id": 1,
-  //       "anonymous": true,
-  //       "author_avatar_id": 1,
-  //       "body": "I had the same question!",
-  //       "score": 0,
-  //       "created_at": "2021-05-15T17:58:39.671Z",
-  //       "last_modified": "2021-05-15T17:58:39.671Z",
-  //       "endorsed": false,
-  //       "role": "student",
-  //       "editable": false,
-  //       "endorsable": false,
-  //       "liked": false,
-  //       "endorsements": [],
-  //       "replies": []
-  // } */}
-
   // Check if the comment is a parent
   const isParent = !props.parentID;
 
@@ -241,12 +225,25 @@ const CommentListItem = (props) => {
   // Get the author role to display
   const authorRole = getAuthorRole(props.authorRole, false);
 
+  // Get the name of the last editor
+  const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
+  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  const editorRole = editor ? editor.role : null;
+
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
-  const relativeTimestamp = `(${isModified ? "edited " : ""}${formatTimestamp(props.lastModified, true)})`;
+  const relativeTimestamp = formatTimestamp(props.lastModified, true);
+  let timestampElement;
+  if (isModified) {
+    timestampElement = (<span className="modified">{timestamp} (edited {relativeTimestamp}{props.commentAuthorID !== editor.user_id && <> by <span className={editorRole !== "student" ? "instructor" : "student"}>{editorName}</span></>})</span>);
+  } else {
+    timestampElement = (<>{timestamp} ({relativeTimestamp})</>);
+  }
 
   // Get a list of all endorsers
-  const endorsers = props.endorsements.length ? props.endorsements.map(endorsement => endorsement.endorser_name).join(", ") : null;
+  const endorsers = props.endorsements.length ? props.endorsements.map((endorsement, index) => {
+    return (<span key={endorsement.id}><span className="endorser-name">{endorsement.endorser_name}</span>{index !== props.endorsements.length - 1 ? "," : ""} </span>);
+  }) : "";
 
   // Check if the comment is by the current user
   const userIsCommentAuthor = props.userID === props.commentAuthorID;
@@ -335,7 +332,7 @@ const CommentListItem = (props) => {
               <header>
 
                 {/* Author */}
-                <div className="comment-author">
+                <div className="comment-author text-truncate">
                   {authorName}
                   {isPostAuthor &&
                     <>
@@ -347,8 +344,10 @@ const CommentListItem = (props) => {
                 {/* Best Answer Label */}
                 {isBestAnswer &&
                   <div className={`label selected ${userIsPostAuthor ? "active" : ""}`} onClick={userIsPostAuthor && !props.bestAnswer ? setBestAnswer : null}>
-                    <img src={checkmark} alt="checkmark" />
-                    <span>BEST ANSWER</span>
+                    <div>
+                      <img src={checkmark} alt="checkmark" />
+                      <span>BEST ANSWER</span>
+                    </div>
                   </div>
                 }
 
@@ -366,7 +365,9 @@ const CommentListItem = (props) => {
 
                 {/* Comment Text */}
                 <div className="text">
-                  {props.body}
+                  <ReactMarkdown components={CodeSyntax}>
+                    {props.body}
+                  </ReactMarkdown>
                 </div>
 
                 {/* Comment Endorsers */}
@@ -409,8 +410,8 @@ const CommentListItem = (props) => {
 
 
             {/* Timestamp */}
-            <div className="timestamp">
-              {timestamp} <span className={isModified ? "modified" : ""}>{relativeTimestamp}</span>
+            <div className="timestamp text-truncate">
+              {timestampElement}
             </div>
 
             {/* Comment Edit Controls */}
@@ -526,24 +527,6 @@ const CommentListItem = (props) => {
       }
 
       {/* Replies */}
-      {/* { REPLY
-            "id": 4,
-            "parent_id": 2,
-            "anonymous": false,
-            "author_first_name": "Gresham",
-            "author_last_name": "Barlow",
-            "author_avatar_id": 10,
-            "body": "Thanks for this!!",
-            "score": 0,
-            "created_at": "2021-05-15T17:58:39.671Z",
-            "last_modified": "2021-05-15T17:58:39.671Z",
-            "role": "student",
-            "user_id": 9,
-            "editable": false,
-            "endorsable": false,
-            "liked": false,
-            "endorsements": []
-      } */}
       {isParent && props.replies.length > 0 && state.showReplyList &&
         <section className="replies">
           <CommentList
