@@ -188,6 +188,7 @@ const Main = (props) => {
       {props.active === "Manage Course" &&
         <ManageCourse
           courseData={props.courseData}
+          users={props.courseData.users}
           onEditCourse={props.onEditCourse}
           onRemoveUser={props.onRemoveUser}
           onRedirect={props.onRedirect}

@@ -19,7 +19,10 @@ const Confirmation = (props) => {
   if (props.confirmText) {
     confirmText = props.confirmText;
   }
-  const confirmStyles = props.message ? "red" : "green";
+  let confirmStyles = props.message ? "red" : "green";
+  if (confirmText === "CONFIRM") {
+    confirmStyles = "green";
+  }
   const cancelStyles = props.message ? "white" : "red";
 
   return (

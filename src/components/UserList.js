@@ -10,6 +10,8 @@ const UserList = (props) => {
     userRole: PropTypes.string
   };
 
+  console.log(">>>>>>>>", typeof props.users);
+
   const users = props.users.map(user => {
     return <UserListItem
       key={user.user_id}

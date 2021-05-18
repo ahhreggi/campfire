@@ -19,33 +19,53 @@ const UserListItem = (props) => {
   };
 
   const [state, setState] = useState({
-    showConfirmation: false
+    showConfirmation: false,
+    showConfirmationStudent: false,
+    showConfirmationInstructor: false,
+    showConfirmationOwner: false,
   });
 
-  const handleClick = () => {
+  const handleRemove = () => {
     setState({ showConfirmation: true });
   };
 
+  const handleStudent = () => {
+    setState({ showConfirmationStudent: true });
+  };
+
+  const handleInstructor = () => {
+    setState({ showConfirmationInstructor: true });
+  };
+
+  const handleOwner = () => {
+    setState({ showConfirmationOwner: true });
+  };
+
+
   const removeUser = () => {
+    setState({ showConfirmation: false });
     props.onEditCourse(props.courseID, { roles: { [props.id]: null } }, "manage");
   };
 
-  const giveOwner = () => {
-    props.onEditCourse(props.courseID, { roles: { [props.id]: "owner" } }, "manage");
-  };
-
-  const giveInstructor = () => {
-    props.onEditCourse(props.courseID, { roles: { [props.id]: "instructor" } }, "manage");
-  };
-
   const giveStudent = () => {
+    setState({ showConfirmationStudent: false });
     props.onEditCourse(props.courseID, { roles: { [props.id]: "student" } }, "manage");
   };
 
-  return (
-    <div className={`UserListItem ${state.showConfirmation ? "pending" : ""}`}>
+  const giveInstructor = () => {
+    setState({ showConfirmationInstructor: false });
+    props.onEditCourse(props.courseID, { roles: { [props.id]: "instructor" } }, "manage");
+  };
 
-      {!state.showConfirmation &&
+  const giveOwner = () => {
+    setState({ showConfirmationOwner: false });
+    props.onEditCourse(props.courseID, { roles: { [props.id]: "owner" } }, "manage");
+  };
+
+  return (
+    <div className={`UserListItem ${(state.showConfirmation || state.showConfirmationStudent || state.showConfirmationInstructor || state.showConfirmationOwner) ? "pending" : ""}`}>
+
+      {(!state.showConfirmation && !state.showConfirmationStudent && !state.showConfirmationInstructor && !state.showConfirmationOwner) &&
         <div className="top">
 
           {/* User Name & Avatar */}
@@ -53,7 +73,7 @@ const UserListItem = (props) => {
             <div className="avatar">
               <img src={`./images/avatars/${props.avatarID}.png`} />
             </div>
-            <div className={`name ${props.role}`}>
+            <div className={`name text-truncate ${props.role}`}>
               {props.name}
               {props.role === "owner" &&
                 <img src={star} />
@@ -61,24 +81,19 @@ const UserListItem = (props) => {
             </div>
           </div>
 
-          {/* User Role */}
-          {/* <div className={`role ${props.role}`}>
-            {props.role === "owner" ? "HEAD INSTRUCTOR" : props.role.toUpperCase()}
-          </div> */}
-
           {/* Owner Controls */}
           <div className="controls">
             {props.userRole === "owner" && props.role === "student" &&
-              <Button text="SET AS INSTRUCTOR" styles="form yellow wide" onClick={giveInstructor} />
+              <Button text="SET AS INSTRUCTOR" styles="form yellow wide" onClick={handleInstructor} />
             }
             {props.userRole === "owner" && props.role === "instructor" &&
-              <Button text="SET AS STUDENT" styles="form orange wide" onClick={giveStudent} />
+              <Button text="SET AS STUDENT" styles="form orange wide" onClick={handleStudent} />
             }
             {props.userRole === "owner" && props.role === "instructor" &&
-              <Button text="GIVE OWNERSHIP" styles="form white wide" onClick={giveOwner} />
+              <Button text="GIVE OWNERSHIP" styles="form white wide" onClick={handleOwner} />
             }
             {props.userRole === "owner" && props.role !== "owner" &&
-              <Button text="REMOVE" styles="form red" onClick={handleClick} />
+              <Button text="REMOVE" styles="form red" onClick={handleRemove} />
             }
           </div>
 
@@ -93,6 +108,42 @@ const UserListItem = (props) => {
             onConfirm={removeUser}
             onCancel={() => setState({ showConfirmation: false })}
             confirmText={"REMOVE"}
+          />
+        </div>
+      }
+
+      {/* Confirm Student */}
+      {state.showConfirmationStudent &&
+        <div className="confirmation">
+          <Confirmation
+            message={`Set ${props.name.split(", ").reverse().join(" ")} as a student?`}
+            onConfirm={giveStudent}
+            onCancel={() => setState({ showConfirmationStudent: false })}
+            confirmText={"CONFIRM"}
+          />
+        </div>
+      }
+
+      {/* Confirm Instructor */}
+      {state.showConfirmationInstructor &&
+        <div className="confirmation">
+          <Confirmation
+            message={`Set ${props.name.split(", ").reverse().join(" ")} as an instructor?`}
+            onConfirm={giveInstructor}
+            onCancel={() => setState({ showConfirmationInstructor: false })}
+            confirmText={"CONFIRM"}
+          />
+        </div>
+      }
+
+      {/* Confirm Owner */}
+      {state.showConfirmationOwner &&
+        <div className="confirmation">
+          <Confirmation
+            message={`Pass course ownership to ${props.name.split(", ").reverse().join(" ")}?`}
+            onConfirm={giveOwner}
+            onCancel={() => setState({ showConfirmationOwner: false })}
+            confirmText={"CONFIRM"}
           />
         </div>
       }
