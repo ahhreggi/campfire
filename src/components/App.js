@@ -405,8 +405,11 @@ const App = () => {
 
   // EDIT A COURSE //////////////////////////////////////////////////
 
-  // Request to edit a courseID with the given data
-
+  // Edit a courseID with the given data
+  const editCourse = (courseID, data) => {
+    request("PATCH", API.POSTS, courseID, data)
+      .then(() => fetchCourseData(state.courseID));
+  };
 
   // BOOKMARK A POST ////////////////////////////////////////////////
 
