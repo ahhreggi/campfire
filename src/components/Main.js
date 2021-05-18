@@ -16,6 +16,7 @@ import BackButton from "./BackButton";
 import "./Main.scss";
 
 import DevData from "./DevData";
+import Help from "./Help";
 
 const Main = (props) => {
 
@@ -143,6 +144,13 @@ const Main = (props) => {
           onViewCourse={props.onViewCourse}
           status={props.status}
           errors={props.errors}
+          onRedirect={props.onRedirect}
+        />
+      }
+
+      {/* Help View */}
+      {props.active === "Help" &&
+        <Help
           onRedirect={props.onRedirect}
         />
       }
