@@ -403,7 +403,12 @@ const App = () => {
 
   // SIDE EFFECT 8: If userData changes while active is "Manage", stay on Manage
 
-  // BOOKMARKS //////////////////////////////////////////////////////
+  // EDIT A COURSE //////////////////////////////////////////////////
+
+  // Request to edit a courseID with the given data
+
+
+  // BOOKMARK A POST ////////////////////////////////////////////////
 
   // BASIC USER ROUTE
   // - User selects a course from the post list
@@ -411,7 +416,7 @@ const App = () => {
   // - State is updated (courseID, courseData)
   // - The post is immediately moved to the appropriate category within the post list
 
-  // Edit the user's bookmark for the given postID
+  // Toggle the user's bookmark for the given postID
   const editBookmark = (postID, bookmarked) => {
     const method = bookmarked ? "DELETE" : "POST";
     request(method, API.BOOKMARKS, null, { postID })
@@ -423,6 +428,7 @@ const App = () => {
   // BASIC USER ROUTE
   // - User's first unique visit to a post updates its view count by 1
 
+  // Add a unique view to the given postID
   const viewPost = (postID) => {
     request("POST", API.POSTS, postID + "/view");
   };
@@ -449,7 +455,7 @@ const App = () => {
   // - State is updated (courseID, courseData)
   // - SIDE EFFECT 5: Active state is updated to redirect the user from New Post to the new Post if postData exists
 
-  // Request to create a new post with the given data
+  // Create a new post with the given data
   const addPost = (data) => {
     request("POST", API.POSTS, null, data)
       .then((data) => {
@@ -479,12 +485,13 @@ const App = () => {
   // EDIT A POST //////////////////////////////////////////////////////
 
   // BASIC USER ROUTE
-  // - User presses the edit button of a post they authored (or they are an instructor+)
+  // - User presses the edit button of a post they authored (or they are an instructor)
   // - User edits the data and saves the changes
+  // - User can also immediately toggle the pin status of a post (if they are an instructor)
   // - Data is sent to the server and the new post data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to edit a postID with the given data
+  // Edit a postID with the given data
   const editPost = (postID, data) => {
     request("PATCH", API.POSTS, postID, data)
       .then(() => fetchCourseData(state.courseID));
@@ -498,7 +505,7 @@ const App = () => {
   // - The data is deleted from the server, no response data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to delete a post by ID, then redirect to Dashboard
+  // Delete a post by ID, then redirect to Dashboard
   const deletePost = (postID) => {
     request("DELETE", API.POSTS, postID)
       .then(() => setActive("Dashboard"));
@@ -513,7 +520,7 @@ const App = () => {
   // - State is updated (courseID, courseData, postID, postData, posts)
   // - If the user is an instructor, it counts as an endorsement, instead
 
-  // Request to like a comment by ID
+  // Toggle a user's like on a comment with the given ID
   const likeComment = (commentID, liked) => {
     const url = API.COMMENTS + "/"  + commentID + (liked ? "/unlike" : "/like");
     request("POST", url)
@@ -530,7 +537,7 @@ const App = () => {
   // - Data is sent to the server, no response data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to add a comment with the given data
+  // Add a comment with the given data
   const addComment = (data) => {
     request("POST", API.COMMENTS, null, data)
       .then(() => fetchCourseData(state.courseID));
@@ -547,7 +554,7 @@ const App = () => {
   // - Data is sent to the server, no response data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to edit a comment by ID with the given data
+  // Edit a comment by ID with the given data
   const editComment = (commentID, data) => {
     request("PATCH", API.COMMENTS, commentID, data)
       .then(() => fetchCourseData(state.courseID));
@@ -561,7 +568,7 @@ const App = () => {
   // - The data is deleted from the server, no response data is returned
   // - State is updated (courseID, courseData, postID, postData, posts)
 
-  // Request to delete a comment by ID
+  // Delete a comment by ID
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
       .then(() => fetchCourseData(state.courseID));
