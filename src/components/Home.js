@@ -36,7 +36,7 @@ const Home = (props) => {
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage")} />
         <Panel label={"ABOUT"} img={about} onClick={() => props.onRedirect("About")} />
         <Panel label={"HELP"} img={help} onClick={() => props.onRedirect("Help")} />
-        <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
+        <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account Settings")} />
       </div>
 
       <hr />
