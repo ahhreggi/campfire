@@ -422,14 +422,16 @@ const App = () => {
   // EDIT A COURSE //////////////////////////////////////////////////
 
   // Edit a courseID with the given data
-  const editCourse = (courseID, data) => {
+  const editCourse = (courseID, data, mode) => {
     request("PATCH", API.COURSES, courseID, data)
       // .then(() => fetchCourseData(state.courseID));
       .then((courseData) => {
         if (courseData) {
           // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
-          fetchUserCourses(courseData);
-          fetchCourseData(courseData.id);
+          if (mode !== "manage") {
+            fetchUserCourses(courseData);
+          }
+          fetchCourseData(courseID);
         } else {
           console.log("❌ editCourse failed!");
         }

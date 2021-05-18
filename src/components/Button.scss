@@ -78,6 +78,14 @@ button {
       }
     }
 
+    &.orange {
+      color: $orange;
+      background-color: rgba(226, 112, 19, 0.075);
+      &.reset {
+        width: 9rem;
+      }
+    }
+
     &.red {
       color: $red;
       background-color: rgba(141, 0, 0, 0.253);
@@ -88,7 +96,7 @@ button {
 
     &.yellow {
       color: $yellow;
-      background-color: rgba(255, 187, 0, 0.329);
+      background-color: rgba(255, 187, 0, 0.137);
     }
 
     &.manage {
@@ -103,6 +111,11 @@ button {
         }
       }
 
+    }
+
+    &.wide {
+      width: 10rem;
+      margin-right: 1rem;
     }
 
     &:hover {

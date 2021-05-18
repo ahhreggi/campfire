@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Confirmation from "./Confirmation";
 import PropTypes from "prop-types";
+import star from "../images/icons/star.png";
 import Button from "./Button";
 import "./UserListItem.scss";
 
@@ -26,7 +27,19 @@ const UserListItem = (props) => {
   };
 
   const removeUser = () => {
-    props.onRemoveUser(props.courseID, props.id);
+    props.onEditCourse(props.courseID, { roles: { [props.id]: null } }, "manage");
+  };
+
+  const giveOwner = () => {
+    props.onEditCourse(props.courseID, { roles: { [props.id]: "owner" } }, "manage");
+  };
+
+  const giveInstructor = () => {
+    props.onEditCourse(props.courseID, { roles: { [props.id]: "instructor" } }, "manage");
+  };
+
+  const giveStudent = () => {
+    props.onEditCourse(props.courseID, { roles: { [props.id]: "student" } }, "manage");
   };
 
   return (
@@ -42,16 +55,28 @@ const UserListItem = (props) => {
             </div>
             <div className={`name ${props.role}`}>
               {props.name}
+              {props.role === "owner" &&
+                <img src={star} />
+              }
             </div>
           </div>
 
           {/* User Role */}
-          <div className={`role ${props.role}`}>
+          {/* <div className={`role ${props.role}`}>
             {props.role === "owner" ? "HEAD INSTRUCTOR" : props.role.toUpperCase()}
-          </div>
+          </div> */}
 
           {/* Owner Controls */}
           <div className="controls">
+            {props.userRole === "owner" && props.role === "student" &&
+              <Button text="SET AS INSTRUCTOR" styles="form yellow wide" onClick={giveInstructor} />
+            }
+            {props.userRole === "owner" && props.role === "instructor" &&
+              <Button text="SET AS STUDENT" styles="form orange wide" onClick={giveStudent} />
+            }
+            {props.userRole === "owner" && props.role === "instructor" &&
+              <Button text="GIVE OWNERSHIP" styles="form white wide" onClick={giveOwner} />
+            }
             {props.userRole === "owner" && props.role !== "owner" &&
               <Button text="REMOVE" styles="form red" onClick={handleClick} />
             }

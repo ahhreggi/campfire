@@ -49,6 +49,12 @@
       color: $yellow;
     }
 
+    img {
+      width: 1rem;
+      padding-bottom: 0.2rem;
+      margin-left: 0.4rem;
+    }
+
   }
 
   .role {
@@ -64,9 +70,13 @@
 
   }
   .controls {
-    width: 8rem;
+    // width: 15rem;
     display: flex;
     justify-content: flex-end;
+    img {
+      width: 3rem;
+      height: 1rem;
+    }
   }
   .confirmation {
     justify-content: center;
