@@ -421,7 +421,7 @@ const App = () => {
   // VIEW A POST ////////////////////////////////////////////////////
 
   // BASIC USER ROUTE
-  // - User's first unique visit to a post updates its view count
+  // - User's first unique visit to a post updates its view count by 1
 
   const viewPost = (postID) => {
     request("POST", API.POSTS, postID + "/view");
@@ -510,36 +510,61 @@ const App = () => {
   // - User press the like/unlike button of a comment
   // - The data sent is determined by the current value (to set it to the opposite)
   // - Data is sent to the server, no response data is returned
-  // - State is updated (courseData)
+  // - State is updated (courseID, courseData, postID, postData, posts)
   // - If the user is an instructor, it counts as an endorsement, instead
 
   // Request to like a comment by ID
   const likeComment = (commentID, liked) => {
     const url = API.COMMENTS + "/"  + commentID + (liked ? "/unlike" : "/like");
     request("POST", url)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
+
+  // ADD A COMMENT //////////////////////////////////////////////////
+
+  // VALIDATION
+  // - Attempting to submit a comment with no body displays an error
+
+  // BASIC USER ROUTE
+  // - User adds a comment to a post, or a reply to a comment
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
 
   // Request to add a comment with the given data
   const addComment = (data) => {
     request("POST", API.COMMENTS, null, data)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
+
+  // EDIT A COMMENT /////////////////////////////////////////////////
+
+  // VALIDATION
+  // - Attempting to edit a comment to have no body displays an error
+
+  // BASIC USER ROUTE
+  // - User edits a comment to a post, or a reply to a comment
+  // - User confirms the changes
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
 
   // Request to edit a comment by ID with the given data
   const editComment = (commentID, data) => {
     request("PATCH", API.COMMENTS, commentID, data)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
+
+  // DELETE A COMMENT ///////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User presses the delete button of a comment/reply they authored (or they are an instructor+)
+  // - User confirms the delete
+  // - The data is deleted from the server, no response data is returned
+  // - State is updated (courseID, courseData, postID, postData, posts)
 
   // Request to delete a comment by ID
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
-      .then(() => fetchCourseData(state.courseID))
-      .catch((err) => console.log(err));
+      .then(() => fetchCourseData(state.courseID));
   };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
