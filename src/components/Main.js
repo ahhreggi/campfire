@@ -170,6 +170,7 @@ const Main = (props) => {
         <Info
           active={props.active}
           courseData={props.courseData}
+          onLeaveCourse={props.onLeaveCourse}
         />
       }
 
