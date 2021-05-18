@@ -8,9 +8,7 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default {
   code({ node, inline, className, children, ...props }) {
-    console.log("children", children);
     const match = /language-(\w+)/.exec(className || "");
-    console.log("match", match);
     return !inline && match ? (
       <SyntaxHighlighter
         style={dracula}

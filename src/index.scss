@@ -9,7 +9,6 @@ html {
 
 body {
   tab-size: 2;
-  // display: flex;
   margin: 0;
   background-color: $navy-0;
   color: $white;
@@ -17,21 +16,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
-  // overflow: hidden;
-  // keep disabled
 
   display: flex;
   justify-content: center;
   overflow: hidden;
-  // background: linear-gradient($black, $navy-0);
 
   .App {
-    margin-left: 15rem;
-    margin-right: 15rem;
-    min-width: 60rem;
-    width: 85vw;
+    // margin-left: 15rem;
+    // margin-right: 15rem;
+    min-width: 75rem;
+    // width: 85vw;
+    width: 98vw;
     overflow-x: hidden;
-    // box-shadow: -3px -3px 5px $navy-2, 3px 3px 5px $navy-0;
     box-shadow: 0px 0px 5px black;
   }
 
@@ -41,10 +37,10 @@ body {
     @include custom-scrollbar;
     .dev-tools {
       margin-top: 0rem;
-      // display: none; // toggle this
+      display: none; // toggle this
     }
     .DevData {
-      // display: none !important; // toggle this to quickly hide all dev data
+      display: none !important; // toggle this to quickly hide all dev data
       font-weight: 500;
       font-size: 1.5rem;
       border: 3px solid $green;
@@ -159,13 +155,13 @@ code {
   font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas,
     "Courier New", monospace;
   color: $orange-lighter;
-  padding: 0 0.3rem;
   font-size: 1rem;
-  }
+}
 
 // SyntaxHighlighter styling
 pre {
   overflow: hidden;
+  max-width: 50rem;
 
   code {
     overflow: hidden;
