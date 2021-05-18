@@ -24,8 +24,8 @@ const Nav = (props) => {
     <div className="Nav">
 
       {/* Campfire Title */}
-      <section className="app-nav left" onClick={() => props.onRedirect("Home")}>
-        <span className="title glow">
+      <section className="app-nav left">
+        <span className="title glow" onClick={() => props.onRedirect("Home")}>
           Campfire
           <img className="glow" src="./images/campfire.png" alt="Campfire" />
         </span>
