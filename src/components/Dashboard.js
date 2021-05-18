@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import Panel from "./Panel";
 import Summary from "./Summary";
+import Info from "./Info";
 import "./Dashboard.scss";
 
 import about from "../images/icons/about.png";
@@ -15,6 +16,7 @@ import DevData from "./DevData";
 const Dashboard = (props) => {
 
   Dashboard.propTypes = {
+    courseData: PropTypes.object,
     userData: PropTypes.object,
     userRole: PropTypes.string,
     onRedirect: PropTypes.func,
@@ -28,8 +30,11 @@ const Dashboard = (props) => {
 
       {/* <DevData name="Home" props={props} /> */}
 
+      <div className="page-title">
+        {props.courseCode}: {props.courseName}
+      </div>
+      <Info courseData={props.courseData} />
       <div className="greeting">
-        <div>{props.courseCode}: {props.courseName}</div>
         <hr />
         <div>
           <Summary
@@ -41,14 +46,21 @@ const Dashboard = (props) => {
         </div>
         <hr />
       </div>
+
+
       {/* <hr /> */}
       <div className="panels">
         <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
         <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} />
         <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Info")} />
-        <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
-        <Panel label={"ACCESS"} img={secret} onClick={() => props.onRedirect("Access")} />
-        <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
+
+        {props.userRole !== "student" &&
+          <>
+            <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
+            <Panel label={"ACCESS"} img={secret} onClick={props.userRole !== "student" ? () => props.onRedirect("Access") : null} />
+            <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
+          </>
+        }
         {/* <Panel label={"ABOUT"} img={""} onClick={() => props.onRedirect("About")} />
         <Panel label={"HELP"} img={""} onClick={() => props.onRedirect("Help")} />
         <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} /> */}

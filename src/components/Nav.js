@@ -69,7 +69,7 @@ const Nav = (props) => {
         }
 
         {props.active === "Dashboard" &&
-          <span className="view-title text-truncate">{props.courseData ? `${props.courseData.course_code}: ${props.courseData.name}` : ""}</span>
+          <span className="view-title text-truncate">{props.courseData ? "Course Dashboard" : ""}</span>
         }
 
       </section>

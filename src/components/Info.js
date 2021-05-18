@@ -6,6 +6,7 @@ import moment from "moment";
 const Info = (props) => {
 
   Info.propTypes = {
+    active: PropTypes.string,
     courseData: PropTypes.object
   };
 
@@ -33,36 +34,45 @@ const Info = (props) => {
 
       {/* Page Title */}
       <div className="page-title">
-        Course information
+        {props.active === "Info" &&
+          <>Course information</>
+        }
+
       </div>
 
       <hr />
 
       <div className="course-card">
 
-        <div className="course-title">
-          {props.courseData.course_code}: {props.courseData.name}
-        </div>
+
+        {props.active === "Info" &&
+          <div className="course-title">
+            {props.courseData.course_code}: {props.courseData.name}
+          </div>
+        }
 
         <div className="course-date">
           {moment(props.courseData.created_at).format("MMMM YYYY")}
         </div>
 
         <div className="course-description">
-          {props.courseData.description || "The course instructor has not provided a description for this course."}
+          The course instructor has not provided a description for this course. The course instructor has not provided a description for this course. The course instructor has not provided a description for this course. The course instructor has not provided a description for this course.
+          {/* {props.courseData.description || "The course instructor has not provided a description for this course."} */}
         </div>
 
         {/* Page Text */}
-        <div className="instructors">
-          <header>Instructors:</header>
-          {instructorElements}
-        </div>
+        {props.active === "Info" &&
+          <div className="instructors">
+            <header>Instructors:</header>
+            {instructorElements}
+          </div>
+        }
 
       </div>
 
 
 
-      <hr />
+      {/* <hr /> */}
 
     </div>
   );
