@@ -123,7 +123,6 @@ const PostList = (props) => {
   };
 
   useEffect(() => {
-    console.log(state.unpinned);
   }, [state.unpinned]);
 
   const toggleTag = (tagID) => {
@@ -186,7 +185,6 @@ const PostList = (props) => {
       const fields = [body];
       for (const field of fields) {
         if (field.includes(search)) {
-          console.log(2);
           return true;
         }
       }

@@ -408,13 +408,42 @@ const App = () => {
   // Edit a courseID with the given data
   const editCourse = (courseID, data) => {
     request("PATCH", API.COURSES, courseID, data)
-      .then(() => fetchCourseData(state.courseID));
+      // .then(() => fetchCourseData(state.courseID));
+      .then((courseData) => {
+        if (courseData) {
+          // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
+          fetchUserCourses(courseData);
+        } else {
+          console.log("❌ createCourse failed!");
+        }
+      });
+  };
+
+  const testRequest = () => {
+    const courseID = 1;
+    const data = {
+      name: "NEW NAME",
+      description: "NEW DESCRIPTION",
+      courseCode: "NEW CODE",
+      tags: ["tag1", "tag2"],
+      archive: false,
+      roles: {
+        5: "instructor" // change dean into a student, student, instructor, owner, null to kick
+      }
+    };
+    editCourse(courseID, data);
   };
 
   // Delete a course by ID, then redirect to Home
   const deleteCourse = (courseID) => {
     request("DELETE", API.COURSES, courseID)
       .then(() => setActive("Home"));
+  };
+
+  // Reset the student and instructor access codes of a course
+  const resetAccessCodes = (courseID) => {
+    request("DELETE", API.COURSES + "/" + courseID + "/resetAccessCodes")
+      .then(() => fetchCourseData(state.courseID));
   };
 
   // BOOKMARK A POST ////////////////////////////////////////////////
@@ -793,6 +822,7 @@ const App = () => {
           <footer className="app-footer">
             <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
             <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            <Button text="TEST REQ" styles={"form red mt-3"} onClick={() => testRequest()} />
           </footer>
 
         </>
