@@ -152,7 +152,7 @@ const App = () => {
   };
 
   // Set the application data
-  const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData) => {
+  const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData, newUserCourses) => {
     if (type === "userData") {
       setState({ ...state, userData: data, errors: null });
     } else if (type === "userCourses") {
@@ -178,6 +178,7 @@ const App = () => {
       const postID = newPostID !== undefined ? newPostID : state.postID;
       const postData = newPostData !== undefined ? newPostData : state.postData;
       const active = newActive !== undefined ? newActive : state.active;
+      const userCourses = newUserCourses !== undefined ? newUserCourses : state.userCourses;
       setState({
         ...state,
         courseID: data.id,
@@ -185,7 +186,8 @@ const App = () => {
         postID: postID,
         postData: postData,
         posts: data ? data.posts : null,
-        active: active
+        active: active,
+        userCourses: userCourses
       });
     } else if (type === "courseReset") {
       setState({
@@ -375,8 +377,22 @@ const App = () => {
             // Otherwise, enrol normally
           } else {
             setState({ ...state, status: "success", statusMessage: courseData.name });
+            const newCourse = {
+              id: courseData.id,
+              name: courseData.name,
+              description: courseData.description,
+              "course_code": courseData.course_code,
+              "created_at": courseData.created_at,
+              "owner_name": courseData.owner_name,
+              userID: courseData.userID,
+              role: courseData.role,
+              "join_date": courseData.join_date,
+              archived: courseData.archived,
+              active: courseData.active,
+              analytics: courseData.analytics
+            };
             setTimeout(() => {
-              setAppData(courseData, "courseData");
+              setAppData(courseData, "courseData", null, null, "Dashboard", undefined, [ ...state.userCourses, newCourse ]);
             }, 1500);
           }
         } else {
