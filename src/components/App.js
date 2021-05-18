@@ -490,6 +490,8 @@ const App = () => {
       .then(() => fetchCourseData(state.courseID));
   };
 
+  // DELETE A POST //////////////////////////////////////////////////
+
   // BASIC USER ROUTE
   // - User presses the delete button of a post they authored (or they are an instructor+)
   // - User confirms the delete
@@ -501,6 +503,15 @@ const App = () => {
     request("DELETE", API.POSTS, postID)
       .then(() => setActive("Dashboard"));
   };
+
+  // LIKE A COMMENT /////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User press the like/unlike button of a comment
+  // - The data sent is determined by the current value (to set it to the opposite)
+  // - Data is sent to the server, no response data is returned
+  // - State is updated (courseData)
+  // - If the user is an instructor, it counts as an endorsement, instead
 
   // Request to like a comment by ID
   const likeComment = (commentID, liked) => {
