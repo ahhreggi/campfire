@@ -93,7 +93,7 @@ const ManageListItem = (props) => {
                   <Button
                     text={"MANAGE"}
                     styles="form yellow manage"
-                    onClick={props.role === "owner" ? () => props.onViewCourse(props.id, null, null, "Course Settings") : null}
+                    onClick={props.role === "owner" ? () => props.onViewCourse(props.id, null, null, "Manage Course") : null}
                     disabled={props.role !== "owner"}
                   />
                 </div>

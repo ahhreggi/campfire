@@ -31,7 +31,7 @@ const ManageCourse = (props) => {
       <hr />
 
       <div className="count">
-        There are currently <span className="instructor">{instructors.length}</span> instructor(s) and <span className="student">{students.length}</span> student(s) enrolled in this course.
+        There are currently <span className="instructor">{instructors.length}</span> instructor(s) and <span className="student">{students.length}</span> student(s) enrolled in <span className="course-name">{props.courseData.course_code}: {props.courseData.name}</span>.
       </div>
 
 
