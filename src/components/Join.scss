@@ -31,6 +31,10 @@
     border: 1px solid $navy-5;
     transition: 0.1s;
 
+    input {
+      text-align: center;
+    }
+
     &.invalid {
       border: 2px solid $red;
     }

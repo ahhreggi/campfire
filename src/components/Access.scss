@@ -5,29 +5,81 @@
   .page-title {
     font-size: 2rem;
     font-weight: 700;
-    justify-content: center;
+    // justify-content: center;
+  }
+
+  .page-text {
+    margin-bottom: 1rem;
+    span {
+      font-weight: 700;
+      &.instructor {
+        color: $yellow;
+      }
+    }
   }
 
   .code {
     border-left: 2px solid $white;
-    border-right: 2px solid $white;
-    background-color: $navy-3;
+    // border-right: 2px solid $white;
+    background-color: $navy-2;
     padding: 1rem;
     border-radius: 15px;
     width: 30rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     margin-bottom: 1rem;
+    &:hover {
+      background-color: $navy-3;
+    }
     &.instructor {
       border-color: $yellow;
+      span,
+      .msg {
+        color: $yellow;
+      }
+
+    }
+    .box {
+      width: 100%;
+      border: 1px solid $navy-5;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      padding-bottom: 0.7rem;
+      padding-left: 0.5rem;
+      margin: 1rem 0;
+      background-color: $navy-1;
+      &:hover {
+        cursor: pointer;
+        input {
+          filter: none;
+        }
+      }
     }
     input {
-      padding: 0.5rem;
+      padding: 0rem;
       border-radius: 5px;
       width: 100%;
-      margin-bottom: 1rem;
-      text-align: center;
+      // text-align: center;
+      color: $white;
+      font-weight: 700;
+      border: none;
+      background-color: transparent;
+      filter: blur(2px);
+      transition: 0.5s;
+      transition-delay: 0.5s;
+      cursor: pointer;
+    }
+    .msg,
+    header,
+    span {
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding-bottom: 0.2rem;
+      text-transform: uppercase;
+      user-select: none;
+      margin-left: 0.2rem;
     }
   }
 

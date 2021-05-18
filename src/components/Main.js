@@ -187,6 +187,7 @@ const Main = (props) => {
           instructorCode={props.courseData.secrets.instructor_access_code}
           onResetAccess={props.onResetAccess}
           onRedirect={props.onRedirect}
+          isOwner={props.courseData.role === "owner"}
         />
       }
 
