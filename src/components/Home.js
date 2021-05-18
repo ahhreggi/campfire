@@ -21,7 +21,7 @@ const Home = (props) => {
   };
 
   // Check if the user is new (joined within 30 seconds)
-  const newUser = moment().diff(moment(props.userData.joinDate)) < 30000;
+  const newUser = moment().diff(moment(props.userData.joinDate)) < 5000;
 
   return (
     <div className="Home">
@@ -32,7 +32,7 @@ const Home = (props) => {
       <div className="greeting">
 
         {!newUser &&
-          <>Hello, <span>{props.userData.firstName}</span>!</>
+          <>Welcome back, <span>{props.userData.firstName}</span>!</>
         }
 
         {newUser &&
