@@ -6,6 +6,7 @@ import "./Access.scss";
 const Access = (props) => {
 
   Access.propTypes = {
+    courseID: PropTypes.number,
     studentCode: PropTypes.string,
     instructorCode: PropTypes.string,
     onResetAccess: PropTypes.func,
@@ -14,40 +15,34 @@ const Access = (props) => {
 
   const [state, setState] = useState({
     showStudentCode: false,
-    showInstructorCode: false,
-    copiedStudentCode: false,
-    copiedInstructorCode: false,
-    resetCode: false
+    showInstructorCode: false
   });
+
+  const [copiedStudent, setCopiedStudent] = useState(false);
+  const [copiedInstructor, setCopiedInstructor] = useState(false);
 
   const resetCode = () => {
     if (props.isOwner) {
-      props.onResetAccess();
-      if (!state.resetCode) {
-        setState({ ...state, resetCode: true });
-        setTimeout(() => {
-          setState({ ...state, resetCode: false });
-        }, 1500);
-      }
+      props.onResetAccess(props.courseID);
     }
   };
 
   const copyStudentCode = (text) => {
     navigator.clipboard.writeText(text);
-    if (!state.copiedStudentCode) {
-      setState({ ...state, copiedStudentCode: true });
+    if (!copiedStudent) {
+      setCopiedStudent(true);
       setTimeout(() => {
-        setState({ ...state, copiedStudentCode: false });
+        setCopiedStudent(false);
       }, 1500);
     }
   };
 
   const copyInstructorCode = (text) => {
     navigator.clipboard.writeText(text);
-    if (!state.copiedInstructorCode) {
-      setState({ ...state, copiedInstructorCode: true });
+    if (!copiedInstructor) {
+      setCopiedInstructor(true);
       setTimeout(() => {
-        setState({ ...state, copiedInstructorCode: false });
+        setCopiedInstructor(false);
       }, 1500);
     }
   };
@@ -75,10 +70,10 @@ const Access = (props) => {
           />
         </div>
         <div
-          className={`msg ${state.copiedStudentCode ? "" : "active"}`}
-          onClick={!state.copiedStudentCode ? () => copyStudentCode(props.studentCode) : null}
+          className={`msg ${copiedStudent ? "" : "active"}`}
+          onClick={!copiedStudent ? () => copyStudentCode(props.studentCode) : null}
         >
-          {state.copiedStudentCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+          {copiedStudent ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
         </div>
       </div>
 
@@ -92,10 +87,10 @@ const Access = (props) => {
           />
         </div>
         <div
-          className={`msg instructor ${state.copiedInstructorCode ? "" : "active"}`}
-          onClick={!state.copiedInstructorCode ? () => copyInstructorCode(props.instructorCode) : null}
+          className={`msg instructor ${copiedInstructor ? "" : "active"}`}
+          onClick={!copiedInstructor ? () => copyInstructorCode(props.instructorCode) : null}
         >
-          {state.copiedInstructorCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+          {copiedInstructor ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
         </div>
       </div>
 
@@ -105,8 +100,8 @@ const Access = (props) => {
 
         {props.isOwner &&
           <Button
-            text={state.resetCode ? "DONE!" : "RESET CODES"}
-            styles={`form reset ${state.resetCode ? "green" : "red"}`}
+            text="RESET CODES"
+            styles="form reset red"
             onClick={() => resetCode()}
           />
         }

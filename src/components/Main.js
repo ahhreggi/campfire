@@ -186,6 +186,7 @@ const Main = (props) => {
       {/* Access Codes View */}
       {props.active === "Access" &&
         <Access
+          courseID={props.courseData.id}
           studentCode={props.courseData.secrets.student_access_code}
           instructorCode={props.courseData.secrets.instructor_access_code}
           onResetAccess={props.onResetAccess}
