@@ -319,6 +319,7 @@ const PostList = (props) => {
             value={state.searchText}
             onChange={updateSearchText}
             placeholder={"e.g., react, @123"}
+            spellCheck={"false"}
           />
         </div>
       }

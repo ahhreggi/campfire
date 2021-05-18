@@ -86,16 +86,17 @@ body {
   ///////////////////////////////////////////////////////////////////
 
   .ref {
-    // border: 1px solid red;
     position: relative;
     bottom: 33vh;
-    // display: none;
+
     &.top {
       bottom: 8vh;
     }
+
     &.best {
       bottom: 4vh;
     }
+
   }
 
   a {
@@ -157,6 +158,9 @@ body {
 code {
   font-family: $font-code, source-code-pro, Menlo, Monaco, Consolas,
     "Courier New", monospace;
+  color: $orange-lighter;
+  padding: 0 0.3rem;
+  font-size: 1rem;
   }
 
 // SyntaxHighlighter styling
@@ -179,6 +183,18 @@ pre {
 
 }
 
+.post-body > pre > pre {
+  background-color: $navy-3 !important;
+}
+
+.CommentListItem.highlight-parent pre pre {
+  background-color: $navy-4 !important;
+}
+
+.CommentListItem:not(.highlight-parent) pre pre {
+  background-color: $navy-5 !important;
+}
+
 pre,
 code {
   @include custom-scrollbar;
@@ -194,5 +210,20 @@ code {
   &::-webkit-scrollbar-thumb {
     background-color: $navy-6;
     border-radius: 15px;
+  }
+}
+
+input,
+textarea {
+  background-color: $navy-4;
+  font-family: $font-code;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: $white;
+  border: 1px solid $navy-5;
+  margin-top: 0.5rem;
+  &::placeholder {
+    color: $white;
+    opacity: 0.4;
   }
 }

@@ -30,6 +30,7 @@ const TextForm = (props) => {
         onKeyDown={props.onKeyDown}
         ref={props.refs}
         placeholder={props.placeholder}
+        spellCheck={"false"}
       />
 
     </div>

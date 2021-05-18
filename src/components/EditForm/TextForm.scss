@@ -7,10 +7,11 @@
   }
 
   textarea {
-    color: $navy-1;
+    color: $white;
+    background-color: $navy-3;
+
     font-family: $font-code;
     font-size: 0.9rem;
-    background-color: $white;
     width: 100%;
     padding: 0.5rem;
     border-color: $navy-5;
