@@ -34,7 +34,7 @@ const Home = (props) => {
         <Panel label={"JOIN"} img={join} onClick={() => props.onRedirect("Join")} />
         <Panel label={"CREATE"} img={create} onClick={() => props.onRedirect("Create")} />
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage")} />
-        <Panel label={"ABOUT"} img={about} onClick={() => props.onRedirect("About")} />
+        <Panel label={"ABOUT"} img={about} onClick={() => props.onRedirect("GitHub")} />
         <Panel label={"HELP"} img={help} onClick={() => props.onRedirect("Help")} />
         <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account")} />
       </div>
