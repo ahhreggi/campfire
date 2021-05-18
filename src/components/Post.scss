@@ -131,6 +131,16 @@
 
   }
 
+  .post-id {
+    // opacity: 0.7;
+    font-weight: 400;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    color: $orange;
+    margin-left: 0.5rem;
+  }
+
   .post-header {
     display: flex;
     overflow: hidden;

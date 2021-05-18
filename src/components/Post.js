@@ -352,6 +352,7 @@ const Post = (props) => {
           <div>
             {props.title}
           </div>
+          <span className="post-id">@{props.id}</span>
         </div>
 
         {/* Author & Timestamps */}

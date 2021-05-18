@@ -60,6 +60,10 @@ const Nav = (props) => {
           />
         }
 
+        {/* <div className="view-title">
+          {props.active}
+        </div> */}
+
         {props.active === "Home" &&
           <span className="view-title">Home</span>
         }
@@ -86,9 +90,6 @@ const Nav = (props) => {
             >
               {props.userName}
             </span>
-            {/* <div className="arrow-icon">
-              <img src={arrow} onClick={() => props.onRedirect("Logout")} />
-            </div> */}
           </div>
         </div>
 
