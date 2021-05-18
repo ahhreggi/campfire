@@ -31,8 +31,11 @@ const UserListItem = (props) => {
 
   return (
     <div className={`UserListItem ${state.showConfirmation ? "pending" : ""}`}>
+
       {!state.showConfirmation &&
         <div className="top">
+
+          {/* User Name & Avatar */}
           <div className="user">
             <div className="avatar">
               <img src={`./images/avatars/${props.avatarID}.png`} />
@@ -41,18 +44,23 @@ const UserListItem = (props) => {
               {props.name}
             </div>
           </div>
+
+          {/* User Role */}
           <div className={`role ${props.role}`}>
             {props.role === "owner" ? "HEAD INSTRUCTOR" : props.role.toUpperCase()}
           </div>
 
+          {/* Owner Controls */}
           <div className="controls">
             {props.userRole === "owner" &&
               <Button text="REMOVE" styles="form red" onClick={handleClick} />
             }
           </div>
+
         </div>
       }
 
+      {/* Confirm Remove */}
       {state.showConfirmation &&
         <div className="confirmation">
           <Confirmation
@@ -63,6 +71,7 @@ const UserListItem = (props) => {
           />
         </div>
       }
+
     </div>
   );
 };
