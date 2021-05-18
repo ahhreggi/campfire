@@ -738,10 +738,10 @@ const App = () => {
 
           </section>
 
-          {/* <footer className="app-footer">
+          <footer className="app-footer">
             <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
             <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
-          </footer> */}
+          </footer>
 
         </>
       }
