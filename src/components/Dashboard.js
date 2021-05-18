@@ -1,19 +1,22 @@
 import PropTypes from "prop-types";
 import "./Dashboard.scss";
 
+import DevData from "./DevData";
+
 const Dashboard = (props) => {
 
   Dashboard.propTypes = {
-    resolved: PropTypes.number,
-    unresolved: PropTypes.number
+    courseData: PropTypes.object
   };
+
+  const analytics = props.courseData.analytics;
   return (
     <div className="Dashboard">
-      There are currently:
-      {props.resolved} resolved questions
-      {props.unresolved} unresolved questions
+      <DevData name={"courseData.analytics"} props={props.courseData.analytics} />
+      <DevData name={"courseData.secrets"} props={props.courseData.secrets} />
+      <DevData name={"courseData.users"} props={props.courseData.users} />
 
-      Post a new question
+
 
     </div>
   );
