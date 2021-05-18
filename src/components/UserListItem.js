@@ -16,6 +16,9 @@ const UserListItem = (props) => {
   };
 
   const removeUser = () => {
+    const data = {
+      roles: { [props.id]: null }
+    };
     props.onRemoveUser(props.courseID, props.id);
   };
 

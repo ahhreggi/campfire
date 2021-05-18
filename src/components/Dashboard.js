@@ -56,7 +56,7 @@ const Dashboard = (props) => {
 
         {props.userRole !== "student" &&
           <>
-            <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
+            <Panel label={"USERS"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
             <Panel label={"ACCESS"} img={secret} onClick={props.userRole !== "student" ? () => props.onRedirect("Access") : null} />
             <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
           </>

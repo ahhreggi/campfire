@@ -440,13 +440,15 @@ const App = () => {
 
   // Remove a user from a course
   const removeUser = (courseID, userID) => {
-    const data = { [userID]: null};
+    console.log("removing user..");
+    const data = { roles: { [userID]: null } };
     request("PATCH", API.COURSES, courseID, data)
       .then((res) => {
         if (res) {
-          console.log("removed!");
+          fetchCourseData(courseID);
+          console.log("response received", res);
         } else {
-          console.log("??");
+          console.log("no res");
         }
       });
   };

@@ -24,7 +24,6 @@ const ManageCourse = (props) => {
       owner = user;
     }
   }
-  console.log(students);
 
   // Sort an array of users by last name, first name
   const sortUsers = (users) => {
@@ -49,7 +48,7 @@ const ManageCourse = (props) => {
     <div className="ManageCourse">
 
       <div className="page-title">
-        Manage course users
+        Users
       </div>
 
       <hr />
@@ -64,6 +63,7 @@ const ManageCourse = (props) => {
           <UserList
             users={instructors}
             courseID={props.courseData.id}
+            onEditCourse={props.onEditCourse}
             onRemoveUser={props.onRemoveUser}
             userRole={props.courseData.role}
           />
@@ -72,12 +72,18 @@ const ManageCourse = (props) => {
       <div className="label">Students</div>
       <div className="list">
         <div className="students">
-          <UserList
-            users={sortedStudents}
-            courseID={props.courseData.id}
-            onRemoveUser={props.onRemoveUser}
-            userRole={props.courseData.role}
-          />
+          {sortedStudents.length > 0 &&
+            <UserList
+              users={sortedStudents}
+              courseID={props.courseData.id}
+              onEditCourse={props.onEditCourse}
+              onRemoveUser={props.onRemoveUser}
+              userRole={props.courseData.role}
+            />
+          }
+          {sortedStudents.length === 0 &&
+            <div className="empty">There are no students in this course.</div>
+          }
         </div>
       </div>
     </div>
