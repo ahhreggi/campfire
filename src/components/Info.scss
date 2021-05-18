@@ -13,7 +13,7 @@
   .course-title {
     font-weight: 700;
     font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
   }
   .course-date {
     // margin-bottom: 0.5rem;
@@ -23,6 +23,7 @@
   }
   .course-description {
     // margin-bottom: 3rem;
+    // font-size: 1.4rem;
   }
 
   .instructors {
@@ -45,7 +46,7 @@
   .course-card {
     border-radius: 15px;
     padding: 2rem;
-    background-color: $navy-4;
+    background-color: $navy-2;
     border-left: 2px solid $white;
     display: flex;
     flex-direction: column;

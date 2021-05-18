@@ -4,15 +4,16 @@
   font-size: 1.4rem;
   border-left: 2px solid white;
   border-radius: 15px;
-  background-color: $navy-4;
+  background-color: $navy-2;
   height: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   // align-items: center;
-  margin-top: 1.5rem;
-  margin-bottom: 1.3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding-left: 2rem;
+  user-select: none;
 
   img {
     width: 1.5rem;

@@ -56,8 +56,7 @@ const Info = (props) => {
         </div>
 
         <div className="course-description">
-          The course instructor has not provided a description for this course. The course instructor has not provided a description for this course. The course instructor has not provided a description for this course. The course instructor has not provided a description for this course.
-          {/* {props.courseData.description || "The course instructor has not provided a description for this course."} */}
+          {props.courseData.description || "The course instructor has not provided a description for this course."}
         </div>
 
         {/* Page Text */}

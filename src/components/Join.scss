@@ -29,19 +29,19 @@
     justify-content: center;
     align-items: center;
     transition: 0.1s;
-    border: 2px solid transparent;
-    border-left-color: $navy-8;
+    // border-color: $white;
+    border: 1px solid $navy-5;
 
     input {
       text-align: center;
     }
 
     &.invalid {
-      border-left-color: $red;
+      border-color: $red;
     }
 
     &.success {
-      border-left-color: $green;
+      border-color: $green;
     }
 
   }

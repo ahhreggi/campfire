@@ -16,6 +16,8 @@ const ManageCourse = (props) => {
       students.push(user);
     } else if (user.role === "instructor") {
       instructors.push(user);
+    } else if (user.role === "owner") {
+      instructors.unshift(user);
     }
   }
 

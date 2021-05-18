@@ -121,7 +121,7 @@ const Create = (props) => {
           <textarea
             className="description"
             value={state.description}
-            onChange={(event) => handleInputChange(event, "description", 150)}
+            onChange={(event) => handleInputChange(event, "description", 700)}
             placeholder={"What's the course about?"}
             rows={3}
           />
