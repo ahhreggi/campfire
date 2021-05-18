@@ -804,9 +804,14 @@ const App = () => {
                 onCreateCourse={createCourse}
                 onJoinCourse={joinCourse}
 
-                // Manage course functions
+                // Manage user enrolments functions
                 onLeaveCourse={leaveCourse}
                 onViewCourse={fetchCourseData}
+
+                // Manage course/settings functions
+                onEditCourse={editCourse}
+                onDeleteCourse={deleteCourse}
+                onResetAccess={resetAccessCodes}
 
                 // Post functions
                 onEditBookmark={editBookmark}

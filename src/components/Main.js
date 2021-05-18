@@ -9,6 +9,7 @@ import Create from "./Create";
 import Manage from "./Manage";
 import Dashboard from "./Dashboard";
 import Info from "./Info";
+import ManageCourse from "./ManageCourse";
 import Analytics from "./Analytics";
 import BackButton from "./BackButton";
 import "./Main.scss";
@@ -37,9 +38,14 @@ const Main = (props) => {
     onCreateCourse: PropTypes.func,
     onJoinCourse: PropTypes.func,
 
-    // Manage course functions
+    // Manage user enrolments functions
     onLeaveCourse: PropTypes.func,
     onViewCourse: PropTypes.func,
+
+    // Manage course/settings functions
+    onEditCourse: PropTypes.func,
+    onDeleteCourse: PropTypes.func,
+    onResetAccess: PropTypes.func,
 
     // Post functions
     onEditBookmark: PropTypes.func,
@@ -140,8 +146,6 @@ const Main = (props) => {
         />
       }
 
-
-
       {/* TEMPORARY */}
       {/* {props.active === "Manage" &&
         <DevData name={"Main"} props={props} />
@@ -163,6 +167,15 @@ const Main = (props) => {
       {props.active === "Info" &&
         <Info
           courseData={props.courseData}
+        />
+      }
+
+      {/* Manage Course View */}
+      {props.active === "Manage Course" &&
+        <ManageCourse
+          courseData={props.courseData}
+          onEditCourse={props.onEditCourse}
+          onRedirect={props.onRedirect}
         />
       }
 

@@ -6,7 +6,7 @@ import "./Dashboard.scss";
 import about from "../images/icons/about.png";
 import post from "../images/icons/paper.png";
 import secret from "../images/icons/key.png";
-import manage from "../images/icons/endorse.png";
+import manage from "../images/icons/document.png";
 import analytics from "../images/icons/analytics.png";
 import settings from "../images/icons/settings.png";
 
