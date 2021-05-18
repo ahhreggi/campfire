@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import Confirmation from "./Confirmation";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import "./UserListItem.scss";
@@ -15,32 +17,52 @@ const UserListItem = (props) => {
     userRole: PropTypes.string
   };
 
+  const [state, setState] = useState({
+    showConfirmation: false
+  });
+
+  const handleClick = () => {
+    setState({ showConfirmation: true });
+  };
+
   const removeUser = () => {
-    const data = {
-      roles: { [props.id]: null }
-    };
     props.onRemoveUser(props.courseID, props.id);
   };
 
   return (
-    <div className="UserListItem">
-      <div className="user">
-        <div className="avatar">
-          <img src={`./images/avatars/${props.avatarID}.png`} />
-        </div>
-        <div className={`name ${props.role}`}>
-          {props.name}
-        </div>
-      </div>
-      <div className={`role ${props.role}`}>
-        {props.role === "owner" ? "HEAD INSTRUCTOR" : props.role.toUpperCase()}
-      </div>
+    <div className={`UserListItem ${state.showConfirmation ? "pending" : ""}`}>
+      {!state.showConfirmation &&
+        <div className="top">
+          <div className="user">
+            <div className="avatar">
+              <img src={`./images/avatars/${props.avatarID}.png`} />
+            </div>
+            <div className={`name ${props.role}`}>
+              {props.name}
+            </div>
+          </div>
+          <div className={`role ${props.role}`}>
+            {props.role === "owner" ? "HEAD INSTRUCTOR" : props.role.toUpperCase()}
+          </div>
 
-      <div className="controls">
-        {props.userRole === "owner" &&
-          <Button text="REMOVE" styles="form red" onClick={() => removeUser()} />
-        }
-      </div>
+          <div className="controls">
+            {props.userRole === "owner" &&
+              <Button text="REMOVE" styles="form red" onClick={handleClick} />
+            }
+          </div>
+        </div>
+      }
+
+      {state.showConfirmation &&
+        <div className="confirmation">
+          <Confirmation
+            message={`Remove ${props.name.split(", ").reverse().join(" ")}?`}
+            onConfirm={removeUser}
+            onCancel={() => setState({ showConfirmation: false })}
+            confirmText={"REMOVE"}
+          />
+        </div>
+      }
     </div>
   );
 };

@@ -6,10 +6,15 @@
   background-color: $navy-2;
   padding: 1rem 2rem;
   display: flex;
+  flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
   margin-bottom: 0.5rem;
+
+  .top {
+    display: flex;
+    flex-direction: row;
+  }
   &:hover {
     background-color: $navy-5;
   }
@@ -53,6 +58,19 @@
     width: 8rem;
     display: flex;
     justify-content: flex-end;
+  }
+  .confirmation {
+    justify-content: center;
+    align-items: center;
+    .Confirmation {
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &.pending,
+  &.pending:hover {
+    background-color: $navy-1;
   }
 
 }
