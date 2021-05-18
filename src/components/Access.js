@@ -74,7 +74,12 @@ const Access = (props) => {
             onClick={() => copyStudentCode(props.studentCode)}
           />
         </div>
-        <div className="msg">{state.copiedStudentCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}</div>
+        <div
+          className={`msg ${state.copiedStudentCode ? "" : "active"}`}
+          onClick={!state.copiedStudentCode ? () => copyStudentCode(props.studentCode) : null}
+        >
+          {state.copiedStudentCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+        </div>
       </div>
 
       <div className="code instructor">
@@ -86,7 +91,12 @@ const Access = (props) => {
             onClick={() => copyInstructorCode(props.instructorCode)}
           />
         </div>
-        <div className="msg instructor">{state.copiedInstructorCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}</div>
+        <div
+          className={`msg instructor ${state.copiedInstructorCode ? "" : "active"}`}
+          onClick={!state.copiedInstructorCode ? () => copyInstructorCode(props.instructorCode) : null}
+        >
+          {state.copiedInstructorCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+        </div>
       </div>
 
       <hr />

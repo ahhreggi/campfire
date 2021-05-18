@@ -81,6 +81,9 @@
       user-select: none;
       margin-left: 0.2rem;
     }
+    .msg.active {
+      cursor: pointer;
+    }
   }
 
 }
