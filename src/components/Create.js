@@ -30,7 +30,7 @@ const Create = (props) => {
   useEffect(() => {
     const newTags = state.tagField
       .split(",") // split by commas
-      .map(tag => tag.trim()) // remove whitespace
+      .map(tag => tag.trim().toLowerCase()) // remove whitespace
       .filter((tag, index, self) => self.indexOf(tag) === index) // remove duplicates
       .map(tag => tag.split().join(" ").trim()); // remove repeated spaces
     const previewTags = newTags
