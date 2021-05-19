@@ -292,7 +292,7 @@ const CommentListItem = (props) => {
 
           {/* Role */}
           <div className={`role ${isInstructor && "instructor"}`}>
-            {authorRole}
+            {props.anonymous && (props.authorRole === "owner") ? "instructor" : authorRole}
           </div>
 
           {/* Engagements */}
