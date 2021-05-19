@@ -106,7 +106,7 @@ const PostListCategoryItem = (props) => {
           {props.bookmarked &&
             <img className="bookmark" src={star} alt="bookmark" />
           }
-          <span className="title">
+          <span className="title text-truncate">
             <img src={pencil} className={props.owned ? "owned" : ""} />
             {truncateText(props.title, 25)}
           </span>
