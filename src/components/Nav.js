@@ -22,7 +22,7 @@ const Nav = (props) => {
   const toHome = ["Join", "Create", "Manage", "About", "Help", "Account"];
 
   let backToLabel;
-  if (toHome.includes(props.active)) {
+  if (toHome.includes(props.active) && !props.courseData) {
     backToLabel = "Home";
   } else {
     backToLabel = props.courseData ? props.courseData.course_code : "";
