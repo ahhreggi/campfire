@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import "./Access.scss";
@@ -12,11 +12,6 @@ const Access = (props) => {
     onResetAccess: PropTypes.func,
     isOwner: PropTypes.bool
   };
-
-  const [state, setState] = useState({
-    showStudentCode: false,
-    showInstructorCode: false
-  });
 
   const [copiedStudent, setCopiedStudent] = useState(false);
   const [copiedInstructor, setCopiedInstructor] = useState(false);

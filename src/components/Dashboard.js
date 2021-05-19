@@ -11,8 +11,6 @@ import manage from "../images/icons/document.png";
 import analytics from "../images/icons/analytics.png";
 import settings from "../images/icons/settings.png";
 
-import DevData from "./DevData";
-
 const Dashboard = (props) => {
 
   Dashboard.propTypes = {
@@ -27,8 +25,6 @@ const Dashboard = (props) => {
 
   return (
     <div className="Dashboard">
-
-      {/* <DevData name="Home" props={props} /> */}
 
       <div className="page-title">
         {props.courseCode}: {props.courseName}
@@ -47,8 +43,6 @@ const Dashboard = (props) => {
         <hr />
       </div>
 
-
-      {/* <hr /> */}
       <div className="panels">
         <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
         <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} />
@@ -61,24 +55,12 @@ const Dashboard = (props) => {
             <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
           </>
         }
-        {/* <Panel label={"ABOUT"} img={""} onClick={() => props.onRedirect("About")} />
-        <Panel label={"HELP"} img={""} onClick={() => props.onRedirect("Help")} />
-        <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} /> */}
+
       </div>
 
       <hr className="bottom" />
     </div>
   );
-
-
-  // const analytics = props.courseData.analytics;
-  // return (
-  //   <div className="Dashboard">
-  //     {/* <DevData name={"courseData.analytics"} props={props.courseData.analytics} />
-  //     <DevData name={"courseData.secrets"} props={props.courseData.secrets} />
-  //     <DevData name={"courseData.users"} props={props.courseData.users} /> */}
-  //   </div>
-  // );
 
 };
 

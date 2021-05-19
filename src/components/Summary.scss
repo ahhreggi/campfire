@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-left: 2rem;
@@ -21,18 +20,20 @@
     margin-bottom: 0.2rem;
   }
 
-  .resolved-posts {
-  }
-
   .unresolved-posts {
+
     span.unresolved {
       color: $red;
     }
+
   }
 
   .unread-posts {
+
     span.unread {
       color: $yellow;
     }
+
   }
+
 }

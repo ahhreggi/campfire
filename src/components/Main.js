@@ -1,5 +1,3 @@
-// import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-// import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import PostForm from "./PostForm";
@@ -13,10 +11,8 @@ import ManageCourse from "./ManageCourse";
 import Access from "./Access";
 import Settings from "./Settings";
 import Analytics from "./Analytics";
-import BackButton from "./BackButton";
 import "./Main.scss";
 
-import DevData from "./DevData";
 import Help from "./Help";
 
 const Main = (props) => {
@@ -65,14 +61,6 @@ const Main = (props) => {
     onRedirect: PropTypes.func
   };
 
-
-
-  // const [state, setState] = useState({
-  //   mainActive: props.active
-  // });
-
-  // console.log(props.active, state.mainActive, props.postID);
-
   // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Return the post for the given postID
@@ -84,11 +72,8 @@ const Main = (props) => {
 
   // VARIABLES //////////////////////////////////////////////////////
 
-  // Home view
-
   // Course view
   const post = props.courseData ? getPostByID(props.posts, props.postID) : null;
-  const stats = props.courseData ? props.courseData.analytics : null;
 
   ///////////////////////////////////////////////////////////////////
 
@@ -157,11 +142,6 @@ const Main = (props) => {
           onRedirect={props.onRedirect}
         />
       }
-
-      {/* TEMPORARY */}
-      {/* {props.active === "Manage" &&
-        <DevData name={"Main"} props={props} />
-      } */}
 
       {/* Dashboard View */}
       {props.active === "Dashboard" &&

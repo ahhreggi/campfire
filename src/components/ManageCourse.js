@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import UserList from "./UserList";
-import UserListItem from "./UserListItem";
 import "./ManageCourse.scss";
 
 const ManageCourse = (props) => {
