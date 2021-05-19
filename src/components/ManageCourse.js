@@ -59,7 +59,7 @@ const ManageCourse = (props) => {
       </div>
 
       {/* Instructors List */}
-      <div className="label">Instructors</div>
+      <div className="label instructor">Instructors</div>
       <div className="list">
         <div className="instructors">
           <UserList
@@ -73,7 +73,7 @@ const ManageCourse = (props) => {
       </div>
 
       {/* Students List */}
-      <div className="label">Students</div>
+      <div className="label student">Students</div>
       <div className="list">
         <div className="students">
           {sortedStudents.length > 0 &&
