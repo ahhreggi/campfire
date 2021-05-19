@@ -18,6 +18,13 @@
     span {
       color: $orange;
       font-weight: 900;
+      &.faq {
+        color: $white;
+        &:hover {
+          color: $blue;
+          cursor: pointer;
+        }
+      }
     }
 
     .sub {

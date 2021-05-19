@@ -97,7 +97,7 @@ const Settings = (props) => {
         description: state.description.trim(),
         courseCode: state.code.trim(),
         tags: state.tags.filter(tag => !!tag),
-        archived: state.archived
+        archive: state.archived
       };
       props.onEditCourse(props.courseData.id, data);
     }

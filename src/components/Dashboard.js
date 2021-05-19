@@ -34,6 +34,8 @@ const Dashboard = (props) => {
         <hr />
         <div>
           <Summary
+            users={props.courseData.users.length}
+            timestamp={props.courseData.created_at}
             onRedirect={props.onRedirect}
             resolved={props.analytics.num_resolved_posts}
             unresolved={props.analytics.num_unresolved_posts}

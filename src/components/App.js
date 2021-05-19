@@ -455,13 +455,13 @@ const App = () => {
   // Delete a course by ID, then redirect to Home
   const deleteCourse = (courseID) => {
     request("DELETE", API.COURSES, courseID)
-      .then(() => setActive("Home"));
+      .then(() => {
+        // setActive("Home")
+        fetchUserCourses(null, "Home");
+      });
   };
 
-  // const testRequest = (courseID) => {
-  //   deleteCourse(1); // broken
-  //   resetAccessCodes(1);
-  // };
+
 
   // Reset the student and instructor access codes of a course
   const resetAccessCodes = (courseID) => {
