@@ -13,8 +13,8 @@ const Login = (props) => {
   };
 
   const [state, setState] = useState({
-    email: "hello5@campfire.ca",
-    password: "campfire",
+    email: "",
+    password: "",
     errors: props.errors
   });
 
