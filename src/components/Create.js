@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
+import TagList from "./TagList";
 import "./Create.scss";
 
 const Create = (props) => {
@@ -15,6 +16,9 @@ const Create = (props) => {
     code: "",
     name: "",
     description: "",
+    tagField: "",
+    previewTags: [],
+    tags: [],
     errors: props.errors
   });
 
@@ -22,12 +26,38 @@ const Create = (props) => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
+  useEffect(() => {
+    const newTags = state.tagField
+      .split(",") // split by commas
+      .map(tag => tag.trim()) // remove whitespace
+      .filter((tag, index, self) => self.indexOf(tag) === index) // remove duplicates
+      .map(tag => tag.split().join(" ").trim()); // remove repeated spaces
+    const previewTags = newTags
+      .map((tag, index) => ({ id: index, name: tag }))
+      .filter((tag) => !!tag.name); // remove empty tags
+    console.log(newTags);
+    setState({ ...state, tags: newTags, previewTags: previewTags });
+  }, [state.tagField]);
+
   const handleInputChange = (event, field, maxLength) => {
     // console.log(event.target.value);
     if (event.target.value.length <= maxLength) {
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
       setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
+    }
+  };
+
+  const handleTags = (event) => {
+    const tags = event.target.value.split(",").map(tag => tag.trim());
+    // Check that the tags are within the length limit
+    const longest = Math.max(...tags.map(tag => tag.length));
+    if (longest > 12) {
+      setState({ ...state, errors: ["Tags must be 12 characters or fewer in length"]});
+    } else if (tags.length > 20) {
+      setState({ ...state, errors: ["Maximum of 20 tags"]});
+    } else {
+      setState({ ...state, tagField: event.target.value, errors: null });
     }
   };
 
@@ -48,7 +78,6 @@ const Create = (props) => {
     } else if (!isValid(state.code, "length", 12)) {
       errors.push("Course code is too long");
     }
-    console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
       setState({ ...state, errors: errors });
@@ -56,7 +85,8 @@ const Create = (props) => {
       const data = {
         name: state.name.trim(),
         description: state.description.trim(),
-        courseCode: state.code.trim()
+        courseCode: state.code.trim(),
+        tags: state.tags.filter(tag => !!tag)
       };
       props.onSubmit(data);
     }
@@ -75,7 +105,10 @@ const Create = (props) => {
       {/* Page Text */}
       <div className="page-text">
         <div>
-          Complete the form below to create a new course. You will automatically be enrolled as an <span className="instructor">instructor (owner)</span>, and will be provided with course <span className="access">access codes</span> to share with fellow instructors and students.
+          Complete the form below to create a new course. This information can be updated at any time through the course settings.
+        </div>
+        <div className="second">
+          You will automatically be enrolled as an <span className="instructor">instructor (owner)</span>, and will be provided with course <span className="access">access codes</span> to share with fellow instructors and students.
         </div>
         <div className="owner">
           As the owner of the course, you&apos;ll also be able to:
@@ -125,6 +158,24 @@ const Create = (props) => {
             placeholder={"What's the course about?"}
             rows={3}
           />
+
+          {/* Course Tags */}
+          <div className="form-label">
+            Course Tags (optional, separated by commas)
+          </div>
+          <input
+            className="tag-input"
+            value={state.tagField}
+            onChange={(event) => handleTags(event)}
+            placeholder={"html, css, react, ajax, etc."}
+          />
+          <div className="tag-preview">
+            <TagList
+              tags={state.previewTags}
+              selectedTags={state.previewTags}
+              disabled={true}
+            />
+          </div>
 
         </div>
 

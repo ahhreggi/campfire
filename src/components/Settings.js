@@ -79,7 +79,6 @@ const Settings = (props) => {
     } else if (!isValid(state.code, "length", 12)) {
       errors.push("Course code is too long");
     }
-    console.log(errors);
     // If there are any errors, display them to the user, otherwise sanitize and submit
     if (errors.length) {
       setState({ ...state, errors: errors });
