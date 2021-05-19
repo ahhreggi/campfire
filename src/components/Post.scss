@@ -11,6 +11,7 @@
 
   .display.preview-mode {
     opacity: 0.5;
+    filter: blur(1px);
   }
 
   .resolution-message {

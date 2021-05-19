@@ -172,7 +172,8 @@ const PostList = (props) => {
   const commentContainsText = (comment, searchText) => {
     const search = searchText.trim().toLowerCase();
     const body = comment.body.trim().toLowerCase();
-    const fields = [body];
+    const author = comment.author_first_name ? comment.author_first_name.toLowerCase() + " " + comment.author_last_name.toLowerCase() : "";
+    const fields = [body, author];
     // Check the comment
     for (const field of fields) {
       if (field.includes(search)) {
@@ -182,7 +183,8 @@ const PostList = (props) => {
     // Check the comment's replies
     for (const reply of comment.replies) {
       const body = reply.body.trim().toLowerCase();
-      const fields = [body];
+      const author = reply.author_first_name ? reply.author_first_name.toLowerCase() + " " + reply.author_last_name.toLowerCase() : "";
+      const fields = [body, author];
       for (const field of fields) {
         if (field.includes(search)) {
           return true;
@@ -230,7 +232,8 @@ const PostList = (props) => {
       }
       const title = post.title.trim().toLowerCase();
       const body = post.body.trim().toLowerCase();
-      const fields = [title, body];
+      const author = post.author_first_name ? post.author_first_name.toLowerCase() + " " + post.author_last_name.toLowerCase() : "";
+      const fields = [title, body, author];
       // Check the post
       for (const field of fields) {
         if (field.includes(search)) {
