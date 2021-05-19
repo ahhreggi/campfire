@@ -37,6 +37,8 @@ const API = {
 
   COMMENTS: "/api/comments",
 
+  USERS: "/api/users",
+
   LOGIN: "/api/login",
 
   REGISTER: "/api/register",
@@ -445,9 +447,6 @@ const App = () => {
       .then((res) => {
         if (res) {
           fetchCourseData(courseID);
-          console.log("response received", res);
-        } else {
-          console.log("no res");
         }
       });
   };
@@ -635,6 +634,21 @@ const App = () => {
       .then(() => fetchCourseData(state.courseID));
   };
 
+  // EDIT A USER ////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User edits and saves changes to their info via the Account page
+  // - Data is sent to the server and the new user data is returned
+  // - State is updated (userData), a success message is displayed
+
+  // Edit a user with the given data
+  const editUser = (data) => {
+    request("PATCH", API.USERS, null, data)
+      .then((userData) => {
+        console.log(userData);
+      });
+  };
+
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Return true if the given active view requires courseData
@@ -815,6 +829,9 @@ const App = () => {
                 // Post view
                 postID={state.postID}
                 postData={state.postData}
+
+                // Edit user functions
+                onEditUser={editUser}
 
                 // Create/Join course functions
                 onCreateCourse={createCourse}

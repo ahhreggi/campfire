@@ -10,10 +10,10 @@ import Info from "./Info";
 import ManageCourse from "./ManageCourse";
 import Access from "./Access";
 import Settings from "./Settings";
-import Analytics from "./Analytics";
+import Account from "./Account";
+import Help from "./Help";
 import "./Main.scss";
 
-import Help from "./Help";
 
 const Main = (props) => {
 
@@ -32,6 +32,9 @@ const Main = (props) => {
     // Post view
     postID: PropTypes.number,
     postData: PropTypes.object,
+
+    // Edit user functions
+    onEditUser: PropTypes.func,
 
     // Create/Join course functions
     onCreateCourse: PropTypes.func,
@@ -92,164 +95,181 @@ const Main = (props) => {
         </div>
       }
 
-      {/* Home View */}
-      {props.active === "Home" &&
-        <Home
-          status={props.status}
-          userData={props.userData}
-          userCourses={props.userCourses}
-          onRedirect={props.onRedirect}
-        />
+      {props.userData && props.userCourses &&
+        <>
+          {/* Home View */}
+          {props.active === "Home" &&
+            <Home
+              status={props.status}
+              userData={props.userData}
+              userCourses={props.userCourses}
+              onRedirect={props.onRedirect}
+            />
+          }
+
+          {/* Join View */}
+          {props.active === "Join" &&
+            <Join
+              onSubmit={props.onJoinCourse}
+              status={props.status}
+              statusMessage={props.statusMessage}
+              errors={props.errors}
+              onRedirect={props.onRedirect}
+            />
+          }
+
+          {/* Create View */}
+          {props.active === "Create" &&
+            <Create
+              onSubmit={props.onCreateCourse}
+              status={props.status}
+              errors={props.errors}
+              onRedirect={props.onRedirect}
+            />
+          }
+
+          {/* Manage View */}
+          {props.active === "Manage" &&
+            <Manage
+              userData={props.userData}
+              userCourses={props.userCourses}
+              onLeaveCourse={props.onLeaveCourse}
+              onViewCourse={props.onViewCourse}
+              status={props.status}
+              errors={props.errors}
+              onRedirect={props.onRedirect}
+            />
+          }
+
+          {/* Help View */}
+          {props.active === "Help" &&
+            <Help
+              onRedirect={props.onRedirect}
+            />
+          }
+
+          {/* Account View */}
+          {props.active === "Account" &&
+            <Account
+              userData={props.userData}
+              onSubmit={props.onEditUser}
+              errors={props.errors}
+              status={props.status}
+            />
+          }
+        </>
       }
 
-      {/* Join View */}
-      {props.active === "Join" &&
-        <Join
-          onSubmit={props.onJoinCourse}
-          status={props.status}
-          statusMessage={props.statusMessage}
-          errors={props.errors}
-          onRedirect={props.onRedirect}
-        />
-      }
+      {props.userData && props.userCourses && props.courseData &&
 
-      {/* Create View */}
-      {props.active === "Create" &&
-        <Create
-          onSubmit={props.onCreateCourse}
-          status={props.status}
-          errors={props.errors}
-          onRedirect={props.onRedirect}
-        />
-      }
+        <>
 
-      {/* Manage View */}
-      {props.active === "Manage" &&
-        <Manage
-          userData={props.userData}
-          userCourses={props.userCourses}
-          onLeaveCourse={props.onLeaveCourse}
-          onViewCourse={props.onViewCourse}
-          status={props.status}
-          errors={props.errors}
-          onRedirect={props.onRedirect}
-        />
-      }
+          {/* Dashboard View */}
+          {props.active === "Dashboard" &&
+            <Dashboard
+              courseData={props.courseData}
+              userData={props.userData}
+              userRole={props.courseData ? props.courseData.role : null}
+              onRedirect={props.onRedirect}
+              courseCode={props.courseData ? props.courseData.course_code : null}
+              courseName={props.courseData ? props.courseData.name : null}
+              analytics={props.courseData ? props.courseData.analytics : null}
+            />
+          }
 
-      {/* Help View */}
-      {props.active === "Help" &&
-        <Help
-          onRedirect={props.onRedirect}
-        />
-      }
+          {/* Info View */}
+          {props.active === "Info" &&
+            <Info
+              active={props.active}
+              courseData={props.courseData}
+              onLeaveCourse={props.onLeaveCourse}
+            />
+          }
 
-      {/* Dashboard View */}
-      {props.active === "Dashboard" &&
-        <Dashboard
-          courseData={props.courseData}
-          userData={props.userData}
-          userRole={props.courseData ? props.courseData.role : null}
-          onRedirect={props.onRedirect}
-          courseCode={props.courseData ? props.courseData.course_code : null}
-          courseName={props.courseData ? props.courseData.name : null}
-          analytics={props.courseData ? props.courseData.analytics : null}
-        />
-      }
+          {/* Manage Course View */}
+          {props.active === "Manage Course" &&
+            <ManageCourse
+              courseData={props.courseData}
+              users={props.courseData.users}
+              onEditCourse={props.onEditCourse}
+              onRemoveUser={props.onRemoveUser}
+              onRedirect={props.onRedirect}
+            />
+          }
 
-      {/* Info View */}
-      {props.active === "Info" &&
-        <Info
-          active={props.active}
-          courseData={props.courseData}
-          onLeaveCourse={props.onLeaveCourse}
-        />
-      }
+          {/* Access Codes View */}
+          {props.active === "Access" &&
+            <Access
+              courseID={props.courseData.id}
+              studentCode={props.courseData.secrets.student_access_code}
+              instructorCode={props.courseData.secrets.instructor_access_code}
+              onResetAccess={props.onResetAccess}
+              onRedirect={props.onRedirect}
+              isOwner={props.courseData.role === "owner"}
+            />
+          }
 
-      {/* Manage Course View */}
-      {props.active === "Manage Course" &&
-        <ManageCourse
-          courseData={props.courseData}
-          users={props.courseData.users}
-          onEditCourse={props.onEditCourse}
-          onRemoveUser={props.onRemoveUser}
-          onRedirect={props.onRedirect}
-        />
-      }
+          {/* Settings View */}
+          {props.active === "Settings" &&
+            <Settings
+              courseData={props.courseData}
+              onEditCourse={props.onEditCourse}
+              onDeleteCourse={props.onDeleteCourse}
+              status={props.status}
+              errors={props.errors}
+              onRedirect={props.onRedirect}
+            />
+          }
 
-      {/* Access Codes View */}
-      {props.active === "Access" &&
-        <Access
-          courseID={props.courseData.id}
-          studentCode={props.courseData.secrets.student_access_code}
-          instructorCode={props.courseData.secrets.instructor_access_code}
-          onResetAccess={props.onResetAccess}
-          onRedirect={props.onRedirect}
-          isOwner={props.courseData.role === "owner"}
-        />
-      }
+          {/* New Post View */}
+          {props.active === "New Post" &&
+            <PostForm
+              userName={`${props.userData.firstName} ${props.userData.lastName}`}
+              userRole={props.courseData.role}
+              courseData={props.courseData}
+              onAddPost={props.onAddPost}
+              onRedirect={props.onRedirect}
+            />
+          }
 
-      {/* Settings View */}
-      {props.active === "Settings" &&
-        <Settings
-          courseData={props.courseData}
-          onEditCourse={props.onEditCourse}
-          onDeleteCourse={props.onDeleteCourse}
-          status={props.status}
-          errors={props.errors}
-          onRedirect={props.onRedirect}
-        />
-      }
-
-      {/* Analytics View */}
-      {props.active === "Analytics" && <Analytics />}
-
-      {/* New Post View */}
-      {props.active === "New Post" &&
-        <PostForm
-          userName={`${props.userData.firstName} ${props.userData.lastName}`}
-          userRole={props.courseData.role}
-          courseData={props.courseData}
-          onAddPost={props.onAddPost}
-          onRedirect={props.onRedirect}
-        />
-      }
-
-      {/* Post View */}
-      {props.active === "Post" &&
-        <Post
-          id={post.id}
-          courseTags={props.courseData.tags}
-          anonymous={post.anonymous}
-          author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
-          authorRole={post.role}
-          bestAnswer={post.best_answer}
-          body={post.body}
-          pinned={post.pinned}
-          bookmarked={post.bookmarked}
-          comments={post.comments}
-          createdAt={post.created_at}
-          lastModified={post.last_modified}
-          pinnable={post.pinnable}
-          editable={post.editable}
-          tags={post.tags}
-          title={post.title}
-          authorID={post.author_id}
-          views={post.views}
-          edits={post.edits}
-          viewed={post.viewed}
-          onEditBookmark={props.onEditBookmark}
-          onAddPost={props.onAddPost}
-          onEditPost={props.onEditPost}
-          onDeletePost={props.onDeletePost}
-          onLikeComment={props.onLikeComment}
-          onAddComment={props.onAddComment}
-          onEditComment={props.onEditComment}
-          onDeleteComment={props.onDeleteComment}
-          onTagToggle={props.onTagToggle}
-          userName={`${props.userData.firstName} ${props.userData.lastName}`}
-          userID={props.userData.userID}
-          userRole={props.courseData.role}
-        />
+          {/* Post View */}
+          {props.active === "Post" &&
+            <Post
+              id={post.id}
+              courseTags={props.courseData.tags}
+              anonymous={post.anonymous}
+              author={post.author_first_name ? `${post.author_first_name} ${post.author_last_name}` : null }
+              authorRole={post.role}
+              bestAnswer={post.best_answer}
+              body={post.body}
+              pinned={post.pinned}
+              bookmarked={post.bookmarked}
+              comments={post.comments}
+              createdAt={post.created_at}
+              lastModified={post.last_modified}
+              pinnable={post.pinnable}
+              editable={post.editable}
+              tags={post.tags}
+              title={post.title}
+              authorID={post.author_id}
+              views={post.views}
+              edits={post.edits}
+              viewed={post.viewed}
+              onEditBookmark={props.onEditBookmark}
+              onAddPost={props.onAddPost}
+              onEditPost={props.onEditPost}
+              onDeletePost={props.onDeletePost}
+              onLikeComment={props.onLikeComment}
+              onAddComment={props.onAddComment}
+              onEditComment={props.onEditComment}
+              onDeleteComment={props.onDeleteComment}
+              onTagToggle={props.onTagToggle}
+              userName={`${props.userData.firstName} ${props.userData.lastName}`}
+              userID={props.userData.userID}
+              userRole={props.courseData.role}
+            />
+          }
+        </>
       }
 
     </div>

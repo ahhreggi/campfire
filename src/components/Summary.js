@@ -16,12 +16,17 @@ const Summary = (props) => {
     onRedirect: PropTypes.func
   };
 
+  // VARIABLES //////////////////////////////////////////////////////
+
   const total = props.resolved + props.unresolved;
 
   // Check if the course is new (created within 5 seconds)
   const newCourse = moment().diff(moment(props.timestamp)) < 5000;
-  console.log(newCourse);
+
+  // Check if the course has no users besides the owner
   const noUsers = props.users < 2;
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Summary">

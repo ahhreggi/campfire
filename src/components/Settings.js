@@ -46,6 +46,8 @@ const Settings = (props) => {
     setState({ ...state, tags: newTags, previewTags: previewTags });
   }, [state.tagField]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   // Input handler
   const handleInputChange = (event, field, maxLength) => {
     // console.log(event.target.value);
@@ -55,6 +57,8 @@ const Settings = (props) => {
       setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
     }
   };
+
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Tag input handler
   const handleTags = (event) => {
@@ -102,6 +106,8 @@ const Settings = (props) => {
       props.onEditCourse(props.courseData.id, data);
     }
   };
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Settings">

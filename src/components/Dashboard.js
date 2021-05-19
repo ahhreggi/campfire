@@ -8,7 +8,6 @@ import about from "../images/icons/about.png";
 import post from "../images/icons/paper.png";
 import secret from "../images/icons/key.png";
 import manage from "../images/icons/document.png";
-import analytics from "../images/icons/analytics.png";
 import settings from "../images/icons/settings.png";
 
 const Dashboard = (props) => {
@@ -34,12 +33,12 @@ const Dashboard = (props) => {
         <hr />
         <div>
           <Summary
-            users={props.courseData.users.length}
-            timestamp={props.courseData.created_at}
+            users={props.courseData ? props.courseData.users.length : null}
+            timestamp={props.courseData ? props.courseData.created_at : null}
             onRedirect={props.onRedirect}
-            resolved={props.analytics.num_resolved_posts}
-            unresolved={props.analytics.num_unresolved_posts}
-            unread={props.analytics.num_unread_posts}
+            resolved={props.analytics ? props.analytics.num_resolved_posts : null}
+            unresolved={props.analytics ? props.analytics.num_unresolved_posts : null}
+            unread={props.analytics ? props.analytics.num_unread_posts : null}
           />
         </div>
         <hr />
