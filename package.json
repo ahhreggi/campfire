@@ -6,7 +6,6 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0",
     "classnames": "^2.3.1",
@@ -67,6 +66,8 @@
     "@storybook/node-logger": "^6.2.9",
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.2.9",
+    "@testing-library/dom": "^7.31.0",
+    "@testing-library/user-event": "^13.1.9",
     "css-loader": "^5.2.4",
     "style-loader": "^2.0.0"
   }
