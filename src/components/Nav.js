@@ -110,23 +110,7 @@ const Nav = (props) => {
             <img src={logout} onClick={() => props.onRedirect("Logout")} />
           </div>
 
-
-
-
         </div>
-
-
-        {/* Github Link */}
-        {/* <div className="github-icon">
-          <a
-            href="https://github.com/ahhreggi/campfire"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img src={github} />
-          </a>
-        </div> */}
-
 
       </section>
     </div>

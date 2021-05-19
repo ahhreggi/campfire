@@ -37,7 +37,7 @@ const API = {
 
   COMMENTS: "/api/comments",
 
-  USERS: "/api/users",
+  USERS: "/api/user",
 
   LOGIN: "/api/login",
 
@@ -153,7 +153,8 @@ const App = () => {
   // Set the application data
   const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData, newUserCourses) => {
     if (type === "userData") {
-      setState({ ...state, userData: data, errors: null });
+      const active = newActive !== undefined ? newActive : state.active;
+      setState({ ...state, userData: data, active: active, errors: null });
     } else if (type === "userCourses") {
       let active = newActive !== undefined ? newActive : state.active;
       let courseID = state.courseData ? state.courseData.id : null;
@@ -255,7 +256,11 @@ const App = () => {
   // SIDE EFFECT 1: User courses are fetched from the server if userData exists
   useEffect(() => {
     if (state.userData) {
-      fetchUserCourses();
+      if (state.active !== "Account") {
+        fetchUserCourses();
+      } else {
+        setActive("Home");
+      }
     }
   }, [state.userData]);
 
@@ -645,7 +650,8 @@ const App = () => {
   const editUser = (data) => {
     request("PATCH", API.USERS, null, data)
       .then((userData) => {
-        console.log(userData);
+        const newUserData = { ...state.userData, ...userData };
+        setState({ ...state, userData: newUserData });
       });
   };
 

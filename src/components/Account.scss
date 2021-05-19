@@ -3,8 +3,7 @@
 .Account {
   input {
     font-size: 0.9rem;
-    // width: 30rem;
-    width: 100%;
+    width: 20rem;
     padding: 0.5rem;
     border-radius: 5px;
     outline: none;
@@ -22,9 +21,25 @@
   .form-fields {
     border: 1px solid $navy-5;
     border-radius: 15px;
-    width: 30rem;
+    // min-width: 45rem;
     padding: 1rem;
     background-color: $navy-2;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .left {
+    width: 50%;
+    // border: 1px solid $navy-5;
+    padding: 1rem;
+  }
+
+  .right {
+    border: 1px solid $navy-5;
+    background-color: $navy-1;
+    margin-left: 2rem;
+    padding: 0.5rem;
   }
 
   .errors {
@@ -34,6 +49,11 @@
     display: flex;
     align-items: center;
     color: $red;
+  }
+
+  img {
+    width: 4.1rem;
+    // margin: 1rem;
   }
 
 }

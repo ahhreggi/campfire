@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
+import Avatars from "./Avatars";
 import "./Account.scss";
 
 const Account = (props) => {
@@ -8,6 +9,7 @@ const Account = (props) => {
   Account.propTypes = {
     userData: PropTypes.object,
     onSubmit: PropTypes.func,
+    status: PropTypes.string,
     errors: PropTypes.array,
     onRedirect: PropTypes.func
   };
@@ -18,7 +20,9 @@ const Account = (props) => {
     email: props.userData.email,
     password: "",
     passwordConf: "",
-    errors: props.errors
+    avatarID: props.userData.avatarID,
+    errors: props.errors,
+    status: props.status
   });
 
   // STATE HANDLERS /////////////////////////////////////////////////
@@ -26,7 +30,7 @@ const Account = (props) => {
   // 20 20 100 100
   const handleInputChange = (event, field, maxLength = 250) => {
     if (event.target.value.length <= maxLength) {
-      setState({ ...state, [field]: event.target.value, errors: null });
+      setState({ ...state, [field]: event.target.value, errors: null, status: null });
     } else {
       setState({ ...state, errors: [`Reached maximum character length (${maxLength})`]});
     }
@@ -77,11 +81,18 @@ const Account = (props) => {
         firstName: state.firstName.trim(),
         lastName: state.lastName.trim(),
         email: state.email.trim().toLowerCase(),
-        password: state.password
+        password: state.password,
+        avatarID: state.avatarID
       };
       props.onSubmit(data);
     }
   };
+
+  const selectAvatar = (id) => {
+    setState({ ...state, avatarID: id, status: null });
+  };
+
+  ///////////////////////////////////////////////////////////////////
 
   return (
     <div className="Account">
@@ -95,64 +106,77 @@ const Account = (props) => {
 
       <div className="form-fields">
 
-        <div className="form-label">
-          First Name
-        </div>
-        <input
-          value={state.firstName}
-          placeholder={"First Name"}
-          onChange={(event) => handleInputChange(event, "firstName", 20)}
-        />
+        <div className="left">
 
-        <div className="form-label">
-          Last Name
-        </div>
-        <input
-          value={state.lastName}
-          placeholder={"Last Name"}
-          onChange={(event) => handleInputChange(event, "lastName", 20)}
-        />
+          {/* User Info */}
+          <div className="form-label">
+            First Name
+          </div>
+          <input
+            value={state.firstName}
+            placeholder={"First Name"}
+            onChange={(event) => handleInputChange(event, "firstName", 20)}
+          />
 
-        <div className="form-label">
-          Email
-        </div>
-        <input
-          value={state.email}
-          placeholder={"Email"}
-          onChange={(event) => handleInputChange(event, "email", 80)}
-        />
+          <div className="form-label">
+            Last Name
+          </div>
+          <input
+            value={state.lastName}
+            placeholder={"Last Name"}
+            onChange={(event) => handleInputChange(event, "lastName", 20)}
+          />
 
-        <div className="form-label">
-          Password
-        </div>
-        <input
-          value={state.password}
-          placeholder={"Password"}
-          type="password"
-          onChange={(event) => handleInputChange(event, "password", 250)}
-        />
+          <div className="form-label">
+            Email
+          </div>
+          <input
+            value={state.email}
+            placeholder={"Email"}
+            onChange={(event) => handleInputChange(event, "email", 80)}
+          />
 
-        <div className="form-label">
-          Confirm Password
-        </div>
-        <input
-          value={state.passwordConf}
-          placeholder={"Confirm Password"}
-          type="password"
-          onChange={(event) => handleInputChange(event, "passwordConf", 250)}
-        />
+          <div className="form-label">
+            Password
+          </div>
+          <input
+            value={state.password}
+            placeholder={"Password"}
+            type="password"
+            onChange={(event) => handleInputChange(event, "password", 250)}
+          />
 
-        {/* Errors */}
-        <div className="errors">
-          {state.errors && state.errors.join("")}
+          <div className="form-label">
+            Confirm Password
+          </div>
+          <input
+            value={state.passwordConf}
+            placeholder={"Confirm Password"}
+            type="password"
+            onChange={(event) => handleInputChange(event, "passwordConf", 250)}
+          />
+
+          {/* Errors */}
+          <div className="errors">
+            {state.errors && state.errors.join("")}
+          </div>
+
+          {/* Submit */}
+          <div className="submit">
+            <Button
+              text="SAVE"
+              styles="form green"
+              onClick={handleSubmit}
+            />
+          </div>
+
         </div>
 
-        {/* Submit */}
-        <div className="submit">
-          <Button
-            text="SAVE"
-            styles="form green"
-            onClick={handleSubmit}
+        {/* User Avatar */}
+        <div className="right">
+          <Avatars
+            selectedID={state.avatarID}
+            onClick={selectAvatar}
           />
         </div>
 
