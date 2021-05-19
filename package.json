@@ -1,5 +1,5 @@
 {
-  "proxy": "http://139.177.195.214/",
+  "proxy": "http://campfireapi.imaohi.com",
   "name": "campfire",
   "version": "0.1.0",
   "private": true,
