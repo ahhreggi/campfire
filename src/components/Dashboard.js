@@ -10,6 +10,7 @@ import secret from "../images/icons/key.png";
 import manage from "../images/icons/document.png";
 import settings from "../images/icons/settings.png";
 import help from "../images/icons/question-mark-blue.png";
+import pin from "../images/icons/pin.png";
 
 const Dashboard = (props) => {
 
@@ -60,6 +61,9 @@ const Dashboard = (props) => {
           </>
         }
 
+        <a href="https://github.com/ahhreggi/campfire" target="_blank" rel="noreferrer">
+          <Panel label={"README"} img={pin} />
+        </a>
         <Panel label={"FAQ"} img={help} onClick={() => props.onRedirect("Help")} />
 
       </div>

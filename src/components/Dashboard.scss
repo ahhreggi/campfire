@@ -4,6 +4,12 @@
   display: flex;
   flex-direction: column;
 
+  a,
+  a:hover {
+    color: $white;
+    margin-right: 0.6rem;
+  }
+
   .page-title {
     font-size: 2rem;
     font-weight: 700;
@@ -45,7 +51,7 @@
     .Panel {
       margin: 0 1rem 1rem 0;
       display: flex;
-      zoom: 60%;
+      // zoom: 60%;
 
       &:last-child {
         margin-right: 0;

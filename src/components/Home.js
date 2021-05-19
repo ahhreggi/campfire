@@ -50,7 +50,9 @@ const Home = (props) => {
         <Panel label={"CREATE"} img={create} onClick={() => props.onRedirect("Create")} />
         <Panel label={"MANAGE"} img={manage} onClick={() => props.onRedirect("Manage")} />
         <Panel label={"ACCOUNT"} img={`./images/avatars/${props.userData.avatarID}.png`} onClick={() => props.onRedirect("Account")} />
-        <Panel label={"README"} img={about} onClick={() => props.onRedirect("GitHub")} />
+        <a href="https://github.com/ahhreggi/campfire" target="_blank" rel="noreferrer">
+          <Panel label={"README"} img={about} />
+        </a>
         <Panel label={"FAQ"} img={help} onClick={() => props.onRedirect("Help")} />
       </div>
 

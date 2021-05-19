@@ -4,6 +4,12 @@
   display: flex;
   flex-direction: column;
 
+  a,
+  a:hover {
+    color: $white;
+    margin-right: 0.6rem;
+  }
+
   .greeting {
     font-size: 2rem;
     font-weight: 700;
