@@ -38,7 +38,7 @@ const Settings = (props) => {
       .split(",") // split by commas
       .map(tag => tag.trim().toLowerCase()) // remove whitespace
       .filter((tag, index, self) => self.indexOf(tag) === index) // remove duplicates
-      .map(tag => tag.split().join(" ").trim()); // remove repeated spaces
+      .map(tag => tag.split(" ").filter(tag => !!tag).join(" "));
     const previewTags = newTags
       .map((tag, index) => ({ id: index, name: tag }))
       .filter((tag) => !!tag.name); // remove empty tags

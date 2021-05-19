@@ -32,7 +32,7 @@ const Create = (props) => {
       .split(",") // split by commas
       .map(tag => tag.trim().toLowerCase()) // remove whitespace
       .filter((tag, index, self) => self.indexOf(tag) === index) // remove duplicates
-      .map(tag => tag.split().join(" ").trim()); // remove repeated spaces
+      .map(tag => tag.split(" ").filter(tag => !!tag).join(" ")); // remove repeated spaces
     const previewTags = newTags
       .map((tag, index) => ({ id: index, name: tag }))
       .filter((tag) => !!tag.name); // remove empty tags
@@ -53,7 +53,7 @@ const Create = (props) => {
   const handleTags = (event) => {
     const tags = event.target.value
       .split(",")
-      .map(tag => tag.trim());
+      .map(tag => tag.split().join(" ").trim()); // remove repeated spaces
     // Check that the tags are within the length limit
     const longest = Math.max(...tags.map(tag => tag.length));
     // Check that the number of unique tags are <= 20
