@@ -45,14 +45,16 @@ const Dashboard = (props) => {
 
       <div className="panels">
         <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
-        <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} />
+        {/* <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} /> */}
         <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Info")} />
 
         {props.userRole !== "student" &&
           <>
             <Panel label={"USERS"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
             <Panel label={"ACCESS"} img={secret} onClick={props.userRole !== "student" ? () => props.onRedirect("Access") : null} />
-            <Panel label={"SETTINGS"} img={settings} onClick={() => props.onRedirect("Settings")} />
+            {props.userRole === "owner" &&
+              <Panel label={"SETTINGS"} img={settings} onClick={props.userRole === "owner" ? () => props.onRedirect("Settings") : null} />
+            }
           </>
         }
 

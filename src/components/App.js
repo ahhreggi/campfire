@@ -5,12 +5,9 @@ import CourseList from "./CourseList";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
-
 import Register from "./Register";
 import Login from "./Login";
-
 import DevData from "./DevData";
-// import Error404 from "./Error404";
 
 import "./App.scss";
 
@@ -455,22 +452,6 @@ const App = () => {
       });
   };
 
-  const testRequest = () => {
-    const courseID = 1;
-    const data = {
-      name: "NEW NAME",
-      description: "NEW DESCRIPTION",
-      courseCode: "NEW CODE",
-      tags: ["tag1", "tag2"],
-      archive: false,
-      roles: {
-        // 2: "owner", // MUST SET OWNER TO INSTRUCTOR IF PASSING OWNERSHIP!
-        5: null // change dean into a student, student, instructor, owner, null to kick
-      }
-    };
-    editCourse(courseID, data);
-  };
-
   // Delete a course by ID, then redirect to Home
   const deleteCourse = (courseID) => {
     request("DELETE", API.COURSES, courseID)
@@ -867,9 +848,11 @@ const App = () => {
           </section>
 
           <footer className="app-footer">
-            <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
-            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
-            <Button text="TEST REQ" styles={"form red mt-3"} onClick={() => testRequest()} />
+
+            {state.userData && state.userData.id === 1 &&
+              <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            }
+
           </footer>
 
         </>
@@ -878,7 +861,7 @@ const App = () => {
       {/* See index.scss */}
       <div className="dev-tools pt-5">
         {/* Dev Data Display */}
-        <DevData name="App" props={state} label={"State"} />
+        {state.userData && state.userData.id === 1 && <DevData name="App" props={state} label={"State"} />}
       </div>
 
 
