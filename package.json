@@ -70,5 +70,8 @@
     "@testing-library/user-event": "^13.1.9",
     "css-loader": "^5.2.4",
     "style-loader": "^2.0.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": ["/node_modules/(?!react-syntax-highlighter)"]
   }
 }

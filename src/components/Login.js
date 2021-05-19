@@ -67,14 +67,14 @@ const Login = (props) => {
           {/* Email */}
           <InputField
             value={state.email}
-            placeholder={"Username"}
+            placeholder={"email"}
             onChange={(event) => handleInputChange(event, "email")}
           />
 
           {/* Password */}
           <InputField
             value={state.password}
-            placeholder={"Password"}
+            placeholder={"password"}
             type="password"
             onChange={(event) => handleInputChange(event, "password")}
           />
