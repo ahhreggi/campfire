@@ -207,7 +207,8 @@ const Settings = (props) => {
       {!state.showConfirmation && (props.courseData.role === "owner" || props.courseData.role === "admin") &&
         <div className="delete-course">
           <div className="msg-caution">
-            Deleting a course will permanently remove all users and contributions. It will be as if the course never existed. We highly recommend archiving the course, instead.
+            Deleting a course will permanently remove all users and contributions. It will be as if the course never existed.
+            <div>We highly recommend archiving the course, instead.</div>
           </div>
           <Button
             text="DELETE COURSE"
