@@ -42,7 +42,6 @@ const Settings = (props) => {
     const previewTags = newTags
       .map((tag, index) => ({ id: index, name: tag }))
       .filter((tag) => !!tag.name); // remove empty tags
-    console.log(newTags);
     setState({ ...state, tags: newTags, previewTags: previewTags });
   }, [state.tagField]);
 
@@ -50,7 +49,6 @@ const Settings = (props) => {
 
   // Input handler
   const handleInputChange = (event, field, maxLength) => {
-    // console.log(event.target.value);
     if (event.target.value.length <= maxLength) {
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
