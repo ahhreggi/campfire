@@ -67,10 +67,14 @@ const Settings = (props) => {
     const longest = Math.max(...tags.map(tag => tag.length));
     // Check that the number of unique tags are <= 20
     const unique = tags.filter((tag, index, self) => self.indexOf(tag) === index).length; // remove duplicates
+    // Check that the tags don't contain any invalid characters
+    const valid = new RegExp("^[a-zA-Z0-9 ]*$").test(tags.join(""));
     if (longest > 12) {
       setState({ ...state, errors: ["Tags must be 12 characters or fewer in length"]});
     } else if (unique > 20) {
       setState({ ...state, errors: ["Maximum of 20 tags"]});
+    } else if (!valid) {
+      setState({ ...state, errors: ["Letters, numbers, and spaces only"]});
     } else {
       setState({ ...state, tagField: event.target.value, errors: null });
     }
