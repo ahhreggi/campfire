@@ -122,7 +122,7 @@ const EditForm = (props) => {
   };
 
   // Update the preview body dynamically as the user types
-  const updatePreviewBody = (event, limit = 2000) => {
+  const updatePreviewBody = (event, limit = 4000) => {
     const text = event.target.value;
     if (text.length <= limit) {
       setState({ ...state, previewBody: text, errors: null });

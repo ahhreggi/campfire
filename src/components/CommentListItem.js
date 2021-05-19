@@ -227,8 +227,12 @@ const CommentListItem = (props) => {
 
   // Get the name of the last editor
   const editor = props.edits && props.edits.length > 0 ? props.edits[props.edits.length - 1] : null;
-  const editorName = editor ? editor.first_name + " " + editor.last_name : null;
+  let editorName = editor ? editor.first_name + " " + editor.last_name : null;
   const editorRole = editor ? editor.role : null;
+  // If the last editor (can only be the author) is a student and the post is anonymous, set the editor name to Anonymous
+  if (editorRole === "student" && props.anonymous) {
+    editorName = "Anonymous";
+  }
 
   // Get the timestamp to display
   const timestamp = formatTimestamp(props.lastModified);
