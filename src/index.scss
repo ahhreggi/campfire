@@ -26,21 +26,21 @@ body {
     width: 75vw;
     min-width: 75rem;
     width: 80vw;
-    // width: 98vw;
+    width: 98vw;
     overflow-x: hidden;
     box-shadow: 0px 0px 10px black;
   }
 
   // DEVELOPMENT ONLY ///////////////////////////////////////////////
   .App {
-    overflow-y: scroll; // toggle this to fix app
+    // overflow-y: scroll; // toggle this to fix app
     @include custom-scrollbar;
     .dev-tools {
       margin-top: 0rem;
-      // display: none; // toggle this
+      display: none; // toggle this
     }
     .DevData {
-      // display: none !important; // toggle this to quickly hide all dev data
+      display: none !important; // toggle this to quickly hide all dev data
       font-weight: 500;
       font-size: 1.5rem;
       border: 3px solid $green;
@@ -49,7 +49,7 @@ body {
       margin-bottom: 1rem;
       textarea {
         margin-top: 0.5rem;
-        // resize: none;
+        resize: none;
         border: none;
         overflow-x: hidden;
         word-break: break-all;
@@ -227,4 +227,8 @@ textarea {
   &:focus {
     border-color: $navy-8;
   }
+}
+
+textarea {
+  @include custom-scrollbar;
 }

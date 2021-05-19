@@ -1,7 +1,100 @@
 @import "../styles/global.scss";
 
 .UserListItem {
-  border: 1px solid $navy-5;
+  border-left: 2px solid $white;
   border-radius: 15px;
-  padding: 1rem;
+  background-color: $navy-2;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+
+  .top {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &:hover {
+    background-color: $navy-5;
+  }
+
+  &:nth-child(odd) {
+    background-color: $navy-3;
+
+    &:hover {
+      background-color: $navy-5;
+    }
+
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .name {
+    width: 15rem;
+    font-size: 0.9rem;
+    font-weight: 900;
+
+    &.instructor,
+    &.owner {
+      color: $yellow;
+    }
+
+    img {
+      width: 1rem;
+      padding-bottom: 0.2rem;
+      margin-left: 0.4rem;
+    }
+
+  }
+
+  .role {
+    font-size: 0.9rem;
+    font-weight: 900;
+    width: 9rem;
+    margin-right: 3rem;
+
+    &.owner,
+    &.instructor {
+      color: $yellow;
+    }
+
+  }
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+
+    img {
+      width: 3rem;
+      height: 1rem;
+    }
+
+  }
+
+  .confirmation {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    .Confirmation {
+      align-items: center;
+      justify-content: center;
+    }
+
+  }
+
+  &.pending,
+  &.pending:hover {
+    background-color: $navy-1;
+  }
+
 }

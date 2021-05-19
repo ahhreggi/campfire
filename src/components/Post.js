@@ -20,8 +20,6 @@ import Confirmation from "./Confirmation";
 import ReactMarkdown from "react-markdown";
 import CodeSyntax from "./CodeSyntax";
 
-// import DevData from "./DevData";
-
 const Post = (props) => {
 
   Post.propTypes = {
@@ -192,7 +190,6 @@ const Post = (props) => {
   const savePost = (data) => {
     const newTags = props.tags.map(tag => tag.id);
     const tagCheck = JSON.stringify(newTags) !== JSON.stringify(data.tags);
-    // console.log(JSON.stringify(newTags) !== JSON.stringify(data.tags));
     // Check that changes were actually made
     if ((props.title !== data.title) ||
       (props.body !== data.body) ||
@@ -298,8 +295,6 @@ const Post = (props) => {
 
   return (
     <div className="Post">
-
-      {/* <DevData name={"Post"} props={props} /> */}
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 

@@ -1,4 +1,7 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
+import Button from "./Button";
+import Confirmation from "./Confirmation";
 import star from "../images/icons/star.png";
 import "./Info.scss";
 import moment from "moment";
@@ -7,7 +10,18 @@ const Info = (props) => {
 
   Info.propTypes = {
     active: PropTypes.string,
-    courseData: PropTypes.object
+    courseData: PropTypes.object,
+    onLeaveCourse: PropTypes.func
+  };
+
+  const [state, setState] = useState({
+    showConfirmation: false
+  });
+
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
+  const toggleConfirmation = () => {
+    setState({ showConfirmation: !state.showConfirmation });
   };
 
   const owner = props.courseData.users.filter(user => user.role === "owner")[0];
@@ -29,6 +43,8 @@ const Info = (props) => {
     );
   });
 
+  const isEnrolled = props.courseData.join_date;
+
   return (
     <div className="Info">
 
@@ -42,7 +58,7 @@ const Info = (props) => {
 
       <hr />
 
-      <div className="course-card">
+      <div className={`course-card ${state.showConfirmation ? "pending" : ""}`}>
 
 
         {props.active === "Info" &&
@@ -59,6 +75,7 @@ const Info = (props) => {
           {props.courseData.description || "The course instructor has not provided a description for this course."}
         </div>
 
+
         {/* Page Text */}
         {props.active === "Info" &&
           <div className="instructors">
@@ -67,11 +84,40 @@ const Info = (props) => {
           </div>
         }
 
+        {/* Unenroll Button */}
+        {props.active === "Info" && !state.showConfirmation &&
+          <div className="unenroll-button">
+            <Button
+              text={"UNENROLL"}
+              styles={`form red manage ${props.courseData.role === "owner" ? "disabled" : ""}`}
+              onClick={props.courseData.role !== "owner" ? () => toggleConfirmation() : null}
+              disabled={props.courseData.role === "owner" || !isEnrolled}
+            />
+            {/* Cannot Unenroll Message */}
+            {props.active === "Info" && props.courseData.role === "owner" &&
+              <div className="unable">You must pass ownership of the course to another user before unenrolling, or delete the course entirely.</div>
+            }
+          </div>
+        }
+
+
+        {/* Unenrolment confirmation */}
+        {state.showConfirmation && props.active === "Info" &&
+          <div className="confirmation">
+            <hr />
+            <Confirmation
+              message={`Are you sure you would like to unenroll from ${props.courseData.course_code}?`}
+              onConfirm={() => props.onLeaveCourse(props.courseData.id)}
+              onCancel={toggleConfirmation}
+            />
+          </div>
+        }
+
       </div>
 
-
-
-      {/* <hr /> */}
+      {props.active === "Info" &&
+        <hr />
+      }
 
     </div>
   );

@@ -1,0 +1,65 @@
+@import "../styles/global.scss";
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.page-text {
+
+  .student {
+    font-weight: 700;
+    color: $orange;
+  }
+
+  .instructor {
+    font-weight: 700;
+    color: $yellow;
+  }
+
+  .qa {
+    border-left: 2px solid $orange;
+    border-radius: 15px;
+    padding: 1rem;
+    background-color: $navy-2;
+    margin-bottom: 1rem;
+    .question {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: $orange;
+      margin-bottom: 0.5rem;
+    }
+    .answer {
+      margin-left: 1rem;
+      a,
+      span.link {
+        font-weight: 700;
+        color: $orange;
+        cursor: pointer;
+        &:hover {
+          color: $orange-lighter;
+        }
+      }
+      span.best {
+        font-weight: 700;
+        color: $green;
+      }
+      span.endorsements {
+        font-weight: 700;
+        color: $yellow;
+      }
+      span.discussions {
+        font-weight: 700;
+        color: $blue;
+      }
+      span.archived {
+        font-weight: 700;
+        color: $red;
+      }
+      img {
+        width: 1rem;
+      }
+    }
+  }
+
+}

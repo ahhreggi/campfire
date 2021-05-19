@@ -5,12 +5,9 @@ import CourseList from "./CourseList";
 import PostList from "./PostList";
 import Main from "./Main";
 import Button from "./Button";
-
 import Register from "./Register";
 import Login from "./Login";
-
 import DevData from "./DevData";
-// import Error404 from "./Error404";
 
 import "./App.scss";
 
@@ -39,6 +36,8 @@ const API = {
   BOOKMARKS: "/api/bookmarks",
 
   COMMENTS: "/api/comments",
+
+  USERS: "/api/user",
 
   LOGIN: "/api/login",
 
@@ -152,9 +151,10 @@ const App = () => {
   };
 
   // Set the application data
-  const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData) => {
+  const setAppData = (data, type, newPostID, newPostData, newActive, newCourseData, newUserCourses) => {
     if (type === "userData") {
-      setState({ ...state, userData: data, errors: null });
+      const active = newActive !== undefined ? newActive : state.active;
+      setState({ ...state, userData: data, active: active, errors: null });
     } else if (type === "userCourses") {
       let active = newActive !== undefined ? newActive : state.active;
       let courseID = state.courseData ? state.courseData.id : null;
@@ -178,6 +178,7 @@ const App = () => {
       const postID = newPostID !== undefined ? newPostID : state.postID;
       const postData = newPostData !== undefined ? newPostData : state.postData;
       const active = newActive !== undefined ? newActive : state.active;
+      const userCourses = newUserCourses !== undefined ? newUserCourses : state.userCourses;
       setState({
         ...state,
         courseID: data.id,
@@ -185,7 +186,8 @@ const App = () => {
         postID: postID,
         postData: postData,
         posts: data ? data.posts : null,
-        active: active
+        active: active,
+        userCourses: userCourses
       });
     } else if (type === "courseReset") {
       setState({
@@ -254,7 +256,11 @@ const App = () => {
   // SIDE EFFECT 1: User courses are fetched from the server if userData exists
   useEffect(() => {
     if (state.userData) {
-      fetchUserCourses();
+      if (state.active !== "Account") {
+        fetchUserCourses();
+      } else {
+        setActive("Home");
+      }
     }
   }, [state.userData]);
 
@@ -375,8 +381,22 @@ const App = () => {
             // Otherwise, enrol normally
           } else {
             setState({ ...state, status: "success", statusMessage: courseData.name });
+            const newCourse = {
+              id: courseData.id,
+              name: courseData.name,
+              description: courseData.description,
+              "course_code": courseData.course_code,
+              "created_at": courseData.created_at,
+              "owner_name": courseData.owner_name,
+              userID: courseData.userID,
+              role: courseData.role,
+              "join_date": courseData.join_date,
+              archived: courseData.archived,
+              active: courseData.active,
+              analytics: courseData.analytics
+            };
             setTimeout(() => {
-              setAppData(courseData, "courseData");
+              setAppData(courseData, "courseData", null, null, "Dashboard", undefined, [ ...state.userCourses, newCourse ]);
             }, 1500);
           }
         } else {
@@ -406,46 +426,46 @@ const App = () => {
   // EDIT A COURSE //////////////////////////////////////////////////
 
   // Edit a courseID with the given data
-  const editCourse = (courseID, data) => {
+  const editCourse = (courseID, data, mode) => {
     request("PATCH", API.COURSES, courseID, data)
       // .then(() => fetchCourseData(state.courseID));
       .then((courseData) => {
         if (courseData) {
           // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
-          fetchUserCourses(courseData);
-          fetchCourseData(courseData.id);
+          if (mode !== "manage") {
+            fetchUserCourses(courseData);
+          }
+          fetchCourseData(courseID);
         } else {
           console.log("❌ editCourse failed!");
         }
       });
   };
 
-  const testRequest = () => {
-    const courseID = 1;
-    const data = {
-      name: "NEW NAME",
-      description: "NEW DESCRIPTION",
-      courseCode: "NEW CODE",
-      tags: ["tag1", "tag2"],
-      archive: false,
-      roles: {
-        // 2: "owner", // MUST SET OWNER TO INSTRUCTOR IF PASSING OWNERSHIP!
-        2: "owner" // change dean into a student, student, instructor, owner, null to kick
-      }
-    };
-    editCourse(courseID, data);
+  // REMOVE USER FROM COURSE ////////////////////////////////////////
+
+  // Remove a user from a course
+  const removeUser = (courseID, userID) => {
+    console.log("removing user..");
+    const data = { roles: { [userID]: null } };
+    request("PATCH", API.COURSES, courseID, data)
+      .then((res) => {
+        if (res) {
+          fetchCourseData(courseID);
+        }
+      });
   };
 
   // Delete a course by ID, then redirect to Home
   const deleteCourse = (courseID) => {
     request("DELETE", API.COURSES, courseID)
-      .then(() => setActive("Home"));
+      .then(() => {
+        // setActive("Home")
+        fetchUserCourses(null, "Home");
+      });
   };
 
-  // const testRequest = (courseID) => {
-  //   deleteCourse(1); // broken
-  //   resetAccessCodes(1);
-  // };
+
 
   // Reset the student and instructor access codes of a course
   const resetAccessCodes = (courseID) => {
@@ -617,6 +637,22 @@ const App = () => {
   const deleteComment = (commentID) => {
     request("DELETE", API.COMMENTS, commentID)
       .then(() => fetchCourseData(state.courseID));
+  };
+
+  // EDIT A USER ////////////////////////////////////////////////////
+
+  // BASIC USER ROUTE
+  // - User edits and saves changes to their info via the Account page
+  // - Data is sent to the server and the new user data is returned
+  // - State is updated (userData), a success message is displayed
+
+  // Edit a user with the given data
+  const editUser = (data) => {
+    request("PATCH", API.USERS, null, data)
+      .then((userData) => {
+        const newUserData = { ...state.userData, ...userData };
+        setState({ ...state, userData: newUserData });
+      });
   };
 
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
@@ -800,6 +836,9 @@ const App = () => {
                 postID={state.postID}
                 postData={state.postData}
 
+                // Edit user functions
+                onEditUser={editUser}
+
                 // Create/Join course functions
                 onCreateCourse={createCourse}
                 onJoinCourse={joinCourse}
@@ -812,6 +851,7 @@ const App = () => {
                 onEditCourse={editCourse}
                 onDeleteCourse={deleteCourse}
                 onResetAccess={resetAccessCodes}
+                onRemoveUser={removeUser}
 
                 // Post functions
                 onEditBookmark={editBookmark}
@@ -831,9 +871,11 @@ const App = () => {
           </section>
 
           <footer className="app-footer">
-            <Button text="Analytics" styles={"form green mt-3"} onClick={() => setActive("Analytics")} />
-            <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
-            <Button text="TEST REQ" styles={"form red mt-3"} onClick={() => testRequest()} />
+
+            {state.userData && state.userData.userID === 1 &&
+              <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
+            }
+
           </footer>
 
         </>
@@ -842,7 +884,7 @@ const App = () => {
       {/* See index.scss */}
       <div className="dev-tools pt-5">
         {/* Dev Data Display */}
-        <DevData name="App" props={state} label={"State"} />
+        {state.userData && state.userData.userID === 1 && <DevData name="App" props={state} label={"State"} />}
       </div>
 
 

@@ -18,6 +18,13 @@
     span {
       color: $orange;
       font-weight: 900;
+      &.faq {
+        color: $white;
+        &:hover {
+          color: $blue;
+          cursor: pointer;
+        }
+      }
     }
 
     .sub {
@@ -36,7 +43,7 @@
     // justify-content: space-between;
 
     .Panel {
-      margin: 0 1rem 0rem 0;
+      margin: 0 1rem 1rem 0;
       display: flex;
       zoom: 60%;
 
@@ -61,6 +68,10 @@
 
     }
 
+  }
+
+  hr.bottom {
+    margin-top: 0.5rem;
   }
 
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import "./Access.scss";
@@ -6,48 +6,38 @@ import "./Access.scss";
 const Access = (props) => {
 
   Access.propTypes = {
+    courseID: PropTypes.number,
     studentCode: PropTypes.string,
     instructorCode: PropTypes.string,
     onResetAccess: PropTypes.func,
     isOwner: PropTypes.bool
   };
 
-  const [state, setState] = useState({
-    showStudentCode: false,
-    showInstructorCode: false,
-    copiedStudentCode: false,
-    copiedInstructorCode: false,
-    resetCode: false
-  });
+  const [copiedStudent, setCopiedStudent] = useState(false);
+  const [copiedInstructor, setCopiedInstructor] = useState(false);
 
   const resetCode = () => {
     if (props.isOwner) {
-      props.onResetAccess();
-      if (!state.resetCode) {
-        setState({ ...state, resetCode: true });
-        setTimeout(() => {
-          setState({ ...state, resetCode: false });
-        }, 1500);
-      }
+      props.onResetAccess(props.courseID);
     }
   };
 
   const copyStudentCode = (text) => {
     navigator.clipboard.writeText(text);
-    if (!state.copiedStudentCode) {
-      setState({ ...state, copiedStudentCode: true });
+    if (!copiedStudent) {
+      setCopiedStudent(true);
       setTimeout(() => {
-        setState({ ...state, copiedStudentCode: false });
+        setCopiedStudent(false);
       }, 1500);
     }
   };
 
   const copyInstructorCode = (text) => {
     navigator.clipboard.writeText(text);
-    if (!state.copiedInstructorCode) {
-      setState({ ...state, copiedInstructorCode: true });
+    if (!copiedInstructor) {
+      setCopiedInstructor(true);
       setTimeout(() => {
-        setState({ ...state, copiedInstructorCode: false });
+        setCopiedInstructor(false);
       }, 1500);
     }
   };
@@ -55,16 +45,19 @@ const Access = (props) => {
   return (
     <div className="Access">
 
+      {/* Page Title */}
       <div className="page-title">
         <header>Course access codes</header>
       </div>
 
       <hr />
 
+      {/* Page Text */}
       <div className="page-text">
         Invite <span>students</span> and <span className="instructor">instructors</span> to join this discussion board by providing them with the appropriate access codes below.
       </div>
 
+      {/* Student Access Code */}
       <div className="code">
         <header>Student access code</header>
         <div className="box">
@@ -74,14 +67,16 @@ const Access = (props) => {
             onClick={() => copyStudentCode(props.studentCode)}
           />
         </div>
+        {/* Click to Copy Button */}
         <div
-          className={`msg ${state.copiedStudentCode ? "" : "active"}`}
-          onClick={!state.copiedStudentCode ? () => copyStudentCode(props.studentCode) : null}
+          className={`msg ${copiedStudent ? "" : "active"}`}
+          onClick={!copiedStudent ? () => copyStudentCode(props.studentCode) : null}
         >
-          {state.copiedStudentCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+          {copiedStudent ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
         </div>
       </div>
 
+      {/* Instructor Access Code */}
       <div className="code instructor">
         <span>Instructor access code</span>
         <div className="box">
@@ -91,22 +86,24 @@ const Access = (props) => {
             onClick={() => copyInstructorCode(props.instructorCode)}
           />
         </div>
+        {/* Click to Copy Button */}
         <div
-          className={`msg instructor ${state.copiedInstructorCode ? "" : "active"}`}
-          onClick={!state.copiedInstructorCode ? () => copyInstructorCode(props.instructorCode) : null}
+          className={`msg instructor ${copiedInstructor ? "" : "active"}`}
+          onClick={!copiedInstructor ? () => copyInstructorCode(props.instructorCode) : null}
         >
-          {state.copiedInstructorCode ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
+          {copiedInstructor ? "COPIED TO CLIPBOARD!" : "CLICK TO COPY"}
         </div>
       </div>
 
       <hr />
 
+      {/* Reset Button */}
       <div className="center">
 
         {props.isOwner &&
           <Button
-            text={state.resetCode ? "DONE!" : "RESET CODES"}
-            styles={`form reset ${state.resetCode ? "green" : "red"}`}
+            text="RESET CODES"
+            styles="form reset red"
             onClick={() => resetCode()}
           />
         }

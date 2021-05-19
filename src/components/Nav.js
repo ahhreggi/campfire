@@ -22,10 +22,10 @@ const Nav = (props) => {
   const toHome = ["Join", "Create", "Manage", "About", "Help", "Account"];
 
   let backToLabel;
-  if (toHome.includes(props.active)) {
+  if (toHome.includes(props.active) && !props.courseData) {
     backToLabel = "Home";
   } else {
-    backToLabel = props.courseData ? props.courseData.course_code : "NO CODE";
+    backToLabel = props.courseData ? props.courseData.course_code : "";
   }
 
   let destination;
@@ -83,10 +83,10 @@ const Nav = (props) => {
         {/* User Name */}
         <div className={`user-info ${props.userRole && props.userRole !== "student" ? "instructor" : ""}`}>
           <div className="user-link">
-            <img src={`./images/avatars/${props.userAvatar}.png`} onClick={() => props.onRedirect("Settings")} alt="Avatar" />
+            <img src={`./images/avatars/${props.userAvatar}.png`} onClick={() => props.onRedirect("Account")} alt="Avatar" />
             <span
               className="user-name text-truncate d-none d-xl-inline"
-              onClick={() => props.onRedirect("Settings")}
+              onClick={() => props.onRedirect("Account")}
             >
               {props.userName}
             </span>
@@ -110,23 +110,7 @@ const Nav = (props) => {
             <img src={logout} onClick={() => props.onRedirect("Logout")} />
           </div>
 
-
-
-
         </div>
-
-
-        {/* Github Link */}
-        {/* <div className="github-icon">
-          <a
-            href="https://github.com/ahhreggi/campfire"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img src={github} />
-          </a>
-        </div> */}
-
 
       </section>
     </div>

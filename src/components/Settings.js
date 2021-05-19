@@ -2,24 +2,30 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import TagList from "./TagList";
-import "./Create.scss";
+import Confirmation from "./Confirmation";
+import archive from "../images/icons/archive.png";
+import "./Settings.scss";
 
-const Create = (props) => {
+const Settings = (props) => {
 
-  Create.propTypes = {
-    onSubmit: PropTypes.func,
+  Settings.propTypes = {
+    courseData: PropTypes.object,
+    onEditCourse: PropTypes.func,
     errors: PropTypes.array,
-    onRedirect: PropTypes.func
+    onRedirect: PropTypes.func,
+    onDeleteCourse: PropTypes.func
   };
 
   const [state, setState] = useState({
-    code: "",
-    name: "",
-    description: "",
-    tagField: "",
-    previewTags: [],
-    tags: [],
-    errors: props.errors
+    code: props.courseData.course_code,
+    name: props.courseData.name,
+    description: props.courseData.description,
+    tagField: props.courseData.tags.map(tag => tag.name).join(", "),
+    previewTags: props.courseData.tags,
+    tags: props.courseData.tags.map(tag => tag.name),
+    errors: props.errors,
+    showConfirmation: false,
+    archived: props.courseData.archived
   });
 
   useEffect(() => {
@@ -39,6 +45,8 @@ const Create = (props) => {
     setState({ ...state, tags: newTags, previewTags: previewTags });
   }, [state.tagField]);
 
+  // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
+
   // Input handler
   const handleInputChange = (event, field, maxLength) => {
     if (event.target.value.length <= maxLength) {
@@ -48,6 +56,7 @@ const Create = (props) => {
     }
   };
 
+  // HELPER FUNCTIONS ///////////////////////////////////////////////
 
   // Tag input handler
   const handleTags = (event) => {
@@ -89,39 +98,24 @@ const Create = (props) => {
         name: state.name.trim(),
         description: state.description.trim(),
         courseCode: state.code.trim(),
-        tags: state.tags.filter(tag => !!tag)
+        tags: state.tags.filter(tag => !!tag),
+        archive: state.archived
       };
-      props.onSubmit(data);
+      props.onEditCourse(props.courseData.id, data);
     }
   };
 
+  ///////////////////////////////////////////////////////////////////
+
   return (
-    <div className="Create">
+    <div className="Settings">
 
       {/* Page Title */}
       <div className="page-title">
-        Create a new course
+        Course Settings
       </div>
 
       <hr />
-
-      {/* Page Text */}
-      <div className="page-text">
-        <div>
-          Complete the form below to create a new course. This information can be updated at any time through the course settings.
-        </div>
-        <div className="second">
-          You will automatically be enrolled as an <span className="instructor">instructor (owner)</span>, and will be provided with course <span className="access">access codes</span> to share with fellow instructors and students.
-        </div>
-        <div className="owner">
-          As the owner of the course, you&apos;ll also be able to:
-          <ul>
-            <li><span>manage</span> student and instructor roles</li>
-            <li><span>modify</span> course settings and information</li>
-            <li><span>archive</span> the course at the end of the term</li>
-          </ul>
-        </div>
-      </div>
 
       <div className="create-form">
 
@@ -164,7 +158,7 @@ const Create = (props) => {
 
           {/* Course Tags */}
           <div className="form-label">
-            Course Tags (optional, separated by commas)
+            Course Tags (separated by commas)
           </div>
           <input
             className="tag-input"
@@ -189,22 +183,56 @@ const Create = (props) => {
           </div>
         </div>
 
-        {/* Submit Button */}
-        <div className="submit">
-          <Button
-            text="SUBMIT"
-            styles="form green"
-            onClick={handleSubmit}
-            disabled={state.status === "success"}
-          />
-        </div>
+        <footer>
+          {/* Submit Button */}
+          <div className="submit">
+            <Button
+              text="SAVE"
+              styles="form green"
+              onClick={handleSubmit}
+              disabled={state.status === "success"}
+            />
+          </div>
+
+          {/* Archive Button */}
+          <div
+            className={`archive-button ${state.archived ? "" : "active"}`}
+            onClick={() => setState({ ...state, archived: !state.archived })}
+          >
+            <img src={archive} />
+            ARCHIVE COURSE
+          </div>
+        </footer>
 
       </div>
 
       <hr />
 
+      {!state.showConfirmation && (props.courseData.role === "owner" || props.courseData.role === "admin") &&
+        <div className="delete-course">
+          <div className="msg-caution">
+            Deleting a course will permanently remove all users and contributions. It will be as if the course never existed.
+            <div>We highly recommend archiving the course, instead.</div>
+          </div>
+          <Button
+            text="DELETE COURSE"
+            styles="form red wide"
+            onClick={() => setState({ ...state, showConfirmation: true })}
+          />
+        </div>
+      }
+
+      {state.showConfirmation &&
+        <Confirmation
+          message={`Are you sure you would like to delete ${props.courseData.course_code}: ${props.courseData.name}?`}
+          onConfirm={() => props.onDeleteCourse(props.courseData.id)}
+          onCancel={() => setState({ ...state, showConfirmation: false })}
+          confirmText={"YES, DELETE IT"}
+        />
+      }
+
     </div>
   );
 };
 
-export default Create;
+export default Settings;
