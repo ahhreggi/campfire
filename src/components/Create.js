@@ -26,6 +26,7 @@ const Create = (props) => {
     setState({ ...state, errors: props.errors });
   }, [props.errors]);
 
+  // Tag preview logic
   useEffect(() => {
     const newTags = state.tagField
       .split(",") // split by commas
@@ -35,12 +36,11 @@ const Create = (props) => {
     const previewTags = newTags
       .map((tag, index) => ({ id: index, name: tag }))
       .filter((tag) => !!tag.name); // remove empty tags
-    console.log(newTags);
     setState({ ...state, tags: newTags, previewTags: previewTags });
   }, [state.tagField]);
 
+  // Input handler
   const handleInputChange = (event, field, maxLength) => {
-    // console.log(event.target.value);
     if (event.target.value.length <= maxLength) {
       setState({ ...state, [field]: event.target.value, errors: null });
     } else {
@@ -48,6 +48,8 @@ const Create = (props) => {
     }
   };
 
+
+  // Tag input handler
   const handleTags = (event) => {
     const tags = event.target.value.split(",").map(tag => tag.trim());
     // Check that the tags are within the length limit
@@ -61,6 +63,7 @@ const Create = (props) => {
     }
   };
 
+  // Validate a string given a field and limit
   const isValid = (string, field, limit = 250) => {
     if (field === "length") {
       const length = string.trim().length;
