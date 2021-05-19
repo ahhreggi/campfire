@@ -9,6 +9,7 @@ import post from "../images/icons/paper.png";
 import secret from "../images/icons/key.png";
 import manage from "../images/icons/document.png";
 import settings from "../images/icons/settings.png";
+import help from "../images/icons/question-mark-blue.png";
 
 const Dashboard = (props) => {
 
@@ -48,16 +49,18 @@ const Dashboard = (props) => {
         <Panel label={"NEW POST"} img={post} onClick={() => props.onRedirect("New Post")} />
         {/* <Panel label={"ANALYTICS"} img={analytics} onClick={() => props.onRedirect("Analytics")} /> */}
         <Panel label={"INFO"} img={about} onClick={() => props.onRedirect("Info")} />
+        <Panel label={"USERS"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
 
         {props.userRole !== "student" &&
           <>
-            <Panel label={"USERS"} img={manage} onClick={() => props.onRedirect("Manage Course")} />
             <Panel label={"ACCESS"} img={secret} onClick={props.userRole !== "student" ? () => props.onRedirect("Access") : null} />
             {(props.userRole === "owner" || props.userRole === "admin") &&
               <Panel label={"SETTINGS"} img={settings} onClick={props.userRole === "owner" || props.userRole === "admin" ? () => props.onRedirect("Settings") : null} />
             }
           </>
         }
+
+        <Panel label={"FAQ"} img={help} onClick={() => props.onRedirect("Help")} />
 
       </div>
 

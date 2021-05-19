@@ -25,7 +25,7 @@ const Nav = (props) => {
   if (toHome.includes(props.active)) {
     backToLabel = "Home";
   } else {
-    backToLabel = props.courseData ? props.courseData.course_code : "NO CODE";
+    backToLabel = props.courseData ? props.courseData.course_code : "";
   }
 
   let destination;
