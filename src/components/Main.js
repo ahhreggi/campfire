@@ -152,7 +152,7 @@ const Main = (props) => {
           onRedirect={props.onRedirect}
           courseCode={props.courseData ? props.courseData.course_code : null}
           courseName={props.courseData ? props.courseData.name : null}
-          analytics={props.courseData.analytics}
+          analytics={props.courseData ? props.courseData.analytics : null}
         />
       }
 

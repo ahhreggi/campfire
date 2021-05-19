@@ -849,7 +849,7 @@ const App = () => {
 
           <footer className="app-footer">
 
-            {state.userData && state.userData.id === 1 &&
+            {state.userData && state.userData.userID === 1 &&
               <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
             }
 
@@ -861,7 +861,7 @@ const App = () => {
       {/* See index.scss */}
       <div className="dev-tools pt-5">
         {/* Dev Data Display */}
-        {state.userData && state.userData.id === 1 && <DevData name="App" props={state} label={"State"} />}
+        {state.userData && state.userData.userID === 1 && <DevData name="App" props={state} label={"State"} />}
       </div>
 
 
