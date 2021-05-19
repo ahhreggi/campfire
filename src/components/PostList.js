@@ -61,6 +61,13 @@ const PostList = (props) => {
     });
   }, [props.selectedTags]);
 
+  // Uncollapse bookmarks when the user adds a new one
+  useEffect(() => {
+    if (state.bookmarked.length > 0) {
+      setState({ ...state, showBookmarked: true });
+    }
+  }, [state.bookmarked]);
+
   // If searchText exists, ensure that filters and any closed, non-empty categories are opened
   useEffect(() => {
     if (state.searchText && !state.showFilters) {
