@@ -85,4 +85,44 @@
     color: $red;
   }
 
+  .msg-caution {
+    font-size: 0.9rem;
+    color: $red;
+    margin-bottom: 0.6rem;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .submit {
+
+    }
+    .archive-button {
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: $red;
+      user-select: none;
+      opacity: 0.9;
+      img {
+        width: 1.3rem;
+        margin-bottom: 0.3rem;
+        margin-right: 0.5rem;
+      }
+      &.active {
+        opacity: 0.5;
+        color: $white;
+        img {
+          opacity: 0;
+        }
+        &:hover {
+          opacity: 0.7;
+          color: $red;
+        }
+      }
+    }
+  }
+
 }

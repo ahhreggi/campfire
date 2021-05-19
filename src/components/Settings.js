@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import TagList from "./TagList";
+import Confirmation from "./Confirmation";
+import archive from "../images/icons/archive.png";
 import "./Settings.scss";
 
 const Settings = (props) => {
@@ -10,7 +12,8 @@ const Settings = (props) => {
     courseData: PropTypes.object,
     onEditCourse: PropTypes.func,
     errors: PropTypes.array,
-    onRedirect: PropTypes.func
+    onRedirect: PropTypes.func,
+    onDeleteCourse: PropTypes.func
   };
 
   const [state, setState] = useState({
@@ -20,7 +23,9 @@ const Settings = (props) => {
     tagField: props.courseData.tags.map(tag => tag.name).join(", "),
     previewTags: props.courseData.tags,
     tags: props.courseData.tags.map(tag => tag.name),
-    errors: props.errors
+    errors: props.errors,
+    showConfirmation: false,
+    archived: props.courseData.archived
   });
 
   useEffect(() => {
@@ -91,7 +96,8 @@ const Settings = (props) => {
         name: state.name.trim(),
         description: state.description.trim(),
         courseCode: state.code.trim(),
-        tags: state.tags.filter(tag => !!tag)
+        tags: state.tags.filter(tag => !!tag),
+        archived: state.archived
       };
       props.onEditCourse(props.courseData.id, data);
     }
@@ -173,19 +179,52 @@ const Settings = (props) => {
           </div>
         </div>
 
-        {/* Submit Button */}
-        <div className="submit">
-          <Button
-            text="SAVE"
-            styles="form green"
-            onClick={handleSubmit}
-            disabled={state.status === "success"}
-          />
-        </div>
+        <footer>
+          {/* Submit Button */}
+          <div className="submit">
+            <Button
+              text="SAVE"
+              styles="form green"
+              onClick={handleSubmit}
+              disabled={state.status === "success"}
+            />
+          </div>
+
+          {/* Archive Button */}
+          <div
+            className={`archive-button ${state.archived ? "" : "active"}`}
+            onClick={() => setState({ ...state, archived: !state.archived })}
+          >
+            <img src={archive} />
+            ARCHIVE COURSE
+          </div>
+        </footer>
 
       </div>
 
       <hr />
+
+      {!state.showConfirmation && (props.courseData.role === "owner" || props.courseData.role === "admin") &&
+        <div className="delete-course">
+          <div className="msg-caution">
+            Deleting a course will permanently remove all users and contributions. It will be as if the course never existed. We highly recommend archiving the course, instead.
+          </div>
+          <Button
+            text="DELETE COURSE"
+            styles="form red wide"
+            onClick={() => setState({ ...state, showConfirmation: true })}
+          />
+        </div>
+      }
+
+      {state.showConfirmation &&
+        <Confirmation
+          message={`Are you sure you would like to delete ${props.courseData.course_code}: ${props.courseData.name}?`}
+          onConfirm={() => props.onDeleteCourse(props.courseData.id)}
+          onCancel={() => setState({ ...state, showConfirmation: false })}
+          confirmText={"YES, DELETE IT"}
+        />
+      }
 
     </div>
   );

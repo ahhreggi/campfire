@@ -193,6 +193,7 @@ const Main = (props) => {
         <Settings
           courseData={props.courseData}
           onEditCourse={props.onEditCourse}
+          onDeleteCourse={props.onDeleteCourse}
           status={props.status}
           errors={props.errors}
           onRedirect={props.onRedirect}
