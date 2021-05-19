@@ -28,19 +28,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid $navy-5;
     transition: 0.1s;
+    // border-color: $white;
+    border: 1px solid $navy-5;
 
     input {
       text-align: center;
     }
 
     &.invalid {
-      border: 2px solid $red;
+      border-color: $red;
     }
 
     &.success {
-      border: 2px solid $green;
+      border-color: $green;
     }
 
   }

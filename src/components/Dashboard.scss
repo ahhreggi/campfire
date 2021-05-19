@@ -4,6 +4,18 @@
   display: flex;
   flex-direction: column;
 
+  a,
+  a:hover {
+    color: $white;
+    margin-right: 0.6rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    justify-content: center;
+  }
+
   .greeting {
     font-size: 2rem;
     font-weight: 700;
@@ -12,6 +24,13 @@
     span {
       color: $orange;
       font-weight: 900;
+      &.faq {
+        color: $white;
+        &:hover {
+          color: $blue;
+          cursor: pointer;
+        }
+      }
     }
 
     .sub {
@@ -26,12 +45,13 @@
   .panels {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 0.5rem;
+    // margin-top: 0.5rem;
     // justify-content: space-between;
 
     .Panel {
       margin: 0 1rem 1rem 0;
       display: flex;
+      // zoom: 60%;
 
       &:last-child {
         margin-right: 0;
@@ -54,6 +74,10 @@
 
     }
 
+  }
+
+  hr.bottom {
+    margin-top: 0.5rem;
   }
 
 }

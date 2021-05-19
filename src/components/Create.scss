@@ -32,6 +32,10 @@
       font-weight: 700;
     }
 
+    .second {
+      margin-top: 1rem;
+    }
+
   }
 
   .create-form {
@@ -39,7 +43,7 @@
     padding: 1rem;
     background-color: $navy-2;
     border: 1px solid $navy-5;
-    width: fit-content;
+    width: 32rem;
     margin-bottom: 1.25rem;
   }
 
@@ -69,7 +73,7 @@
       }
 
       &.description {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
       }
 
     }

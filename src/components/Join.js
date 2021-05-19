@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import BackButton from "./BackButton";
 import "./Join.scss";
 
 const Join = (props) => {
@@ -66,7 +65,7 @@ const Join = (props) => {
 
       {/* Page Text */}
       <div className="page-text">
-        Have a <span className="student">student</span> or <span className="instructor">instructor</span> access code? Enter it below to join the course discussion board. If you&apos;re unsure or don&apos;t have a code yet, contact your head instructor.
+        Have a <span className="student">student</span> or <span className="instructor">instructor</span> access code? Enter it below to enrol. If you&apos;re unsure or don&apos;t have a code yet, contact your head instructor.
       </div>
 
       <div className={`panel ${state.status} ${state.errors ? "invalid" : ""}`}>
