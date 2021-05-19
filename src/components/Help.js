@@ -24,11 +24,17 @@ const Help = (props) => {
             What is Campfire?
           </div>
           <div className="answer">
-            <span className="link" onClick={() => props.onRedirect("GitHub")}>Campfire</span> is a Q&A discussion board/forum that allows students and instructors to discuss course-related topics 24/7 in a controlled, moderated environment. Users can:
+            <span className="link" onClick={() => props.onRedirect("GitHub")}>Campfire</span> is a Q&A discussion board/forum that allows students and instructors to discuss course-related topics 24/7 in a controlled, moderated environment.
+
+            Special features include:
             <ul>
-              <li>Ask questions and participate in discussions to crowdsource solutions</li>
-              <li>Use search features to find previously asked questions</li>
-              <li>Contribute anonymously among other students</li>
+              <li>Markdown support for <a href="https://github.com/react-syntax-highlighter/react-syntax-highlighter/blob/master/AVAILABLE_LANGUAGES_PRISM.MD" rel="noreferrer" target="_blank">200+ languages</a></li>
+              <li>Dynamic search by keyword, user name, post title/body, comment body, or post ID (e.g., @123)</li>
+              <li>Additional filtering by user-generated, course-specific tags, including by resolved and unresolved status</li>
+              <li>Anonymous peer-to-peer contributions (visible only to instructors)</li>
+              <li>Engagement-based incentives to encourage student participation and collaboration</li>
+              <li>User management, course configuration, and instructor moderation tools</li>
+              <li>Profile customization</li>
             </ul>
           </div>
         </div>
