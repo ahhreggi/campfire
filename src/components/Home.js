@@ -9,8 +9,6 @@ import manage from "../images/icons/courses.png";
 import about from "../images/icons/star.png";
 import help from "../images/icons/question-mark-blue.png";
 
-// import DevData from "./DevData";
-
 const Home = (props) => {
   Home.propTypes = {
     status: PropTypes.string,
@@ -26,7 +24,6 @@ const Home = (props) => {
   return (
     <div className="Home">
 
-      {/* <DevData name="Home" props={props} /> */}
       {props.status}
 
       <div className="greeting">
@@ -44,12 +41,10 @@ const Home = (props) => {
           </>
         }
 
-
-
         <hr />
         <div className="sub">What would you like to do today?</div>
       </div>
-      {/* <hr /> */}
+
       <div className="panels">
         <Panel label={"JOIN"} img={join} onClick={() => props.onRedirect("Join")} />
         <Panel label={"CREATE"} img={create} onClick={() => props.onRedirect("Create")} />

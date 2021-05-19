@@ -20,8 +20,6 @@ import Confirmation from "./Confirmation";
 import ReactMarkdown from "react-markdown";
 import CodeSyntax from "./CodeSyntax";
 
-// import DevData from "./DevData";
-
 const Post = (props) => {
 
   Post.propTypes = {
@@ -298,8 +296,6 @@ const Post = (props) => {
 
   return (
     <div className="Post">
-
-      {/* <DevData name={"Post"} props={props} /> */}
 
       <div className={`display ${state.showForm || state.showConfirmation ? "preview-mode" : ""}`}>
 
