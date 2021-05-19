@@ -53,8 +53,7 @@ const Create = (props) => {
   const handleTags = (event) => {
     const tags = event.target.value
       .split(",")
-      .map(tag => tag.trim())
-    ;
+      .map(tag => tag.trim());
     // Check that the tags are within the length limit
     const longest = Math.max(...tags.map(tag => tag.length));
     // Check that the number of unique tags are <= 20

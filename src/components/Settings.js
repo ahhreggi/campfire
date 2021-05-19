@@ -60,12 +60,16 @@ const Settings = (props) => {
 
   // Tag input handler
   const handleTags = (event) => {
-    const tags = event.target.value.split(",").map(tag => tag.trim());
+    const tags = event.target.value
+      .split(",")
+      .map(tag => tag.trim());
     // Check that the tags are within the length limit
     const longest = Math.max(...tags.map(tag => tag.length));
+    // Check that the number of unique tags are <= 20
+    const unique = tags.filter((tag, index, self) => self.indexOf(tag) === index).length; // remove duplicates
     if (longest > 12) {
       setState({ ...state, errors: ["Tags must be 12 characters or fewer in length"]});
-    } else if (tags.length > 20) {
+    } else if (unique > 20) {
       setState({ ...state, errors: ["Maximum of 20 tags"]});
     } else {
       setState({ ...state, tagField: event.target.value, errors: null });
