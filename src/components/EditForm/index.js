@@ -112,7 +112,7 @@ const EditForm = (props) => {
   // STATE-AFFECTING FUNCTIONS //////////////////////////////////////
 
   // Update the preview title dynamically as the user types
-  const updatePreviewTitle = (event, limit = 40) => {
+  const updatePreviewTitle = (event, limit = 50) => {
     const text = event.target.value;
     if (text.length <= limit) {
       setState({ ...state, previewTitle: text, errors: null });
