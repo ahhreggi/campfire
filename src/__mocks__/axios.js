@@ -14,8 +14,6 @@ export default {
         statusText: "OK",
         data: dummyData.dummyCourseData
       });
-    } else {
-      console.log("oops");
     }
 
   }),
