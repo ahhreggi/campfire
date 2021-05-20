@@ -121,16 +121,16 @@ const App = () => {
   const request = async(method, url, id = null, data = null, role = null) => {
 
     // If a role is provided, use its token, otherwise use state.userData.token
-    const params = (method + " " + url + (id ? `/${id}` : ""));
+    // const params = (method + " " + url + (id ? `/${id}` : ""));
     const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
 
-    console.log("\n".repeat(10));
-    console.log("🌐", params);
-    console.log("🔑 STATE TOKEN:", token);
+    // console.log("\n".repeat(10));
+    // console.log("🌐", params);
+    // console.log("🔑 STATE TOKEN:", token);
     if (data) {
-      console.log("📝 DATA SENT:", data);
+      // console.log("📝 DATA SENT:", data);
     }
-    console.log("\n".repeat(2));
+    // console.log("\n".repeat(2));
 
     return axios({
       method: method,
@@ -141,12 +141,12 @@ const App = () => {
       data
     })
       .then(res => {
-        console.log("✔️ SERVER RESPONSE:", res.data);
+        // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
       })
       .catch((err) => {
-        console.log("❌ SERVER RESPONSE:");
-        console.error(err.message);
+        // console.log("❌ SERVER RESPONSE:");
+        // console.error(err.message);
       });
   };
 
@@ -220,7 +220,7 @@ const App = () => {
         if (userData) {
           setAppData(userData, "userData");
         } else {
-          console.log("❌ registerUser failed!");
+          // console.log("❌ registerUser failed!");
           setState({ ...state, errors: ["Email already in use"] });
         }
       });
@@ -247,7 +247,7 @@ const App = () => {
         if (userData) {
           setAppData(userData, "userData");
         } else {
-          console.log("❌ fetchUserData failed!");
+          // console.log("❌ fetchUserData failed!");
           setState({ ...state, errors: ["Invalid username/password"] });
         }
       });
@@ -273,7 +273,7 @@ const App = () => {
           const courseData = newCourseData !== undefined ? newCourseData : state.courseData;
           setAppData(userCourses, "userCourses", null, null, active, courseData);
         } else {
-          console.log("❌ fetchUserCourses failed!");
+          // console.log("❌ fetchUserCourses failed!");
           setState({ ...state, errors: ["Failed to retrieve user courses"]});
         }
       });
@@ -294,7 +294,7 @@ const App = () => {
         if (courseData) {
           setAppData(courseData, "courseData", newPostID, newPostData, newActive);
         } else {
-          console.log("❌ fetchCourseData failed!");
+          // console.log("❌ fetchCourseData failed!");
         }
       });
   };
@@ -355,7 +355,7 @@ const App = () => {
           // Fetch userCourses and update userCourses, courseData, courseID, posts, and active (Home -> Dashboard) in state
           fetchUserCourses(courseData);
         } else {
-          console.log("❌ createCourse failed!");
+          // console.log("❌ createCourse failed!");
         }
       });
   };
@@ -376,7 +376,6 @@ const App = () => {
 
           // If the data contains a message, the user is already enrolled in the course
           if (courseData.message) {
-            console.log("Already enrolled!");
             setState({ ...state, errors: ["You are already enrolled in this course"] });
             // Otherwise, enrol normally
           } else {
@@ -400,7 +399,7 @@ const App = () => {
             }, 1500);
           }
         } else {
-          console.log("❌ joinCourse failed!");
+          // console.log("❌ joinCourse failed!");
           setState({ ...state, errors: ["Invalid access code"] });
         }
       });
@@ -437,7 +436,7 @@ const App = () => {
           }
           fetchCourseData(courseID);
         } else {
-          console.log("❌ editCourse failed!");
+          // console.log("❌ editCourse failed!");
         }
       });
   };
@@ -446,7 +445,6 @@ const App = () => {
 
   // Remove a user from a course
   const removeUser = (courseID, userID) => {
-    console.log("removing user..");
     const data = { roles: { [userID]: null } };
     request("PATCH", API.COURSES, courseID, data)
       .then((res) => {
@@ -534,7 +532,7 @@ const App = () => {
           setAppData(newCourseData, "courseData", postData.id, postData);
           // SIDE EFFECT 7: If postData and postID change to non-null values while the active view is "New Post", change it to "Post"
         } else {
-          console.log("❌ addPost failed!");
+          // console.log("❌ addPost failed!");
           setState({ ...state, errors: ["An error occurred while trying to create the post"] });
         }
       });
