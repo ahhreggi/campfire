@@ -46,7 +46,7 @@ This app was created as part of our final project for Lighthouse Labs - Web Deve
 - Course owners can mark a course as archived at the end of the term
 - All users and courses can be modified by the authorized users upon creation
 ## ✨ Special Features:
-   - Markdown support for 200+ languages
+   - Live preview & markdown support for 200+ languages
    - Dynamic search by keyword, user name, post title/body, comment body, or post ID (e.g., @123)
    - Additional filtering by user-generated, course-specific tags, including by resolved and unresolved status
    - Anonymous peer-to-peer contributions (visible only to instructors)
