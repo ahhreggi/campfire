@@ -108,7 +108,8 @@ const PostListCategoryItem = (props) => {
           }
           <span className="title text-truncate">
             <img src={pencil} className={props.owned ? "owned" : ""} />
-            {truncateText(props.title, 25)}
+            {truncateText(props.title, 28)}
+            {/* {props.title} */}
           </span>
         </div>
 

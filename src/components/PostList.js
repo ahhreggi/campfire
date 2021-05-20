@@ -33,7 +33,7 @@ const PostList = (props) => {
     showPinned: true,
     showBookmarked: true,
     showPosts: true,
-    showSearch: false,
+    showSearch: true,
     searchText: "",
     selectedTags: props.selectedTags,
     pinned: [],
