@@ -21,9 +21,9 @@
 With millions of students now taking courses online due to the pandemic, it’s been harder for students to collaborate with their peers the way they would in-person within a classroom. Campfire addresses this problem by allowing users to easily discuss course-related questions with fellow students and instructors 24/7 in a controlled, moderated environment.
 
 ### 🤝 **Collaborators**:
-- Maria Regina Sirilan ([**@ahhreggi**](https://github.com/ahhreggi))
-- Mitchell Pizzacalla ([**@mpizzaca**](https://github.com/mpizzaca))
-- Martin Halas ([**@mar10outof10**](https://github.com/mar10outof10))
+- Maria Regina Sirilan ([**@ahhreggi**](https://github.com/ahhreggi)) - *Front-end, React UI/UX*
+- Mitchell Pizzacalla ([**@mpizzaca**](https://github.com/mpizzaca)) - *Back-end, database architecture & API*
+- Martin Halas ([**@mar10outof10**](https://github.com/mar10outof10)) - *Testing*
 
 This app was created as part of our final project for Lighthouse Labs - Web Development Bootcamp. The goal was to create a full-stack application from start to finish in just two weeks.
 

@@ -4,24 +4,11 @@ import Nav from "./Nav";
 import CourseList from "./CourseList";
 import PostList from "./PostList";
 import Main from "./Main";
-import Button from "./Button";
 import Register from "./Register";
 import Login from "./Login";
 import DevData from "./DevData";
 
 import "./App.scss";
-
-// TEMPORARY DUMMY DATA /////////////////////////////////////////////
-
-let tokens = {
-  "admin": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNzQ3MjI4fQ.i1gNBhXeJNrnWhlLqngOYqloLPe3HkkGKMp30EfbFgY",
-  // owner of course 1:
-  "owner": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjIwNzQ4MjE1fQ.kM16mLvZLmxthRkhWBIZw7QWQ7XMl2nty1y3JKzfdts",
-  // non-owner instructor of course 1:
-  "instructor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjIwNzQ4MjAxfQ.EMzIvNQTDvgf1hKo0-z-LMs2qpmXDuGcu6sPlRz2RkQ",
-  // student in course 1:
-  "student": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNjIwNzQ4MTcwfQ.rZKQEy9cvl5byYNji8_k4MFtYEQG_XtLsCU7kiEaxOk"
-};
 
 /////////////////////////////////////////////////////////////////////
 
@@ -98,16 +85,16 @@ const App = () => {
   // SERVER-REQUESTING FUNCTIONS ////////////////////////////////////
 
   // Reset the database (used for the Refresh DB dev tools button)
-  const resetDB = () => {
-    console.log("Re-seeding database as admin...");
-    setState({});
-    request("GET", API.RESET, null, null, "admin")
-      .then(() => {
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
-      });
-  };
+  // const resetDB = () => {
+  //   console.log("Re-seeding database as admin...");
+  //   setState({});
+  //   request("GET", API.RESET, null, null, "admin")
+  //     .then(() => {
+  //       setTimeout(() => {
+  //         window.location.href = "/";
+  //       }, 1000);
+  //     });
+  // };
 
   // Create an axios request
   // Sample usage:
@@ -118,11 +105,11 @@ const App = () => {
   //       } else {
   //         console.log("No response from server, can be either intentional or an error occurred.")
   //       };
-  const request = async(method, url, id = null, data = null, role = null) => {
+  const request = async(method, url, id = null, data = null) => {
 
     // If a role is provided, use its token, otherwise use state.userData.token
     // const params = (method + " " + url + (id ? `/${id}` : ""));
-    const token = role ? tokens[role] : (state.userData ? state.userData.token : null);
+    const token = state.userData ? state.userData.token : null;
 
     // console.log("\n".repeat(10));
     // console.log("🌐", params);
@@ -143,11 +130,10 @@ const App = () => {
       .then(res => {
         // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
+      })
+      .catch(() => {
+        return;
       });
-    // .catch((err) => {
-    // console.log("❌ SERVER RESPONSE:");
-    // console.error(err.message);
-    // });
   };
 
   // Set the application data
@@ -868,13 +854,7 @@ const App = () => {
 
           </section>
 
-          <footer className="app-footer">
-
-            {state.userData && state.userData.userID === 1 &&
-              <Button text="Reset DB" styles={"form red mt-3"} onClick={() => resetDB()} />
-            }
-
-          </footer>
+          <footer className="app-footer"></footer>
 
         </>
       }
