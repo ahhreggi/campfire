@@ -1,5 +1,5 @@
 {
-  "proxy": "http://139.177.195.214/",
+  "proxy": "https://139.177.195.214/",
   "name": "campfire",
   "version": "0.1.0",
   "private": true,
