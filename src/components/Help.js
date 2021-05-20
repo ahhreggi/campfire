@@ -28,7 +28,7 @@ const Help = (props) => {
 
             Special features include:
             <ul>
-              <li>Markdown support for <a href="https://github.com/react-syntax-highlighter/react-syntax-highlighter/blob/master/AVAILABLE_LANGUAGES_PRISM.MD" rel="noreferrer" target="_blank">200+ languages</a></li>
+              <li>Live preview & markdown support for <a href="https://github.com/react-syntax-highlighter/react-syntax-highlighter/blob/master/AVAILABLE_LANGUAGES_PRISM.MD" rel="noreferrer" target="_blank">200+ languages</a></li>
               <li>Dynamic search by keyword, user name, post title/body, comment body, or post ID (e.g., @123)</li>
               <li>Additional filtering by user-generated, course-specific tags, including by resolved and unresolved status</li>
               <li>Anonymous peer-to-peer contributions (visible only to instructors)</li>
