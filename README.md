@@ -7,7 +7,7 @@
 
 <p>Built with <a href="https://reactjs.org/">ReactJS</a>, <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a> & <a href="https://www.heroku.com/">Heroku</a></p>
 
-<b><a href="" target="_blank">
+<b><a href="https://ahhreggi-campfire.netlify.app/" target="_blank">
    » View Live Demo «
 </a></b>
 </div>
@@ -16,7 +16,7 @@
 
 ## 📚 Introduction
 
-<b>[Campfire](https://ahhreggi-scheduler.netlify.app/)</b> is a full-stack, single-page React application that allows users to enrol and participate in course Q&A discussion boards.
+<b>[Campfire](https://ahhreggi-campfire.netlify.app/)</b> is a full-stack, single-page React application that allows users to enrol and participate in course Q&A discussion boards.
 
 With millions of students now taking courses online due to the pandemic, it’s been harder for students to collaborate with their peers the way they would in-person within a classroom. Campfire addresses this problem by allowing users to easily discuss course-related questions with fellow students and instructors 24/7 in a controlled, moderated environment.
 
@@ -58,7 +58,7 @@ This app was created as part of our final project for Lighthouse Labs - Web Deve
 ## 🛠 Installation
 
 The project is live
-<b><a href="" target="_blank">here</a></b>, but if you would prefer a local installation:
+<b><a href="https://ahhreggi-campfire.netlify.app/" target="_blank">here</a></b>, but if you would prefer a local installation:
 
 1. Clone or download this repository
    ```
