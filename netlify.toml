@@ -9,7 +9,7 @@
   publish = "build/"
 
   # Default build command.
-  command = "yarn build"
+  command = "CI= npm run build"
 
 [build.environment]
   REACT_APP_API_BASE_URL = "https://139.177.195.214/"
