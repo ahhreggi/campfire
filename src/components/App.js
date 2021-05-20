@@ -130,11 +130,10 @@ const App = () => {
       .then(res => {
         // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
+      })
+      .catch(() => {
+        return;
       });
-    // .catch((err) => {
-    // console.log("❌ SERVER RESPONSE:");
-    // console.error(err.message);
-    // });
   };
 
   // Set the application data
