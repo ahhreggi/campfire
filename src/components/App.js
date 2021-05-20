@@ -143,11 +143,11 @@ const App = () => {
       .then(res => {
         // console.log("✔️ SERVER RESPONSE:", res.data);
         return res.data;
-      })
-      .catch((err) => {
-        // console.log("❌ SERVER RESPONSE:");
-        // console.error(err.message);
       });
+    // .catch((err) => {
+    // console.log("❌ SERVER RESPONSE:");
+    // console.error(err.message);
+    // });
   };
 
   // Set the application data
