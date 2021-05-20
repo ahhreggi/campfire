@@ -1,13 +1,8 @@
-<div align="center">
-<h1>⚠️ WORK IN PROGRESS ⚠️</h1>
-</div>
-
-
 <!-- TITLE -->
 <div align="center">
 <img src="public/images/campfire.png" width="100" />
 <h1>Campfire</h1>
-<p>A full-stack, Q&A discussion board for students
+<p>A Q&A discussion board for students
 </p>
 
 <p>Built with <a href="https://reactjs.org/">ReactJS</a>, <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a></p>
@@ -99,7 +94,15 @@ The project is live
    ```
 
 ## 📷 Screenshots
-<img src="public/images/screenshots/home.png" alt="Home" />
 <img src="public/images/screenshots/login.png" alt="Login" />
+<img src="public/images/screenshots/home.png" alt="Home" />
+<img src="public/images/screenshots/join.png" alt="Join" />
+<img src="public/images/screenshots/manage.png" alt="Manage" />
+<img src="public/images/screenshots/account.png" alt="Account" />
 <img src="public/images/screenshots/dashboard.png" alt="Dashboard" />
-<img src="public/images/screenshots/post.png" alt="post" />
+<img src="public/images/screenshots/newpost.png" alt="New Post" />
+<img src="public/images/screenshots/post.png" alt="Post" />
+<img src="public/images/screenshots/comment.png" alt="Comment" />
+<img src="public/images/screenshots/users.png" alt="Users" />
+<img src="public/images/screenshots/access.png" alt="Access" />
+<img src="public/images/screenshots/settings.png" alt="Settings" />
