@@ -5,7 +5,7 @@
 <p>A Q&A discussion board for students
 </p>
 
-<p>Built with <a href="https://reactjs.org/">ReactJS</a>, <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a></p>
+<p>Built with <a href="https://reactjs.org/">ReactJS</a>, <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a> & <a href="https://www.heroku.com/">Heroku</a></p>
 
 <b><a href="" target="_blank">
    » View Live Demo «
@@ -32,7 +32,7 @@ This app was created as part of our final project for Lighthouse Labs - Web Deve
 - <b>Frontend</b>: <a href="https://reactjs.org/">ReactJS</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>
 - <b>Backend</b>: <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com/">Express</a>, <a href="https://www.postgresql.org/">PostgreSQL</a>
 - <b>Tools & Testing</b>: <a href="https://storybook.js.org/">Storybook<a/>, <a href="https://jestjs.io/">Jest</a>, <a href="https://www.cypress.io/">Cypress</a>
-- <b>Deployment</b>: <a href="https://www.heroku.com/">Heroku</a> (database API), <a href="https://www.netlify.com/">Netlify</a> (production client)
+- <b>Deployment</b>: <a href="https://www.netlify.com/">Netlify</a> (production client), <a href="https://www.heroku.com/">Heroku</a> (database API)
 
 <!-- FEATURES -->
 ## ⭐ Features
